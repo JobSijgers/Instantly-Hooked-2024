@@ -2,6 +2,7 @@
 using Economy;
 using Unity.VisualScripting;
 using UnityEngine;
+using Economy.ShopScripts;
 
 namespace Economy
 {

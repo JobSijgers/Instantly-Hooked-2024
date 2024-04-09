@@ -7,12 +7,22 @@ public enum BoatBoatStatus
     Docked,
     OnSea,
 }
+
 public class Dock : MonoBehaviour
 {
+    public static Dock instance;
+
+    public delegate void FBoatLeaveDock();
+
+    public delegate void FBoatEnterDock();
+
+    public event FBoatLeaveDock OnBoatLeaveDock;
+    public event FBoatEnterDock OnBoatEnterDock;
     private Boat _Boat;
     [SerializeField] private GameObject SeaPoint;
     public BoatBoatStatus BoatStatus;
     [SerializeField] private float DistacnceToDock;
+
     void Start()
     {
         _Boat = FindObjectOfType<Boat>();
@@ -31,13 +41,16 @@ public class Dock : MonoBehaviour
     {
         BoatStatus = BoatBoatStatus.OnSea;
         _Boat.MoveToSea();
-    } 
+        OnBoatLeaveDock?.Invoke();
+    }
+
     private void DockBoat()
     {
         if (Vector3.Distance(transform.position, _Boat.transform.position) < DistacnceToDock)
         {
             BoatStatus = BoatBoatStatus.Docked;
             _Boat.MoveBackToDock();
+            OnBoatEnterDock?.Invoke();
         }
     }
 }
