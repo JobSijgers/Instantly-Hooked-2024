@@ -6,18 +6,25 @@ using UnityEngine;
 public class FishRoamingBehaviour : MonoBehaviour, IFishAI   
 
 {
-    private float moveTime;
-    [SerializeField] private Vector2 moveBounds;
+    private float speed;
+    [SerializeField] private Vector2 moveBounds = new Vector2(10, 10);
     private Coroutine moveCoroutine;
+    private FishBrain brain;
 
-    public void Initialzie(FishData data)
+    private void Start()
     {
-        moveTime = data.moveSpeed;
+        brain = GetComponent<FishBrain>();
+    }
+    public void Initialize(FishData data)
+    {
+        speed = data.moveSpeed;
     }
 
-    public IFishAI switchState()
+    public (IFishAI, bool) switchState()
     {
-        return this;
+        if (Vector3.Distance(transform.position, brain.bobber.transform.position) < 6f && brain.bobber.state != BobberState.Caught) 
+            return (brain.states.trackBobber, true);
+        return (this, false);
     }
 
     public void UpdateState(FishManager FM)
@@ -35,17 +42,21 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
             z = transform.position.z
         };
 
-        float t = 0;
         Vector3 startPos = transform.position;
-        while (t < moveTime)
+        float distance = Vector3.Distance(transform.position, newPos);
+        float t = 0.0f;
+
+        while (t < 1.0f)
         {
-            t += Time.deltaTime * moveTime;
-            float prc = t / moveTime;   
+            t += Time.deltaTime * speed / distance;
+            float prc = Mathf.Clamp01(t);
+
             transform.position = Vector3.Lerp(startPos, newPos, prc);
             Quaternion targetRot = Quaternion.LookRotation(transform.position - newPos);
             targetRot.x = 0;
             targetRot.y = 0;
             transform.rotation = targetRot;
+
             yield return null;
         }
         moveCoroutine = null;

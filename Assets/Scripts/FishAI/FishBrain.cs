@@ -7,22 +7,30 @@ using UnityEngine;
 public struct States
 {
     public FishRoamingBehaviour roaming;
+    public TrackBobberBehaviour trackBobber;
 }
 public class FishBrain : MonoBehaviour
 {
+    [SerializeField] private FishData data;
     private FishManager FM;
     public IFishAI currentState;
     public States states;
-    [SerializeField] private FishData data;
+    public Bobber bobber;
     private void Start()
     {
         FM = FishManager.instance;
+        bobber = FM.bobber;
         currentState = states.roaming;
-        currentState.Initialzie(data);
+        currentState.Initialize(data);
     }
     private void Update()
     {
         currentState.UpdateState(FM);
-        currentState = currentState.switchState();
+        if (currentState.switchState().Item2 == true)
+        {
+            currentState = currentState.switchState().Item1;
+            currentState.Initialize(data);
+        }
+        else currentState = currentState.switchState().Item1;
     }
 }

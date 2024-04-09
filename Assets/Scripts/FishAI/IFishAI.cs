@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IFishAI
 {
     public void UpdateState(FishManager FM);
-    public IFishAI switchState();
-    public void Initialzie(FishData data);
+    public (IFishAI, bool) switchState();
+    public void Initialize(FishData data);
 }
