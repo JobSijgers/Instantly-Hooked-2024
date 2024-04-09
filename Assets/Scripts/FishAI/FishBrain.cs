@@ -1,25 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+[Serializable]
 public struct States
 {
     public FishRoamingBehaviour roaming;
 }
 public class FishBrain : MonoBehaviour
 {
-    [SerializeField] float speed;
-
-    public IFishState currentState;
+    private FishManager FM;
+    public IFishAI currentState;
     public States states;
-
+    [SerializeField] private FishData data;
     private void Start()
     {
+        FM = FishManager.instance;
         currentState = states.roaming;
+        currentState.Initialzie(data);
     }
     private void Update()
     {
-        currentState.UpdateState();
+        currentState.UpdateState(FM);
         currentState = currentState.switchState();
     }
 }
