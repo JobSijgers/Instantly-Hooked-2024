@@ -11,7 +11,7 @@ public struct States
 }
 public class FishBrain : MonoBehaviour
 {
-    [SerializeField] private FishData data;
+    public FishData data;
     private FishManager FM;
     public IFishAI currentState;
     public States states;

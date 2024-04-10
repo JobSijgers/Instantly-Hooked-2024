@@ -52,10 +52,7 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
             float prc = Mathf.Clamp01(t);
 
             transform.position = Vector3.Lerp(startPos, newPos, prc);
-            Quaternion targetRot = Quaternion.LookRotation(transform.position - newPos);
-            targetRot.x = 0;
-            targetRot.y = 0;
-            transform.rotation = targetRot;
+            transform.LookAt(newPos);
 
             yield return null;
         }
