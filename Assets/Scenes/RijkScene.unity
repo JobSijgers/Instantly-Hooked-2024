@@ -170,10 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f6d05798f36f343a339c3c8e32cb8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   states:
     roaming: {fileID: 474411941}
     trackBobber: {fileID: 474411947}
-  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   bobber: {fileID: 0}
 --- !u!65 &474411943
 BoxCollider:
@@ -575,10 +575,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f6d05798f36f343a339c3c8e32cb8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   states:
     roaming: {fileID: 820551868}
     trackBobber: {fileID: 820551874}
-  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   bobber: {fileID: 0}
 --- !u!65 &820551870
 BoxCollider:
@@ -709,7 +709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df1e823374cf8fe44bfdd3ab79da3c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isValid: 0
 --- !u!4 &1037550102
 Transform:
   m_ObjectHideFlags: 0
@@ -807,10 +806,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f6d05798f36f343a339c3c8e32cb8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   states:
     roaming: {fileID: 1053113964}
     trackBobber: {fileID: 1053113970}
-  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   bobber: {fileID: 0}
 --- !u!65 &1053113966
 BoxCollider:
@@ -957,10 +956,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f6d05798f36f343a339c3c8e32cb8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   states:
     roaming: {fileID: 1163106344}
     trackBobber: {fileID: 1163106350}
-  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   bobber: {fileID: 0}
 --- !u!65 &1163106346
 BoxCollider:
@@ -1213,10 +1212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f6d05798f36f343a339c3c8e32cb8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   states:
     roaming: {fileID: 1456997763}
     trackBobber: {fileID: 1456997764}
-  data: {fileID: 11400000, guid: e0458a03a3987264fa800d69e3ce8dfa, type: 2}
   bobber: {fileID: 0}
 --- !u!65 &1456997759
 BoxCollider:
@@ -1447,6 +1446,89 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1001 &1209590584028455858
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 960
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508757680177446850, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2221749790783719719, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_Name
+      value: Quit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223472256608747952, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223472256608747952, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9062731892561992315, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_Name
+      value: UI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbd1902c361c16b41bf9eb8e55bc78f9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1461,3 +1543,4 @@ SceneRoots:
   - {fileID: 1053113969}
   - {fileID: 1163106349}
   - {fileID: 1372469227}
+  - {fileID: 1209590584028455858}
