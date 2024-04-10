@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BoatBoatStatus
+public enum Boatstatus
 {
     Docked,
     OnSea,
@@ -20,7 +20,7 @@ public class Dock : MonoBehaviour
     public event FBoatEnterDock OnBoatEnterDock;
     private Boat _Boat;
     [SerializeField] private GameObject SeaPoint;
-    public BoatBoatStatus BoatStatus;
+    public Boatstatus BStatus;
     [SerializeField] private float DistacnceToDock;
 
     void Start()
@@ -32,14 +32,14 @@ public class Dock : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R)) ReleaseBoat();
-        if (Input.GetKeyDown(KeyCode.E) && BoatStatus == BoatBoatStatus.OnSea) DockBoat();
+        if (Input.GetKeyDown(KeyCode.R) && BStatus == Boatstatus.Docked) ReleaseBoat();
+        if (Input.GetKeyDown(KeyCode.E) && BStatus == Boatstatus.OnSea) DockBoat();
         Debug.DrawRay(transform.position, Vector3.right * DistacnceToDock);
     }
 
     private void ReleaseBoat()
     {
-        BoatStatus = BoatBoatStatus.OnSea;
+        BStatus = Boatstatus.OnSea;
         _Boat.MoveToSea();
         OnBoatLeaveDock?.Invoke();
     }
@@ -48,7 +48,7 @@ public class Dock : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, _Boat.transform.position) < DistacnceToDock)
         {
-            BoatStatus = BoatBoatStatus.Docked;
+            BStatus = Boatstatus.Docked;
             _Boat.MoveBackToDock();
             OnBoatEnterDock?.Invoke();
         }
