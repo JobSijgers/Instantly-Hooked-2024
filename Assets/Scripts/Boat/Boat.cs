@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Boat : MonoBehaviour
 {
-    private float Percentage;
     private Dock _Dock;
+    private Rigidbody rb;
     [SerializeField] private float MoveSpeed;
 
     [Header("not using in inspector")]
@@ -13,21 +13,22 @@ public class Boat : MonoBehaviour
     public Vector3 DockingSpace;
     public Vector3 SeaSpace;
     private float MoveDir;
+    [SerializeField] private float SpeedRemove;
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         _Dock = FindObjectOfType<Dock>();
     }
 
     void Update()
     {
-        if (_Dock.BoatStatus == BoatBoatStatus.OnSea)BoatMovement();
+        if (_Dock.BStatus == Boatstatus.OnSea)BoatMovement();
     }
     public void BoatMovement()
     {
         if (!MoveOverride)
         {
             MoveDir = Input.GetAxisRaw("Horizontal");
-            transform.position = new Vector3(transform.position.x + MoveSpeed * Time.deltaTime * MoveDir, transform.position.y, transform.position.z);
         }
     }
     public void MoveToSea()
@@ -43,5 +44,10 @@ public class Boat : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, DockingSpace, MoveSpeed * Time.deltaTime);
         if (transform.position != DockingSpace) Invoke("MoveBackToDock", 0f);
         else MoveOverride = false;
+    }
+    private void FixedUpdate()
+    {
+        rb.AddForce(Vector3.right * MoveSpeed * MoveDir, ForceMode.Force);
+        if (Input.GetKey(KeyCode.Space)) rb.velocity = new Vector3(0, 0, 0);
     }
 }
