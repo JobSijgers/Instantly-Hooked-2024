@@ -22,7 +22,7 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
 
     public (IFishAI, bool) switchState()
     {
-        if (Vector3.Distance(transform.position, brain.bobber.transform.position) < 6f && brain.bobber.state != BobberState.Caught) 
+        if (Vector3.Distance(transform.position, brain.bobber.transform.position) < 6f && brain.bobber.state == BobberState.Fishing) 
             return (brain.states.trackBobber, true);
         return (this, false);
     }
@@ -52,10 +52,7 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
             float prc = Mathf.Clamp01(t);
 
             transform.position = Vector3.Lerp(startPos, newPos, prc);
-            Quaternion targetRot = Quaternion.LookRotation(transform.position - newPos);
-            targetRot.x = 0;
-            targetRot.y = 0;
-            transform.rotation = targetRot;
+            transform.LookAt(newPos);
 
             yield return null;
         }

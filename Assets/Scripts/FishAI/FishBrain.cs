@@ -11,7 +11,7 @@ public struct States
 }
 public class FishBrain : MonoBehaviour
 {
-    [SerializeField] private FishData data;
+    public FishData data;
     private FishManager FM;
     public IFishAI currentState;
     public States states;
@@ -25,6 +25,7 @@ public class FishBrain : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(currentState);
         currentState.UpdateState(FM);
         if (currentState.switchState().Item2 == true)
         {

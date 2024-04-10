@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1338285472660145507}
+  - component: {fileID: 3420504461041839498}
+  - component: {fileID: 2578941078181225999}
+  - component: {fileID: 4802284704579757149}
   m_Layer: 0
   m_Name: Redfish
   m_TagString: Untagged
@@ -26,12 +29,54 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.2177, y: 0.0155, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.6081, y: 1.6081, z: 1.6081}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3601575360132774321}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3420504461041839498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6557936555658091296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4f6d05798f36f343a339c3c8e32cb8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
+  states:
+    roaming: {fileID: 2578941078181225999}
+    trackBobber: {fileID: 4802284704579757149}
+  bobber: {fileID: 0}
+--- !u!114 &2578941078181225999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6557936555658091296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65432f1d9220e8746a0d98ae976eae8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveBounds: {x: 20, y: 50}
+--- !u!114 &4802284704579757149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6557936555658091296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a41d63f12009444fa0fcec1d57b8529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3923168299038154330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58,22 +103,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}

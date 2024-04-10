@@ -19,6 +19,8 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
 
     public (IFishAI, bool) switchState()
     {
+        if (brain.bobber.state == BobberState.Fishing) return (brain.states.roaming, false);
+
         return (this, false);
     }
 
@@ -38,12 +40,14 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
             float prc = Mathf.Clamp01(t);
 
             transform.position = Vector3.Lerp(startPos, brain.bobber.transform.position, prc);
-            Quaternion targetRot = Quaternion.LookRotation(transform.position - brain.bobber.transform.position);
-            targetRot.x = 0;
-            targetRot.y = 0;
-            transform.rotation = targetRot;
+            transform.LookAt(brain.bobber.transform.position);
 
             yield return null;
+        }
+        if (distance < 0.1f)
+        {
+            transform.position = brain.bobber.transform.position;
+            transform.parent = brain.bobber.transform;
         }
         moveCoroutine = null;
     }
