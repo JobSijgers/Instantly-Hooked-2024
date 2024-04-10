@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class FishRoamingBehaviour : MonoBehaviour, IFishAI   
+public class FishRoamingBehaviour : MonoBehaviour, IFishAI
 
 {
     private float speed;
+    [SerializeField] private float spotDistance;
     [SerializeField] private Vector2 moveBounds = new Vector2(10, 10);
-    private Coroutine moveCoroutine;
     private FishBrain brain;
 
+    private Coroutine timerCoroutine;
+    private Coroutine moveCoroutine;
     private void Start()
     {
         brain = GetComponent<FishBrain>();
@@ -22,16 +24,23 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
 
     public (IFishAI, bool) switchState()
     {
-        if (Vector3.Distance(transform.position, brain.bobber.transform.position) < 6f && brain.bobber.state != BobberState.Caught) 
-            return (brain.states.trackBobber, true);
         return (this, false);
     }
 
     public void UpdateState(FishManager FM)
     {
         if (moveCoroutine == null) moveCoroutine = StartCoroutine(MoveFishAsync(FM.waterMesh));
-    }
 
+        if (CheckDistance())
+        {
+            float time = Random.Range(brain.FM.minFishInterestTime, brain.FM.maxFishInterestTime);
+            if (timerCoroutine == null) timerCoroutine = StartCoroutine(SpotTimer(time));
+        }
+    }
+    private bool CheckDistance()
+    {
+        return Vector3.Distance(transform.position, brain.bobber.transform.position) < spotDistance;
+    }
     private IEnumerator MoveFishAsync(MeshRenderer waterMesh)
     {
         Vector3 waterBounds = waterMesh.bounds.max;
@@ -52,14 +61,23 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
             float prc = Mathf.Clamp01(t);
 
             transform.position = Vector3.Lerp(startPos, newPos, prc);
-            Quaternion targetRot = Quaternion.LookRotation(transform.position - newPos);
-            targetRot.x = 0;
-            targetRot.y = 0;
-            transform.rotation = targetRot;
+            transform.LookAt(newPos);
 
             yield return null;
         }
         moveCoroutine = null;
+        yield return null;
+    }
+    private IEnumerator SpotTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (CheckDistance() && brain.bobber.state == BobberState.Fishing)
+        {
+            brain.currentState = brain.states.trackBobber;
+            brain.currentState.Initialize(brain.data);
+            StopCoroutine(moveCoroutine);
+        }
+        timerCoroutine = null;
         yield return null;
     }
 }

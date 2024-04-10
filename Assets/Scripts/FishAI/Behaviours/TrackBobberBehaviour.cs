@@ -31,19 +31,20 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
         Vector3 startPos = transform.position;
         float distance = Vector3.Distance(startPos, brain.bobber.transform.position);
         float t = 0.0f;
-
         while (t < 1.0f)
         {
             t += Time.deltaTime * speed / distance;
             float prc = Mathf.Clamp01(t);
 
             transform.position = Vector3.Lerp(startPos, brain.bobber.transform.position, prc);
-            Quaternion targetRot = Quaternion.LookRotation(transform.position - brain.bobber.transform.position);
-            targetRot.x = 0;
-            targetRot.y = 0;
-            transform.rotation = targetRot;
+            transform.LookAt(brain.bobber.transform.position);
 
             yield return null;
+        }
+        if (distance < 0.1f)
+        {
+            transform.position = brain.bobber.transform.position;
+            transform.parent = brain.bobber.transform;
         }
         moveCoroutine = null;
     }
