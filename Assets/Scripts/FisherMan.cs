@@ -13,7 +13,7 @@ public class FisherMan : MonoBehaviour
 {
     [SerializeField] private Rigidbody hook;
     [SerializeField] private GameObject OriginPoint;
-    [SerializeField] private FishLineState LineState;
+    public FishLineState LineState;
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float distanceToRot; 
     private Vector3 TrowTo;
@@ -34,34 +34,32 @@ public class FisherMan : MonoBehaviour
         {
             TrowTo.x = Input.GetAxisRaw("Mouse X");
             TrowTo.y = Input.GetAxisRaw("Mouse Y");
+            Debug.Log($"trow force {TrowTo}");
         }
         else if (TrowTo.x != 0 && TrowTo.y != 0)
         {
+            hook.isKinematic = false;
             Trow = true;
             LineState = FishLineState.lineout;   
         }
         if (hook.transform.position.y < Depth && !Input.GetKey(KeyCode.Mouse1))
         {
-            Debug.Log("kurwa");
             hook.isKinematic = true;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+
+        //if (Input.GetKey(KeyCode.Mouse1))
+        //{
+        //    hook.useGravity = false;
+        //    hook.transform.position = Vector3.MoveTowards(transform.position, OriginPoint.transform.position, MoveSpeed);
+        //}
+        if (Input.GetKeyUp(KeyCode.Mouse1))
         {
-            hook.transform.position = OriginPoint.transform.position;
-            hook.isKinematic = false;
-            LineState = FishLineState.linein;
-            //if (Vector3.Distance(OriginPoint.transform.position, transform.position) > distanceToRot)
-            //{
-            //    hook.transform.position = OriginPoint.transform.position;
-            //    hook.isKinematic = false;
-            //}
-            //else
-            //{
-            //    LineState = FishLineState.linein;
-            //    hook.isKinematic = true;
-            //}
+            if (hook.transform.position.y < Field[0].transform.position.y)
+            {
+                hook.useGravity = true;
+                hook.isKinematic = false;
+            }
         }
-        else move = false;
     }
     private void ResetKurwa()
     {
@@ -74,12 +72,6 @@ public class FisherMan : MonoBehaviour
         {
             hook.AddForce(TrowTo.normalized * forcePercentage, ForceMode.Impulse);
             Invoke("ResetKurwa", 0.1f);
-        }
-        if (move)
-        {
-            Vector3 Dir = OriginPoint.transform.position - transform.position;
-            //Vector3 Dir = transform.position - OriginPoint.transform.position;
-            hook.AddForce(-Dir * MoveSpeed, ForceMode.Force);
         }
     }
     private float GetRandomDepth()
