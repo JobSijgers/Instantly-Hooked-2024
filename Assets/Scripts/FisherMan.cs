@@ -19,10 +19,8 @@ public class FisherMan : MonoBehaviour
     private Vector3 TrowTo;
     private bool Trow = false;
     [SerializeField] private float forcePercentage;
-
     [SerializeField] private GameObject[] Field;
     private float Depth;
-    private bool move;
 
     void Start()
     {
@@ -38,6 +36,7 @@ public class FisherMan : MonoBehaviour
         }
         else if (TrowTo.x != 0 && TrowTo.y != 0)
         {
+            if (TrowTo.y < 0) TrowTo.y = -TrowTo.y;
             hook.isKinematic = false;
             Trow = true;
             LineState = FishLineState.lineout;   
@@ -46,12 +45,6 @@ public class FisherMan : MonoBehaviour
         {
             hook.isKinematic = true;
         }
-
-        //if (Input.GetKey(KeyCode.Mouse1))
-        //{
-        //    hook.useGravity = false;
-        //    hook.transform.position = Vector3.MoveTowards(transform.position, OriginPoint.transform.position, MoveSpeed);
-        //}
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             if (hook.transform.position.y < Field[0].transform.position.y)
