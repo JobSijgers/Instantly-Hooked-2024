@@ -8,6 +8,7 @@ public enum FishLineState
 {
     linein,
     lineout,
+    lineInWater
 }
 public class FisherMan : MonoBehaviour
 {
@@ -15,45 +16,53 @@ public class FisherMan : MonoBehaviour
     [SerializeField] private GameObject OriginPoint;
     public FishLineState LineState;
     [SerializeField] private float MoveSpeed;
-    [SerializeField] private float distanceToRot; 
+    public float DistanceToRot; 
     private Vector3 TrowTo;
-    private bool Trow = false;
     [SerializeField] private float forcePercentage;
     [SerializeField] private GameObject[] Field;
     private float Depth;
+    private bool Trow = false;
 
     void Start()
     {
-            Depth = GetRandomDepth();   
+        Depth = GetRandomDepth();
     }
     void Update()
     {
+        if (LineState == FishLineState.linein)
+        {
+            hook.useGravity = false;
+            hook.isKinematic = true;
+        }
         if (Input.GetKeyDown(KeyCode.Mouse0) && LineState == FishLineState.linein)
         {
             TrowTo.x = Input.GetAxisRaw("Mouse X");
             TrowTo.y = Input.GetAxisRaw("Mouse Y");
-            Debug.Log($"trow force {TrowTo}");
         }
         else if (TrowTo.x != 0 && TrowTo.y != 0)
         {
             if (TrowTo.y < 0) TrowTo.y = -TrowTo.y;
             if (TrowTo.x < 0) TrowTo.x = -TrowTo.x;
             hook.isKinematic = false;
+            hook.useGravity = true;
             Trow = true;
             LineState = FishLineState.lineout;   
         }
         if (hook.transform.position.y < Depth && !Input.GetKey(KeyCode.Mouse1))
         {
+            LineState = FishLineState.lineInWater;
             hook.isKinematic = true;
         }
+        if (Input.GetKeyDown(KeyCode.Mouse1) && !hook.isKinematic) hook.velocity = RemoveVelocity();
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
-            if (hook.transform.position.y < Field[0].transform.position.y)
-            {
-                hook.useGravity = true;
-                hook.isKinematic = false;
-            }
+            hook.useGravity = true;
+            hook.isKinematic = false;
         }
+    }
+    private Vector3 RemoveVelocity()
+    {
+        return new Vector3(0, 0, 0);
     }
     private void ResetKurwa()
     {
@@ -72,5 +81,9 @@ public class FisherMan : MonoBehaviour
     {
         float value = Random.Range(Field[0].transform.position.y, Field[1].transform.position.y);
         return value;
+    }
+    private void OnDrawGizmos()
+    {
+        Debug.DrawRay(OriginPoint.transform.position, Vector3.down * DistanceToRot);
     }
 }

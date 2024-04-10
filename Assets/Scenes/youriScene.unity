@@ -250,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 46989367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.77000046, y: 1.1500001, z: -0.109000206}
+  m_LocalPosition: {x: 0.77000046, y: 1.58, z: -0.109000206}
   m_LocalScale: {x: 0.3636, y: 0.3636, z: 0.3636}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SeaPoint: {fileID: 887262002}
-  BoatStatus: 0
+  BStatus: 0
   DistacnceToDock: 6
 --- !u!1 &271421732
 GameObject:
@@ -691,7 +691,6 @@ MonoBehaviour:
   Hook: {fileID: 46989368}
   Originpoint: {fileID: 1383230173}
   MoveSpeed: 15
-  distanceToRot: 1
 --- !u!4 &587497139
 Transform:
   m_ObjectHideFlags: 0
@@ -890,7 +889,7 @@ GameObject:
   m_Layer: 0
   m_Name: TOP
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1089,7 +1088,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.22999954
+      value: -0.1860609
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
@@ -1099,7 +1098,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.099999905
+      value: 0.09899497
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
@@ -1109,17 +1108,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
@@ -1129,7 +1128,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3a5f238672ce5a34e996d54da774b4b8,
         type: 3}
@@ -1206,7 +1205,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a8ffc9384f0c8014c93b572c140dbe33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1390,7 +1389,7 @@ MonoBehaviour:
   OriginPoint: {fileID: 1383230173}
   LineState: 0
   MoveSpeed: 9
-  distanceToRot: 0.2
+  DistanceToRot: 0.5
   forcePercentage: 2
   Field:
   - {fileID: 271421732}
@@ -1407,7 +1406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b3aa705fd1bfe40936fc9bea03e8b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 4
+  MoveSpeed: 40
   MoveOverride: 0
   DockingSpace: {x: 0, y: 0, z: 0}
   SeaSpace: {x: 0, y: 0, z: 0}
@@ -1441,7 +1440,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830642574}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 50
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
