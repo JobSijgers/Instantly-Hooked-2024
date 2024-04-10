@@ -37,6 +37,7 @@ public class FisherMan : MonoBehaviour
         else if (TrowTo.x != 0 && TrowTo.y != 0)
         {
             if (TrowTo.y < 0) TrowTo.y = -TrowTo.y;
+            if (TrowTo.x < 0) TrowTo.x = -TrowTo.x;
             hook.isKinematic = false;
             Trow = true;
             LineState = FishLineState.lineout;   
