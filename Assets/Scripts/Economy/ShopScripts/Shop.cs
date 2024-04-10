@@ -1,4 +1,4 @@
-﻿using Player;
+﻿using Player.Inventory;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -57,18 +57,18 @@ namespace Economy.ShopScripts
             }
         }
 
-        private void SellSingle(FishData fish)
+        private void SellSingle(ShopItem fish)
         {
-            Inventory.instance.RemoveFish(fish);
-            OnSuccessfulSell?.Invoke(Random.Range(fish.minimumSellValue, fish.maximumSellValue + 1));
+            Inventory.instance.RemoveFish(fish.GetFishData(), fish.GetFishSize(), fish.GetStackSize());
+            OnSuccessfulSell?.Invoke(fish.GetFishData().fishSellAmount[(int)fish.GetFishSize()]);
         }
 
         private void SellAll()
         {
             var totalSellAmount = 0;
-            foreach (var fish in Inventory.instance.GetFishInInventory())
+            foreach (var fish in Inventory.instance.GetInventory())
             {
-                totalSellAmount += Random.Range(fish.minimumSellValue, fish.maximumSellValue + 1);
+                totalSellAmount += fish.GetFishData().fishSellAmount[(int)fish.GetFishSize()] * fish.GetStackSize();
             }
             
             OnSuccessfulSell?.Invoke(totalSellAmount);

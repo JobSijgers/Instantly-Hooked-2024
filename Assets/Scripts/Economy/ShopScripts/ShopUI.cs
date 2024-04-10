@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Player;
+﻿using System.Collections.Generic;
+using Player.Inventory;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Economy.ShopScripts
 {
     public class ShopUI : MonoBehaviour
     {
-        public delegate void FSellSelected(FishData data);
+        public delegate void FSellSelected(ShopItem data);
 
         public delegate void FSellAll();
 
@@ -19,11 +21,16 @@ namespace Economy.ShopScripts
         [SerializeField] private GameObject shopItemPrefab;
         [SerializeField] private GameObject shopObject;
         [SerializeField] private Transform itemHolder;
-        [SerializeField] private Transform highlightHolder;
-        [SerializeField] private GameObject highlightItem;
+        [SerializeField] private GameObject sellSheetTextPrefab;
+        [SerializeField] private Transform sellSheetParent;
+        [SerializeField] private TMP_Text totalSellMoney;
+        [SerializeField] private TMP_Text totalSellAmount;
+        
         private ShopItem _selectedItem;
         private Shop _shop;
-        private List<ShopItem> _shopItems = new(); 
+        private List<ShopItem> _shopItems = new();
+        private List<SellListItem> _sellSheet = new();
+        private List<TMP_Text> _sellTexts = new();
         private void Start()
         {
             _shop = FindObjectOfType<Shop>();
@@ -40,13 +47,14 @@ namespace Economy.ShopScripts
         private void OpenShopUI()
         {
             shopObject.SetActive(true);
-            foreach (var fishData in Inventory.instance.GetFishInInventory())
+            foreach (var inventoryItem in Inventory.instance.GetInventory())
             {
                 GameObject go = Instantiate(shopItemPrefab, itemHolder);
                 ShopItem item =go.GetComponent<ShopItem>();
-                item.Initialize(fishData);
-                item.OnFishButtonPressed += SelectItem;
+                item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize());
+                item.OnSelectedAmountChanged += UpdateShoppingList;
                 _shopItems.Add(item);
+                
             }
         }
         
@@ -55,50 +63,92 @@ namespace Economy.ShopScripts
             shopObject.SetActive(false);
             foreach (var item in _shopItems)
             {
-                item.OnFishButtonPressed -= SelectItem;
                 Destroy(item.gameObject);
             }
 
             _shopItems.Clear();
         }
         
-        private void SelectItem(ShopItem item)
+        private void UpdateShoppingList(ShopItem item, int change, int total)
         {
-            ClearHighlight();
-            GameObject go = Instantiate(highlightItem, highlightHolder);
-            ShopItem highlight =go.GetComponent<ShopItem>();
-            _selectedItem = item;
-            highlight.Initialize(item.fishData);
-            highlight.enabled = false;
+            FishData data = item.GetFishData();
+            for (int i = 0; i < _sellSheet.Count; i++)
+            {
+                var shoppingItem = _sellSheet[i];
+                
+                if (shoppingItem.name != data.fishName)
+                    continue;
+                if (shoppingItem.size != item.GetFishSize())
+                    continue;
+                if (shoppingItem.amount + change <= 0)
+                {
+                    _sellSheet.Remove(shoppingItem);
+                    Destroy(_sellTexts[^1].gameObject);
+                }
+                else
+                {
+                    shoppingItem.amount += change;
+                    _sellSheet[i] = shoppingItem;
+                    UpdateShoppingListUI();
+                    return;
+                }
+            }
+            _sellSheet.Add(new SellListItem(item, total));
+            UpdateShoppingListUI();
         }
 
-        private void ClearHighlight()
+        private void UpdateShoppingListUI()
         {
-            ShopItem itemToDestroy = highlightHolder.GetComponentInChildren<ShopItem>();
-            if (itemToDestroy != null)
+            for (int i = 0; i < _sellSheet.Count; i++)
             {
-                Destroy(itemToDestroy.gameObject);
-                _selectedItem = null;
+                if (i >= _sellTexts.Count)
+                {
+                    GameObject go = Instantiate(sellSheetTextPrefab, sellSheetParent);
+                    TMP_Text tmp = go.GetComponent<TMP_Text>();
+                    tmp.text = GetSellListText(_sellSheet[i]);
+                    _sellTexts.Add(tmp);
+                }
+                else
+                {
+                    _sellTexts[i].text = GetSellListText(_sellSheet[i]);
+                }
             }
+
+            totalSellMoney.text = CalculateTotalMoney().ToString();
+            totalSellAmount.text = CalculateTotalAmount().ToString();
         }
-        public void SellSelectedItem()
+
+        private string GetSellListText(SellListItem itemToSell)
         {
-            
-            OnSellSelectedButtonPressed?.Invoke(_selectedItem.fishData);
+;           return $"{itemToSell.amount}  x  {itemToSell.name} S: {itemToSell.size}";
+        }
+
+        private int CalculateTotalMoney()
+        {
+            int total = 0;
+            foreach (var sell in _sellSheet)
+            {
+                total += sell.amount * sell.singleCost;
+            }
+
+            return total;
+        }
+
+        private int CalculateTotalAmount()
+        {
+            int total = 0;
+            foreach (var sell in _sellSheet)
+            {
+                total += sell.amount;
+            }
+
+            return total;
+        }
+        public void SellSelectedItem()  
+        {
+            OnSellSelectedButtonPressed?.Invoke(_selectedItem);
             _shopItems.Remove(_selectedItem);
             Destroy(_selectedItem.gameObject);
-            ClearHighlight();
-        }
-
-        public void SellAllItems()
-        {
-            OnSellAllButtonPressed?.Invoke();
-            foreach (var item in _shopItems)
-            {
-                Destroy(item.gameObject);
-            }
-            _shopItems.Clear();
-            ClearHighlight();
 
         }
     }
