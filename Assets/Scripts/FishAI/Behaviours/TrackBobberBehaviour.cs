@@ -19,6 +19,8 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
 
     public (IFishAI, bool) switchState()
     {
+        if (brain.bobber.state == BobberState.Fishing) return (brain.states.roaming, false);
+
         return (this, false);
     }
 
@@ -44,6 +46,12 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
             transform.rotation = targetRot;
 
             yield return null;
+        }
+        if (distance < 0.1f)
+        {
+            transform.position = brain.bobber.transform.position;
+            transform.parent = brain.bobber.transform;
+            Destroy(brain);
         }
         moveCoroutine = null;
     }

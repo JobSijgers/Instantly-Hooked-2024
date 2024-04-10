@@ -22,7 +22,7 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
 
     public (IFishAI, bool) switchState()
     {
-        if (Vector3.Distance(transform.position, brain.bobber.transform.position) < 6f && brain.bobber.state != BobberState.Caught) 
+        if (Vector3.Distance(transform.position, brain.bobber.transform.position) < 6f && brain.bobber.state == BobberState.Fishing) 
             return (brain.states.trackBobber, true);
         return (this, false);
     }

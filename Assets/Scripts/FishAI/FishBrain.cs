@@ -25,6 +25,7 @@ public class FishBrain : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(currentState);
         currentState.UpdateState(FM);
         if (currentState.switchState().Item2 == true)
         {
