@@ -19,8 +19,6 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
 
     public (IFishAI, bool) switchState()
     {
-        if (brain.bobber.state == BobberState.Fishing) return (brain.states.roaming, false);
-
         return (this, false);
     }
 
@@ -33,7 +31,6 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
         Vector3 startPos = transform.position;
         float distance = Vector3.Distance(startPos, brain.bobber.transform.position);
         float t = 0.0f;
-
         while (t < 1.0f)
         {
             t += Time.deltaTime * speed / distance;

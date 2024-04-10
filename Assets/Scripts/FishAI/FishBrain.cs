@@ -12,7 +12,7 @@ public struct States
 public class FishBrain : MonoBehaviour
 {
     public FishData data;
-    private FishManager FM;
+    public FishManager FM;
     public IFishAI currentState;
     public States states;
     public Bobber bobber;
@@ -25,13 +25,14 @@ public class FishBrain : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(currentState);
+        var switchResult = currentState.switchState();
+
         currentState.UpdateState(FM);
-        if (currentState.switchState().Item2 == true)
+
+        if (switchResult.Item2)
         {
-            currentState = currentState.switchState().Item1;
+            currentState = switchResult.Item1;
             currentState.Initialize(data);
         }
-        else currentState = currentState.switchState().Item1;
     }
 }
