@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 746970292618661776}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.589, y: 4.135, z: 0}
+  m_LocalPosition: {x: -2.445, y: 4.071, z: 0.456}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -419,8 +419,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hook: {fileID: 4347699710724086535}
+  bobber: {fileID: 187065012961719248}
   Originpoint: {fileID: 884167907504941502}
   MoveSpeed: 15
+  material: {fileID: 2100000, guid: a8ffc9384f0c8014c93b572c140dbe33, type: 2}
 --- !u!54 &4850001141433868452
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -461,6 +463,7 @@ GameObject:
   - component: {fileID: 5954014131057643352}
   - component: {fileID: 2033105196046964256}
   - component: {fileID: 4347699710724086535}
+  - component: {fileID: 187065012961719248}
   m_Layer: 0
   m_Name: hook'
   m_TagString: Untagged
@@ -581,6 +584,19 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &187065012961719248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3399745147569171123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a286fd2ce2787e4aa3ef34fcee0931b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
 --- !u!1 &4387369711069452242
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,6 +609,7 @@ GameObject:
   - component: {fileID: 3969557780853315122}
   - component: {fileID: 3186343801985772552}
   - component: {fileID: 6028971224446369507}
+  - component: {fileID: 750631042627199328}
   m_Layer: 0
   m_Name: BoatNewNew
   m_TagString: Untagged
@@ -690,6 +707,19 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 124
   m_CollisionDetection: 1
+--- !u!114 &750631042627199328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4387369711069452242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c665099cf0e2f40ac4bd55fad6a6cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bobber: {fileID: 187065012961719248}
 --- !u!1 &5309833730565741632
 GameObject:
   m_ObjectHideFlags: 0

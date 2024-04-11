@@ -7,6 +7,7 @@ public class FishFightBehaviour : MonoBehaviour, IFishAI
     private FishBrain brain;
     private float speed;
     private float hookDistance;
+    [SerializeField] private GameObject particle;
     private void Start()
     {
         brain = GetComponent<FishBrain>();
@@ -15,6 +16,8 @@ public class FishFightBehaviour : MonoBehaviour, IFishAI
     public void Initialize(FishData data)
     {
         speed = data.moveSpeed;
+        GameObject go = Instantiate(particle);
+        Destroy(go, 1f);
     }
     private void SetHookStartPos()
     {
