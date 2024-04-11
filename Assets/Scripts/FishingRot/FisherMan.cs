@@ -17,13 +17,13 @@ public class FisherMan : MonoBehaviour
     [SerializeField] private Dock _Dock;
     public FishLineState LineState;
     [SerializeField] private float MoveSpeed;
-    public float DistanceToRot; 
+    public float DistanceToRot;
+    [SerializeField] private float DisToWater;
     private Vector3 TrowTo;
     [SerializeField] private float forcePercentage;
     [SerializeField] private GameObject[] Field;
     private float Depth;
     private bool Trow = false;
-    private bool CanFish = false;
 
     void Start()
     {
@@ -47,7 +47,7 @@ public class FisherMan : MonoBehaviour
             hook.isKinematic = false;
             hook.useGravity = true;
             Trow = true;
-            LineState = FishLineState.lineout;   
+            LineState = FishLineState.lineout;
         }
         if (hook.transform.position.y < Depth && !Input.GetKey(KeyCode.Mouse1))
         {
@@ -55,11 +55,11 @@ public class FisherMan : MonoBehaviour
             hook.isKinematic = true;
         }
         if ((Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.W)) && !hook.isKinematic) hook.velocity = RemoveVelocity();
-        //if (Input.GetKeyUp(KeyCode.Mouse1))
-        //{
-        //    hook.useGravity = true;
-        //    hook.isKinematic = false;
-        //}
+        if (Input.GetKeyUp(KeyCode.Mouse1) && hook.transform.position.y > OriginPoint.transform.position.y - DisToWater)
+        {
+            hook.useGravity = true;
+            hook.isKinematic = false;
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             hook.useGravity = true;
