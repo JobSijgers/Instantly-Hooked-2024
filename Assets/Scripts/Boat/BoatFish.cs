@@ -1,6 +1,7 @@
-using Player;
+using Player.Inventory;
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ public class BoatFish : MonoBehaviour
         {
             FishBrain fish = bobber.GetComponentInChildren<FishBrain>();
             if (fish == null) return;
-            inventory.AddFish(fish.data);
+            inventory.AddFish(fish.data, FishSize.Small);
             Destroy(fish.gameObject);
             OnFishCaught?.Invoke();
         }

@@ -22,7 +22,7 @@ namespace Player.Inventory
         public void AddFish(FishData fishToAdd, FishSize size)
         {
             if (fishToAdd.maxStackAmount <= 1) return;
-            foreach (var inventoryItem in currentFish)
+            foreach (var inventoryItem in GetInventory())
             {
                 if (inventoryItem == null || inventoryItem.GetFishData() != fishToAdd ||
                     inventoryItem.GetFishSize() != size) continue;
@@ -42,42 +42,95 @@ namespace Player.Inventory
         public void RemoveFish(FishData fishToRemove, FishSize size, int amount)
         {
             var remainingAmount = amount;
+            List<InventoryItem> itemsToDelete = new();
             if (fishToRemove == null)
                 return;
-            foreach (var fish in currentFish)
+            foreach (var item in GetInventory())
             {
-                if (fish != null)
-                    return;
+                if (item == null) continue;
 
-                if (fish.GetFishData() != fishToRemove || fish.GetFishSize() != size) continue;
-                
-                if (remainingAmount <= fish.GetStackSize())
+                if (item.GetFishData() != fishToRemove) continue;
+
+                if (item.GetFishSize() != size) continue;
+
+                if (remainingAmount < item.GetStackSize())
                 {
-                    fish.UpdateStackSize(remainingAmount);
+                    item.UpdateStackSize(-remainingAmount);
+                    DeleteFishItem(itemsToDelete.ToArray());
+                    RecalculateItemStacks(item.GetFishData(), item.GetFishSize());
+                    return;
+                }
+
+                remainingAmount -= item.GetStackSize();
+                itemsToDelete.Add(item);
+
+                if (remainingAmount > 0) continue;
+                
+                DeleteFishItem(itemsToDelete.ToArray());
+                RecalculateItemStacks(fishToRemove, size);
+                return;
+            }
+        }
+
+        private void DeleteFishItem(InventoryItem[] items)
+        {
+            foreach (var item in items)
+            {
+                Destroy(item.gameObject);
+                currentFish.Remove(item);
+            }
+        }
+
+        private void RecalculateItemStacks(FishData data, FishSize size)
+        {
+            int totalAmountOfFish = 0;
+            List<InventoryItem> itemsContainingFish = new();
+            foreach (var item in GetInventory())
+            {
+                if (item == null) continue;
+
+                if (item.GetFishData() != data) continue;
+
+                if (item.GetFishSize() != size) continue;
+                
+                totalAmountOfFish += item.GetStackSize();
+                itemsContainingFish.Add(item);
+            }
+
+            if (totalAmountOfFish == 0)
+            {
+                return;
+            }
+
+            float amountOfSlots = (float)totalAmountOfFish / (float)data.maxStackAmount;
+            int amountOfSlotsRounded = Mathf.CeilToInt(amountOfSlots);
+            for (int i = 0; i < amountOfSlotsRounded; i++)
+            {
+                if (totalAmountOfFish - data.maxStackAmount >= 0)
+                {
+                    itemsContainingFish[i].SetStackSize(data.maxStackAmount);
+                    totalAmountOfFish -= data.maxStackAmount;
+                    if (totalAmountOfFish == 0)
+                    {
+                        break;
+                    }
                 }
                 else
                 {
-                    remainingAmount -= fish.GetStackSize();
-                    DeleteFishItem(fish);
+                    itemsContainingFish[i].SetStackSize(totalAmountOfFish);
+                    break;
                 }
             }
-        }
 
-        private void DeleteFishItem(InventoryItem item)
-        {
-            Destroy(item.gameObject);
-            currentFish.Remove(item);
-        }
-        public void ClearFish()
-        {
-            foreach (var fish in currentFish)
+            List<InventoryItem> itemsToDelete = new();
+            for (int i =  amountOfSlotsRounded; i < itemsContainingFish.Count; i++)
             {
-                Destroy(fish.gameObject);
+                itemsToDelete.Add(itemsContainingFish[i]);
             }
 
-            currentFish.Clear();
+            DeleteFishItem(itemsToDelete.ToArray());
         }
-
+        
         public InventoryItem[] GetInventory()
         {
             return currentFish.ToArray();

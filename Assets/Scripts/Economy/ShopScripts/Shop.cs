@@ -7,6 +7,7 @@ public enum ShopState
     Open,
     Closed
 }
+
 namespace Economy.ShopScripts
 {
     public class Shop : MonoBehaviour
@@ -38,8 +39,7 @@ namespace Economy.ShopScripts
         private void Start()
         {
             _shopUI = FindObjectOfType<ShopUI>();
-            _shopUI.OnSellAllButtonPressed += SellAll;
-            _shopUI.OnSellSelectedButtonPressed += SellSingle;
+            _shopUI.OnSellSelectedButtonPressed += SellSelected;
         }
 
         private void Update()
@@ -57,22 +57,13 @@ namespace Economy.ShopScripts
             }
         }
 
-        private void SellSingle(ShopItem fish)
+        private void SellSelected(SellListItem[] fishToSell)
         {
-            Inventory.instance.RemoveFish(fish.GetFishData(), fish.GetFishSize(), fish.GetStackSize());
-            OnSuccessfulSell?.Invoke(fish.GetFishData().fishSellAmount[(int)fish.GetFishSize()]);
-        }
-
-        private void SellAll()
-        {
-            var totalSellAmount = 0;
-            foreach (var fish in Inventory.instance.GetInventory())
+            foreach (var fish in fishToSell)
             {
-                totalSellAmount += fish.GetFishData().fishSellAmount[(int)fish.GetFishSize()] * fish.GetStackSize();
+                Inventory.instance.RemoveFish(fish.data, fish.size, fish.amount);
+                OnSuccessfulSell?.Invoke(fish.amount * fish.data.fishSellAmount[(int)fish.size]);
             }
-            
-            OnSuccessfulSell?.Invoke(totalSellAmount);
-            Inventory.instance.ClearFish();
         }
     }
 }

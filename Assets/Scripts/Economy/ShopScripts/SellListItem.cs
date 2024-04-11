@@ -6,6 +6,7 @@ namespace Economy.ShopScripts
     [Serializable]
     public struct SellListItem
     {
+        public FishData data;
         public string name;
         public FishSize size;
         public int amount;
@@ -13,9 +14,10 @@ namespace Economy.ShopScripts
 
         public SellListItem(ShopItem item, int startAmount)
         {
-            name = item.GetFishData().fishName;
+            data = item.GetFishData();
+            name = data.fishName;
             size = item.GetFishSize();
-            singleCost = item.GetFishData().fishSellAmount[(int)item.GetFishSize()];
+            singleCost = data.fishSellAmount[(int)item.GetFishSize()];
             amount = startAmount;
         }
     }

@@ -10,7 +10,7 @@ namespace Economy.ShopScripts
 {
     public class ShopItem : InventoryItem
     {
-        public delegate void FSelectedAmountChanged(ShopItem item, int change, int total);
+        public delegate void FSelectedAmountChanged(ShopItem item, int change);
 
         public event FSelectedAmountChanged OnSelectedAmountChanged;
 
@@ -34,7 +34,7 @@ namespace Economy.ShopScripts
                 return;
             _currentSelected += 1;
             inputField.text = _currentSelected.ToString();
-            OnSelectedAmountChanged?.Invoke(this, 1, _currentSelected);
+            OnSelectedAmountChanged?.Invoke(this, 1);
         }
 
         public void MinusButtonPressed()
@@ -43,7 +43,7 @@ namespace Economy.ShopScripts
                 return;
             _currentSelected -= 1;
             inputField.text = _currentSelected.ToString();
-            OnSelectedAmountChanged?.Invoke(this, -1, _currentSelected);
+            OnSelectedAmountChanged?.Invoke(this, -1);
         }
 
         public void OnInputFieldChanged()
@@ -51,27 +51,33 @@ namespace Economy.ShopScripts
             var newInt = int.Parse(inputField.text);
             if (newInt >= stackSize)
             {
-                OnSelectedAmountChanged?.Invoke(this, stackSize - _currentSelected, stackSize);
+                OnSelectedAmountChanged?.Invoke(this, stackSize - _currentSelected);
                 _currentSelected = stackSize;
                 inputField.text = stackSize.ToString();
             }
             else if (newInt >= fishData.maxStackAmount)
             {
-                OnSelectedAmountChanged?.Invoke(this, fishData.maxStackAmount - _currentSelected, fishData.maxStackAmount);
+                OnSelectedAmountChanged?.Invoke(this, fishData.maxStackAmount - _currentSelected);
                 _currentSelected = fishData.maxStackAmount;
                 inputField.text = fishData.maxStackAmount.ToString();
             }
             else if (newInt < 0)
             {
-                OnSelectedAmountChanged?.Invoke(this, 0 - _currentSelected, 0);
+                OnSelectedAmountChanged?.Invoke(this, 0 - _currentSelected);
                 _currentSelected = 0;
                 inputField.text = 0.ToString();
             }
             else
             {
-                OnSelectedAmountChanged?.Invoke(this, newInt - _currentSelected, newInt);
+                OnSelectedAmountChanged?.Invoke(this, newInt - _currentSelected);
                 _currentSelected = newInt;
             }
+        }
+
+        public void SetInputField(int newSelected)
+        {
+            _currentSelected = newSelected;
+            inputField.text = _currentSelected.ToString();
         }
     }
 }
