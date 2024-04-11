@@ -1,22 +1,23 @@
 ﻿using System.Collections.Generic;
 using Enums;
-using Unity.VisualScripting;
+using Fish;
 using UnityEngine;
 
 namespace Player.Inventory
 {
     public class Inventory : MonoBehaviour
     {
-        public static Inventory instance;
+        public static Inventory Instance;
 
         public List<InventoryItem> currentFish;
 
         [SerializeField] private GameObject defaultInventorySlot;
         [SerializeField] private Transform inventoryParent;
+        [SerializeField] private Color[] rarityColors;
 
         private void Awake()
         {
-            instance = this;
+            Instance = this;
         }
 
         public void AddFish(FishData fishToAdd, FishSize size)
@@ -35,7 +36,7 @@ namespace Player.Inventory
 
             GameObject go = Instantiate(defaultInventorySlot, inventoryParent);
             InventoryItem item = go.GetComponent<InventoryItem>();
-            item.Initialize(fishToAdd, size);
+            item.Initialize(fishToAdd, size, GetRarityColor(fishToAdd.fishRarity));
             currentFish.Add(item);
         }
 
@@ -65,7 +66,7 @@ namespace Player.Inventory
                 itemsToDelete.Add(item);
 
                 if (remainingAmount > 0) continue;
-                
+
                 DeleteFishItem(itemsToDelete.ToArray());
                 RecalculateItemStacks(fishToRemove, size);
                 return;
@@ -92,7 +93,7 @@ namespace Player.Inventory
                 if (item.GetFishData() != data) continue;
 
                 if (item.GetFishSize() != size) continue;
-                
+
                 totalAmountOfFish += item.GetStackSize();
                 itemsContainingFish.Add(item);
             }
@@ -123,17 +124,22 @@ namespace Player.Inventory
             }
 
             List<InventoryItem> itemsToDelete = new();
-            for (int i =  amountOfSlotsRounded; i < itemsContainingFish.Count; i++)
+            for (int i = amountOfSlotsRounded; i < itemsContainingFish.Count; i++)
             {
                 itemsToDelete.Add(itemsContainingFish[i]);
             }
 
             DeleteFishItem(itemsToDelete.ToArray());
         }
-        
+
         public InventoryItem[] GetInventory()
         {
             return currentFish.ToArray();
+        }
+
+        public Color GetRarityColor(FishRarity rarity)
+        {
+            return rarityColors[(int)rarity];
         }
     }
 }

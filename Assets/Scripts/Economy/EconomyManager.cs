@@ -1,14 +1,11 @@
-﻿using System;
-using Economy;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using Economy.ShopScripts;
 
 namespace Economy
 {
     public class EconomyManager : MonoBehaviour
     {
-        public static EconomyManager instance;
+        public static EconomyManager Instance;
 
         public delegate void FMoneyUpdate(int newMoneyAmount);
 
@@ -17,7 +14,7 @@ namespace Economy
 
         private void Awake()
         {
-            instance = this;
+            Instance = this;
         }
 
         private void Start()

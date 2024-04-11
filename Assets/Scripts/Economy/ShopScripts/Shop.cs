@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Player.Inventory;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public enum ShopState
 {
@@ -72,7 +71,7 @@ namespace Economy.ShopScripts
         {
             foreach (var fish in fishToSell)
             {
-                Inventory.instance.RemoveFish(fish.data, fish.size, fish.amount);
+                Inventory.Instance.RemoveFish(fish.data, fish.size, fish.amount);
                 OnSuccessfulSell?.Invoke(fish.amount * fish.data.fishSellAmount[(int)fish.size]);
             }
         }

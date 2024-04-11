@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Enums;
+using Fish;
 using Player.Inventory;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,17 +18,17 @@ public class InventoryTest : MonoBehaviour
         {
             for (int i = 0; i < testfishamount; i++)
             {
-                Inventory.instance.AddFish(a, FishSize.Small);
+                Inventory.Instance.AddFish(a, FishSize.Small);
             }
 
             for (int i = 0; i < testfishamount; i++)
             {
-                Inventory.instance.AddFish(a, FishSize.Medium);
+                Inventory.Instance.AddFish(a, FishSize.Medium);
             }
 
             for (int i = 0; i < testfishamount; i++)
             {
-                Inventory.instance.AddFish(a, FishSize.Large);
+                Inventory.Instance.AddFish(a, FishSize.Large);
             }
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fish;
 using UnityEngine;
 
 public class FishFightBehaviour : MonoBehaviour, IFishAI

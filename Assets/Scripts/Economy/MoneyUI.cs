@@ -9,12 +9,12 @@ namespace Economy
         [SerializeField] private TMP_Text moneyText;
         private void Start()
         {
-            EconomyManager.instance.OnMoneyUpdate += UpdateMoneyUI;
+            EconomyManager.Instance.OnMoneyUpdate += UpdateMoneyUI;
         }
 
         private void OnDestroy()
         {
-            EconomyManager.instance.OnMoneyUpdate -= UpdateMoneyUI;
+            EconomyManager.Instance.OnMoneyUpdate -= UpdateMoneyUI;
         }
 
         private void UpdateMoneyUI(int newMoney)

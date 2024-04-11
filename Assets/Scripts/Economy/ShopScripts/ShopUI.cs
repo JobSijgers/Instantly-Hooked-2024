@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
+using Fish;
 using Player.Inventory;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace Economy.ShopScripts
 {
@@ -22,6 +20,7 @@ namespace Economy.ShopScripts
         [SerializeField] private Transform sellSheetParent;
         [SerializeField] private TMP_Text totalSellMoney;
         [SerializeField] private TMP_Text totalSellAmount;
+        
 
         private ShopItem _selectedItem;
         private Shop _shop;
@@ -46,11 +45,11 @@ namespace Economy.ShopScripts
         private void OpenShopUI()
         {
             shopObject.SetActive(true);
-            foreach (var inventoryItem in Inventory.instance.GetInventory())
+            foreach (var inventoryItem in Inventory.Instance.GetInventory())
             {
                 GameObject go = Instantiate(shopItemPrefab, itemHolder);
                 ShopItem item = go.GetComponent<ShopItem>();
-                item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize());
+                item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize(), Inventory.Instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
                 item.OnSelectedAmountChanged += UpdateShoppingList;
                 _shopItems.Add(item);
             }

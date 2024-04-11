@@ -20,7 +20,7 @@ public class BoatFish : MonoBehaviour
     }
     private void Start()
     {
-        inventory = Inventory.instance;
+        inventory = Inventory.Instance;
     }
     private void OnCollisionEnter(Collision collision)
     {

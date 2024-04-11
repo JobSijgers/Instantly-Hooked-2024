@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Drawing;
-using Enums;
+﻿using Enums;
+using Fish;
 using Player.Inventory;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Color = UnityEngine.Color;
 
 namespace Economy.ShopScripts
 {
@@ -19,18 +18,18 @@ namespace Economy.ShopScripts
         [SerializeField] private TMP_InputField inputField;
         
         
-        public void Initialize(FishData fishData, FishSize fishSize, int amountInStack)
+        public void Initialize(FishData fishData, FishSize fishSize, int amountInStack, Color backgroundColor)
         {
-            base.Initialize(fishData, fishSize);
-            stackSize = amountInStack;
+            base.Initialize(fishData, fishSize, backgroundColor);
+            StackSize = amountInStack;
             UpdateStackUI();
         }
 
         public void PlusButtonPressed()
         {
-            if (_currentSelected + 1> stackSize)
+            if (_currentSelected + 1> StackSize)
                 return;
-            if (_currentSelected + 1 > fishData.maxStackAmount)
+            if (_currentSelected + 1 > FishData.maxStackAmount)
                 return;
             _currentSelected += 1;
             inputField.text = _currentSelected.ToString();
@@ -49,17 +48,17 @@ namespace Economy.ShopScripts
         public void OnInputFieldChanged()
         {
             var newInt = int.Parse(inputField.text);
-            if (newInt >= stackSize)
+            if (newInt >= StackSize)
             {
-                OnSelectedAmountChanged?.Invoke(this, stackSize - _currentSelected);
-                _currentSelected = stackSize;
-                inputField.text = stackSize.ToString();
+                OnSelectedAmountChanged?.Invoke(this, StackSize - _currentSelected);
+                _currentSelected = StackSize;
+                inputField.text = StackSize.ToString();
             }
-            else if (newInt >= fishData.maxStackAmount)
+            else if (newInt >= FishData.maxStackAmount)
             {
-                OnSelectedAmountChanged?.Invoke(this, fishData.maxStackAmount - _currentSelected);
-                _currentSelected = fishData.maxStackAmount;
-                inputField.text = fishData.maxStackAmount.ToString();
+                OnSelectedAmountChanged?.Invoke(this, FishData.maxStackAmount - _currentSelected);
+                _currentSelected = FishData.maxStackAmount;
+                inputField.text = FishData.maxStackAmount.ToString();
             }
             else if (newInt < 0)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Enums;
+using Fish;
 
 namespace Economy.ShopScripts
 {
