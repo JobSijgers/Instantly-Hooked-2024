@@ -33,8 +33,9 @@ namespace Economy.ShopScripts
         {
             _shop = FindObjectOfType<Shop>();
             _shop.OnShopOpen += OpenShopUI;
-            _shop.OnShopClose += CloseShopUI;
+            _shop.OnShopClose += CloseShopUI; 
         }
+        
 
         private void OnDestroy()
         {
