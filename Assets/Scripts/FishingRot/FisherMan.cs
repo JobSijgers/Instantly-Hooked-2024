@@ -14,6 +14,7 @@ public class FisherMan : MonoBehaviour
 {
     [SerializeField] private Rigidbody hook;
     [SerializeField] private GameObject OriginPoint;
+    [SerializeField] private Dock _Dock;
     public FishLineState LineState;
     [SerializeField] private float MoveSpeed;
     public float DistanceToRot; 
@@ -22,6 +23,7 @@ public class FisherMan : MonoBehaviour
     [SerializeField] private GameObject[] Field;
     private float Depth;
     private bool Trow = false;
+    private bool CanFish = false;
 
     void Start()
     {
@@ -32,9 +34,8 @@ public class FisherMan : MonoBehaviour
         if (LineState == FishLineState.linein)
         {
             hook.useGravity = false;
-            hook.isKinematic = true;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0) && LineState == FishLineState.linein)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && LineState == FishLineState.linein && _Dock.BStatus == Boatstatus.OnSea)
         {
             TrowTo.x = Input.GetAxisRaw("Mouse X");
             TrowTo.y = Input.GetAxisRaw("Mouse Y");
@@ -54,11 +55,14 @@ public class FisherMan : MonoBehaviour
             hook.isKinematic = true;
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && !hook.isKinematic) hook.velocity = RemoveVelocity();
-        if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            hook.useGravity = true;
-            hook.isKinematic = false;
-        }
+        //if (Input.GetKeyUp(KeyCode.Mouse1))
+        //{
+        //    hook.useGravity = true;
+        //    hook.isKinematic = false;
+        //}
+        if (Input.GetKeyDown(KeyCode.DownArrow)) hook.useGravity = true;
+        if (Input.GetKeyUp(KeyCode.DownArrow)) hook.useGravity = false;
+        if (LineState == FishLineState.linein) hook.transform.position = OriginPoint.transform.position;
     }
     private Vector3 RemoveVelocity()
     {
