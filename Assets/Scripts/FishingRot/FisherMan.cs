@@ -55,11 +55,13 @@ public class FisherMan : MonoBehaviour
             hook.isKinematic = true;
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && !hook.isKinematic) hook.velocity = RemoveVelocity();
-        if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            hook.useGravity = true;
-            hook.isKinematic = false;
-        }
+        //if (Input.GetKeyUp(KeyCode.Mouse1))
+        //{
+        //    hook.useGravity = true;
+        //    hook.isKinematic = false;
+        //}
+        if (Input.GetKeyDown(KeyCode.DownArrow)) hook.useGravity = true;
+        if (Input.GetKeyUp(KeyCode.DownArrow)) hook.useGravity = false;
         if (LineState == FishLineState.linein) hook.transform.position = OriginPoint.transform.position;
     }
     private Vector3 RemoveVelocity()
