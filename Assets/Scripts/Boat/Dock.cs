@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
 public enum Boatstatus
 {
     Docked,
     OnSea,
+    Moving
 }
-
 public class Dock : MonoBehaviour
 {
     public static Dock instance;
@@ -22,6 +22,10 @@ public class Dock : MonoBehaviour
     [SerializeField] private GameObject SeaPoint;
     public Boatstatus BStatus;
     [SerializeField] private float DistacnceToDock;
+    [SerializeField] private BoxCollider Trigger;
+    [SerializeField] private TMP_Text Text;
+    private string DockString = "Press E To Dock";
+    private string ReleaseString = "Press R To Realese";
 
     void Start()
     {
@@ -32,8 +36,8 @@ public class Dock : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && BStatus == Boatstatus.Docked) ReleaseBoat();
-        if (Input.GetKeyDown(KeyCode.E) && BStatus == Boatstatus.OnSea) DockBoat();
+        if (Input.GetKeyDown(KeyCode.R) && BStatus == Boatstatus.Docked && !_Boat.MoveOverride) ReleaseBoat();
+        if (Input.GetKeyDown(KeyCode.E) && BStatus == Boatstatus.OnSea && !_Boat.MoveOverride) DockBoat();
         Debug.DrawRay(transform.position, Vector3.right * DistacnceToDock);
     }
 
@@ -52,5 +56,22 @@ public class Dock : MonoBehaviour
             _Boat.MoveBackToDock();
             OnBoatEnterDock?.Invoke();
         }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        switch (BStatus)
+        {
+            case Boatstatus.OnSea:
+                Text.text = DockString;
+                break;
+            case Boatstatus.Docked:
+                Text.text = ReleaseString;
+                break;
+        }
+        if (BStatus == Boatstatus.OnSea && _Boat.MoveOverride) Text.text = "";
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        Text.text = "";
     }
 }
