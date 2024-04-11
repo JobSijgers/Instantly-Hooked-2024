@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3420504461041839498}
   - component: {fileID: 2578941078181225999}
   - component: {fileID: 4802284704579757149}
-  m_Layer: 0
+  - component: {fileID: 660754006254948140}
+  m_Layer: 7
   m_Name: Redfish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,9 +49,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
+  FM: {fileID: 0}
   states:
     roaming: {fileID: 2578941078181225999}
     trackBobber: {fileID: 4802284704579757149}
+    fishFight: {fileID: 660754006254948140}
   bobber: {fileID: 0}
 --- !u!114 &2578941078181225999
 MonoBehaviour:
@@ -64,7 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65432f1d9220e8746a0d98ae976eae8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveBounds: {x: 20, y: 50}
+  spotDistance: 2.5
+  moveBounds: {x: 20, y: 200}
+  fakeTrackChance: 1
 --- !u!114 &4802284704579757149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +82,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a41d63f12009444fa0fcec1d57b8529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &660754006254948140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6557936555658091296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef7dd7937c89ba42a5bd34b2ac15380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 2478877668574869762, guid: 7530c6a3e245b3540999c890b9b0b69d,
+    type: 3}
 --- !u!1001 &3923168299038154330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,7 +107,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.2177
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}
@@ -98,7 +117,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.159
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
         type: 3}
@@ -144,6 +163,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Redfish
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4cf5bf4dcabcab348a4b7975829b9c14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

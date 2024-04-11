@@ -14,12 +14,10 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
 
     private Coroutine timerCoroutine;
     private Coroutine moveCoroutine;
-    private void Start()
-    {
-        brain = GetComponent<FishBrain>();
-    }
     public void Initialize(FishData data)
     {
+        brain = GetComponent<FishBrain>();
+
         brain.bobber.state = BobberState.Fishing;
         moveCoroutine = null;
         speed = data.moveSpeed;
