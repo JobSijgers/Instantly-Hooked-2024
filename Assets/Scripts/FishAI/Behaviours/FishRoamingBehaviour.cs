@@ -9,6 +9,7 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
     private float speed;
     [SerializeField] private float spotDistance;
     [SerializeField] private Vector2 moveBounds = new Vector2(10, 10);
+    [SerializeField] private int fakeTrackChance;
     private FishBrain brain;
 
     private Coroutine timerCoroutine;
@@ -41,10 +42,10 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
     {
         return Vector3.Distance(transform.position, brain.bobber.transform.position) < spotDistance;
     }
-    private IEnumerator MoveFishAsync(MeshRenderer waterMesh)
+    private IEnumerator MoveFishAsync(MeshRenderer waterMesh, Vector3 targetPos = default)
     {
         Vector3 waterBounds = waterMesh.bounds.max;
-        Vector3 newPos = new Vector3
+        Vector3 newPos = targetPos != default ? targetPos : new Vector3
         {
             x = Mathf.Clamp(waterMesh.bounds.center.x + Random.Range(-waterBounds.x, waterBounds.x), transform.position.x - moveBounds.x, transform.position.x + moveBounds.x),
             y = Mathf.Clamp(waterMesh.bounds.center.y + Random.Range(-waterBounds.y, waterBounds.y), transform.position.y - moveBounds.y, transform.position.y + moveBounds.y),
@@ -71,11 +72,25 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
     private IEnumerator SpotTimer(float time)
     {
         yield return new WaitForSeconds(time);
+
+        // check if still in range after timer
         if (CheckDistance() && brain.bobber.state == BobberState.Fishing)
         {
+            // stop current move
+            StopCoroutine(moveCoroutine);
+
+            // fake
+            int rng = Random.Range(0, fakeTrackChance);
+            if (rng == fakeTrackChance)
+            {
+                moveCoroutine = StartCoroutine(MoveFishAsync(brain.FM.waterMesh, brain.bobber.transform.position));
+                yield return null;
+            }
+            
+
+            // set sate and stop move coroutine
             brain.currentState = brain.states.trackBobber;
             brain.currentState.Initialize(brain.data);
-            StopCoroutine(moveCoroutine);
         }
         timerCoroutine = null;
         yield return null;
