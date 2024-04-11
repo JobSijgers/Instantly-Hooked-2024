@@ -8,6 +8,7 @@ public struct States
 {
     public FishRoamingBehaviour roaming;
     public TrackBobberBehaviour trackBobber;
+    public FishFightBehaviour fishFight;
 }
 public class FishBrain : MonoBehaviour
 {
