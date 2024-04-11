@@ -1,4 +1,5 @@
-﻿using Player.Inventory;
+﻿using System.Collections;
+using Player.Inventory;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -40,19 +41,29 @@ namespace Economy.ShopScripts
         {
             _shopUI = FindObjectOfType<ShopUI>();
             _shopUI.OnSellSelectedButtonPressed += SellSelected;
+            StartCoroutine(LateStart());
         }
 
+        public void OpenShop()
+        {
+            OnShopOpen?.Invoke();
+        }
+
+        public void CloseShop()
+        {
+            OnShopClose?.Invoke();
+        }
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.L) && _shopState != ShopState.Open)
             {
-                OnShopOpen?.Invoke();
+                OpenShop();
                 _shopState = ShopState.Open;
             }
 
             if (Input.GetKeyDown(KeyCode.K) && _shopState != ShopState.Closed)
             {
-                OnShopClose?.Invoke();
+                CloseShop();
                 _shopState = ShopState.Closed;
             }
         }
@@ -64,6 +75,13 @@ namespace Economy.ShopScripts
                 Inventory.instance.RemoveFish(fish.data, fish.size, fish.amount);
                 OnSuccessfulSell?.Invoke(fish.amount * fish.data.fishSellAmount[(int)fish.size]);
             }
+        }
+
+        private IEnumerator LateStart()
+        {
+            yield return new WaitForEndOfFrame();
+            OpenShop();
+            CloseShop();
         }
     }
 }
