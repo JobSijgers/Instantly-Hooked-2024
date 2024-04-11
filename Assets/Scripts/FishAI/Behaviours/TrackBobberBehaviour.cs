@@ -7,6 +7,8 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
     private float speed;
     private Coroutine moveCoroutine;
     private FishBrain brain;
+    public delegate void FishCaughtDelegate();
+    public event FishCaughtDelegate OnFishCaught;
     private void Start()
     {
         brain = GetComponent<FishBrain>();
@@ -19,12 +21,17 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
 
     public (IFishAI, bool) switchState()
     {
+        if (transform.parent == brain.bobber.transform) return (brain.states.fishFight, true);
         return (this, false);
     }
 
     public void UpdateState(FishManager FM)
     {
         if (moveCoroutine == null) moveCoroutine = StartCoroutine(Move());
+    }
+    public void InvokeFishCaught()
+    {
+        OnFishCaught.Invoke();
     }
     private IEnumerator Move()
     {
@@ -43,6 +50,7 @@ public class TrackBobberBehaviour : MonoBehaviour, IFishAI
         }
         if (distance < 0.1f)
         {
+            InvokeFishCaught();
             transform.position = brain.bobber.transform.position;
             transform.parent = brain.bobber.transform;
         }

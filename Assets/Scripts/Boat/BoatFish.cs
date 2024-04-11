@@ -2,10 +2,13 @@ using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
+using Player.Inventory;
 using UnityEngine;
 
 public class BoatFish : MonoBehaviour
 {
+    [SerializeField] private Bobber bobber;
+
     public static BoatFish Instance;
     private Inventory inventory;
 
@@ -25,7 +28,8 @@ public class BoatFish : MonoBehaviour
         {
             FishBrain fish = bobber.GetComponentInChildren<FishBrain>();
             if (fish == null) return;
-            inventory.AddFish(fish.data);
+            inventory.AddFish(fish.data, Enums.FishSize.Small);
+            bobber.transform.parent = this.transform;
             Destroy(fish.gameObject);
             OnFishCaught?.Invoke();
         }
