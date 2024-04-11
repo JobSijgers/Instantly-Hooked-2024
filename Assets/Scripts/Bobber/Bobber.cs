@@ -6,6 +6,7 @@ public enum BobberState
 {
     Docked,
     Fishing,
+    Broken,
     Caught
 }
 public class Bobber : MonoBehaviour

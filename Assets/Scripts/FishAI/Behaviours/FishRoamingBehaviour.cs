@@ -7,7 +7,7 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
 
 {
     private float speed;
-    [SerializeField] private float spotDistance;
+    public float spotDistance;
     [SerializeField] private Vector2 moveBounds = new Vector2(10, 10);
     [SerializeField] private int fakeTrackChance;
     private FishBrain brain;
@@ -20,6 +20,8 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
     }
     public void Initialize(FishData data)
     {
+        brain.bobber.state = BobberState.Fishing;
+        moveCoroutine = null;
         speed = data.moveSpeed;
     }
 
@@ -44,7 +46,8 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
     }
     private IEnumerator MoveFishAsync(MeshRenderer waterMesh, Vector3 targetPos = default)
     {
-        Vector3 waterBounds = waterMesh.bounds.max;
+        Vector3 waterBounds = waterMesh.bounds.size / 2;
+        Debug.Log(waterBounds.y);
         Vector3 newPos = targetPos != default ? targetPos : new Vector3
         {
             x = Mathf.Clamp(waterMesh.bounds.center.x + Random.Range(-waterBounds.x, waterBounds.x), transform.position.x - moveBounds.x, transform.position.x + moveBounds.x),
@@ -78,16 +81,7 @@ public class FishRoamingBehaviour : MonoBehaviour, IFishAI
         {
             // stop current move
             StopCoroutine(moveCoroutine);
-
-            // fake
-            int rng = Random.Range(0, fakeTrackChance);
-            if (rng == fakeTrackChance)
-            {
-                moveCoroutine = StartCoroutine(MoveFishAsync(brain.FM.waterMesh, brain.bobber.transform.position));
-                yield return null;
-            }
             
-
             // set sate and stop move coroutine
             brain.currentState = brain.states.trackBobber;
             brain.currentState.Initialize(brain.data);
