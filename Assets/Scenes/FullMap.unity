@@ -5121,6 +5121,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3969557780853315122, guid: e9b2177b69b72704a94e7135d74abf12,
+        type: 3}
+      propertyPath: MaxSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3969557780853315122, guid: e9b2177b69b72704a94e7135d74abf12,
+        type: 3}
+      propertyPath: MoveSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4387369711069452242, guid: e9b2177b69b72704a94e7135d74abf12,
         type: 3}
       propertyPath: m_Name
@@ -5233,7 +5243,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 919395346}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4387369711069452242, guid: e9b2177b69b72704a94e7135d74abf12,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1204825397}
   m_SourcePrefab: {fileID: 100100000, guid: e9b2177b69b72704a94e7135d74abf12, type: 3}
 --- !u!114 &263230972 stripped
 MonoBehaviour:
@@ -19453,6 +19467,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1201141686}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1204825391 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4387369711069452242, guid: e9b2177b69b72704a94e7135d74abf12,
+    type: 3}
+  m_PrefabInstance: {fileID: 263230970}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1204825397
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204825391}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39bce3ef5a2d6ab42b4b46f4c4711680, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1221039267
 PrefabInstance:
   m_ObjectHideFlags: 0
