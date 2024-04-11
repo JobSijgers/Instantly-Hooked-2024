@@ -43,7 +43,7 @@ public class FisherMan : MonoBehaviour
         else if (TrowTo.x != 0 && TrowTo.y != 0)
         {
             if (TrowTo.y < 0) TrowTo.y = -TrowTo.y;
-            if (TrowTo.x < 0) TrowTo.x = -TrowTo.x;
+            //if (TrowTo.x < 0) TrowTo.x = -TrowTo.x;
             hook.isKinematic = false;
             hook.useGravity = true;
             Trow = true;
@@ -76,7 +76,7 @@ public class FisherMan : MonoBehaviour
     {
         return new Vector3(0, 0, 0);
     }
-    private void ResetKurwa()
+    private void ResetTrow()
     {
         Trow = false;
         TrowTo = new Vector3(0, 0, 0);
@@ -86,7 +86,7 @@ public class FisherMan : MonoBehaviour
         if (Trow)
         {
             hook.AddForce(TrowTo.normalized * forcePercentage, ForceMode.Impulse);
-            Invoke("ResetKurwa", 0.1f);
+            Invoke("ResetTrow", 0.1f);
         }
     }
     private float GetRandomDepth()
