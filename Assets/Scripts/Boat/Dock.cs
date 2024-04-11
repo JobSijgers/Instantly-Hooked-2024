@@ -1,3 +1,4 @@
+using Economy.ShopScripts;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -43,6 +44,7 @@ public class Dock : MonoBehaviour
 
     private void ReleaseBoat()
     {
+        FindObjectOfType<Shop>().CloseShop();
         BStatus = Boatstatus.OnSea;
         _Boat.MoveToSea();
         OnBoatLeaveDock?.Invoke();
@@ -52,6 +54,7 @@ public class Dock : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, _Boat.transform.position) < DistacnceToDock)
         {
+            FindObjectOfType<Shop>().OpenShop();
             BStatus = Boatstatus.Docked;
             _Boat.MoveBackToDock();
             OnBoatEnterDock?.Invoke();
