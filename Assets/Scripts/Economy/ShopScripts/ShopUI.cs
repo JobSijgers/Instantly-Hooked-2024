@@ -68,6 +68,7 @@ namespace Economy.ShopScripts
 
         public void SelectAll()
         {
+            ClearSellSheet();
             foreach (var item in _shopItems)
             {
                 item.SetInputField(item.GetStackSize());
@@ -121,13 +122,13 @@ namespace Economy.ShopScripts
                 }
             }
 
-            totalSellMoney.text = CalculateTotalMoney().ToString();
+            totalSellMoney.text = $"${CalculateTotalMoney()}";
             totalSellAmount.text = CalculateTotalAmount().ToString();
         }
 
         private string GetSellListText(SellListItem itemToSell)
         {
-            return $"{itemToSell.amount}  x  {itemToSell.name} S: {itemToSell.size}";
+            return $"{itemToSell.amount} x {itemToSell.name}, {itemToSell.size} : ${itemToSell.amount * itemToSell.singleCost} ";
         }
 
         private int CalculateTotalMoney()
