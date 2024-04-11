@@ -6,7 +6,11 @@ public class Boat : MonoBehaviour
 {
     private Dock _Dock;
     private Rigidbody rb;
+    [Tooltip("Boat Speed controlled by player")]
     [SerializeField] private float MoveSpeed;
+    [SerializeField] private float MaxSpeed;
+    [Tooltip("Docking Speed")]
+    [SerializeField] private float ForceSpeed;
 
     [Header("not using in inspector")]
     public bool MoveOverride;
@@ -47,7 +51,17 @@ public class Boat : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.AddForce(Vector3.right * MoveSpeed * MoveDir, ForceMode.Force);
-        if (Input.GetKey(KeyCode.Space)) rb.velocity = new Vector3(0, 0, 0);
+        rb.AddForce(Vector3.right * ForceSpeed * MoveDir, ForceMode.Force);
+        FixedSpeed();
+        //if (Input.GetKey(KeyCode.Space)) rb.velocity = new Vector3(0, 0, 0);
+    }
+
+    private void FixedSpeed()
+    {
+        if (rb.velocity.magnitude > MaxSpeed)
+        {
+            Vector3 FixedSpeed = rb.velocity.normalized * MaxSpeed;
+            rb.velocity = FixedSpeed; 
+        }
     }
 }
