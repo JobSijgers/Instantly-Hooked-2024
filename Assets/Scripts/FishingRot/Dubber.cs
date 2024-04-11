@@ -14,7 +14,7 @@ public class kurwa : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse1))
+        if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.UpArrow))
         {
             Hook.useGravity = false;
             transform.position = Vector3.MoveTowards(transform.position, Originpoint.transform.position, MoveSpeed * Time.deltaTime);
