@@ -21,11 +21,18 @@ namespace Player.Inventory
             size = fishSize;
         }
 
-        public void UpdateStackSize(int amount)
+        public void UpdateStackSize(int change)
         {
-            stackSize += amount;
+            stackSize += change;
             UpdateStackUI();
         }
+
+        public void SetStackSize(int newSize)
+        {
+            stackSize = newSize;
+            UpdateStackUI();
+        }
+        
 
         public int GetRemainingStackSize()
         {
