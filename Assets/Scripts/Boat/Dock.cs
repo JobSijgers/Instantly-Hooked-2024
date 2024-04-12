@@ -26,7 +26,7 @@ public class Dock : MonoBehaviour
     [SerializeField] private BoxCollider Trigger;
     [SerializeField] private TMP_Text Text;
     private string DockString = "Press E To Dock";
-    private string ReleaseString = "Press R To Realese";
+    private string ReleaseString = "Press R To Release";
 
     void Start()
     {
