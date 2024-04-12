@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using Player.Inventory;
 using UnityEngine;
+using Enums;
+using System;
 
 public class BoatFish : MonoBehaviour
 {
@@ -28,10 +30,16 @@ public class BoatFish : MonoBehaviour
         {
             FishBrain fish = bobber.GetComponentInChildren<FishBrain>();
             if (fish == null) return;
-            inventory.AddFish(fish.data, Enums.FishSize.Small);
+            inventory.AddFish(fish.data, GetRandomFishSize());
             bobber.transform.parent = this.transform;
             Destroy(fish.gameObject);
             OnFishCaught?.Invoke();
         }
     }
+    private FishSize GetRandomFishSize()
+    {
+        var fish = Enum.GetValues(typeof(FishSize));
+        return (FishSize)fish.GetValue(UnityEngine.Random.Range(0, fish.Length));
+    }
+
 }

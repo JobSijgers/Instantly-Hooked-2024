@@ -99,7 +99,7 @@ public class RopeControllerSimple : MonoBehaviour
     private void DisplayRope()
     {
         //This is not the actual width, but the width use so we can see the rope
-        float ropeWidth = 0.2f;
+        float ropeWidth = 0.05f;
 
         lineRenderer.startWidth = ropeWidth;
         lineRenderer.endWidth = ropeWidth;

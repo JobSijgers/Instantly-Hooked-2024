@@ -17,7 +17,7 @@ public class FishFightBehaviour : MonoBehaviour, IFishAI
     public void Initialize(FishData data)
     {
         speed = data.moveSpeed;
-        GameObject go = Instantiate(particle);
+        GameObject go = Instantiate(particle, transform.position, Quaternion.identity);
         Destroy(go, 1f);
     }
     private void SetHookStartPos()
