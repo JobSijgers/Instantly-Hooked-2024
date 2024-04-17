@@ -17,6 +17,7 @@ namespace FishingRod
         {
             _path = gameObject.AddComponent<PathCreator>();
             _lineRenderer = GetComponent<LineRenderer>();
+            _lineRenderer.useWorldSpace = true;
         }
 
         private void Update()
