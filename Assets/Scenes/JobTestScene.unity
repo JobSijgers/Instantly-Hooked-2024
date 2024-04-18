@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512244e55c154fea9cdd9bbb6367f6f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dockingRange: 20
+  dockingRange: 100
   boat: {fileID: 701508464}
   dockPoint: {fileID: 6862571387690601541}
 --- !u!1001 &9026034827625078681
@@ -528,8 +528,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4862848141516474607, guid: c8a354e68f985614595d6c3335e7353b,
         type: 3}
+      propertyPath: speedMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862848141516474607, guid: c8a354e68f985614595d6c3335e7353b,
+        type: 3}
       propertyPath: dockStoppingDistance
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8384716466882559862, guid: c8a354e68f985614595d6c3335e7353b,
         type: 3}
