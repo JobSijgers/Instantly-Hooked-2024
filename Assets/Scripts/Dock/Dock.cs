@@ -8,14 +8,24 @@ namespace Dock
 {
     public class Dock : MonoBehaviour
     {
-        public delegate void FUndockSuccess();
+        public static Dock dock;
+        public delegate void FUndockSuccess(Dock dock);
 
         public event FUndockSuccess OnUndockSuccess;
+        
+        public delegate void FDockSuccess();
+        
+        public event FDockSuccess OnDockSuccess;
         
         [SerializeField] private float dockingRange;
         [SerializeField] private Transform boat;
         [SerializeField] private Transform dockPoint;
         private bool _boatDocked;
+
+        private void Awake()
+        {
+            dock = this;
+        }
 
         private void Start()
         {
@@ -27,14 +37,14 @@ namespace Dock
 
         private void Update()
         {
-            if (IsBoatInRange())
+            if (IsBoatInRange() && !_boatDocked)
             {
                 TryBoatDock();
             }
 
             if (_boatDocked)
             {
-                
+                TryUndock();
             }
         }
 
@@ -59,9 +69,18 @@ namespace Dock
             boatInterface.DockBoat(dockPoint.position, this);
         }
 
+        private void TryUndock()
+        {
+            if (!Input.GetKeyDown(KeyCode.E))
+                return; 
+            OnUndockSuccess?.Invoke(this);
+            _boatDocked = false;
+        }
+
         private void DockSuccess()
         {
             _boatDocked = true;
+            OnDockSuccess?.Invoke();
         }
     }
 }

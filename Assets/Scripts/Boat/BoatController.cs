@@ -18,6 +18,7 @@ namespace Boat
         
         private Rigidbody _rigidbody;
         private float _input;
+        private bool _inputEnabled = true;
 
         private void Start()
         {
@@ -26,7 +27,10 @@ namespace Boat
 
         private void Update()
         {
-            _input = GetBoatInput();
+            if (_inputEnabled)
+            {
+                _input = GetBoatInput();
+            }
         }
 
         private void FixedUpdate()
@@ -58,11 +62,14 @@ namespace Boat
         public void DockBoat(Vector3 dockLocation, Dock.Dock dock)
         {
             StartCoroutine(MoveBoatToDock(dockLocation));
+            dock.OnUndockSuccess += UndockBoat;
+            _inputEnabled = false;
         }
 
-        public void UndockBoat(Dock.Dock dockToUndock)
+        public void UndockBoat(Dock.Dock dock)
         {
-            throw new System.NotImplementedException();
+            dock.OnUndockSuccess -= UndockBoat;
+            _inputEnabled = true;
         }
 
         private IEnumerator MoveBoatToDock(Vector3 dockLocation)
@@ -71,13 +78,12 @@ namespace Boat
             {
                 // Get direction to target
                 var boatPosition = transform.position;
-                Vector3 direction = (dockLocation - boatPosition).normalized;
+                var direction = (dockLocation - boatPosition).normalized;
+                
+                var distance = Vector3.Distance(boatPosition, dockLocation);
+                var forceMagnitude = Mathf.Clamp(distance * speedMultiplier, 0f, Mathf.Infinity);
 
-                // Calculate force based on distance and desired speed
-                float distance = Vector3.Distance(boatPosition, dockLocation);
-                float forceMagnitude = Mathf.Clamp(distance * speedMultiplier, 0f, Mathf.Infinity);
-
-                float decelerationLerp = Mathf.Clamp01((distance - dockStoppingDistance) / dockStoppingDistance);
+                var decelerationLerp = Mathf.Clamp01((distance - dockStoppingDistance) / dockStoppingDistance);
                 forceMagnitude *= decelerationLerp;
 
                 _rigidbody.AddForce(direction * forceMagnitude);
