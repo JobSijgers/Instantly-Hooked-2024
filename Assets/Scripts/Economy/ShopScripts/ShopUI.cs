@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Events;
 using Fish;
 using Player.Inventory;
 using TMPro;
@@ -8,11 +9,6 @@ namespace Economy.ShopScripts
 {
     public class ShopUI : MonoBehaviour
     {
-        public delegate void FSellSelected(SellListItem[] selectedItems);
-
-        public event FSellSelected OnSellSelectedButtonPressed;
-
-
         [SerializeField] private GameObject shopItemPrefab;
         [SerializeField] private GameObject shopObject;
         [SerializeField] private Transform itemHolder;
@@ -31,15 +27,15 @@ namespace Economy.ShopScripts
         private void Start()
         {
             _shop = FindObjectOfType<Shop>();
-            _shop.OnShopOpen += OpenShopUI;
-            _shop.OnShopClose += CloseShopUI; 
+            EventManager.ShopOpen += OpenShopUI;
+            EventManager.ShopClose += CloseShopUI; 
         }
         
 
         private void OnDestroy()
         {
-            _shop.OnShopOpen += OpenShopUI;
-            _shop.OnShopClose += CloseShopUI;
+            EventManager.ShopOpen += OpenShopUI;
+            EventManager.ShopClose += CloseShopUI;
         }
 
         private void OpenShopUI()
@@ -155,7 +151,7 @@ namespace Economy.ShopScripts
 
         public void SellSelectItems()
         {
-            OnSellSelectedButtonPressed?.Invoke(_sellSheet.ToArray());
+            EventManager.OnSellSelectedButton(_sellSheet.ToArray());
             ClearSellSheet();
             UpdateShoppingListUI();
             CloseShopUI();

@@ -99,9 +99,7 @@ namespace Player.Inventory
             }
 
             if (totalAmountOfFish == 0)
-            {
                 return;
-            }
 
             float amountOfSlots = (float)totalAmountOfFish / (float)data.maxStackAmount;
             int amountOfSlotsRounded = Mathf.CeilToInt(amountOfSlots);

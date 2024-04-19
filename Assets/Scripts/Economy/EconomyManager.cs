@@ -1,30 +1,21 @@
 ﻿using UnityEngine;
 using Economy.ShopScripts;
+using Events;
+using Unity.VisualScripting;
 
 namespace Economy
 {
     public class EconomyManager : MonoBehaviour
     {
-        public static EconomyManager Instance;
-
-        public delegate void FMoneyUpdate(int newMoneyAmount);
-
-        public event FMoneyUpdate OnMoneyUpdate;
         private int _currentMoney;
-
-        private void Awake()
-        {
-            Instance = this;
-        }
-
         private void Start()
         {
-            Shop.instance.OnSuccessfulSell += AddMoney;
+            EventManager.ShopSell += AddMoney;
         }
 
         private void OnDestroy()
         {
-            Shop.instance.OnSuccessfulSell -= AddMoney;
+            EventManager.ShopSell -= AddMoney;
         }
 
         public bool HasEnoughMoney(int purchaseAmount)
@@ -35,13 +26,13 @@ namespace Economy
         private void AddMoney(int addAmount)
         {
             _currentMoney += addAmount;
-            OnMoneyUpdate?.Invoke(_currentMoney);
+            EventManager.OnMoneyUpdate(_currentMoney);
         }
         
         public void RemoveMoney(int removeMoney)
         {
             _currentMoney -= removeMoney;
-            OnMoneyUpdate?.Invoke(_currentMoney);
+            EventManager.OnMoneyUpdate(_currentMoney);
         }
     }
 }
