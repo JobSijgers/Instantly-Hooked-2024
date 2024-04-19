@@ -65,12 +65,13 @@ public class FishSpawner : MonoBehaviour
         }
     }
     
-    public Vector2 GetRandomPos()
+    public Vector3 GetRandomPos()
     {
         Vector3 pos = new Vector3()
         {
-            x = Random.Range(transform.position.x - SpawnArea.x / 2, transform.position.x + SpawnArea.x /2),
-            y = Random.Range(transform.position.y - SpawnArea.y / 2, transform.position.y + SpawnArea.y /2),
+            x = Random.Range(transform.position.x - SpawnArea.x / 2, transform.position.x + SpawnArea.x / 2),
+            y = Random.Range(transform.position.y - SpawnArea.y / 2, transform.position.y + SpawnArea.y / 2),
+            z = transform.position.z,
         };
         return pos;
     }
@@ -88,7 +89,7 @@ public class FishSpawner : MonoBehaviour
         {
             i++;
             Vector3 pos = transform.position;
-            pos.y += i;
+            pos.y += i * 2;
             Handles.Label(pos, fish.fishName);
         }
     }

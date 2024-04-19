@@ -4,13 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Random = UnityEngine.Random;
 
 [Serializable]
 public struct FishStates
 {
     public FishRoaming Roaming;
-    //public 
+    public FishBiting Biting; 
 } 
 public class FishBrain : MonoBehaviour
 {
@@ -21,6 +20,7 @@ public class FishBrain : MonoBehaviour
     public float RoamRange;
     public NavMeshAgent NavAgent;
     public FishStates states;
+    public GameObject Hook;
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public void DestroyVisual() => Destroy(Visual); 
     public Vector3 GetNewPos() => OriginSpawner.GetRandomPos();
