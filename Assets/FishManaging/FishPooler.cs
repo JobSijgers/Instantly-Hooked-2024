@@ -9,9 +9,14 @@ public class FishPooler : MonoBehaviour
     [SerializeField] private List<FishBrain> FishList = new List<FishBrain>();
     [SerializeField] private FishBrain fishPrefab;
     [SerializeField] private int MaxFishInList;
+    [SerializeField] private GameObject Hook;
     private void Awake()
     {
         instance = this;
+        foreach (var fish in FishList)
+        {
+            fish.Hook = Hook;
+        }
     }
     public FishBrain GetFish()
     {
@@ -24,6 +29,7 @@ public class FishPooler : MonoBehaviour
             else if (i == FishList.Count - 1)
             {
                 FishBrain newfish = SpawnNewFish();
+                newfish.Hook = Hook;
                 FishList.Add(newfish);
                 return newfish;
             }
