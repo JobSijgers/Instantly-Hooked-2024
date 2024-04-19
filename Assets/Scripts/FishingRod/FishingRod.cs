@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FishingRod
@@ -12,9 +13,10 @@ namespace FishingRod
         private float _dropSpeed = 5;
         private float _maxLineLength = 20;
         private float _currentLineLength = 0;
-
+        private bool _rodEnabled = true;
         private void Start()
         {
+            Dock.Dock.instance.OnDockSuccess += OnDock;
             _springJoint = GetComponent<SpringJoint>();
 
             _springJoint.connectedBody = hook.GetComponent<Rigidbody>();
@@ -26,8 +28,16 @@ namespace FishingRod
             _springJoint.maxDistance = 0;
         }
 
+        private void OnDestroy()
+        {
+            Dock.Dock.instance.OnDockSuccess -= OnDock;
+            Dock.Dock.instance.OnUndockSuccess -= OnUndock;
+        }
+
         private void Update()
         {
+            if (!_rodEnabled)
+                return;
             if (Input.GetMouseButton(0))
             {
                 CastHook();
@@ -57,6 +67,18 @@ namespace FishingRod
             _springJoint.maxDistance = newClampedLineLength;
             _springJoint.connectedBody.WakeUp();
             _currentLineLength = newClampedLineLength;
+        }
+
+        private void OnDock()
+        {
+            Dock.Dock.instance.OnUndockSuccess += OnUndock;
+            _rodEnabled = false;
+        }
+
+        private void OnUndock(Dock.Dock dock)
+        {
+            Dock.Dock.instance.OnUndockSuccess -= OnUndock;
+            _rodEnabled = true;
         }
     }
 }

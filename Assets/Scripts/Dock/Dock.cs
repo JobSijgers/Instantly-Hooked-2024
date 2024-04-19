@@ -8,7 +8,7 @@ namespace Dock
 {
     public class Dock : MonoBehaviour
     {
-        public static Dock dock;
+        public static Dock instance;
         public delegate void FUndockSuccess(Dock dock);
 
         public event FUndockSuccess OnUndockSuccess;
@@ -24,7 +24,7 @@ namespace Dock
 
         private void Awake()
         {
-            dock = this;
+            instance = this;
         }
 
         private void Start()
