@@ -1,4 +1,5 @@
 using System;
+using Events;
 using UnityEngine;
 
 namespace FishingRod
@@ -9,14 +10,14 @@ namespace FishingRod
         [SerializeField] private Transform origin;
         [SerializeField] private Transform hook;
         private SpringJoint _springJoint;
-        private float _reelingSpeed = 5;
-        private float _dropSpeed = 5;
-        private float _maxLineLength = 20;
+        private float _reelingSpeed = 20;
+        private float _dropSpeed = 20;
+        private float _maxLineLength = 1000;
         private float _currentLineLength = 0;
         private bool _rodEnabled = true;
         private void Start()
         {
-            Dock.Dock.instance.OnDockSuccess += OnDock;
+            EventManager.Dock += OnDock;
             _springJoint = GetComponent<SpringJoint>();
 
             _springJoint.connectedBody = hook.GetComponent<Rigidbody>();
@@ -30,8 +31,8 @@ namespace FishingRod
 
         private void OnDestroy()
         {
-            Dock.Dock.instance.OnDockSuccess -= OnDock;
-            Dock.Dock.instance.OnUndockSuccess -= OnUndock;
+            EventManager.Dock -= OnDock;
+            EventManager.UnDock -= OnUndock;
         }
 
         private void Update()
@@ -71,13 +72,13 @@ namespace FishingRod
 
         private void OnDock()
         {
-            Dock.Dock.instance.OnUndockSuccess += OnUndock;
+            EventManager.UnDock += OnUndock;
             _rodEnabled = false;
         }
 
-        private void OnUndock(Dock.Dock dock)
+        private void OnUndock()
         {
-            Dock.Dock.instance.OnUndockSuccess -= OnUndock;
+            EventManager.UnDock -= OnUndock;
             _rodEnabled = true;
         }
     }

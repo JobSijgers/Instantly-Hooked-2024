@@ -1,4 +1,5 @@
 using System.Collections;
+using Events;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
@@ -62,13 +63,13 @@ namespace Boat
         public void DockBoat(Vector3 dockLocation, Dock.Dock dock)
         {
             StartCoroutine(MoveBoatToDock(dockLocation));
-            dock.OnUndockSuccess += UndockBoat;
+            EventManager.UnDock += UndockBoat;
             _inputEnabled = false;
         }
 
-        public void UndockBoat(Dock.Dock dock)
+        public void UndockBoat()
         {
-            dock.OnUndockSuccess -= UndockBoat;
+            EventManager.UnDock -= UndockBoat;
             _inputEnabled = true;
         }
 

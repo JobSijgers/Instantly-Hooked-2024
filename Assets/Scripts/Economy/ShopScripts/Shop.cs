@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Events;
 using Player.Inventory;
+using Timer;
 using UnityEngine;
 
 public enum ShopState
@@ -12,52 +15,34 @@ namespace Economy.ShopScripts
 {
     public class Shop : MonoBehaviour
     {
-        public static Shop instance;
-
-        public delegate void FSuccessfulSell(int sellAmount);
-
-        public delegate void FOnShopOpen();
-
-        public delegate void FOnShopClose();
-
-
-        public event FSuccessfulSell OnSuccessfulSell;
-
-        public event FOnShopOpen OnShopOpen;
-
-        public event FOnShopClose OnShopClose;
-
         private ShopState _shopState = ShopState.Closed;
 
         private ShopUI _shopUI;
-
-        private void Awake()
-        {
-            instance = this;
-        }
-
+        
         private void Start()
         {
-            Dock.Dock.instance.OnDockSuccess += OpenShop;
-            Dock.Dock.instance.OnUndockSuccess += CloseShop;
-            _shopUI = FindObjectOfType<ShopUI>();
-            _shopUI.OnSellSelectedButtonPressed += SellSelected;
+            EventManager.Dock += OpenShop;
+            EventManager.UnDock += CloseShop;
+            EventManager.SellSelectedButton += SellSelected;
+            
             StartCoroutine(LateStart());
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.Dock -= OpenShop;
+            EventManager.UnDock -= CloseShop;
+            EventManager.SellSelectedButton -= SellSelected;
         }
 
         private void OpenShop()
         {
-            OnShopOpen?.Invoke();
-        }
-        
-        private void CloseShop(Dock.Dock dock)
-        {
-            CloseShop();
+            EventManager.OnShopOpen();
         }
 
         private void CloseShop()
         {
-            OnShopClose?.Invoke();
+            EventManager.OnShopClose();
         }
 
         private void Update()
@@ -80,7 +65,7 @@ namespace Economy.ShopScripts
             foreach (var fish in fishToSell)
             {
                 Inventory.Instance.RemoveFish(fish.data, fish.size, fish.amount);
-                OnSuccessfulSell?.Invoke(fish.amount * fish.data.fishSellAmount[(int)fish.size]);
+                EventManager.OnShopSell(fish.amount * fish.data.fishSellAmount[(int)fish.size]);
             }
         }
 
