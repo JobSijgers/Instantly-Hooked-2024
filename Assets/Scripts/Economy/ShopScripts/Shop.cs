@@ -38,20 +38,28 @@ namespace Economy.ShopScripts
 
         private void Start()
         {
+            Dock.Dock.instance.OnDockSuccess += OpenShop;
+            Dock.Dock.instance.OnUndockSuccess += CloseShop;
             _shopUI = FindObjectOfType<ShopUI>();
             _shopUI.OnSellSelectedButtonPressed += SellSelected;
             StartCoroutine(LateStart());
         }
 
-        public void OpenShop()
+        private void OpenShop()
         {
             OnShopOpen?.Invoke();
         }
+        
+        private void CloseShop(Dock.Dock dock)
+        {
+            CloseShop();
+        }
 
-        public void CloseShop()
+        private void CloseShop()
         {
             OnShopClose?.Invoke();
         }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.L) && _shopState != ShopState.Open)
