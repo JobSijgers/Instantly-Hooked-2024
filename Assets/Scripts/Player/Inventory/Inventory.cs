@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Enums;
+using Events;
 using Fish;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player.Inventory
@@ -14,13 +17,49 @@ namespace Player.Inventory
         [SerializeField] private GameObject defaultInventorySlot;
         [SerializeField] private Transform inventoryParent;
         [SerializeField] private Color[] rarityColors;
+        [SerializeField] private Transform inventoryUI;
+
+        private bool isOpen = true;
 
         private void Awake()
         {
             Instance = this;
+            EventManager.FishCaught += AddFish;
         }
 
-        public void AddFish(FishData fishToAdd, FishSize size)
+        private void Start()
+        {
+            CloseInventory();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                if (isOpen)
+                {
+                    CloseInventory();
+                }
+                else
+                {
+                    OpenInventory();
+                }
+            }
+        }
+
+        private void OpenInventory()
+        {
+            inventoryUI.gameObject.SetActive(true);
+            isOpen = true;
+        }
+
+        private void CloseInventory()
+        {
+            inventoryUI.gameObject.SetActive(false);
+            isOpen = false;
+        }
+
+        private void AddFish(FishData fishToAdd, FishSize size)
         {
             if (fishToAdd.maxStackAmount <= 1) return;
             foreach (var inventoryItem in GetInventory())
