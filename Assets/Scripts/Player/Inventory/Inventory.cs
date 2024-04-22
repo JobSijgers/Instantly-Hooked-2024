@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Enums;
+using Events;
 using Fish;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player.Inventory
@@ -20,7 +23,12 @@ namespace Player.Inventory
             Instance = this;
         }
 
-        public void AddFish(FishData fishToAdd, FishSize size)
+        private void Start()
+        {
+            EventManager.FishCaught += AddFish;
+        }
+
+        private void AddFish(FishData fishToAdd, FishSize size)
         {
             if (fishToAdd.maxStackAmount <= 1) return;
             foreach (var inventoryItem in GetInventory())

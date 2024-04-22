@@ -44,8 +44,6 @@ namespace Timer
             _currentDay++;
             ResetTime();
             EventManager.OnNewDay(_currentDay);
-            Debug.Log(_currentDay);
-    
         }
     }
 }
