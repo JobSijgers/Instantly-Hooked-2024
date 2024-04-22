@@ -8,29 +8,44 @@ namespace Timer
 {
     public class TimeManager : MonoBehaviour
     {
-       
-        public static TimeManager instance;
+        [SerializeField] private int dayStartMinutes;
         [SerializeField] private float minutesPerCycle;
+        private int _currentDay;
         private bool _timeProgressing = true;
         private float _timeMultiplier;
         private float _currentTime;
         private float _testCurrent;
 
-        private void Awake()
-        {
-            instance = this;
-        }
-
         private void Start()
         {
-            _timeMultiplier = 1440 / minutesPerCycle;
+            _timeMultiplier = 1440f / minutesPerCycle;
+            EndDay();
         }
 
         private void Update()
         {
             _currentTime += Time.deltaTime * _timeMultiplier;
-            
+
             EventManager.OnTimeUpdate(_currentTime);
+            TimeSpan timeSpan = TimeSpan.FromSeconds(_currentTime);
+            if (timeSpan.Days >= 1)
+            {
+                EndDay();
+            }
+        }
+
+        private void ResetTime()
+        {
+            _currentTime = dayStartMinutes * 60;
+        }
+
+        public void EndDay()
+        {
+            _currentDay++;
+            ResetTime();
+            EventManager.OnNewDay(_currentDay);
+            Debug.Log(_currentDay);
+    
         }
     }
 }

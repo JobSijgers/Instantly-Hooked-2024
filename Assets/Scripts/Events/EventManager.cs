@@ -19,6 +19,7 @@ namespace Events
         public static event UnityAction<FishData, FishSize> FishCaught;
         public static event UnityAction<float> DepthUpdate;
         
+        
         public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);

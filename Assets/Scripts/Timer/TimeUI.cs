@@ -10,7 +10,7 @@ namespace Timer
         [SerializeField] private TMP_Text timeUIText;
         [SerializeField] private TMP_Text dayUIText;
 
-        void OnEnable()
+        private void OnEnable()
         {
             EventManager.TimeUpdate += UpdateTimeUI;
             EventManager.NewDay += UpdateDayUI;
