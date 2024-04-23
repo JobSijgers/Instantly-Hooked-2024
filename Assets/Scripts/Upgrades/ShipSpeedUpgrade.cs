@@ -6,6 +6,6 @@ namespace Upgrades
     public class ShipSpeedUpgrade : Upgrade
     {
         public float maxSpeed;
-        public float speedMultiplier;
+        public float acceleration;
     }
 }

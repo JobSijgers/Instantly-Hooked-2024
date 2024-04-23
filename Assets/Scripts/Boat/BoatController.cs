@@ -67,7 +67,7 @@ namespace Boat
             _inputEnabled = false;
         }
 
-        public void UndockBoat()
+        private void UndockBoat()
         {
             EventManager.UnDock -= UndockBoat;
             _inputEnabled = true;
