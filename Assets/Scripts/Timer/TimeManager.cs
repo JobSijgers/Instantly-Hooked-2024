@@ -1,5 +1,6 @@
 ﻿using System;
 using Events;
+using PauseMenu;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -11,7 +12,6 @@ namespace Timer
         [SerializeField] private int dayStartMinutes;
         [SerializeField] private float minutesPerCycle;
         private int _currentDay;
-        private bool _timeProgressing = true;
         private float _timeMultiplier;
         private float _currentTime;
         private float _testCurrent;
@@ -20,6 +20,12 @@ namespace Timer
         {
             _timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
+            EventManager.PauseStateChange += OnPause;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.PauseStateChange -= OnPause;
         }
 
         private void Update()
@@ -27,7 +33,7 @@ namespace Timer
             _currentTime += Time.deltaTime * _timeMultiplier;
 
             EventManager.OnTimeUpdate(_currentTime);
-            TimeSpan timeSpan = TimeSpan.FromSeconds(_currentTime);
+            var timeSpan = TimeSpan.FromSeconds(_currentTime);
             if (timeSpan.Days >= 1)
             {
                 EndDay();
@@ -39,11 +45,22 @@ namespace Timer
             _currentTime = dayStartMinutes * 60;
         }
 
-        public void EndDay()
+        private void EndDay()
         {
             _currentDay++;
             ResetTime();
             EventManager.OnNewDay(_currentDay);
+        }
+        
+        private void OnPause(PauseState newState)
+        {
+            enabled = newState switch
+            {
+                PauseState.Playing => true,
+                PauseState.InPauseMenu => false,
+                PauseState.InInventory => false,
+                _ => throw new ArgumentOutOfRangeException(nameof(newState), newState, null)
+            };
         }
     }
 }

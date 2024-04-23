@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Enums;
 using Events;
 using Fish;
+using PauseMenu;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -19,8 +20,6 @@ namespace Player.Inventory
         [SerializeField] private Color[] rarityColors;
         [SerializeField] private Transform inventoryUI;
 
-        private bool isOpen = true;
-
         private void Awake()
         {
             Instance = this;
@@ -29,34 +28,13 @@ namespace Player.Inventory
 
         private void Start()
         {
-            CloseInventory();
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                if (isOpen)
-                {
-                    CloseInventory();
-                }
-                else
-                {
-                    OpenInventory();
-                }
-            }
-        }
-
-        private void OpenInventory()
-        {
-            inventoryUI.gameObject.SetActive(true);
-            isOpen = true;
-        }
-
-        private void CloseInventory()
-        {
+            EventManager.PauseStateChange += OnPause;
             inventoryUI.gameObject.SetActive(false);
-            isOpen = false;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.PauseStateChange -= OnPause;
         }
 
         private void AddFish(FishData fishToAdd, FishSize size)
@@ -177,6 +155,23 @@ namespace Player.Inventory
         public Color GetRarityColor(FishRarity rarity)
         {
             return rarityColors[(int)rarity];
+        }
+        
+        private void OnPause(PauseState newState)
+        {
+            switch (newState)
+            {
+                case PauseState.Playing:
+                    inventoryUI.gameObject.SetActive(false);
+                    break;
+                case PauseState.InPauseMenu:
+                    break;
+                case PauseState.InInventory:
+                    inventoryUI.gameObject.SetActive(true);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
         }
     }
 }

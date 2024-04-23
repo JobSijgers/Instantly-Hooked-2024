@@ -3,6 +3,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Boat;
 using Events;
 using Interfaces;
+using PauseMenu;
 using UnityEngine;
 
 namespace Dock
@@ -13,13 +14,20 @@ namespace Dock
         [SerializeField] private Transform boat;
         [SerializeField] private Transform dockPoint;
         private bool _boatDocked;
-
+    
         private void Start()
         {
             var controller = boat.GetComponent<BoatController>();
             if (controller == null)
                 return;
             controller.OnDockSuccess += DockSuccess;
+
+            EventManager.PauseStateChange += OnPause;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.PauseStateChange -= OnPause;
         }
 
         private void Update()
@@ -53,7 +61,7 @@ namespace Dock
                 return;
             }
 
-            boatInterface.DockBoat(dockPoint.position, this);
+            boatInterface.DockBoat(dockPoint.position);
         }
 
         private void TryUndock()
@@ -68,6 +76,17 @@ namespace Dock
         {
             _boatDocked = true;
             EventManager.OnDock();
+        }
+
+        private void OnPause(PauseState newState)
+        {
+            enabled = newState switch
+            {
+                PauseState.Playing => true,
+                PauseState.InPauseMenu => false,
+                PauseState.InInventory => false,
+                _ => throw new ArgumentOutOfRangeException(nameof(newState), newState, null)
+            };
         }
     }
 }
