@@ -87,8 +87,9 @@ MonoBehaviour:
   fishState: 0
   StruggelTime: 4
   StruggelAfterTime: 10
-  HoldTimer: 0
-  ToLongHold: 0
+  ToLongHold: 2
+  holdoffset: 0.5
+  OffHookAfter: 3
 --- !u!195 &8817518453287034329
 NavMeshAgent:
   m_ObjectHideFlags: 0

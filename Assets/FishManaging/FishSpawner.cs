@@ -47,8 +47,14 @@ public class FishSpawner : MonoBehaviour
     {
         foreach (FishBrain fish in ActiveFish)
         {
-            if (fish.gameObject != Hook.FishOnHook.gameObject)
-            fishPooler.ReturnFish(fish);
+            if (Hook.FishOnHook == null)
+            {
+                fishPooler.ReturnFish(fish);
+            }
+            else if (fish.gameObject != Hook.FishOnHook.gameObject)
+            {
+                fishPooler.ReturnFish(fish);
+            }
         }
         ActiveFish.Clear();
     }
