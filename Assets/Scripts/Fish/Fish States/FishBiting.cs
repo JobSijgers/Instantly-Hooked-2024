@@ -39,7 +39,6 @@ public class FishBiting : MonoBehaviour,IFishState
         if (Hook.FishOnHook == null) Hook.FishOnHook = Brain;
         else OffHook = true;
         fishState = FishBitingState.goingforhook;
-        Debug.Log("set C waitforstruggel");
         waitForStruggel = StartCoroutine(WaitForStruggel(1));
     }
     public IFishState SwitchState()
@@ -61,7 +60,6 @@ public class FishBiting : MonoBehaviour,IFishState
         if (struggelreset)
         {
             fishState = FishBitingState.onhook;
-            Debug.Log("set C waitforstruggel");
             waitForStruggel = StartCoroutine(WaitForStruggel(StruggelAfterTime));
             struggelreset = false;
         }
@@ -70,11 +68,9 @@ public class FishBiting : MonoBehaviour,IFishState
         {
             case FishBitingState.goingforhook:
                 Brain.NavAgent.SetDestination(Hook.hook.transform.position);
-                Debug.Log("set destination hook");
                 break;
             case FishBitingState.onhook:
                 transform.position = Hook.hook.transform.position;
-                Debug.Log("fish to hook");
                 break;
             case FishBitingState.struggeling:
                 Hook.hook.transform.position = transform.position;
@@ -84,13 +80,11 @@ public class FishBiting : MonoBehaviour,IFishState
                     Vector2 newpos = Brain.GetNewPosition();
                     if (IsPositionInLineRange(newpos))
                     {
-                        Debug.Log("set destination struggel");
                         Brain.NavAgent.SetDestination(newpos);
                     }
                 }
                 if (Struggeling == null)
                 {
-                    Debug.Log("set C waitforendofstruggel");
                     Struggeling = StartCoroutine(WaitForEndOfStruggel());
                 }
                 break;
@@ -110,7 +104,6 @@ public class FishBiting : MonoBehaviour,IFishState
     public IEnumerator WaitForStruggel(float time)
     {
         yield return new WaitForSeconds(time);
-        Debug.Log("set struggel");
         fishState = FishBitingState.struggeling;
         Brain.NavAgent.isStopped = false;
         waitForStruggel = null;
@@ -118,14 +111,11 @@ public class FishBiting : MonoBehaviour,IFishState
     public IEnumerator WaitForEndOfStruggel()
     {
         float t = 0.0f;
-        Debug.Log("t " + t);
         while (t < StruggelTime)
         {
-            Debug.Log("struggeling");
             t += Time.deltaTime;
             yield return null;
         }
-        Debug.Log("struggel done");
         Struggeling = null;
         struggelreset = true;
         //StruggelReset();
