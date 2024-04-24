@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Economy;
 using Economy.ShopScripts;
@@ -29,6 +30,7 @@ namespace Upgrades
         private void Start()
         {
             SetUpItems();
+            StartCoroutine(LateStart());
         }
 
         private void SetUpItems()
@@ -79,6 +81,7 @@ namespace Upgrades
                     Debug.Log("Sonar Upgraded");
                     break;
             }
+
             EventManager.OnUpgradeBought(GetCurrentUpgrade(upgrade));
             EconomyManager.instance.RemoveMoney(upgrade.cost);
         }
@@ -99,6 +102,16 @@ namespace Upgrades
                     return null;
             }
         }
+
+        private IEnumerator LateStart()
+        {
+            yield return new WaitForEndOfFrame();
+            EventManager.OnUpgradeBought(GetCurrentUpgrade(GetCurrentLineLengthUpgrade()));
+            EventManager.OnUpgradeBought(GetCurrentUpgrade(GetCurrentReelSpeedUpgrade()));
+            EventManager.OnUpgradeBought(GetCurrentUpgrade(GetCurrentShipSpeedUpgrade()));
+            EventManager.OnUpgradeBought(GetCurrentUpgrade(GetCurrentSonarUpgrade()));
+        }
+
         #region Line Length Upgrades
 
         private void UpgradeLineLength()
@@ -188,7 +201,6 @@ namespace Upgrades
             if (_sonarUpgradeIndex + 1 < sonarUpgrades.Length)
             {
                 return sonarUpgrades[_sonarUpgradeIndex + 1];
-
             }
 
             return null;

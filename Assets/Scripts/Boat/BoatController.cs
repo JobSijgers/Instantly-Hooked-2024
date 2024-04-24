@@ -2,7 +2,7 @@ using System.Collections;
 using Events;
 using Interfaces;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
+using Upgrades;
 
 namespace Boat
 {
@@ -16,14 +16,20 @@ namespace Boat
         [SerializeField] private float maxVelocity;
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float dockStoppingDistance;
-        
+
         private Rigidbody _rigidbody;
         private float _input;
         private bool _inputEnabled = true;
 
         private void Start()
         {
+            EventManager.UpgradeBought += OnUpgrade;
             _rigidbody = GetComponent<Rigidbody>();
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.UpgradeBought -= OnUpgrade;
         }
 
         private void Update()
@@ -80,7 +86,6 @@ namespace Boat
                 // Get direction to target
                 var boatPosition = transform.position;
                 var direction = (dockLocation - boatPosition).normalized;
-                
                 var distance = Vector3.Distance(boatPosition, dockLocation);
                 var forceMagnitude = Mathf.Clamp(distance * speedMultiplier, 0f, Mathf.Infinity);
 
@@ -95,8 +100,19 @@ namespace Boat
 
             // Stop movement at target
             _rigidbody.velocity = Vector3.zero;
-            
+
             OnDockSuccess?.Invoke();
+        }
+
+        private void OnUpgrade(Upgrade upgrade)
+        {
+            switch (upgrade)
+            {
+                case ShipSpeedUpgrade shipSpeedUpgrade:
+                    maxVelocity = shipSpeedUpgrade.maxSpeed;
+                    speedMultiplier = shipSpeedUpgrade.acceleration;
+                    break;
+            }
         }
     }
 }

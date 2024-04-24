@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Boat;
+﻿using Boat;
 using Events;
 using Interfaces;
 using UnityEngine;
@@ -45,7 +43,7 @@ namespace Dock
         {
             if (!Input.GetKeyDown(KeyCode.E))
                 return;
-            
+
             var boatInterface = boat.GetComponent<IBoat>();
             if (boatInterface == null)
             {
@@ -59,7 +57,7 @@ namespace Dock
         private void TryUndock()
         {
             if (!Input.GetKeyDown(KeyCode.E))
-                return; 
+                return;
             EventManager.OnUndock();
             _boatDocked = false;
         }
