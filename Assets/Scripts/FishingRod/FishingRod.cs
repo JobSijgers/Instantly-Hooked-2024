@@ -1,22 +1,24 @@
 using System;
 using Events;
 using UnityEngine;
+using UnityEngine.Experimental.Audio;
+using Upgrades;
 
 namespace FishingRod
 {
     [RequireComponent(typeof(SpringJoint))]
     public class FishingRod : MonoBehaviour
     {
-        [SerializeField] private Transform origin;
         [SerializeField] private Transform hook;
         private SpringJoint _springJoint;
-        private float _reelingSpeed = 20;
-        private float _dropSpeed = 20;
-        private float _maxLineLength = 1000;
+        private float _reelingSpeed = 5;
+        private float _dropSpeed = 3;
+        private float _maxLineLength = 5;
         private float _currentLineLength = 0;
         private bool _rodEnabled = true;
         private void Start()
         {
+            EventManager.UpgradeBought += UpgradeBought;
             EventManager.Dock += OnDock;
             _springJoint = GetComponent<SpringJoint>();
 
@@ -33,6 +35,7 @@ namespace FishingRod
         {
             EventManager.Dock -= OnDock;
             EventManager.UnDock -= OnUndock;
+            EventManager.UpgradeBought -= UpgradeBought;
         }
 
         private void Update()
@@ -80,6 +83,20 @@ namespace FishingRod
         {
             EventManager.UnDock -= OnUndock;
             _rodEnabled = true;
+        }
+
+        private void UpgradeBought(Upgrade upgrade)
+        {
+            switch (upgrade)
+            {
+                case LineLengthUpgrade lineLengthUpgrade:
+                    _maxLineLength = lineLengthUpgrade.lineLength;
+                    break;
+                case ReelSpeedUpgrade reelSpeedUpgrade:
+                    _reelingSpeed = reelSpeedUpgrade.reelSpeed;
+                    _dropSpeed = reelSpeedUpgrade.dropSpeed;
+                    break;
+            }
         }
     }
 }

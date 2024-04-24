@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Economy;
+using Economy.ShopScripts;
+using Events;
+using UnityEngine;
 
 namespace Upgrades
 {
@@ -11,33 +16,106 @@ namespace Upgrades
         [SerializeField] private ShipSpeedUpgrade[] shipSpeedUpgrades;
         [SerializeField] private SonarUpgrade[] sonarUpgrades;
 
-        private int currentLineLengthUpgrade;
-        private int currentReelSpeedUpgrade;
-        private int currentShipSpeedUpgrade;
-        private int currentSonarUpgrade;
+        private int _lineLengthIndex;
+        private int _reelSpeedIndex;
+        private int _shipSpeedIndex;
+        private int _sonarUpgradeIndex;
 
         private void Awake()
         {
             Instance = this;
         }
 
+        private void Start()
+        {
+            SetUpItems();
+        }
+
+        private void SetUpItems()
+        {
+            UpgradeUI.instance.CreateUpgradeItem(GetNextLineLengthUpgrade());
+            UpgradeUI.instance.CreateUpgradeItem(GetNextReelSpeedUpgrade());
+            UpgradeUI.instance.CreateUpgradeItem(GetNextShipSpeedUpgrade());
+            UpgradeUI.instance.CreateUpgradeItem(GetNextSonarUpgrade());
+        }
+
+        public Upgrade GetCurrentUpgrade(Upgrade upgrade)
+        {
+            return upgrade switch
+            {
+                LineLengthUpgrade => lineLengthUpgrades[_lineLengthIndex],
+                ReelSpeedUpgrade => reelSpeedUpgrades[_reelSpeedIndex],
+                ShipSpeedUpgrade => shipSpeedUpgrades[_shipSpeedIndex],
+                SonarUpgrade => sonarUpgrades[_sonarUpgradeIndex],
+                _ => null
+            };
+        }
+
+        public void UpgradeBought(Upgrade upgrade)
+        {
+            if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
+            {
+                EventManager.OnNotEnoughMoney();
+                Debug.Log("Not neough money");
+                return;
+            }
+
+            switch (upgrade)
+            {
+                case LineLengthUpgrade:
+                    UpgradeLineLength();
+                    Debug.Log("Line Length Upgraded");
+                    break;
+                case ReelSpeedUpgrade:
+                    UpgradeReelSpeed();
+                    Debug.Log("Reel Speed Upgraded");
+                    break;
+                case ShipSpeedUpgrade:
+                    UpgradeShipSpeed();
+                    Debug.Log("Ship Speed Upgraded");
+                    break;
+                case SonarUpgrade:
+                    UpgradeSonar();
+                    Debug.Log("Sonar Upgraded");
+                    break;
+            }
+            EventManager.OnUpgradeBought(GetCurrentUpgrade(upgrade));
+            EconomyManager.instance.RemoveMoney(upgrade.cost);
+        }
+
+        public Upgrade GetNextUpgrade(Upgrade upgrade)
+        {
+            switch (upgrade)
+            {
+                case LineLengthUpgrade:
+                    return GetNextLineLengthUpgrade();
+                case ReelSpeedUpgrade:
+                    return GetNextReelSpeedUpgrade();
+                case ShipSpeedUpgrade:
+                    return GetNextShipSpeedUpgrade();
+                case SonarUpgrade:
+                    return GetNextSonarUpgrade();
+                default:
+                    return null;
+            }
+        }
         #region Line Length Upgrades
 
-        public void UpgradeLineLength()
+        private void UpgradeLineLength()
         {
-            currentLineLengthUpgrade++;
+            _lineLengthIndex++;
         }
 
-        public LineLengthUpgrade GetCurrentLineLengthUpgrade()
+        private LineLengthUpgrade GetCurrentLineLengthUpgrade()
         {
-            return lineLengthUpgrades[currentLineLengthUpgrade];
+            return lineLengthUpgrades[_lineLengthIndex];
         }
 
-        public LineLengthUpgrade GetNextLineLengthUpgrade()
+        private LineLengthUpgrade GetNextLineLengthUpgrade()
         {
-            if (lineLengthUpgrades.Length < currentLineLengthUpgrade)
+            if (_lineLengthIndex + 1 < lineLengthUpgrades.Length)
             {
-                return lineLengthUpgrades[currentLineLengthUpgrade + 1];
+                return lineLengthUpgrades[_lineLengthIndex + 1];
             }
 
             return null;
@@ -47,21 +125,21 @@ namespace Upgrades
 
         #region Reel Speed Upgrades
 
-        public void UpgradeReelSpeed()
+        private void UpgradeReelSpeed()
         {
-            currentReelSpeedUpgrade++;
+            _reelSpeedIndex++;
         }
 
-        public ReelSpeedUpgrade GetCurrentReelSpeedUpgrade()
+        private ReelSpeedUpgrade GetCurrentReelSpeedUpgrade()
         {
-            return reelSpeedUpgrades[currentReelSpeedUpgrade];
+            return reelSpeedUpgrades[_reelSpeedIndex];
         }
 
-        public ReelSpeedUpgrade GetNextReelSpeedUpgrade()
+        private ReelSpeedUpgrade GetNextReelSpeedUpgrade()
         {
-            if (reelSpeedUpgrades.Length < currentReelSpeedUpgrade)
+            if (_reelSpeedIndex + 1 < reelSpeedUpgrades.Length)
             {
-                return reelSpeedUpgrades[currentReelSpeedUpgrade + 1];
+                return reelSpeedUpgrades[_reelSpeedIndex + 1];
             }
 
             return null;
@@ -71,21 +149,21 @@ namespace Upgrades
 
         #region Ship Speed Upgrades
 
-        public void UpgradeShipSpeed()
+        private void UpgradeShipSpeed()
         {
-            currentShipSpeedUpgrade++;
+            _shipSpeedIndex++;
         }
 
-        public ShipSpeedUpgrade GetCurrentShipSpeedUpgrade()
+        private ShipSpeedUpgrade GetCurrentShipSpeedUpgrade()
         {
-            return shipSpeedUpgrades[currentShipSpeedUpgrade];
+            return shipSpeedUpgrades[_shipSpeedIndex];
         }
 
-        public ShipSpeedUpgrade GetNextShipSpeedUpgrade()
+        private ShipSpeedUpgrade GetNextShipSpeedUpgrade()
         {
-            if (shipSpeedUpgrades.Length < currentShipSpeedUpgrade)
+            if (_shipSpeedIndex + 1 < shipSpeedUpgrades.Length)
             {
-                return shipSpeedUpgrades[currentShipSpeedUpgrade + 1];
+                return shipSpeedUpgrades[_shipSpeedIndex + 1];
             }
 
             return null;
@@ -95,21 +173,22 @@ namespace Upgrades
 
         #region Sonar Upgrades
 
-        public void UpgradeSonar()
+        private void UpgradeSonar()
         {
-            currentSonarUpgrade++;
+            _sonarUpgradeIndex++;
         }
 
-        public SonarUpgrade GetCurrentSonarUpgrade()
+        private SonarUpgrade GetCurrentSonarUpgrade()
         {
-            return sonarUpgrades[currentSonarUpgrade];
+            return sonarUpgrades[_sonarUpgradeIndex];
         }
 
-        public SonarUpgrade GetNextSonarUpgrade()
+        private SonarUpgrade GetNextSonarUpgrade()
         {
-            if (sonarUpgrades.Length < currentSonarUpgrade)
+            if (_sonarUpgradeIndex + 1 < sonarUpgrades.Length)
             {
-                return sonarUpgrades[currentSonarUpgrade + 1];
+                return sonarUpgrades[_sonarUpgradeIndex + 1];
+
             }
 
             return null;
