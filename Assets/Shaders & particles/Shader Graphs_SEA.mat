@@ -38,6 +38,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Distacne: -40
+    - _Foamripple_speed: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _absorption_coefficient: 0
@@ -46,10 +48,15 @@ Material:
     - _depthColorFade: 0.15
     - _depthColorFadeFactor: -0.02
     - _dethColorFadeOffset: -11.53
+    - _foamdepth: 0
+    - _foamnoisescale: 2
+    - _transparencyAmount: 0.31
     m_Colors:
     - _Water_colour: {r: 0, g: 0.6106627, b: 1, a: 1}
     - _Water_dark_colour: {r: 0, g: 0, b: 0, a: 1}
     - _absorbtion_color: {r: 0, g: 0, b: 0, a: 0}
+    - _deppcolor: {r: 0, g: 0, b: 0, a: 0}
+    - _shallowcollor: {r: 0.24716976, g: 0.8436158, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7161506172564705443
 MonoBehaviour:
