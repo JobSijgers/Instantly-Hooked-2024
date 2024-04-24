@@ -1,6 +1,7 @@
 using FishingRod;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public enum FishBitingState
@@ -18,8 +19,14 @@ public class FishBiting : MonoBehaviour,IFishState
     [SerializeField] private float StruggelTime;
     [SerializeField] private float StruggelAfterTime;
 
-    [SerializeField] private float HoldTimer;
+    private float HoldTimer;
+    private float struggelTimer;
+    [Tooltip("max time de player de vis kan inreelen waneer struggeling")]
     [SerializeField] private float ToLongHold;
+    [Tooltip("hoe lang kan je vasthouden na max hold time")]
+    [SerializeField] private float holdoffset;
+    [Tooltip("waneer valt de vis als er niet gereeled word")]
+    [SerializeField] private float OffHookAfter;
 
     // coroutine 
     private Coroutine Struggeling;
@@ -47,6 +54,7 @@ public class FishBiting : MonoBehaviour,IFishState
         if (Hook.FishOnHook != null && Hook.FishOnHook.gameObject != gameObject) return Brain.states.Roaming;
         if (OffHook)
         {
+            GetOffHook();
             ResetState();
             return Brain.states.Roaming;
         }
@@ -64,6 +72,40 @@ public class FishBiting : MonoBehaviour,IFishState
             Debug.Log("set C waitforstruggel");
             waitForStruggel = StartCoroutine(WaitForStruggel(StruggelAfterTime));
             struggelreset = false;
+        }
+        if (Struggeling != null)
+        {
+            if (Input.GetMouseButton(1))
+            {
+                HoldTimer += Time.deltaTime;
+            }
+            else
+            {
+                struggelTimer += Time.deltaTime;
+                HoldTimer = 0;
+            }
+            if (HoldTimer >= ToLongHold)
+            {
+                Hook.instance.fishline.startColor = Color.red;
+                Hook.instance.fishline.endColor = Color.red;
+            }
+            else
+            {
+                Hook.instance.fishline.startColor = Color.white;
+                Hook.instance.fishline.endColor = Color.white;
+            }
+            if (HoldTimer >= ToLongHold + holdoffset)
+            {
+                OffHook = true;
+            }
+            if (struggelTimer >= OffHookAfter)
+            {
+                OffHook = true;
+            }
+        }else
+        {
+            HoldTimer = 0;
+            struggelTimer = 0;
         }
         // set position
         switch (fishState)

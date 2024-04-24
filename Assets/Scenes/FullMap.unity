@@ -10136,6 +10136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4677ef109258d46beab32fd1795716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fishline: {fileID: 1259276000}
+  P_BreakingHookMat: {fileID: 0}
+  P_NormalHookMat: {fileID: 0}
 --- !u!1 &817900260
 GameObject:
   m_ObjectHideFlags: 0
@@ -14931,6 +14934,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1460204162999506465, guid: 49f69ecd8e276dc4092d75ea44833f56,
     type: 3}
   m_PrefabInstance: {fileID: 1258778683}
+  m_PrefabAsset: {fileID: 0}
+--- !u!120 &1259276000 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 5390991553932737750, guid: c8a354e68f985614595d6c3335e7353b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1702112211}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1273266458
 PrefabInstance:
@@ -26532,7 +26541,7 @@ PrefabInstance:
     - target: {fileID: 134346820650253746, guid: 880bb88813c4edf4691efa811e434074,
         type: 3}
       propertyPath: FishInArea
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 134346820650253746, guid: 880bb88813c4edf4691efa811e434074,
         type: 3}
