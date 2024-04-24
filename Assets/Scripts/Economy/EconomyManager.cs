@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Economy.ShopScripts;
 using Events;
 using Unity.VisualScripting;
@@ -7,7 +8,14 @@ namespace Economy
 {
     public class EconomyManager : MonoBehaviour
     {
-        private int _currentMoney;
+        public static EconomyManager instance;
+        private int _currentMoney = 1000;
+
+        private void Awake()
+        {
+            instance = this;
+        }
+
         private void Start()
         {
             EventManager.ShopSell += AddMoney;

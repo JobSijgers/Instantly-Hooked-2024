@@ -4,6 +4,7 @@ using Enums;
 using Fish;
 using PauseMenu;
 using UnityEngine.Events;
+using Upgrades;
 
 namespace Events
 {
@@ -20,6 +21,8 @@ namespace Events
         public static event UnityAction<SellListItem[]> SellSelectedButton;
         public static event UnityAction<FishData, FishSize> FishCaught;
         public static event UnityAction<float> DepthUpdate;
+        public static event UnityAction<Upgrade> UpgradeBought;
+        public static event UnityAction NotEnoughMoney;
         public static event UnityAction<PauseState> PauseStateChange;
         
         public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
@@ -33,6 +36,8 @@ namespace Events
         public static void OnSellSelectedButton(SellListItem[] items) => SellSelectedButton?.Invoke(items);
         public static void OnFishCaught(FishData data, FishSize size) => FishCaught?.Invoke(data, size);
         public static void OnDepthUpdate(float newDepth) => DepthUpdate?.Invoke(newDepth);
+        public static void OnUpgradeBought(Upgrade upgrade) => UpgradeBought?.Invoke(upgrade);
+        public static void OnNotEnoughMoney() => NotEnoughMoney?.Invoke();
         public static void OnPauseSateChange(PauseState state) => PauseStateChange?.Invoke(state);
     }
- }
+}

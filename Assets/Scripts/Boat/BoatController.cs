@@ -4,6 +4,7 @@ using Events;
 using Interfaces;
 using PauseMenu;
 using UnityEngine;
+using Upgrades;
 
 namespace Boat
 {
@@ -17,7 +18,7 @@ namespace Boat
         [SerializeField] private float maxVelocity;
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float dockStoppingDistance;
-        
+
         private Rigidbody _rigidbody;
         private float _input;
         private bool _docked;
@@ -25,14 +26,15 @@ namespace Boat
 
         private void Start()
         {
-            _rigidbody = GetComponent<Rigidbody>();
+            EventManager.UpgradeBought += OnUpgrade;
             EventManager.PauseStateChange += OnPause;
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
         private void OnDestroy()
         {
             EventManager.PauseStateChange -= OnPause;
-
+            EventManager.UpgradeBought -= OnUpgrade;
         }
 
         private void Update()
@@ -79,7 +81,7 @@ namespace Boat
         private void UndockBoat()
         {
             EventManager.UnDock -= UndockBoat;
-           _docked = false;
+            _docked = false;
         }
 
         private IEnumerator MoveBoatToDock(Vector3 dockLocation)
@@ -89,7 +91,6 @@ namespace Boat
                 // Get direction to target
                 var boatPosition = transform.position;
                 var direction = (dockLocation - boatPosition).normalized;
-                
                 var distance = Vector3.Distance(boatPosition, dockLocation);
                 var forceMagnitude = Mathf.Clamp(distance * speedMultiplier, 0f, Mathf.Infinity);
 
@@ -104,8 +105,19 @@ namespace Boat
 
             // Stop movement at target
             _rigidbody.velocity = Vector3.zero;
-            
+
             OnDockSuccess?.Invoke();
+        }
+
+        private void OnUpgrade(Upgrade upgrade)
+        {
+            switch (upgrade)
+            {
+                case ShipSpeedUpgrade shipSpeedUpgrade:
+                    maxVelocity = shipSpeedUpgrade.maxSpeed;
+                    speedMultiplier = shipSpeedUpgrade.acceleration;
+                    break;
+            }
         }
 
         private void OnPause(PauseState newState)

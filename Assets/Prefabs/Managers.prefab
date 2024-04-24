@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 627966974563588867}
   - component: {fileID: 350620038377708309}
   - component: {fileID: 5724927979952931040}
-  - component: {fileID: 3457100586560224702}
+  - component: {fileID: 9030007309800792193}
+  - component: {fileID: 6731738640997864002}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -96,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dayStartMinutes: 390
-  minutesPerCycle: 0.25
+  minutesPerCycle: 12
 --- !u!114 &5724927979952931040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +112,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seaLevel: 3
   hook: {fileID: 0}
---- !u!114 &3457100586560224702
+--- !u!114 &9030007309800792193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721431727958521510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6726fa687a446738747c2d88a12deff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineLengthUpgrades:
+  - {fileID: 11400000, guid: f6e8147b4fe9ad44d942151b833e81ab, type: 2}
+  - {fileID: 11400000, guid: 1780445d79735954899407def4be379a, type: 2}
+  - {fileID: 11400000, guid: 32eab90220bb55e46bb97db373568104, type: 2}
+  reelSpeedUpgrades:
+  - {fileID: 11400000, guid: 229610dd605801549959f5cc34830ca5, type: 2}
+  - {fileID: 11400000, guid: 301da3bb36a07ea4c81b53244d233293, type: 2}
+  - {fileID: 11400000, guid: 7bbe801391652804c99c962404cd9c4b, type: 2}
+  shipSpeedUpgrades:
+  - {fileID: 11400000, guid: af7c789d744bb81489826d99f67d8270, type: 2}
+  - {fileID: 11400000, guid: 3ab0512eb994a6549be8ba65a5a5126d, type: 2}
+  - {fileID: 11400000, guid: b0a8aab20336b7442866b03e937313fa, type: 2}
+  sonarUpgrades:
+  - {fileID: 11400000, guid: db2eebf00456d144e992ed469e1d92f5, type: 2}
+  - {fileID: 11400000, guid: e9efd06fe23eb834485b431b98693480, type: 2}
+  - {fileID: 11400000, guid: 5c0e3dcff0b27794bba806a55e627a78, type: 2}
+--- !u!114 &6731738640997864002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
