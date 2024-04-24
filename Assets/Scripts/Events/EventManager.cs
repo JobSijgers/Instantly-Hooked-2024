@@ -1,6 +1,8 @@
-﻿using Economy.ShopScripts;
+﻿using System.Resources;
+using Economy.ShopScripts;
 using Enums;
 using Fish;
+using PauseMenu;
 using UnityEngine.Events;
 
 namespace Events
@@ -18,7 +20,7 @@ namespace Events
         public static event UnityAction<SellListItem[]> SellSelectedButton;
         public static event UnityAction<FishData, FishSize> FishCaught;
         public static event UnityAction<float> DepthUpdate;
-        
+        public static event UnityAction<PauseState> PauseStateChange;
         
         public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
@@ -31,5 +33,6 @@ namespace Events
         public static void OnSellSelectedButton(SellListItem[] items) => SellSelectedButton?.Invoke(items);
         public static void OnFishCaught(FishData data, FishSize size) => FishCaught?.Invoke(data, size);
         public static void OnDepthUpdate(float newDepth) => DepthUpdate?.Invoke(newDepth);
+        public static void OnPauseSateChange(PauseState state) => PauseStateChange?.Invoke(state);
     }
  }

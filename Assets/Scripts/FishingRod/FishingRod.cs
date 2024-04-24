@@ -1,6 +1,7 @@
 using System;
 using Enums;
 using Events;
+using PauseMenu;
 using UnityEngine;
 
 namespace FishingRod
@@ -20,6 +21,7 @@ namespace FishingRod
         private void Start()
         {
             EventManager.Dock += OnDock;
+            EventManager.PauseStateChange += OnPause;
             _springJoint = GetComponent<SpringJoint>();
 
             _springJoint.connectedBody = hook.GetComponent<Rigidbody>();
@@ -35,6 +37,7 @@ namespace FishingRod
         {
             EventManager.Dock -= OnDock;
             EventManager.UnDock -= OnUndock;
+            EventManager.PauseStateChange -= OnPause;
         }
 
         private void Update()
@@ -104,6 +107,17 @@ namespace FishingRod
         {
             EventManager.UnDock -= OnUndock;
             _rodEnabled = true;
+        }
+
+        private void OnPause(PauseState newState)
+        {
+            _springJoint.connectedBody.isKinematic = newState switch
+            {
+                PauseState.Playing => false,
+                PauseState.InPauseMenu => true,
+                PauseState.InInventory => true,
+                _ => throw new ArgumentOutOfRangeException(nameof(newState), newState, null)
+            };
         }
     }
 }

@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using Events;
 using Interfaces;
+using PauseMenu;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
 
 namespace Boat
 {
@@ -19,16 +20,24 @@ namespace Boat
         
         private Rigidbody _rigidbody;
         private float _input;
-        private bool _inputEnabled = true;
+        private bool _docked;
+        private Vector3 _velocityAtPause;
 
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            EventManager.PauseStateChange += OnPause;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.PauseStateChange -= OnPause;
+
         }
 
         private void Update()
         {
-            if (_inputEnabled)
+            if (!_docked)
             {
                 _input = GetBoatInput();
             }
@@ -60,17 +69,17 @@ namespace Boat
             _rigidbody.AddForce(counteractForce);
         }
 
-        public void DockBoat(Vector3 dockLocation, Dock.Dock dock)
+        public void DockBoat(Vector3 dockLocation)
         {
             StartCoroutine(MoveBoatToDock(dockLocation));
             EventManager.UnDock += UndockBoat;
-            _inputEnabled = false;
+            _docked = true;
         }
 
-        public void UndockBoat()
+        private void UndockBoat()
         {
             EventManager.UnDock -= UndockBoat;
-            _inputEnabled = true;
+           _docked = false;
         }
 
         private IEnumerator MoveBoatToDock(Vector3 dockLocation)
@@ -97,6 +106,30 @@ namespace Boat
             _rigidbody.velocity = Vector3.zero;
             
             OnDockSuccess?.Invoke();
+        }
+
+        private void OnPause(PauseState newState)
+        {
+            switch (newState)
+            {
+                case PauseState.Playing:
+                    enabled = true;
+                    _rigidbody.isKinematic = false;
+                    _rigidbody.velocity = _velocityAtPause;
+                    break;
+                case PauseState.InPauseMenu:
+                    enabled = false;
+                    _velocityAtPause = _rigidbody.velocity;
+                    _rigidbody.isKinematic = true;
+                    break;
+                case PauseState.InInventory:
+                    enabled = false;
+                    _velocityAtPause = _rigidbody.velocity;
+                    _rigidbody.isKinematic = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
         }
     }
 }
