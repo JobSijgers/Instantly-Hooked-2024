@@ -65,8 +65,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b51bcba5f701f44ab4916e6527cfb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateSpeed: 100000000
-  BiteChance: 0.009
+  RotateSpeed: 8
+  BiteChance: 0.056
   IntresstDistanceToHook: 4.71
   BiteWait:
   - 4
@@ -83,6 +83,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9690dfbd155a52649aaf96719cd9064e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BitingRange: 0.2
+  fishState: 0
+  StruggelTime: 4
+  StruggelAfterTime: 10
+  HoldTimer: 0
+  ToLongHold: 0
 --- !u!195 &8817518453287034329
 NavMeshAgent:
   m_ObjectHideFlags: 0

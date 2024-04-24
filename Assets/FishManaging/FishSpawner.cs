@@ -12,7 +12,7 @@ public class FishSpawner : MonoBehaviour
     [SerializeField] private float ActiveToBoatDistance;
     [SerializeField] private FishData[] FishTypesToSpawn;
     [SerializeField] private int FishInArea;
-    [SerializeField] private GameObject Hook;
+    [SerializeField] private GameObject hook;
 
     private FishPooler fishPooler;
     private List<FishBrain> ActiveFish = new List<FishBrain>();
@@ -24,11 +24,11 @@ public class FishSpawner : MonoBehaviour
 
     void Update()
     {
-        if (Vector2.Distance(transform.position, Hook.transform.position) < ActiveToBoatDistance && !IsThisSpawnerActive)
+        if (Vector2.Distance(transform.position, hook.transform.position) < ActiveToBoatDistance && !IsThisSpawnerActive)
         {
             ActivateThisSpwner();
         }
-        else if (Vector2.Distance(transform.position, Hook.transform.position) > ActiveToBoatDistance && IsThisSpawnerActive)
+        else if (Vector2.Distance(transform.position, hook.transform.position) > ActiveToBoatDistance && IsThisSpawnerActive)
         {
             DeactivateThisSpwaner();
         }
@@ -47,6 +47,7 @@ public class FishSpawner : MonoBehaviour
     {
         foreach (FishBrain fish in ActiveFish)
         {
+            if (fish.gameObject != Hook.FishOnHook.gameObject)
             fishPooler.ReturnFish(fish);
         }
         ActiveFish.Clear();

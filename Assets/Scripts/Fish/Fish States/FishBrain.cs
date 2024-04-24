@@ -14,7 +14,7 @@ public struct FishStates
 public class FishBrain : MonoBehaviour
 {
     private FishData P_fishData;
-    private IFishState CurrentState;
+    private IFishState P_CurrentState;
     private FishSpawner OriginSpawner;
     private GameObject Visual;
     public float RoamRange;
@@ -23,7 +23,22 @@ public class FishBrain : MonoBehaviour
     public GameObject Hook;
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public void DestroyVisual() => Destroy(Visual); 
-    public Vector3 GetNewPos() => OriginSpawner.GetRandomPos();
+    public Vector3 GetNewPosition() => OriginSpawner.GetRandomPos();
+    public bool IsStruggeling() => states.Biting.IsStruggeling();
+    public IFishState CurrentState
+    {
+        get { return P_CurrentState; }
+        set
+        {
+            IFishState currentstate = P_CurrentState;
+            IFishState IncommingState = value;
+            if (currentstate != IncommingState)
+            {
+                value.OnStateActivate();
+            }
+            P_CurrentState = value;
+        }
+    }
     public FishData fishData
     {
         get {  return P_fishData; }
@@ -31,7 +46,7 @@ public class FishBrain : MonoBehaviour
         {
             P_fishData = value;
             NavAgent.speed = value.moveSpeed;
-            Visual = Instantiate(value.fishObject, transform.position,Quaternion.identity, this.transform);
+            Visual = Instantiate(value.fishObject, transform.position,Quaternion.identity, transform);
         }
     }
     void Start()
@@ -43,7 +58,12 @@ public class FishBrain : MonoBehaviour
 
     void Update()
     {
-        CurrentState.UpdateState();
+        //Debug.Log(CurrentState);
         CurrentState = CurrentState.SwitchState();
+        CurrentState.UpdateState();
+    }
+    public void OnDisable()
+    {
+        CurrentState = states.Roaming;
     }
 }

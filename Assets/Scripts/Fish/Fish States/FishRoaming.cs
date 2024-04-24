@@ -9,27 +9,35 @@ public class FishRoaming : MonoBehaviour, IFishState
     private FishBrain Brain;
     private Vector3 EndPos;
     [SerializeField] private float RotateSpeed;
+    [Tooltip("1% == 1/10")]
     [Range(0,1f)]
     [SerializeField] private float BiteChance;
+    private float FishBitePercentage = 0.1f;
     [SerializeField] private float IntresstDistanceToHook;
-    [Tooltip("needs to values")]
+    [Tooltip("needs two values")]
     [SerializeField] private float[] BiteWait;
     private Coroutine BiteC;
-    private bool Bite;
+
+    //state change
+    private bool Bite = false;
     void Awake()
     {
         Brain = GetComponent<FishBrain>();  
     }
     public IFishState SwitchState()
     {
-        if (Bite) return Brain.states.Biting;
+        if (Bite && Brain.NavAgent.remainingDistance < Brain.NavAgent.stoppingDistance)
+        {
+            ResetState();
+            return Brain.states.Biting;
+        }
         else return this;
     }
     public void UpdateState()
     {
-        if (Brain.NavAgent.remainingDistance <= Brain.NavAgent.stoppingDistance)
+        if (Brain.NavAgent.remainingDistance <= Brain.NavAgent.stoppingDistance && !Bite)
         {
-            SetNewRandomNavPos();
+             SetNewRandomNavPos();
         }
 
         Vector3 Dir = transform.position - EndPos;
@@ -54,7 +62,7 @@ public class FishRoaming : MonoBehaviour, IFishState
     private bool RandomPoint(out Vector2 point)
     {
         NavMeshHit hit;
-        if (NavMesh.SamplePosition(Brain.GetNewPos(), out hit, 2.0f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(Brain.GetNewPosition(), out hit, 2.0f, NavMesh.AllAreas))
         {
             point = hit.position;
             return true;
@@ -64,17 +72,31 @@ public class FishRoaming : MonoBehaviour, IFishState
             point = Vector2.zero;
             return false;
         }
-
     }
 
     private IEnumerator WaitTopBite()
     {
         float waittime = Random.Range(BiteWait[0], BiteWait[1]);
         float RandomValue = Random.value;
-        Debug.Log($"randomvalue {RandomValue}   fish{this.name}   waittime {waittime}");
-        if (RandomValue < BiteChance) Bite = true;
+        if (RandomValue < BiteChance * FishBitePercentage && Hook.FishOnHook == null)
+        {
+            Bite = true;
+            Brain.NavAgent.SetDestination(Hook.hook.transform.position);
+        }
         yield return new WaitForSeconds(waittime);
         BiteC = null;
+    }
+    public void OnStateActivate()
+    {
+
+    }
+    public void ResetState()
+    {
+        Bite = false;
+    }
+    public void OnDisable()
+    {
+        ResetState();
     }
 #if UNITY_EDITOR
     private void OnDrawGizmos()

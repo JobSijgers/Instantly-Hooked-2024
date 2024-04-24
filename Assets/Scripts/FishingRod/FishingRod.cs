@@ -1,4 +1,5 @@
 using System;
+using Enums;
 using Events;
 using UnityEngine;
 
@@ -10,11 +11,12 @@ namespace FishingRod
         [SerializeField] private Transform origin;
         [SerializeField] private Transform hook;
         private SpringJoint _springJoint;
-        private float _reelingSpeed = 20;
-        private float _dropSpeed = 20;
+        private float _reelingSpeed = 5;
+        private float _dropSpeed = 5;
         private float _maxLineLength = 1000;
         private float _currentLineLength = 0;
         private bool _rodEnabled = true;
+        public float GetLineLenght() => _maxLineLength;
         private void Start()
         {
             EventManager.Dock += OnDock;
@@ -46,7 +48,10 @@ namespace FishingRod
 
             if (Input.GetMouseButton(1))
             {
-                ReelHook();
+                if (Hook.FishOnHook == null || !Hook.FishOnHook.IsStruggeling())
+                {
+                    ReelHook();
+                }
             }
         }
 
@@ -64,12 +69,31 @@ namespace FishingRod
         {
             var newLineLength = _currentLineLength - _reelingSpeed * Time.deltaTime;
             var newClampedLineLength = Mathf.Clamp(newLineLength, 0, _maxLineLength);
+            if (newClampedLineLength <= 0 && Hook.FishOnHook != null)
+            {
+                EventManager.OnFishCaught(Hook.FishOnHook.fishData, GetRandomFishSize());
+                FishPooler.instance.ReturnFish(Hook.FishOnHook);
+                Hook.FishOnHook = null;
+            }
+            _springJoint.maxDistance = newClampedLineLength;
+            _springJoint.connectedBody.WakeUp();
+            _currentLineLength = newClampedLineLength;
+        }
+        public void SetLineLength(Vector2 fishpos)
+        {
+            float Distace = Vector2.Distance(origin.transform.position, fishpos);
+            var newLineLength = Distace;
+            var newClampedLineLength = Mathf.Clamp(newLineLength, 0, _maxLineLength);
 
             _springJoint.maxDistance = newClampedLineLength;
             _springJoint.connectedBody.WakeUp();
             _currentLineLength = newClampedLineLength;
         }
-
+        private FishSize GetRandomFishSize()
+        {
+            var fish = Enum.GetValues(typeof(FishSize));
+            return (FishSize)fish.GetValue(UnityEngine.Random.Range(0, fish.Length));
+        }
         private void OnDock()
         {
             EventManager.UnDock += OnUndock;
