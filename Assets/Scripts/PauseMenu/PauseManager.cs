@@ -9,17 +9,43 @@ namespace PauseMenu
     {
         Playing,
         InPauseMenu,
-        InInventory
+        InInventory,
     }
 
     public class PauseManager : MonoBehaviour
     {
+        private bool _isEnabled = true;
         private PauseState _currentState;
+
+        private void Start()
+        {
+            EventManager.ArrivedAtShore += DisableManager;
+            EventManager.LeftShore += EnableManager;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.ArrivedAtShore -= DisableManager;
+            EventManager.LeftShore -= EnableManager;
+        }
 
         private void Update()
         {
+            if (!_isEnabled)
+                return;
+
             CheckInventoryKey();
             CheckEscapeKey();
+        }
+
+        private void DisableManager()
+        {
+            _isEnabled = false;
+        }
+
+        private void EnableManager()
+        {
+            _isEnabled = true;
         }
 
         private void CheckInventoryKey()
@@ -50,17 +76,14 @@ namespace PauseMenu
                 case PauseState.Playing:
                     SetNewState(PauseState.InPauseMenu);
                     break;
-                
+
                 case PauseState.InPauseMenu:
                     SetNewState(PauseState.Playing);
                     break;
-                
+
                 case PauseState.InInventory:
                     SetNewState(PauseState.Playing);
                     break;
-                
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 

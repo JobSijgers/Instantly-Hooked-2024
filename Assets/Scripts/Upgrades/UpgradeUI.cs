@@ -22,14 +22,27 @@ namespace Upgrades
         private void Start()
         {
             EventManager.UpgradeBought += ChangeItemUpgrade;
-            upgradeShopUI.SetActive(false);
+            EventManager.UpgradeShopOpen += OpenUpgradeShopUI;
+            EventManager.UpgradeShopClose += CloseUpgradeShopUI;
         }
 
         private void OnDestroy()
         {
             EventManager.UpgradeBought -= ChangeItemUpgrade;
+            EventManager.UpgradeShopOpen -= OpenUpgradeShopUI;
+            EventManager.UpgradeShopClose -= CloseUpgradeShopUI;
         }
-
+        
+        private void OpenUpgradeShopUI() 
+        {
+            upgradeShopUI.SetActive(true);
+        }
+        
+        private void CloseUpgradeShopUI()
+        {
+            upgradeShopUI.SetActive(false);
+        }
+        
         public void CreateUpgradeItem(Upgrade upgrade)
         {
             var upgradeItem = Instantiate(upgradeShopItem, upgradeShopItemParent);

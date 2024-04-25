@@ -48,7 +48,8 @@ namespace Upgrades
         public static UpgradeManager Instance { get; private set; }
 
         [SerializeField] private UpgradeState[] upgradeStates;
-
+        private ShopState _shopState = ShopState.Closed;
+        
         private void Awake()
         {
             Instance = this;
@@ -57,12 +58,22 @@ namespace Upgrades
         private void Start()
         {
             EventManager.LeftShore += NotifyUpgrades;
+            EventManager.UpgradeShopOpen += OpenShop;
             SetUpItems();
             StartCoroutine(LateStart());
         }
         private void OnDestroy()
         {
             EventManager.LeftShore -= NotifyUpgrades;
+            EventManager.UpgradeShopOpen -= OpenShop;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && _shopState == ShopState.Open)
+            {
+                CloseShop();
+            }
         }
 
         private void SetUpItems()
@@ -97,6 +108,7 @@ namespace Upgrades
 
             upgradeState.IncreaseUpgradeIndex();
             EconomyManager.instance.RemoveMoney(upgrade.cost);
+            EventManager.OnUpgradeBought(upgrade);
         }
 
         public Upgrade GetNextUpgrade(Upgrade upgrade)
@@ -107,16 +119,6 @@ namespace Upgrades
 
             return upgradeState.GetNextUpgrade();
         }
-
-        private IEnumerator LateStart()
-        {
-            yield return new WaitForEndOfFrame();
-            foreach (UpgradeState upgradeState in upgradeStates)
-            {
-                EventManager.OnUpgradeBought(upgradeState.GetCurrentUpgrade());
-            }
-        }
-
         private UpgradeState GetMatchingUpgradeState(Upgrade upgrade)
         {
             foreach (UpgradeState upgradeState in upgradeStates)
@@ -135,6 +137,23 @@ namespace Upgrades
             {
                 EventManager.OnUpgradeBought(upgradeState.GetCurrentUpgrade());
             }
+        }
+        
+        private void OpenShop()
+        {
+            _shopState = ShopState.Open;
+        }
+        
+        private void CloseShop()
+        {
+            EventManager.OnUpgradeShopClose();
+            _shopState = ShopState.Closed;
+            
+        }
+        private IEnumerator LateStart()
+        {
+            yield return new WaitForEndOfFrame();
+            NotifyUpgrades();
         }
     }
 }

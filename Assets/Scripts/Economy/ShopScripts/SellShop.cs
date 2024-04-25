@@ -22,23 +22,32 @@ namespace Economy.ShopScripts
         private void Start()
         {
             EventManager.SellSelectedButton += SellSelected;
-            
-            StartCoroutine(LateStart());
+            EventManager.SellShopOpen += OpenShop;
         }
 
         private void OnDestroy()
         {
+            EventManager.SellShopOpen -= OpenShop;
             EventManager.SellSelectedButton -= SellSelected;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && _shopState == ShopState.Open)
+            {
+                CloseShop();
+            }
         }
 
         private void OpenShop()
         {
-            EventManager.OnSellShopOpen();
+            _shopState = ShopState.Open;
         }
-
+        
         private void CloseShop()
         {
             EventManager.OnSellShopClose();
+            _shopState = ShopState.Closed;
         }
         
         private void SellSelected(SellListItem[] fishToSell)
@@ -48,13 +57,6 @@ namespace Economy.ShopScripts
                 Inventory.Instance.RemoveFish(fish.data, fish.size, fish.amount);
                 EventManager.OnShopSell(fish.amount * fish.data.fishSellAmount[(int)fish.size]);
             }
-        }
-
-        private IEnumerator LateStart()
-        {
-            yield return new WaitForEndOfFrame();
-            OpenShop();
-            CloseShop();
         }
     }
 }

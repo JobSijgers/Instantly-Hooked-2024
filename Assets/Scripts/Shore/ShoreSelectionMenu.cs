@@ -36,11 +36,13 @@ namespace Shore
         public void OpenSellShop()
         {
             EventManager.OnSellShopOpen();
+            HideShoreUI();
         }
         
         public void OpenUpgradeShop()
         {
             EventManager.OnUpgradeShopOpen();
+            HideShoreUI();
         }
     }
 }
