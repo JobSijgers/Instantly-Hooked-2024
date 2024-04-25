@@ -10,17 +10,44 @@ namespace Upgrades
 {
     public class UpgradeManager : MonoBehaviour
     {
+        [Serializable]
+        private class UpgradeState
+        {
+            [SerializeField] private Upgrade[] upgrades;
+            private int _upgradeIndex;
+
+            public void IncreaseUpgradeIndex()
+            {
+                _upgradeIndex++;
+            }
+
+            public Upgrade GetCurrentUpgrade()
+            {
+                return upgrades[_upgradeIndex];
+            }
+
+            public Upgrade GetNextUpgrade()
+            {
+                if (_upgradeIndex + 1 < upgrades.Length)
+                {
+                    return upgrades[_upgradeIndex + 1];
+                }
+
+                return null;
+            }
+
+            public bool IsSameType(Upgrade upgrade)
+            {
+                if (upgrades.Length <= 0 || upgrade == null)
+                    return false;
+
+                return upgrade.GetType() == upgrades[0].GetType();
+            }
+        }
+
         public static UpgradeManager Instance { get; private set; }
 
-        [SerializeField] private LineLengthUpgrade[] lineLengthUpgrades;
-        [SerializeField] private ReelSpeedUpgrade[] reelSpeedUpgrades;
-        [SerializeField] private ShipSpeedUpgrade[] shipSpeedUpgrades;
-        [SerializeField] private SonarUpgrade[] sonarUpgrades;
-
-        private int _lineLengthIndex;
-        private int _reelSpeedIndex;
-        private int _shipSpeedIndex;
-        private int _sonarUpgradeIndex;
+        [SerializeField] private UpgradeState[] upgradeStates;
 
         private void Awake()
         {
@@ -29,28 +56,30 @@ namespace Upgrades
 
         private void Start()
         {
+            EventManager.LeftShore += NotifyUpgrades;
             SetUpItems();
             StartCoroutine(LateStart());
+        }
+        private void OnDestroy()
+        {
+            EventManager.LeftShore -= NotifyUpgrades;
         }
 
         private void SetUpItems()
         {
-            UpgradeUI.instance.CreateUpgradeItem(GetNextLineLengthUpgrade());
-            UpgradeUI.instance.CreateUpgradeItem(GetNextReelSpeedUpgrade());
-            UpgradeUI.instance.CreateUpgradeItem(GetNextShipSpeedUpgrade());
-            UpgradeUI.instance.CreateUpgradeItem(GetNextSonarUpgrade());
+            foreach (UpgradeState upgradeState in upgradeStates)
+            {
+                UpgradeUI.instance.CreateUpgradeItem(upgradeState.GetNextUpgrade());
+            }
         }
 
         public Upgrade GetCurrentUpgrade(Upgrade upgrade)
         {
-            return upgrade switch
-            {
-                LineLengthUpgrade => lineLengthUpgrades[_lineLengthIndex],
-                ReelSpeedUpgrade => reelSpeedUpgrades[_reelSpeedIndex],
-                ShipSpeedUpgrade => shipSpeedUpgrades[_shipSpeedIndex],
-                SonarUpgrade => sonarUpgrades[_sonarUpgradeIndex],
-                _ => null
-            };
+            UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
+            if (upgradeState == null)
+                return null;
+
+            return upgradeState.GetCurrentUpgrade();
         }
 
         public void UpgradeBought(Upgrade upgrade)
@@ -62,146 +91,50 @@ namespace Upgrades
                 return;
             }
 
-            switch (upgrade)
-            {
-                case LineLengthUpgrade:
-                    UpgradeLineLength();
-                    break;
-                case ReelSpeedUpgrade:
-                    UpgradeReelSpeed();
-                    break;
-                case ShipSpeedUpgrade:
-                    UpgradeShipSpeed();
-                    break;
-                case SonarUpgrade:
-                    UpgradeSonar();
-                    break;
-            }
+            UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
+            if (upgradeState == null)
+                return;
 
-            EventManager.OnUpgradeBought(GetCurrentUpgrade(upgrade));
+            upgradeState.IncreaseUpgradeIndex();
             EconomyManager.instance.RemoveMoney(upgrade.cost);
         }
 
         public Upgrade GetNextUpgrade(Upgrade upgrade)
         {
-            switch (upgrade)
-            {
-                case LineLengthUpgrade:
-                    return GetNextLineLengthUpgrade();
-                case ReelSpeedUpgrade:
-                    return GetNextReelSpeedUpgrade();
-                case ShipSpeedUpgrade:
-                    return GetNextShipSpeedUpgrade();
-                case SonarUpgrade:
-                    return GetNextSonarUpgrade();
-                default:
-                    return null;
-            }
+            UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
+            if (upgradeState == null)
+                return null;
+
+            return upgradeState.GetNextUpgrade();
         }
 
         private IEnumerator LateStart()
         {
             yield return new WaitForEndOfFrame();
-            EventManager.OnUpgradeBought(GetCurrentUpgrade(GetCurrentLineLengthUpgrade()));
-            EventManager.OnUpgradeBought(GetCurrentUpgrade(GetCurrentReelSpeedUpgrade()));
-            EventManager.OnUpgradeBought(GetCurrentUpgrade(GetCurrentShipSpeedUpgrade()));
-            EventManager.OnUpgradeBought(GetCurrentUpgrade(GetCurrentSonarUpgrade()));
-        }
-
-        #region Line Length Upgrades
-
-        private void UpgradeLineLength()
-        {
-            _lineLengthIndex++;
-        }
-
-        private LineLengthUpgrade GetCurrentLineLengthUpgrade()
-        {
-            return lineLengthUpgrades[_lineLengthIndex];
-        }
-
-        private LineLengthUpgrade GetNextLineLengthUpgrade()
-        {
-            if (_lineLengthIndex + 1 < lineLengthUpgrades.Length)
+            foreach (UpgradeState upgradeState in upgradeStates)
             {
-                return lineLengthUpgrades[_lineLengthIndex + 1];
+                EventManager.OnUpgradeBought(upgradeState.GetCurrentUpgrade());
             }
+        }
 
+        private UpgradeState GetMatchingUpgradeState(Upgrade upgrade)
+        {
+            foreach (UpgradeState upgradeState in upgradeStates)
+            {
+                if (upgradeState.IsSameType(upgrade))
+                {
+                    return upgradeState;
+                }
+            }
             return null;
         }
 
-        #endregion
-
-        #region Reel Speed Upgrades
-
-        private void UpgradeReelSpeed()
+        private void NotifyUpgrades()
         {
-            _reelSpeedIndex++;
-        }
-
-        private ReelSpeedUpgrade GetCurrentReelSpeedUpgrade()
-        {
-            return reelSpeedUpgrades[_reelSpeedIndex];
-        }
-
-        private ReelSpeedUpgrade GetNextReelSpeedUpgrade()
-        {
-            if (_reelSpeedIndex + 1 < reelSpeedUpgrades.Length)
+            foreach (var upgradeState in upgradeStates)
             {
-                return reelSpeedUpgrades[_reelSpeedIndex + 1];
+                EventManager.OnUpgradeBought(upgradeState.GetCurrentUpgrade());
             }
-
-            return null;
         }
-
-        #endregion
-
-        #region Ship Speed Upgrades
-
-        private void UpgradeShipSpeed()
-        {
-            _shipSpeedIndex++;
-        }
-
-        private ShipSpeedUpgrade GetCurrentShipSpeedUpgrade()
-        {
-            return shipSpeedUpgrades[_shipSpeedIndex];
-        }
-
-        private ShipSpeedUpgrade GetNextShipSpeedUpgrade()
-        {
-            if (_shipSpeedIndex + 1 < shipSpeedUpgrades.Length)
-            {
-                return shipSpeedUpgrades[_shipSpeedIndex + 1];
-            }
-
-            return null;
-        }
-
-        #endregion
-
-        #region Sonar Upgrades
-
-        private void UpgradeSonar()
-        {
-            _sonarUpgradeIndex++;
-        }
-
-        private SonarUpgrade GetCurrentSonarUpgrade()
-        {
-            return sonarUpgrades[_sonarUpgradeIndex];
-        }
-
-        private SonarUpgrade GetNextSonarUpgrade()
-        {
-            if (_sonarUpgradeIndex + 1 < sonarUpgrades.Length)
-            {
-                return sonarUpgrades[_sonarUpgradeIndex + 1];
-            }
-
-            return null;
-        }
-
-        #endregion
     }
 }

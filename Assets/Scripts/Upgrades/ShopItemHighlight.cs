@@ -30,10 +30,10 @@ namespace Upgrades
                 upgradeButton.interactable = false;
                 return;
             }
-            var upgradeEffectString = "";
-            var upgradeEffectNames = upgrade.GetEffectName();
-            var currentUpgradeEffect = UpgradeManager.Instance.GetCurrentUpgrade(upgrade).GetUpgradeEffect();
-            var upgradeEffect = upgrade.GetUpgradeEffect();
+            string upgradeEffectString = "";
+            string[] upgradeEffectNames = upgrade.GetEffectName();
+            string[] currentUpgradeEffect = UpgradeManager.Instance.GetCurrentUpgrade(upgrade).GetUpgradeEffect();
+            string[] upgradeEffect = upgrade.GetUpgradeEffect();
 
             upgradeNameText.text = upgrade.upgradeName;
             upgradeDescriptionText.text = upgrade.description;

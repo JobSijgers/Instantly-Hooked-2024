@@ -38,7 +38,6 @@ namespace Upgrades
             _upgrade = null;
             upgradeNameText.text = "Maxed";
             upgradeCostText.text = "";
-            upgradeButton.interactable = false;
         }
 
         public Upgrade GetUpgrade()

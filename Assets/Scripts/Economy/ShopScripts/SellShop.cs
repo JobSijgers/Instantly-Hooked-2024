@@ -13,16 +13,14 @@ public enum ShopState
 
 namespace Economy.ShopScripts
 {
-    public class Shop : MonoBehaviour
+    public class SellShop : MonoBehaviour
     {
         private ShopState _shopState = ShopState.Closed;
 
-        private ShopUI _shopUI;
+        private SellShopUI _sellShopUI;
         
         private void Start()
         {
-            EventManager.Dock += OpenShop;
-            EventManager.UnDock += CloseShop;
             EventManager.SellSelectedButton += SellSelected;
             
             StartCoroutine(LateStart());
@@ -30,36 +28,19 @@ namespace Economy.ShopScripts
 
         private void OnDestroy()
         {
-            EventManager.Dock -= OpenShop;
-            EventManager.UnDock -= CloseShop;
             EventManager.SellSelectedButton -= SellSelected;
         }
 
         private void OpenShop()
         {
-            EventManager.OnShopOpen();
+            EventManager.OnSellShopOpen();
         }
 
         private void CloseShop()
         {
-            EventManager.OnShopClose();
+            EventManager.OnSellShopClose();
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.L) && _shopState != ShopState.Open)
-            {
-                OpenShop();
-                _shopState = ShopState.Open;
-            }
-
-            if (Input.GetKeyDown(KeyCode.K) && _shopState != ShopState.Closed)
-            {
-                CloseShop();
-                _shopState = ShopState.Closed;
-            }
-        }
-
+        
         private void SellSelected(SellListItem[] fishToSell)
         {
             foreach (var fish in fishToSell)

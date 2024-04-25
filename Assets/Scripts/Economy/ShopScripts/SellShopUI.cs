@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Economy.ShopScripts
 {
-    public class ShopUI : MonoBehaviour
+    public class SellShopUI : MonoBehaviour
     {
         [SerializeField] private GameObject shopItemPrefab;
         [SerializeField] private GameObject shopObject;
@@ -16,42 +16,43 @@ namespace Economy.ShopScripts
         [SerializeField] private Transform sellSheetParent;
         [SerializeField] private TMP_Text totalSellMoney;
         [SerializeField] private TMP_Text totalSellAmount;
-        
 
-        private ShopItem _selectedItem;
-        private Shop _shop;
-        private List<ShopItem> _shopItems = new();
+
+        private SellShopItem _selectedItem;
+        private SellShop _sellShop;
+        private List<SellShopItem> _shopItems = new();
         private List<SellListItem> _sellSheet = new();
         private List<TMP_Text> _sellTexts = new();
 
         private void Start()
         {
-            _shop = FindObjectOfType<Shop>();
-            EventManager.ShopOpen += OpenShopUI;
-            EventManager.ShopClose += CloseShopUI; 
+            _sellShop = FindObjectOfType<SellShop>();
+            EventManager.SellShopOpen += OpenSellShopUI;
+            EventManager.SellShopClose += CloseSellShopUI;
         }
-        
+
 
         private void OnDestroy()
         {
-            EventManager.ShopOpen += OpenShopUI;
-            EventManager.ShopClose += CloseShopUI;
+            EventManager.SellShopOpen += OpenSellShopUI;
+            EventManager.SellShopClose += CloseSellShopUI;
         }
 
-        private void OpenShopUI()
+        private void OpenSellShopUI()
         {
             shopObject.SetActive(true);
             foreach (var inventoryItem in Inventory.Instance.GetInventory())
             {
                 GameObject go = Instantiate(shopItemPrefab, itemHolder);
-                ShopItem item = go.GetComponent<ShopItem>();
-                item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize(), Inventory.Instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
+                SellShopItem item = go.GetComponent<SellShopItem>();
+                item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize(),
+                    Inventory.Instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
                 item.OnSelectedAmountChanged += UpdateShoppingList;
                 _shopItems.Add(item);
             }
         }
 
-        private void CloseShopUI()
+        private void CloseSellShopUI()
         {
             shopObject.SetActive(false);
             foreach (var item in _shopItems)
@@ -71,7 +72,8 @@ namespace Economy.ShopScripts
                 UpdateShoppingList(item, item.GetStackSize());
             }
         }
-        private void UpdateShoppingList(ShopItem item, int change)
+
+        private void UpdateShoppingList(SellShopItem item, int change)
         {
             FishData data = item.GetFishData();
             for (int i = 0; i < _sellSheet.Count; i++)
@@ -124,7 +126,8 @@ namespace Economy.ShopScripts
 
         private string GetSellListText(SellListItem itemToSell)
         {
-            return $"{itemToSell.amount} x {itemToSell.name}, {itemToSell.size} : ${itemToSell.amount * itemToSell.singleCost} ";
+            return
+                $"{itemToSell.amount} x {itemToSell.name}, {itemToSell.size} : ${itemToSell.amount * itemToSell.singleCost} ";
         }
 
         private int CalculateTotalMoney()
@@ -154,15 +157,17 @@ namespace Economy.ShopScripts
             EventManager.OnSellSelectedButton(_sellSheet.ToArray());
             ClearSellSheet();
             UpdateShoppingListUI();
-            CloseShopUI();
-            OpenShopUI();
+            CloseSellShopUI();
+            OpenSellShopUI();
         }
+
         private void ClearSellSheet()
         {
             foreach (var text in _sellTexts)
             {
                 Destroy(text.gameObject);
             }
+
             _sellSheet.Clear();
             _sellTexts.Clear();
         }

@@ -11,7 +11,7 @@ namespace Upgrades
         [SerializeField] private GameObject upgradeShopItem;
         [SerializeField] private Transform upgradeShopItemParent;
         [SerializeField] private UpgradeShopHighlight upgradeShopHighlight;
-        [SerializeField] private GameObject upgradeShop;
+        [SerializeField] private GameObject upgradeShopUI;
         private List<UpgradeShopItem> _upgradeShopItems = new List<UpgradeShopItem>();
 
         private void Awake()
@@ -22,7 +22,7 @@ namespace Upgrades
         private void Start()
         {
             EventManager.UpgradeBought += ChangeItemUpgrade;
-            upgradeShop.SetActive(false);
+            upgradeShopUI.SetActive(false);
         }
 
         private void OnDestroy()
@@ -44,7 +44,7 @@ namespace Upgrades
             {
                 if (shopItem.GetUpgrade() == null) continue;
                 if (shopItem.GetUpgrade().GetType() != upgrade.GetType()) continue;
-                var nextUpgrade = UpgradeManager.Instance.GetNextUpgrade(upgrade);
+                Upgrade nextUpgrade = UpgradeManager.Instance.GetNextUpgrade(upgrade);
                 
                 if (nextUpgrade == null)
                 {
