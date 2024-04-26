@@ -36,6 +36,8 @@ public class FishBiting : MonoBehaviour,IFishState
     private float HoldTimer;
     private float struggelTimer;
 
+    [SerializeField] private GameObject Cube;
+
     // coroutine 
     private Coroutine Struggeling;
     private Coroutine waitForStruggel;
@@ -60,14 +62,13 @@ public class FishBiting : MonoBehaviour,IFishState
     }
     public void OnStateActivate()
     {
-        if (Hook.FishOnHook == null) Hook.FishOnHook = Brain;
+        if (Hook.instance.FishOnHook == null) Hook.instance.FishOnHook = Brain;
         else OffHook = true;
         fishState = FishBitingState.goingforhook;
-        waitForStruggel = StartCoroutine(WaitForStruggel(1));
     }
     public IFishState SwitchState()
     {
-        if (Hook.FishOnHook != null && Hook.FishOnHook.gameObject != gameObject) return Brain.states.Roaming;
+        if (Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.gameObject != gameObject) return Brain.states.Roaming;
         if (OffHook)
         {
             GetOffHook();
@@ -78,7 +79,6 @@ public class FishBiting : MonoBehaviour,IFishState
     }
     public void UpdateState()
     {
-        Debug.Log(IsInWater());
         transform.LookAt(Brain.states.Roaming.EndPos);
         Vector3 FixedRot = transform.eulerAngles;
         FixedRot.z = 0;
@@ -86,6 +86,7 @@ public class FishBiting : MonoBehaviour,IFishState
         if (Vector2.Distance(transform.position, Hook.hook.transform.position) < BitingRange && fishState == FishBitingState.goingforhook)
         {
             fishState = FishBitingState.onhook;
+            waitForStruggel = StartCoroutine(WaitForStruggel(0.3f));
         }
         if (struggelreset)
         {
@@ -161,13 +162,13 @@ public class FishBiting : MonoBehaviour,IFishState
     }
     private bool IsPositionInLineRange(Vector2 targetpos)
     {
-        float dis = Vector2.Distance(transform.position, targetpos);
+        float dis = Vector2.Distance(Hook.instance.HookOrigin.transform.position, targetpos);
         if (dis < Rod.GetLineLenght()) return true;
         else return false;
     }
     public void GetOffHook()
     {
-        Hook.FishOnHook = null;
+        Hook.instance.FishOnHook = null;
     }
 
     public IEnumerator WaitForStruggel(float time)

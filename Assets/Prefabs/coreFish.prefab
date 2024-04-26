@@ -86,13 +86,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9690dfbd155a52649aaf96719cd9064e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BitingRange: 0
+  BitingRange: 0.2
   RepositionRange: 8.55
   StruggelTime: 4
   StruggelAfterTime: 10
   ToLongHold: 1
   holdoffset: 0.5
   OffHookAfter: 2
+  Cube: {fileID: 7738169368161099999, guid: 9d4dd576911bcba42b38d606734e4491, type: 3}
 --- !u!195 &8817518453287034329
 NavMeshAgent:
   m_ObjectHideFlags: 0

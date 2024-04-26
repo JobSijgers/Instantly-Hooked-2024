@@ -86,7 +86,7 @@ public class FishRoaming : MonoBehaviour, IFishState
     {
         float waittime = Random.Range(BiteWait[0], BiteWait[1]);
         float RandomValue = Random.value;
-        if (RandomValue < BiteChance * FishBitePercentage && Hook.FishOnHook == null)
+        if (RandomValue < BiteChance * FishBitePercentage && Hook.instance.FishOnHook == null)
         {
             Bite = true;
         }
