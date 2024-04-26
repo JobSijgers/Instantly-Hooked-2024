@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[CanEditMultipleObjects]
 public class FishSpawner : MonoBehaviour
 {
     [SerializeField] private Vector2 SpawnArea;
@@ -47,11 +48,11 @@ public class FishSpawner : MonoBehaviour
     {
         foreach (FishBrain fish in ActiveFish)
         {
-            if (Hook.FishOnHook == null)
+            if (Hook.instance.FishOnHook == null)
             {
                 fishPooler.ReturnFish(fish);
             }
-            else if (fish.gameObject != Hook.FishOnHook.gameObject)
+            else if (fish.gameObject != Hook.instance.FishOnHook.gameObject)
             {
                 fishPooler.ReturnFish(fish);
             }
