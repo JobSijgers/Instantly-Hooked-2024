@@ -10,10 +10,10 @@ using Color = UnityEngine.Color;
 
 namespace Economy.ShopScripts
 {
-    public class ShopItem : InventoryItem, IPointerClickHandler
+    public class SellShopItem : InventoryItem, IPointerClickHandler
 
     {
-        public delegate void FSelectedAmountChanged(ShopItem item, int change);
+        public delegate void FSelectedAmountChanged(SellShopItem item, int change);
 
         public event FSelectedAmountChanged OnSelectedAmountChanged;
 

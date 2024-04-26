@@ -6,6 +6,7 @@ using UnityEngine;
 public class FishPooler : MonoBehaviour
 {
     public static FishPooler instance;
+    public BoxCollider WaterBlock;
     [SerializeField] private List<FishBrain> FishList = new List<FishBrain>();
     [SerializeField] private FishBrain fishPrefab;
     [SerializeField] private int MaxFishInList;

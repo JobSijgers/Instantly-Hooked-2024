@@ -13,7 +13,7 @@ namespace Economy.ShopScripts
         public int amount;
         public int singleCost;
 
-        public SellListItem(ShopItem item, int startAmount)
+        public SellListItem(SellShopItem item, int startAmount)
         {
             data = item.GetFishData();
             name = data.fishName;

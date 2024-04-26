@@ -1,7 +1,10 @@
 using System;
 using Enums;
 using Events;
+using PauseMenu;
 using UnityEngine;
+using UnityEngine.Experimental.Audio;
+using Upgrades;
 
 namespace FishingRod
 {
@@ -12,14 +15,16 @@ namespace FishingRod
         [SerializeField] private Transform hook;
         private SpringJoint _springJoint;
         private float _reelingSpeed = 5;
-        private float _dropSpeed = 5;
-        private float _maxLineLength = 1000;
+        private float _dropSpeed = 3;
+        private float _maxLineLength = 5;
         private float _currentLineLength = 0;
         private bool _rodEnabled = true;
         public float GetLineLenght() => _maxLineLength;
         private void Start()
         {
             EventManager.Dock += OnDock;
+            EventManager.UpgradeBought += UpgradeBought;
+            EventManager.PauseStateChange += OnPause;
             _springJoint = GetComponent<SpringJoint>();
 
             _springJoint.connectedBody = hook.GetComponent<Rigidbody>();
@@ -35,6 +40,8 @@ namespace FishingRod
         {
             EventManager.Dock -= OnDock;
             EventManager.UnDock -= OnUndock;
+            EventManager.UpgradeBought -= UpgradeBought;
+            EventManager.PauseStateChange -= OnPause;
         }
 
         private void Update()
@@ -104,6 +111,40 @@ namespace FishingRod
         {
             EventManager.UnDock -= OnUndock;
             _rodEnabled = true;
+        }
+
+        private void UpgradeBought(Upgrade upgrade)
+        {
+            switch (upgrade)
+            {
+                case LineLengthUpgrade lineLengthUpgrade:
+                    _maxLineLength = lineLengthUpgrade.lineLength;
+                    break;
+                case ReelSpeedUpgrade reelSpeedUpgrade:
+                    _reelingSpeed = reelSpeedUpgrade.reelSpeed;
+                    _dropSpeed = reelSpeedUpgrade.dropSpeed;
+                    break;
+            }
+        }
+        private void OnPause(PauseState newState)
+        {
+            switch (newState)
+            {
+                case PauseState.Playing:
+                    _rodEnabled = true;
+                    _springJoint.connectedBody.isKinematic = false;
+                    break;
+                case PauseState.InPauseMenu:
+                    _rodEnabled = false;
+                    _springJoint.connectedBody.isKinematic = true;
+                    break;
+                case PauseState.InInventory:
+                    _springJoint.connectedBody.isKinematic = true;
+                    _rodEnabled = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
         }
     }
 }
