@@ -7,7 +7,7 @@ using UnityEditor;
 public class FishRoaming : MonoBehaviour, IFishState
 {
     private FishBrain Brain;
-    private Vector3 EndPos;
+    public Vector3 EndPos;
     [SerializeField] private float RotateSpeed;
     [Tooltip("1% == 1/10")]
     [Range(0,1f)]
@@ -23,6 +23,10 @@ public class FishRoaming : MonoBehaviour, IFishState
     void Awake()
     {
         Brain = GetComponent<FishBrain>();  
+    }
+    public void OnStateActivate()
+    {
+        SetNewRandomNavPos();
     }
     public IFishState SwitchState()
     {
@@ -41,7 +45,11 @@ public class FishRoaming : MonoBehaviour, IFishState
         }
 
         Vector3 Dir = transform.position - EndPos;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(-Dir), RotateSpeed * Time.deltaTime);
+        transform.LookAt(EndPos);
+        Vector3 FixedRot = transform.eulerAngles;
+        FixedRot.z = 0;
+        transform.eulerAngles = FixedRot;
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(-Dir), RotateSpeed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, Brain.Hook.transform.position) < IntresstDistanceToHook)
         {
@@ -81,14 +89,9 @@ public class FishRoaming : MonoBehaviour, IFishState
         if (RandomValue < BiteChance * FishBitePercentage && Hook.FishOnHook == null)
         {
             Bite = true;
-            Brain.NavAgent.SetDestination(Hook.hook.transform.position);
         }
         yield return new WaitForSeconds(waittime);
         BiteC = null;
-    }
-    public void OnStateActivate()
-    {
-
     }
     public void ResetState()
     {
@@ -102,6 +105,8 @@ public class FishRoaming : MonoBehaviour, IFishState
     private void OnDrawGizmos()
     {
         Handles.DrawWireArc(transform.position, Vector3.forward, Vector3.up, 360, IntresstDistanceToHook);
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.forward * 100);
     }
 #endif
 }
