@@ -2,9 +2,10 @@
 {
     public enum FishRarity
     {
-        Common = 0,
-        Uncommon = 1,
-        Reeldeel = 2,
-        Fishtastic = 3
+        UnwantedCatch = 0,
+        NotTooCrabby = 1,
+        ReelDeal = 2,
+        Fintastic = 3,
+        ShrimplyTheBest = 4,
     }
 }
