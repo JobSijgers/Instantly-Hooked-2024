@@ -5,14 +5,12 @@ using UnityEngine;
 public class Hook : MonoBehaviour
 {
     public static Hook instance;
-    public static FishBrain FishOnHook;
     public static GameObject hook;
     public static Material hookMat;
+    [SerializeField] public GameObject HookOrigin;
     [SerializeField] public LineRenderer fishline;
-    [SerializeField] private Material P_BreakingHookMat;
-    [SerializeField] private Material P_NormalHookMat;
-    public  Material NormalHookMat { get { return P_NormalHookMat; }}
-    public  Material BrrakingHookMat { get { return P_BreakingHookMat; } }
+    [Header("laat leeg")]
+    public FishBrain FishOnHook;
     private void Awake()
     {
         instance = this;
@@ -22,12 +20,12 @@ public class Hook : MonoBehaviour
     {
        if (FishOnHook != null) Debug.Log(FishOnHook.gameObject);
     }
-    public static bool HasFish()
+    public bool HasFish()
     {
         if (FishOnHook == null) return false;
         else return true;  
     }
-    public static void RemoveFish()
+    public void RemoveFish()
     {
         FishOnHook = null;
     }

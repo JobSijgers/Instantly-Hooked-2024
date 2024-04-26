@@ -55,7 +55,7 @@ namespace FishingRod
 
             if (Input.GetMouseButton(1))
             {
-                if (Hook.FishOnHook == null || !Hook.FishOnHook.IsStruggeling())
+                if (Hook.instance.FishOnHook == null || !Hook.instance.FishOnHook.IsStruggeling())
                 {
                     ReelHook();
                 }
@@ -76,11 +76,11 @@ namespace FishingRod
         {
             var newLineLength = _currentLineLength - _reelingSpeed * Time.deltaTime;
             var newClampedLineLength = Mathf.Clamp(newLineLength, 0, _maxLineLength);
-            if (newClampedLineLength <= 0 && Hook.FishOnHook != null)
+            if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null)
             {
-                EventManager.OnFishCaught(Hook.FishOnHook.fishData, GetRandomFishSize());
-                FishPooler.instance.ReturnFish(Hook.FishOnHook);
-                Hook.FishOnHook = null;
+                EventManager.OnFishCaught(Hook.instance.FishOnHook.fishData, GetRandomFishSize());
+                FishPooler.instance.ReturnFish(Hook.instance.FishOnHook);
+                Hook.instance.FishOnHook = null;
             }
             _springJoint.maxDistance = newClampedLineLength;
             _springJoint.connectedBody.WakeUp();
