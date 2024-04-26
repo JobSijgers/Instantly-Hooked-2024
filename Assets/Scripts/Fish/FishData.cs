@@ -9,8 +9,11 @@ namespace Fish
     [CreateAssetMenu(menuName = "Fish/Create Fish Data)", fileName = "FishData")]
     public class FishData : ScriptableObject
     {
+        
         public string fishName;
-    
+        public string fishDescription;
+        public string habitat;
+        
         [Header("Economy")]
         public FishRarity fishRarity;
         public int[] fishSellAmount;
