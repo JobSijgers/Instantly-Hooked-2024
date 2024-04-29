@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Enums;
+using Events;
 using Fish;
+using PauseMenu;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player.Inventory
@@ -14,13 +18,26 @@ namespace Player.Inventory
         [SerializeField] private GameObject defaultInventorySlot;
         [SerializeField] private Transform inventoryParent;
         [SerializeField] private Color[] rarityColors;
+        [SerializeField] private Transform inventoryUI;
 
         private void Awake()
         {
             Instance = this;
+            EventManager.FishCaught += AddFish;
         }
 
-        public void AddFish(FishData fishToAdd, FishSize size)
+        private void Start()
+        {
+            EventManager.PauseStateChange += OnPause;
+            inventoryUI.gameObject.SetActive(false);
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.PauseStateChange -= OnPause;
+        }
+
+        private void AddFish(FishData fishToAdd, FishSize size)
         {
             if (fishToAdd.maxStackAmount <= 1) return;
             foreach (var inventoryItem in GetInventory())
@@ -99,9 +116,7 @@ namespace Player.Inventory
             }
 
             if (totalAmountOfFish == 0)
-            {
                 return;
-            }
 
             float amountOfSlots = (float)totalAmountOfFish / (float)data.maxStackAmount;
             int amountOfSlotsRounded = Mathf.CeilToInt(amountOfSlots);
@@ -140,6 +155,23 @@ namespace Player.Inventory
         public Color GetRarityColor(FishRarity rarity)
         {
             return rarityColors[(int)rarity];
+        }
+        
+        private void OnPause(PauseState newState)
+        {
+            switch (newState)
+            {
+                case PauseState.Playing:
+                    inventoryUI.gameObject.SetActive(false);
+                    break;
+                case PauseState.InPauseMenu:
+                    break;
+                case PauseState.InInventory:
+                    inventoryUI.gameObject.SetActive(true);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
         }
     }
 }

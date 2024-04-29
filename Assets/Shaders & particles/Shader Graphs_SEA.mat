@@ -14,7 +14,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -24,18 +24,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: 9b973a14b6f4e5a49a32977f821948a6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _flow:
-        m_Texture: {fileID: 2800000, guid: d8f3f337b309d094e9a5017c0b0d96e8, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _texture:
-        m_Texture: {fileID: 2800000, guid: 09e809b9aeef26e4989dfd6ed8276183, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -50,25 +38,27 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FlowStrength: 0
+    - _Distacne: -40
+    - _Foamripple_speed: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _absorption_coefficient: 0
     - _choppines: 0.002
-    - _flowspeed: 0.01
-    - _foam_distance: 1.5
-    - _rotation: 0
-    - _size: 2
+    - _depth: -14.76
+    - _depthColorFade: 0.15
+    - _depthColorFadeFactor: -0.02
+    - _dethColorFadeOffset: -11.53
+    - _foamdepth: 0
+    - _foamnoisescale: 2
+    - _transparencyAmount: 0.31
     m_Colors:
-    - _OShan: {r: 0.42068347, g: 0.7236892, b: 0.735849, a: 1}
-    - _dark_foam_color: {r: 0.078431346, g: 0.078431346, b: 0.6431373, a: 1}
-    - _flowspeed_1: {r: 0.01, g: 0, b: 0, a: 0}
-    - _flowstrength: {r: 0, g: 0, b: 0, a: 0}
-    - _foam_distance_1: {r: 1.5, g: 0, b: 0, a: 0}
-    - _light_foam_color: {r: 1, g: 1, b: 1, a: 0}
-    - _size_1: {r: 2, g: 0, b: 0, a: 0}
-    - _water_color: {r: 0.13194007, g: 0.5457491, b: 0.80377346, a: 0.6235294}
+    - _Water_colour: {r: 0, g: 0.6106627, b: 1, a: 1}
+    - _Water_dark_colour: {r: 0, g: 0, b: 0, a: 1}
+    - _absorbtion_color: {r: 0, g: 0, b: 0, a: 0}
+    - _deppcolor: {r: 0, g: 0, b: 0, a: 0}
+    - _shallowcollor: {r: 0.24716976, g: 0.8436158, b: 1, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1860893649129535306
+--- !u!114 &7161506172564705443
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
