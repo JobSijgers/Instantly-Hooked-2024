@@ -7795,9 +7795,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4677ef109258d46beab32fd1795716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HookOrigin: {fileID: 0}
   fishline: {fileID: 349214458}
-  P_BreakingHookMat: {fileID: 0}
-  P_NormalHookMat: {fileID: 0}
+  FishOnHook: {fileID: 0}
 --- !u!1001 &569995111
 PrefabInstance:
   m_ObjectHideFlags: 0

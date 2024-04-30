@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
-[CanEditMultipleObjects]
 public class FishSpawner : MonoBehaviour
 {
     [SerializeField] private Vector2 SpawnArea;
@@ -101,6 +99,6 @@ public class FishSpawner : MonoBehaviour
             Handles.Label(pos, fish.fishName);
         }
     }
-}
 #endif
+}
 
