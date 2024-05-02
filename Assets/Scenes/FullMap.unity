@@ -2649,7 +2649,7 @@ MonoBehaviour:
   FishTypesToSpawn:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &203991377
@@ -4749,7 +4749,7 @@ MonoBehaviour:
   FishTypesToSpawn:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &376384822
@@ -7795,7 +7795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4677ef109258d46beab32fd1795716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HookOrigin: {fileID: 0}
+  HookOrigin: {fileID: 980319114}
   fishline: {fileID: 349214458}
   FishOnHook: {fileID: 0}
 --- !u!1001 &569995111
@@ -8383,7 +8383,7 @@ MonoBehaviour:
   FishTypesToSpawn:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &618434869
@@ -10409,7 +10409,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &725082659
@@ -11182,7 +11182,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 590a8e6bd2e7dca408af0cccbedd3207, type: 2}
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &819698811
@@ -12113,7 +12113,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &871606203
@@ -13844,6 +13844,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783d447a74f5427418febb806f165f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &980319114 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 877915585109023604, guid: c8a354e68f985614595d6c3335e7353b,
+    type: 3}
+  m_PrefabInstance: {fileID: 569288542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &983148347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14170,7 +14176,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &1023750204
@@ -15641,7 +15647,7 @@ MonoBehaviour:
   FishTypesToSpawn:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &1120907899
@@ -16286,7 +16292,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &1157237809
@@ -17415,7 +17421,7 @@ MonoBehaviour:
   FishTypesToSpawn:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &1240361078
@@ -17705,7 +17711,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 590a8e6bd2e7dca408af0cccbedd3207, type: 2}
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &1289044972
@@ -25189,7 +25195,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 590a8e6bd2e7dca408af0cccbedd3207, type: 2}
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &1753926963
@@ -27190,7 +27196,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 590a8e6bd2e7dca408af0cccbedd3207, type: 2}
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &1859442879
@@ -29496,7 +29502,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
   - {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &2002346386
@@ -31276,7 +31282,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 590a8e6bd2e7dca408af0cccbedd3207, type: 2}
   - {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
   - {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
-  FishInArea: 20
+  FishInArea: 8
   hook: {fileID: 569288546}
   color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &2115517639

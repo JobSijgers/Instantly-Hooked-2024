@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 [Serializable]
 public struct FishStates
@@ -17,14 +16,15 @@ public class FishBrain : MonoBehaviour
     private IFishState P_CurrentState;
     private FishSpawner OriginSpawner;
     private GameObject Visual;
-    public float RoamRange;
-    public NavMeshAgent NavAgent;
     public FishStates states;
-    public GameObject Hook;
+    private float P_struggelSpeed;
+    private float P_moveSpeed;
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public void DestroyVisual() => Destroy(Visual); 
     public Vector3 GetNewPosition() => OriginSpawner.GetRandomPos();
     public bool IsStruggeling() => states.Biting.IsStruggeling();
+    public float moveSpeed { get { return P_moveSpeed; } set { P_moveSpeed = value; } }
+    public float StruggelSpeed { get { return P_struggelSpeed; } set { P_struggelSpeed = value; } }
     public IFishState CurrentState
     {
         get { return P_CurrentState; }
@@ -45,20 +45,19 @@ public class FishBrain : MonoBehaviour
         set
         {
             P_fishData = value;
-            NavAgent.speed = value.moveSpeed;
+            moveSpeed = value.moveSpeed;
+            StruggelSpeed = value.moveSpeed * 2;
             Visual = Instantiate(value.fishObject, transform.position,Quaternion.identity, transform);
         }
     }
     void Start()
     {
         CurrentState = GetComponent<IFishState>();
-        NavAgent = GetComponent<NavMeshAgent>();
         CurrentState = states.Roaming;
     }
 
     void Update()
     {
-        //Debug.Log(CurrentState);
         CurrentState = CurrentState.SwitchState();
         CurrentState.UpdateState();
     }
