@@ -6,7 +6,6 @@ using UnityEditor;
 public class FishRoaming : MonoBehaviour, IFishState
 {
     private FishBrain Brain;
-    private Vector3 EndPos;
     [SerializeField] private float RotateSpeed;
     [Tooltip("1 op ??")]
     [SerializeField] private int BiteChance;
@@ -35,7 +34,7 @@ public class FishRoaming : MonoBehaviour, IFishState
     }
     public void UpdateState()
     {
-        if (transform.position == EndPos)
+        if (transform.position == Brain.EndPos)
         {
              SetRandomPosition();
         }
@@ -43,18 +42,23 @@ public class FishRoaming : MonoBehaviour, IFishState
             && 
             FishPooler.instance.WaterBlock.bounds.Intersects(Hook.instance.bounds.bounds))
         {
-            if (BiteC == null) StartCoroutine(ChoseToBite());
+            if (BiteC == null) BiteC = StartCoroutine(ChoseToBite());
         }
-        transform.position = Vector3.MoveTowards(transform.position, EndPos, Brain.moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, Brain.moveSpeed * Time.deltaTime);
     }   
     public void SetRandomPosition()
     {
-        EndPos = Brain.GetNewPosition();
+        Brain.SetEndPos(Brain.GetNewPosition());
+        CancelInvoke();
     }
     private IEnumerator ChoseToBite()
     {
+        //Debug.Log(BiteC);
+        //Debug.Log("before wait");
         yield return new WaitForSeconds(BiteWait);
+        //Debug.Log("after wait ");
         int RandomValue = Random.Range(1, BiteChance + 1);
+        //Debug.Log($"random value : {RandomValue}");
         int bitevalue = 1;
         if (RandomValue == bitevalue && Hook.instance.FishOnHook == null)
         {
@@ -62,6 +66,7 @@ public class FishRoaming : MonoBehaviour, IFishState
             BiteState = true;
         }
         BiteC = null;
+        //Debug.Log(BiteC);
     }
     public void OnDisable()
     {

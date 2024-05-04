@@ -19,6 +19,11 @@ public class FishBrain : MonoBehaviour
     public FishStates states;
     private float P_struggelSpeed;
     private float P_moveSpeed;
+    [SerializeField] private GameObject EmptyObject;
+    [SerializeField] private float RotateSpeed;
+    private Coroutine RotateC;
+    private Vector3 P_EndPos;
+    public Vector3 EndPos { get { return P_EndPos; } }
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public void DestroyVisual() => Destroy(Visual); 
     public Vector3 GetNewPosition() => OriginSpawner.GetRandomPos();
@@ -50,6 +55,11 @@ public class FishBrain : MonoBehaviour
             Visual = Instantiate(value.fishObject, transform.position,Quaternion.identity, transform);
         }
     }
+    public void SetEndPos(Vector3 endpos)
+    {
+        P_EndPos = endpos;
+        EmptyObject.transform.LookAt(EndPos);
+    }
     void Start()
     {
         CurrentState = GetComponent<IFishState>();
@@ -60,6 +70,25 @@ public class FishBrain : MonoBehaviour
     {
         CurrentState = CurrentState.SwitchState();
         CurrentState.UpdateState();
+        ManageRoation();
+    }
+    private void ManageRoation()
+    {
+        //Vector3 endpos = EmptyObject.transform.eulerAngles;
+        Quaternion endpos = EmptyObject.transform.rotation;
+        if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
+    }
+    private IEnumerator RotateFish(Quaternion endpos)
+    {
+        float t = 0.0f;
+        while (t < 1)
+        {
+            t += Time.deltaTime * 2.5f;
+            Visual.transform.rotation = Quaternion.Slerp(Visual.transform.rotation, endpos, t);
+            yield return null;
+        }
+        yield return null;
+        RotateC = null;
     }
     public void OnDisable()
     {

@@ -17,8 +17,6 @@ public class FishBiting : MonoBehaviour,IFishState
     private BoxCollider bounds;
     private FishingRod.FishingRod Rod;
 
-    private Vector3 EndPos;
-
     // state
     private FishBitingState BiteState;
 
@@ -119,8 +117,8 @@ public class FishBiting : MonoBehaviour,IFishState
         {
             case FishBitingState.goingforhook:
 
-                EndPos = Hook.instance.hook.transform.position;
-                transform.position = Vector3.MoveTowards(transform.position, EndPos,Brain.moveSpeed * Time.deltaTime);
+                Brain.SetEndPos(Hook.instance.hook.transform.position);
+                transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos,Brain.moveSpeed * Time.deltaTime);
                 break;
 
             case FishBitingState.onhook:
@@ -130,16 +128,16 @@ public class FishBiting : MonoBehaviour,IFishState
 
             case FishBitingState.struggeling:
 
-                if (transform.position == EndPos)
+                if (transform.position == Brain.EndPos)
                 {
                     Vector2 newpos = Brain.GetNewPosition();
                     if (IsPositionInLineRange(newpos))
                     {
-                        EndPos = newpos;
+                        Brain.SetEndPos(newpos);
                     }
                 }
 
-                transform.position = Vector3.MoveTowards(transform.position, EndPos, Brain.moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, Brain.moveSpeed * Time.deltaTime);
                 Hook.instance.hook.transform.position = transform.position;
                 Rod.SetLineLength(transform.position);
 
@@ -180,7 +178,7 @@ public class FishBiting : MonoBehaviour,IFishState
         if (IsInWater())
         {
             BiteState = FishBitingState.struggeling;
-            EndPos = transform.position;
+            Brain.SetEndPos(transform.position);
         }
         else waitForStruggel = StartCoroutine(WaitForStruggel(StruggelAfterTime));
     }
