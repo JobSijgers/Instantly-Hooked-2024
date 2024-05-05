@@ -72,19 +72,23 @@ public class FishBrain : MonoBehaviour
         CurrentState.UpdateState();
         ManageRoation();
     }
+    public void MoveTo(Vector3 endpos, float speed)
+    {
+        transform.position = Vector3.MoveTowards(transform.position, endpos, speed * Time.deltaTime);
+    }
     private void ManageRoation()
     {
-        //Vector3 endpos = EmptyObject.transform.eulerAngles;
         Quaternion endpos = EmptyObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
     private IEnumerator RotateFish(Quaternion endpos)
     {
         float t = 0.0f;
+        Quaternion startpos = Visual.transform.rotation;
         while (t < 1)
         {
             t += Time.deltaTime * 2.5f;
-            Visual.transform.rotation = Quaternion.Slerp(Visual.transform.rotation, endpos, t);
+            Visual.transform.rotation = Quaternion.Slerp(startpos, endpos, t);
             yield return null;
         }
         yield return null;

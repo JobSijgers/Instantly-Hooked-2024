@@ -44,21 +44,22 @@ public class FishRoaming : MonoBehaviour, IFishState
         {
             if (BiteC == null) BiteC = StartCoroutine(ChoseToBite());
         }
-        transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, Brain.moveSpeed * Time.deltaTime);
+        float movespeed = Brain.moveSpeed;
+        float dist = Vector2.Distance(transform.position, Brain.EndPos);
+        if (dist < 0.6f)
+        {
+            movespeed *= dist + 0.3f;
+        }
+        transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, movespeed * Time.deltaTime);
     }   
     public void SetRandomPosition()
     {
         Brain.SetEndPos(Brain.GetNewPosition());
-        CancelInvoke();
     }
     private IEnumerator ChoseToBite()
     {
-        //Debug.Log(BiteC);
-        //Debug.Log("before wait");
         yield return new WaitForSeconds(BiteWait);
-        //Debug.Log("after wait ");
         int RandomValue = Random.Range(1, BiteChance + 1);
-        //Debug.Log($"random value : {RandomValue}");
         int bitevalue = 1;
         if (RandomValue == bitevalue && Hook.instance.FishOnHook == null)
         {
@@ -66,7 +67,6 @@ public class FishRoaming : MonoBehaviour, IFishState
             BiteState = true;
         }
         BiteC = null;
-        //Debug.Log(BiteC);
     }
     public void OnDisable()
     {
