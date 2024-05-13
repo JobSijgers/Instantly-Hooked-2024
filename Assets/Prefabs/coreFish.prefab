@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7012671117014001069}
   - component: {fileID: 4697329898385395740}
   - component: {fileID: 3453636385491892057}
-  - component: {fileID: 6261037424582045672}
   - component: {fileID: 2032342212527237736}
   m_Layer: 7
   m_Name: coreFish
@@ -67,7 +66,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
-  BiteChance: 8
   IntresstDistanceToHook: 4.71
   BiteWait: 5
 --- !u!114 &3453636385491892057
@@ -90,33 +88,6 @@ MonoBehaviour:
   ToLongHold: 1
   holdoffset: 0.5
   OffHookAfter: 1.5
---- !u!54 &6261037424582045672
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 835189133300826452}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &2032342212527237736
 BoxCollider:
   m_ObjectHideFlags: 0

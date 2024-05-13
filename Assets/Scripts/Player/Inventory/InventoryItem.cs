@@ -58,6 +58,10 @@ namespace Player.Inventory
         {
             return StackSize;
         }
+        public Color GetColor()
+        {
+            return background.color;
+        }
 
         protected void UpdateStackUI()
         {

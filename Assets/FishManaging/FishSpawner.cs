@@ -16,6 +16,9 @@ public class FishSpawner : MonoBehaviour
     private FishPooler fishPooler;
     private List<FishBrain> ActiveFish = new List<FishBrain>();
     private bool IsThisSpawnerActive = false;
+
+    public Vector2 GetSpawnBunds() => SpawnArea;
+
     void Start()
     {
         fishPooler = FishPooler.instance;
@@ -88,7 +91,7 @@ public class FishSpawner : MonoBehaviour
     {
         Gizmos.color = color;
         Gizmos.DrawWireCube(transform.position, SpawnArea);
-        Gizmos.color = color;
+        Handles.color = color;
         Handles.DrawWireArc(transform.position,Vector3.forward,Vector3.up,360,ActiveToBoatDistance);
         int i = 0;
         foreach (FishData fish in FishTypesToSpawn)
