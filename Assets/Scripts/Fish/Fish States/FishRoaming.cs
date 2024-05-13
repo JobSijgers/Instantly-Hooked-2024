@@ -76,12 +76,10 @@ public class FishRoaming : MonoBehaviour, IFishState
     {
         BiteState = false;
     }
-#if UNITY_EDITOR
+#if UNITY_EDITORf
     private void OnDrawGizmos()
     {
         Handles.DrawWireArc(transform.position, Vector3.forward, Vector3.up, 360, IntresstDistanceToHook);
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.forward * 100);
     }
 #endif
 }
