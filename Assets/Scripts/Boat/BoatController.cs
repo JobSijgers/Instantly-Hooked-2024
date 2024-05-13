@@ -28,7 +28,7 @@ namespace Boat
         {
             EventManager.UpgradeBought += OnUpgrade;
             EventManager.PauseStateChange += OnPause;
-            // EventManager.PlayerDied += MoveBoatToDock;
+            EventManager.LeftShore += UndockBoat;
             _rigidbody = GetComponent<Rigidbody>();
         }
 
@@ -36,6 +36,7 @@ namespace Boat
         {
             EventManager.PauseStateChange -= OnPause;
             EventManager.UpgradeBought -= OnUpgrade;
+            EventManager.LeftShore -= UndockBoat;
         }
 
         private void Update()
@@ -75,13 +76,11 @@ namespace Boat
         public void DockBoat(Vector3 dockLocation)
         {
             StartCoroutine(MoveBoatToDock(dockLocation));
-            // EventManager.UnDock += UndockBoat;
             _docked = true;
         }
 
         private void UndockBoat()
         {
-            // EventManager.UnDock -= UndockBoat;
             _docked = false;
         }
 

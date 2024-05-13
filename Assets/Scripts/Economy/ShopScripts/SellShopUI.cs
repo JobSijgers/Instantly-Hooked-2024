@@ -18,17 +18,16 @@ namespace Economy.ShopScripts
         [SerializeField] private TMP_Text totalSellAmount;
 
 
-        private SellShopItem _selectedItem;
-        private SellShop _sellShop;
-        private List<SellShopItem> _shopItems = new();
-        private List<SellListItem> _sellSheet = new();
-        private List<TMP_Text> _sellTexts = new();
+        private SellShopItem selectedItem;
+        private List<SellShopItem> shopItems = new();
+        private List<SellListItem> sellSheet = new();
+        private List<TMP_Text> sellTexts = new();
 
         private void Start()
         {
-            _sellShop = FindObjectOfType<SellShop>();
             EventManager.SellShopOpen += OpenSellShopUI;
             EventManager.SellShopClose += CloseSellShopUI;
+            EventManager.LeftShore += CloseSellShopUI;
         }
 
 
@@ -36,37 +35,38 @@ namespace Economy.ShopScripts
         {
             EventManager.SellShopOpen += OpenSellShopUI;
             EventManager.SellShopClose += CloseSellShopUI;
+            EventManager.LeftShore += CloseSellShopUI;
         }
 
         private void OpenSellShopUI()
         {
             shopObject.SetActive(true);
-            foreach (var inventoryItem in Inventory.Instance.GetInventory())
+            foreach (InventoryItem inventoryItem in Inventory.Instance.GetInventory())
             {
                 GameObject go = Instantiate(shopItemPrefab, itemHolder);
                 SellShopItem item = go.GetComponent<SellShopItem>();
                 item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize(),
                     Inventory.Instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
                 item.OnSelectedAmountChanged += UpdateShoppingList;
-                _shopItems.Add(item);
+                shopItems.Add(item);
             }
         }
 
         public void CloseSellShopUI()
         {
             shopObject.SetActive(false);
-            foreach (var item in _shopItems)
+            foreach (SellShopItem item in shopItems)
             {
                 Destroy(item.gameObject);
             }
 
-            _shopItems.Clear();
+            shopItems.Clear();
         }
 
         public void SelectAll()
         {
             ClearSellSheet();
-            foreach (var item in _shopItems)
+            foreach (SellShopItem item in shopItems)
             {
                 item.SetInputField(item.GetStackSize());
                 UpdateShoppingList(item, item.GetStackSize());
@@ -76,9 +76,9 @@ namespace Economy.ShopScripts
         private void UpdateShoppingList(SellShopItem item, int change)
         {
             FishData data = item.GetFishData();
-            for (int i = 0; i < _sellSheet.Count; i++)
+            for (int i = 0; i < sellSheet.Count; i++)
             {
-                var shoppingItem = _sellSheet[i];
+                SellListItem shoppingItem = sellSheet[i];
 
                 if (shoppingItem.name != data.fishName)
                     continue;
@@ -86,37 +86,37 @@ namespace Economy.ShopScripts
                     continue;
                 if (shoppingItem.amount + change <= 0)
                 {
-                    _sellSheet.Remove(shoppingItem);
-                    Destroy(_sellTexts[^1].gameObject);
-                    _sellTexts.RemoveAt(_sellTexts.Count - 1);
+                    sellSheet.Remove(shoppingItem);
+                    Destroy(sellTexts[^1].gameObject);
+                    sellTexts.RemoveAt(sellTexts.Count - 1);
                     UpdateShoppingListUI();
                     return;
                 }
 
                 shoppingItem.amount += change;
-                _sellSheet[i] = shoppingItem;
+                sellSheet[i] = shoppingItem;
                 UpdateShoppingListUI();
                 return;
             }
 
-            _sellSheet.Add(new SellListItem(item, change));
+            sellSheet.Add(new SellListItem(item, change));
             UpdateShoppingListUI();
         }
 
         private void UpdateShoppingListUI()
         {
-            for (int i = 0; i < _sellSheet.Count; i++)
+            for (int i = 0; i < sellSheet.Count; i++)
             {
-                if (i >= _sellTexts.Count)
+                if (i >= sellTexts.Count)
                 {
                     GameObject go = Instantiate(sellSheetTextPrefab, sellSheetParent);
                     TMP_Text tmp = go.GetComponent<TMP_Text>();
-                    tmp.text = GetSellListText(_sellSheet[i]);
-                    _sellTexts.Add(tmp);
+                    tmp.text = GetSellListText(sellSheet[i]);
+                    sellTexts.Add(tmp);
                 }
                 else
                 {
-                    _sellTexts[i].text = GetSellListText(_sellSheet[i]);
+                    sellTexts[i].text = GetSellListText(sellSheet[i]);
                 }
             }
 
@@ -133,7 +133,7 @@ namespace Economy.ShopScripts
         private int CalculateTotalMoney()
         {
             int total = 0;
-            foreach (var sell in _sellSheet)
+            foreach (SellListItem sell in sellSheet)
             {
                 total += sell.amount * sell.singleCost;
             }
@@ -144,7 +144,7 @@ namespace Economy.ShopScripts
         private int CalculateTotalAmount()
         {
             int total = 0;
-            foreach (var sell in _sellSheet)
+            foreach (SellListItem sell in sellSheet)
             {
                 total += sell.amount;
             }
@@ -154,7 +154,7 @@ namespace Economy.ShopScripts
 
         public void SellSelectItems()
         {
-            EventManager.OnSellSelectedButton(_sellSheet.ToArray());
+            EventManager.OnSellSelectedButton(sellSheet.ToArray());
             ClearSellSheet();
             UpdateShoppingListUI();
             CloseSellShopUI();
@@ -163,13 +163,13 @@ namespace Economy.ShopScripts
 
         private void ClearSellSheet()
         {
-            foreach (var text in _sellTexts)
+            foreach (var text in sellTexts)
             {
                 Destroy(text.gameObject);
             }
 
-            _sellSheet.Clear();
-            _sellTexts.Clear();
+            sellSheet.Clear();
+            sellTexts.Clear();
         }
     }
 }

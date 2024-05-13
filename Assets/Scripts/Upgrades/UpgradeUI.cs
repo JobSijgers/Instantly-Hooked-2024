@@ -12,7 +12,7 @@ namespace Upgrades
         [SerializeField] private Transform upgradeShopItemParent;
         [SerializeField] private UpgradeShopHighlight upgradeShopHighlight;
         [SerializeField] private GameObject upgradeShopUI;
-        private List<UpgradeShopItem> _upgradeShopItems = new List<UpgradeShopItem>();
+        private List<UpgradeShopItem> upgradeShopItems = new List<UpgradeShopItem>();
 
         private void Awake()
         {
@@ -24,6 +24,7 @@ namespace Upgrades
             EventManager.UpgradeBought += ChangeItemUpgrade;
             EventManager.UpgradeShopOpen += OpenUpgradeShopUI;
             EventManager.UpgradeShopClose += CloseUpgradeShopUI;
+            EventManager.LeftShore += CloseUpgradeShopUI;
         }
 
         private void OnDestroy()
@@ -31,6 +32,7 @@ namespace Upgrades
             EventManager.UpgradeBought -= ChangeItemUpgrade;
             EventManager.UpgradeShopOpen -= OpenUpgradeShopUI;
             EventManager.UpgradeShopClose -= CloseUpgradeShopUI;
+            EventManager.LeftShore -= CloseUpgradeShopUI;
         }
         
         private void OpenUpgradeShopUI() 
@@ -45,15 +47,15 @@ namespace Upgrades
         
         public void CreateUpgradeItem(Upgrade upgrade)
         {
-            var upgradeItem = Instantiate(upgradeShopItem, upgradeShopItemParent);
-            var shopItem = upgradeItem.GetComponent<UpgradeShopItem>();
+            GameObject upgradeItem = Instantiate(upgradeShopItem, upgradeShopItemParent);
+            UpgradeShopItem shopItem = upgradeItem.GetComponent<UpgradeShopItem>();
             shopItem.SetUpgrade(upgrade);
-            _upgradeShopItems.Add(shopItem);
+            upgradeShopItems.Add(shopItem);
         }
 
         private void ChangeItemUpgrade(Upgrade upgrade)
         {
-            foreach (var shopItem in _upgradeShopItems)
+            foreach (UpgradeShopItem shopItem in upgradeShopItems)
             {
                 if (shopItem.GetUpgrade() == null) continue;
                 if (shopItem.GetUpgrade().GetType() != upgrade.GetType()) continue;

@@ -60,6 +60,7 @@ namespace Timer
             currentDay++;
             ResetTime();
             EventManager.OnNewDay(currentDay);
+            EventManager.OnTimeUpdate(currentTime);
         }
 
         private void OnPause(PauseState newState)
