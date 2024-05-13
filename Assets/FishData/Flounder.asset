@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Flounder
   m_EditorClassIdentifier: 
   fishName: Flounder
+  fishDescription: 
+  habitat: 
   fishRarity: 2
   fishSellAmount: 19000000320000004b000000
   fishObject: {fileID: 8305000499257683962, guid: ecda53e5b7eec6b4183f88d3d201787c,
@@ -20,3 +22,4 @@ MonoBehaviour:
   fishVisual: {fileID: 21300000, guid: 65b1ea4180e54d941afe4b7252e7d71b, type: 3}
   moveSpeed: 3
   maxStackAmount: 10
+  biteRate: 8

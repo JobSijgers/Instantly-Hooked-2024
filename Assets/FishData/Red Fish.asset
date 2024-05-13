@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Red Fish
   m_EditorClassIdentifier: 
   fishName: Red Fish
+  fishDescription: 
+  habitat: 
   fishRarity: 0
   fishSellAmount: 020000000300000004000000
   fishObject: {fileID: 6557936555658091296, guid: dd1bd88a21fc490479af45207fddbec8,
@@ -20,3 +22,4 @@ MonoBehaviour:
   fishVisual: {fileID: 21300000, guid: 619383c8d0e95e643a41a68ed32e5771, type: 3}
   moveSpeed: 3
   maxStackAmount: 10
+  biteRate: 8
