@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 9030007309800792193}
   - component: {fileID: 6731738640997864002}
   - component: {fileID: 6877359919399279039}
+  - component: {fileID: 5682972943312613664}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dayStartMinutes: 390
-  minutesPerCycle: 12
+  minutesPerCycle: 0.5
 --- !u!114 &5724927979952931040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,3 +195,20 @@ MonoBehaviour:
   fadeScreen: {fileID: 0}
   shore: {fileID: 0}
   sea: {fileID: 0}
+--- !u!114 &5682972943312613664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721431727958521510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fae9dc38c94d529159b0c27a9659ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stormSpawnTime: 1320
+  stormPrefab: {fileID: 3637976659660182011, guid: 3dd0cafb2e81fa9499af93879224a746,
+    type: 3}
+  stormSpawnLocation: {fileID: 0}
+  stormEndLocation: {fileID: 0}
