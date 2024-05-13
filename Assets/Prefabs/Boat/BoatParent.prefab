@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8384716466882559862}
   m_Layer: 0
   m_Name: BoatParent
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 4862848141516474607}
   m_Layer: 0
   m_Name: BoatModel
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,7 +166,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 124
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &4862848141516474607
 MonoBehaviour:
@@ -440,6 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4677ef109258d46beab32fd1795716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hook: {fileID: 0}
+  bounds: {fileID: 0}
   HookOrigin: {fileID: 877915585109023604}
   fishline: {fileID: 5390991553932737750}
-  FishOnHook: {fileID: 0}

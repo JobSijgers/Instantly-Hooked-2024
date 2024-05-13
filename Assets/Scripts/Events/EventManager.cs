@@ -14,7 +14,6 @@ namespace Events
         public static event UnityAction<int> NewDay;
         public static event UnityAction<int> MoneyUpdate;
         public static event UnityAction Dock;
-        public static event UnityAction UnDock;
         public static event UnityAction SellShopOpen;
         public static event UnityAction SellShopClose;
         public static event UnityAction UpgradeShopOpen;
@@ -28,12 +27,12 @@ namespace Events
         public static event UnityAction<PauseState> PauseStateChange;
         public static event UnityAction ArrivedAtShore;
         public static event UnityAction LeftShore;
+        public static event UnityAction PlayerDied;
         
         public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);
         public static void OnDock() => Dock?.Invoke();
-        public static void OnUndock() => UnDock?.Invoke();
         public static void OnSellShopOpen() => SellShopOpen?.Invoke();
         public static void OnSellShopClose() => SellShopClose?.Invoke();
         public static void OnUpgradeShopOpen() => UpgradeShopOpen?.Invoke();
@@ -47,5 +46,6 @@ namespace Events
         public static void OnPauseSateChange(PauseState state) => PauseStateChange?.Invoke(state);
         public static void OnArrivedAtShore() => ArrivedAtShore?.Invoke();
         public static void OnLeftShore() => LeftShore?.Invoke();
+        public static void OnPlayerDied() => PlayerDied?.Invoke();
     }
 }

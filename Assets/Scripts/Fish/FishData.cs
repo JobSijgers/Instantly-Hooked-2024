@@ -28,6 +28,10 @@ namespace Fish
 
         [Header("Inventory")] 
         public int maxStackAmount;
+
+        [Header("Bite")]
+        [Tooltip("1 op ??")]
+        public int biteRate;
     }
     
     
