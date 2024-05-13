@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Events;
 using PauseMenu;
 using UnityEngine;
@@ -11,29 +12,36 @@ namespace Timer
     {
         [SerializeField] private int dayStartMinutes;
         [SerializeField] private float minutesPerCycle;
-        private int _currentDay;
-        private float _timeMultiplier;
-        private float _currentTime;
-        private float _testCurrent;
+        private bool timePassing = true;
+        private int currentDay;
+        private float timeMultiplier;
+        private float currentTime;
+        private float testCurrent;
 
         private void Start()
         {
-            _timeMultiplier = 1440f / minutesPerCycle;
+            timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
             EventManager.PauseStateChange += OnPause;
+            EventManager.LeftShore += EnableTime;
+            EventManager.ArrivedAtShore += DisableTime;
         }
 
         private void OnDestroy()
         {
             EventManager.PauseStateChange -= OnPause;
+            EventManager.LeftShore -= EnableTime;
+            EventManager.ArrivedAtShore -= DisableTime;
         }
 
         private void Update()
         {
-            _currentTime += Time.deltaTime * _timeMultiplier;
+            if (!timePassing)
+                return;
+            currentTime += Time.deltaTime * timeMultiplier;
 
-            EventManager.OnTimeUpdate(_currentTime);
-            var timeSpan = TimeSpan.FromSeconds(_currentTime);
+            EventManager.OnTimeUpdate(currentTime);
+            TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
             if (timeSpan.Days >= 1)
             {
                 EndDay();
@@ -42,25 +50,42 @@ namespace Timer
 
         private void ResetTime()
         {
-            _currentTime = dayStartMinutes * 60;
+            currentTime = dayStartMinutes * 60;
         }
 
         private void EndDay()
         {
-            _currentDay++;
+            currentDay++;
             ResetTime();
-            EventManager.OnNewDay(_currentDay);
+            EventManager.OnNewDay(currentDay);
         }
-        
+
         private void OnPause(PauseState newState)
         {
-            enabled = newState switch
+            switch (newState)
             {
-                PauseState.Playing => true,
-                PauseState.InPauseMenu => false,
-                PauseState.InInventory => false,
-                _ => throw new ArgumentOutOfRangeException(nameof(newState), newState, null)
-            };
+                case PauseState.Playing:
+                    EnableTime();
+                    break;
+                case PauseState.InPauseMenu:
+                    DisableTime();
+                    break;
+                case PauseState.InInventory:
+                    DisableTime();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
+        }
+
+        private void DisableTime()
+        {
+            timePassing = false;
+        }
+
+        private void EnableTime()
+        {
+            timePassing = true;
         }
     }
 }
