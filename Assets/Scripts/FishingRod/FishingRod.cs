@@ -24,6 +24,7 @@ namespace FishingRod
         {
             EventManager.Dock += OnDock;
             EventManager.UpgradeBought += UpgradeBought;
+            EventManager.LeftShore += OnUndock;
             EventManager.PauseStateChange += OnPause;
             _springJoint = GetComponent<SpringJoint>();
 
@@ -39,7 +40,7 @@ namespace FishingRod
         private void OnDestroy()
         {
             EventManager.Dock -= OnDock;
-            EventManager.UnDock -= OnUndock;
+            EventManager.LeftShore -= OnUndock;
             EventManager.UpgradeBought -= UpgradeBought;
             EventManager.PauseStateChange -= OnPause;
         }
@@ -103,13 +104,11 @@ namespace FishingRod
         }
         private void OnDock()
         {
-            EventManager.UnDock += OnUndock;
             _rodEnabled = false;
         }
 
         private void OnUndock()
         {
-            EventManager.UnDock -= OnUndock;
             _rodEnabled = true;
         }
 

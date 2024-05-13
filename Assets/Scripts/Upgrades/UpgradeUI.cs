@@ -38,7 +38,7 @@ namespace Upgrades
             upgradeShopUI.SetActive(true);
         }
         
-        private void CloseUpgradeShopUI()
+        public void CloseUpgradeShopUI()
         {
             upgradeShopUI.SetActive(false);
         }

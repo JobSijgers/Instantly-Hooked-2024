@@ -52,7 +52,7 @@ namespace Economy.ShopScripts
             }
         }
 
-        private void CloseSellShopUI()
+        public void CloseSellShopUI()
         {
             shopObject.SetActive(false);
             foreach (var item in _shopItems)

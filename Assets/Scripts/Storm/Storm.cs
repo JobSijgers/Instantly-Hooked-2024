@@ -16,6 +16,17 @@ namespace Storm
         private float playerInStormTime;
         private bool playerInStorm;
 
+        private void Start()
+        {
+            EventManager.NewDay += DestroyStorm;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.NewDay -= DestroyStorm;
+        }
+
+
         private void Update()
         {
             if (!playerInStorm)
@@ -25,7 +36,6 @@ namespace Storm
             
             EventManager.OnPlayerDied();
             playerInStormTime = 0;
-            Debug.Log("died");
         }
 
         private void OnTriggerEnter(Collider other)
@@ -63,6 +73,11 @@ namespace Storm
                 transform.position = newLocation;
                 yield return null;
             }
+        }
+        
+        private void DestroyStorm(int newDay)
+        {
+            Destroy(gameObject);
         }
     }
 }

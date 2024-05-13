@@ -25,6 +25,7 @@ namespace Timer
             EventManager.PauseStateChange += OnPause;
             EventManager.LeftShore += EnableTime;
             EventManager.ArrivedAtShore += DisableTime;
+            EventManager.PlayerDied += EndDay;
         }
 
         private void OnDestroy()
@@ -32,6 +33,7 @@ namespace Timer
             EventManager.PauseStateChange -= OnPause;
             EventManager.LeftShore -= EnableTime;
             EventManager.ArrivedAtShore -= DisableTime;
+            EventManager.PlayerDied -= EndDay;
         }
 
         private void Update()
@@ -53,7 +55,7 @@ namespace Timer
             currentTime = dayStartMinutes * 60;
         }
 
-        private void EndDay()
+        public void EndDay()
         {
             currentDay++;
             ResetTime();

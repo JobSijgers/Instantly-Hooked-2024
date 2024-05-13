@@ -16,59 +16,45 @@ namespace Dock
     
         private void Start()
         {
-            var controller = boat.GetComponent<BoatController>();
+            BoatController controller = boat.GetComponent<BoatController>();
             if (controller == null)
                 return;
             controller.OnDockSuccess += DockSuccess;
 
             EventManager.PauseStateChange += OnPause;
+            EventManager.PlayerDied += DockBoat;
         }
 
         private void OnDestroy()
         {
             EventManager.PauseStateChange -= OnPause;
+            EventManager.PlayerDied -= DockBoat;
         }
 
         private void Update()
         {
             if (IsBoatInRange() && !_boatDocked)
             {
-                TryBoatDock();
-            }
-
-            if (_boatDocked)
-            {
-                TryUndock();
+                GetDockInput();
             }
         }
 
         private bool IsBoatInRange()
         {
-            var distance = Vector2.Distance(boat.position, dockPoint.position);
+            float distance = Vector2.Distance(boat.position, dockPoint.position);
             return distance < dockingRange;
         }
 
-        private void TryBoatDock()
+        private void GetDockInput()
         {
             if (!Input.GetKeyDown(KeyCode.E))
                 return;
-
-            var boatInterface = boat.GetComponent<IBoat>();
-            if (boatInterface == null)
-            {
-                Debug.LogWarning("Boat interface not valid");
-                return;
-            }
-
-            boatInterface.DockBoat(dockPoint.position);
+            DockBoat();
         }
 
-        private void TryUndock()
+        private void DockBoat()
         {
-            if (!Input.GetKeyDown(KeyCode.E))
-                return;
-            EventManager.OnUndock();
-            _boatDocked = false;
+            boat.GetComponent<IBoat>()?.DockBoat(dockPoint.position);
         }
 
         private void DockSuccess()

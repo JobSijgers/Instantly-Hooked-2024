@@ -3,6 +3,7 @@ using System.Collections;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Economy;
 using Economy.ShopScripts;
+using Enums;
 using Events;
 using UnityEngine;
 
@@ -87,10 +88,7 @@ namespace Upgrades
         public Upgrade GetCurrentUpgrade(Upgrade upgrade)
         {
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
-            if (upgradeState == null)
-                return null;
-
-            return upgradeState.GetCurrentUpgrade();
+            return upgradeState?.GetCurrentUpgrade();
         }
 
         public void UpgradeBought(Upgrade upgrade)
@@ -114,10 +112,7 @@ namespace Upgrades
         public Upgrade GetNextUpgrade(Upgrade upgrade)
         {
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
-            if (upgradeState == null)
-                return null;
-
-            return upgradeState.GetNextUpgrade();
+            return upgradeState?.GetNextUpgrade();
         }
         private UpgradeState GetMatchingUpgradeState(Upgrade upgrade)
         {
@@ -133,7 +128,7 @@ namespace Upgrades
 
         private void NotifyUpgrades()
         {
-            foreach (var upgradeState in upgradeStates)
+            foreach (UpgradeState upgradeState in upgradeStates)
             {
                 EventManager.OnUpgradeBought(upgradeState.GetCurrentUpgrade());
             }

@@ -14,7 +14,6 @@ namespace Events
         public static event UnityAction<int> NewDay;
         public static event UnityAction<int> MoneyUpdate;
         public static event UnityAction Dock;
-        public static event UnityAction UnDock;
         public static event UnityAction SellShopOpen;
         public static event UnityAction SellShopClose;
         public static event UnityAction UpgradeShopOpen;
@@ -34,7 +33,6 @@ namespace Events
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);
         public static void OnDock() => Dock?.Invoke();
-        public static void OnUndock() => UnDock?.Invoke();
         public static void OnSellShopOpen() => SellShopOpen?.Invoke();
         public static void OnSellShopClose() => SellShopClose?.Invoke();
         public static void OnUpgradeShopOpen() => UpgradeShopOpen?.Invoke();
