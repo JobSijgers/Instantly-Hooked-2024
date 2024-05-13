@@ -58,6 +58,7 @@ public class FishPooler : MonoBehaviour
     public FishBrain SpawnNewFish()
     {
         FishBrain newfish = Instantiate(fishPrefab, transform.position, Quaternion.identity);
+        newfish.gameObject.SetActive(false);
         return newfish;
     }
 }

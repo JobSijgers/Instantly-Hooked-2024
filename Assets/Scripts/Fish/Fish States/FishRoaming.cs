@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Net;
 
 public class FishRoaming : MonoBehaviour, IFishState
 {
@@ -66,6 +67,10 @@ public class FishRoaming : MonoBehaviour, IFishState
         }
         BiteC = null;
     }
+    public void OnEnable()
+    {
+        if (Brain.EndPos == Vector3.zero) SetRandomPosition();
+    }
     public void OnDisable()
     {
         ResetState();
@@ -74,7 +79,7 @@ public class FishRoaming : MonoBehaviour, IFishState
     {
         BiteState = false;
     }
-#if UNITY_EDITORf
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.DrawWireArc(transform.position, Vector3.forward, Vector3.up, 360, IntresstDistanceToHook);

@@ -25,6 +25,7 @@ public class FishBrain : MonoBehaviour
     private Vector3 P_EndPos;
     public Vector3 EndPos { get { return P_EndPos; } }
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
+    public FishSpawner GetOriginSpawner() => OriginSpawner;
     public void DestroyVisual() => Destroy(Visual); 
     public Vector3 GetNewPosition() => OriginSpawner.GetRandomPos();
     public bool IsStruggeling() => states.Biting.IsStruggeling();
@@ -51,7 +52,7 @@ public class FishBrain : MonoBehaviour
         {
             P_fishData = value;
             moveSpeed = value.moveSpeed;
-            StruggelSpeed = value.moveSpeed * 2;
+            StruggelSpeed = value.moveSpeed * 1.5f;
             Visual = Instantiate(value.fishObject, transform.position,Quaternion.identity, transform);
         }
     }
@@ -59,6 +60,7 @@ public class FishBrain : MonoBehaviour
     {
         P_EndPos = endpos;
         EmptyObject.transform.LookAt(EndPos);
+        StopOldRotation();
     }
     void Start()
     {
@@ -81,6 +83,11 @@ public class FishBrain : MonoBehaviour
         Quaternion endpos = EmptyObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
+    private void StopOldRotation()
+    {
+        StopAllCoroutines();
+        RotateC = null; 
+    }
     private IEnumerator RotateFish(Quaternion endpos)
     {
         float t = 0.0f;
@@ -96,6 +103,8 @@ public class FishBrain : MonoBehaviour
     }
     public void OnDisable()
     {
+        OriginSpawner = null;
+        P_EndPos = Vector3.zero;
         CurrentState = states.Roaming;
     }
 }

@@ -4,53 +4,51 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
+using Enums;
+using Fish;
+using Player.Inventory;
 
 public class DataCenter : MonoBehaviour
 {
+    [SerializeField] private bool DebugLogs;
     private string Filename = "/GameSafe.dat";
     private BinaryFormatter bf = new BinaryFormatter();
     private StorageCenter storageCenter = new StorageCenter();
-    public int KurwaBaut;
-    public int KurwaCaut;
-    public Kurwatje kurwatje;
+    private List<InventorySave> GameSave = new List<InventorySave>();
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S)) SafeGame();
-        if (Input.GetKeyDown(KeyCode.D)) DeleteFile();
-        if (Input.GetKeyDown(KeyCode.L)) LoadGame();
-        if (Input.GetKeyDown(KeyCode.O)) KurwaBaut++;
-        if (Input.GetKeyDown(KeyCode.P)) KurwaCaut++;
-        if (Input.GetKeyDown(KeyCode.I)) {KurwaBaut = 0; KurwaCaut = 0;}
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
+        if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
+        if (Input.GetKeyDown(KeyCode.Alpha3)) DeleteFile();
     }
     private void LoadGame()
     {
+        if (DebugLogs) Debug.Log("Load Game");
         if (File.Exists(Application.persistentDataPath + Filename))
         {
-            Debug.Log("Load Game");
+            if (DebugLogs) Debug.Log($"Debug Found at {Application.persistentDataPath + Filename}");
+
             FileStream file = File.Open(Application.persistentDataPath + Filename, FileMode.Open);
-            storageCenter =  (StorageCenter)bf.Deserialize(file);
-            KurwaBaut = storageCenter.StoreInt;
-            KurwaCaut = storageCenter.Kurwatje.kurwaFish;
+            storageCenter = (StorageCenter)bf.Deserialize(file);
             file.Close();
+            WriteLoad();
         }
-        Debug.Log($"KurwaBaut{KurwaBaut} : Kurwacaut{KurwaCaut}");
+        else if (DebugLogs) Debug.Log("No File Found.");
     }
     private void SafeGame()
     {
-        Debug.Log("zaad");
+        WriteSave();
         FileStream file;
-        storageCenter.StoreInt = KurwaBaut;
-        storageCenter.Kurwatje.kurwaFish = KurwaCaut;
-        Debug.Log(kurwatje.kurwaFish);
         if (File.Exists(Application.persistentDataPath + Filename))
         {
+            if (DebugLogs) Debug.Log($"file exist at {Application.persistentDataPath + Filename}");
             file = File.Open(Application.persistentDataPath + Filename,FileMode.Open);
         }
         else
         {
+            if (DebugLogs) Debug.Log($"file created at {Application.persistentDataPath + Filename}");
             file = File.Create(Application.persistentDataPath + Filename);
         }
-        Debug.Log(file.Name);
         bf.Serialize(file,storageCenter);
         file.Close();
     }
@@ -58,19 +56,67 @@ public class DataCenter : MonoBehaviour
     {
         if (File.Exists(Application.persistentDataPath + Filename))
         {
+            if (DebugLogs) Debug.Log("file has been deleted");
             File.Delete(Application.persistentDataPath + Filename);
         }
+        else if (DebugLogs) Debug.Log("no file exist to delete");
+    }
+    private void WriteLoad()
+    {
+        List<InventoryItem> inv = new List<InventoryItem>();
+        foreach (InventorySave fishSave in storageCenter.GameSave)
+        {
+            InventoryItem fish = new InventoryItem();
+            Color bColor = new Color()
+            {
+                r = fishSave.Color[0],
+                g = fishSave.Color[1],
+                b = fishSave.Color[2]
+            };
+            fish.Initialize(fishSave.FishData, fishSave.FishSize, bColor);
+            fish.SetStackSize(fishSave.StackSize);
+            inv.Add(fish);
+        }
+        Inventory.Instance.currentFish = inv;   
+    } 
+    private void WriteSave()
+    {
+        List<InventoryItem> invitems = Inventory.Instance.currentFish;
+        foreach (InventoryItem fish in invitems)
+        {
+            string json = JsonUtility.ToJson(fish.GetFishData());
+            Debug.Log(json);
+            InventorySave fishSave = new InventorySave();
+            fishSave.Color = new float[2];
+            fishSave.FishSize = fish.GetFishSize();
+            fishSave.StackSize = fish.GetStackSize();
+            fishSave.FishData = fish.GetFishData();
+
+            Color color = fish.GetColor();
+            for (int i = 0; i < 3; i++)
+            {
+                Debug.Log("loop" + i);
+                fishSave.Color[i] = color[i];   
+            }
+            GameSave.Add(fishSave);
+        }
+
+        storageCenter.GameSave = GameSave;
     }
 }
 [Serializable]
-public struct Kurwatje
+public class StorageCenter
 {
-    public int kurwaFish;
+    public List<InventorySave> GameSave = new List<InventorySave>();
 }
 
 [Serializable]
-public class StorageCenter
+public struct InventorySave
 {
-    public int StoreInt;
-    public Kurwatje Kurwatje;
+    public FishData FishData;
+    public int StackSize;
+    public FishSize FishSize;
+    public float[] Color;
 }
+
+
