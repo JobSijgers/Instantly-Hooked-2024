@@ -28,6 +28,7 @@ namespace Events
         public static event UnityAction<PauseState> PauseStateChange;
         public static event UnityAction ArrivedAtShore;
         public static event UnityAction LeftShore;
+        public static event UnityAction PlayerDied;
         
         public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
@@ -47,5 +48,6 @@ namespace Events
         public static void OnPauseSateChange(PauseState state) => PauseStateChange?.Invoke(state);
         public static void OnArrivedAtShore() => ArrivedAtShore?.Invoke();
         public static void OnLeftShore() => LeftShore?.Invoke();
+        public static void OnPlayerDied() => PlayerDied?.Invoke();
     }
 }
