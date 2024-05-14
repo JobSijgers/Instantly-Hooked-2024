@@ -1,7 +1,5 @@
-﻿using System;
-using Events;
+﻿using Events;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Tutorial
@@ -12,20 +10,28 @@ namespace Tutorial
         [SerializeField] private float display;
         private float t;
         private float depth;
+        private bool onShore;
 
         private void Start()
         {
             EventManager.DepthUpdate += OnDepthUpdate;
+            EventManager.ArrivedAtShore += OnShore;
+            EventManager.LeftShore += LeftShore;
         }
 
         private void OnDestroy()
         {
             EventManager.DepthUpdate -= OnDepthUpdate;
+            EventManager.ArrivedAtShore -= OnShore;
+            EventManager.LeftShore -= LeftShore;
         }
 
 
         private void Update()
         {
+            if (onShore)
+                return;
+            
             if (depth <= 0 )
             {
                 visual.enabled = false;
@@ -48,6 +54,16 @@ namespace Tutorial
         private void OnDepthUpdate(float depth)
         {
             this.depth = depth;
+        }
+
+        private void OnShore()
+        {
+            onShore = true;
+        }
+
+        private void LeftShore()
+        {
+            onShore = false;
         }
         
     }
