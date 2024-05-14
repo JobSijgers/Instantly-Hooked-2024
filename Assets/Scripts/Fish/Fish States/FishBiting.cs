@@ -132,7 +132,7 @@ public class FishBiting : MonoBehaviour,IFishState
 
                 if (transform.position == Brain.EndPos)
                 {
-                    Vector2 newpos = Reposition();//Brain.GetNewPosition();
+                    Vector2 newpos = Brain.GetNewPosition(); //Reposition();
                     if (IsPositionInLineRange(newpos))
                     {
                         Brain.SetEndPos(newpos);

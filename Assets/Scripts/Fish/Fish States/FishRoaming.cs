@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System.Net;
-
 public class FishRoaming : MonoBehaviour, IFishState
 {
     private FishBrain Brain;
@@ -37,6 +35,7 @@ public class FishRoaming : MonoBehaviour, IFishState
         {
              SetRandomPosition();
         }
+        if (Brain.EndPos == Vector3.zero) { SetRandomPosition(); }
         if (Vector2.Distance(transform.position, Hook.instance.hook.transform.position) < IntresstDistanceToHook 
             && 
             FishPooler.instance.WaterBlock.bounds.Intersects(Hook.instance.bounds.bounds))
@@ -53,7 +52,8 @@ public class FishRoaming : MonoBehaviour, IFishState
     }   
     public void SetRandomPosition()
     {
-        Brain.SetEndPos(Brain.GetNewPosition());
+        if (Brain.GetOriginSpawner() == null) Brain.SetEndPos(Vector3.zero);
+        else Brain.SetEndPos(Brain.GetNewPosition());
     }
     private IEnumerator ChoseToBite()
     {
