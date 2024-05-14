@@ -7,6 +7,7 @@ using System;
 using Enums;
 using Fish;
 using Player.Inventory;
+using Events;
 
 public class DataCenter : MonoBehaviour
 {
@@ -28,9 +29,8 @@ public class DataCenter : MonoBehaviour
         {
             if (DebugLogs) Debug.Log($"Debug Found at {Application.persistentDataPath + Filename}");
 
-            FileStream file = File.Open(Application.persistentDataPath + Filename, FileMode.Open);
-            storageCenter = (StorageCenter)bf.Deserialize(file);
-            file.Close();
+            string file = File.ReadAllText(Application.persistentDataPath + Filename);
+            storageCenter = JsonUtility.FromJson<StorageCenter>(file);
             WriteLoad();
         }
         else if (DebugLogs) Debug.Log("No File Found.");
@@ -38,19 +38,9 @@ public class DataCenter : MonoBehaviour
     private void SafeGame()
     {
         WriteSave();
-        FileStream file;
-        if (File.Exists(Application.persistentDataPath + Filename))
-        {
-            if (DebugLogs) Debug.Log($"file exist at {Application.persistentDataPath + Filename}");
-            file = File.Open(Application.persistentDataPath + Filename,FileMode.Open);
-        }
-        else
-        {
-            if (DebugLogs) Debug.Log($"file created at {Application.persistentDataPath + Filename}");
-            file = File.Create(Application.persistentDataPath + Filename);
-        }
-        bf.Serialize(file,storageCenter);
-        file.Close();
+        string json = JsonUtility.ToJson(storageCenter);
+        File.WriteAllText(Application.persistentDataPath + Filename, json);
+        Debug.Log($"Json stored at {Application.persistentDataPath + Filename}");
     }
     private void DeleteFile()
     {
@@ -63,44 +53,23 @@ public class DataCenter : MonoBehaviour
     }
     private void WriteLoad()
     {
-        List<InventoryItem> inv = new List<InventoryItem>();
         foreach (InventorySave fishSave in storageCenter.GameSave)
         {
-            InventoryItem fish = new InventoryItem();
-            Color bColor = new Color()
-            {
-                r = fishSave.Color[0],
-                g = fishSave.Color[1],
-                b = fishSave.Color[2]
-            };
-            fish.Initialize(fishSave.FishData, fishSave.FishSize, bColor);
-            fish.SetStackSize(fishSave.StackSize);
-            inv.Add(fish);
+            EventManager.OnFishCaught(fishSave.FishData, fishSave.FishSize);
         }
-        Inventory.Instance.currentFish = inv;   
     } 
     private void WriteSave()
     {
         List<InventoryItem> invitems = Inventory.Instance.currentFish;
         foreach (InventoryItem fish in invitems)
         {
-            string json = JsonUtility.ToJson(fish.GetFishData());
-            Debug.Log(json);
             InventorySave fishSave = new InventorySave();
-            fishSave.Color = new float[2];
             fishSave.FishSize = fish.GetFishSize();
             fishSave.StackSize = fish.GetStackSize();
             fishSave.FishData = fish.GetFishData();
-
-            Color color = fish.GetColor();
-            for (int i = 0; i < 3; i++)
-            {
-                Debug.Log("loop" + i);
-                fishSave.Color[i] = color[i];   
-            }
+            fishSave.Color = fish.GetColor();
             GameSave.Add(fishSave);
         }
-
         storageCenter.GameSave = GameSave;
     }
 }
@@ -116,7 +85,7 @@ public struct InventorySave
     public FishData FishData;
     public int StackSize;
     public FishSize FishSize;
-    public float[] Color;
+    public Color Color;
 }
 
 
