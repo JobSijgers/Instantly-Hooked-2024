@@ -29,18 +29,22 @@ namespace Player.Inventory
         private void Start()
         {
             EventManager.PauseStateChange += OnPause;
+            EventManager.PlayerDied += ClearInventory;
+
             inventoryUI.gameObject.SetActive(false);
         }
 
         private void OnDestroy()
         {
             EventManager.PauseStateChange -= OnPause;
+            EventManager.PlayerDied -= ClearInventory;
+            EventManager.FishCaught -= AddFish;
         }
 
         private void AddFish(FishData fishToAdd, FishSize size)
         {
             if (fishToAdd.maxStackAmount <= 1) return;
-            foreach (var inventoryItem in GetInventory())
+            foreach (InventoryItem inventoryItem in GetInventory())
             {
                 if (inventoryItem == null || inventoryItem.GetFishData() != fishToAdd ||
                     inventoryItem.GetFishSize() != size) continue;
@@ -59,11 +63,11 @@ namespace Player.Inventory
 
         public void RemoveFish(FishData fishToRemove, FishSize size, int amount)
         {
-            var remainingAmount = amount;
+            int remainingAmount = amount;
             List<InventoryItem> itemsToDelete = new();
             if (fishToRemove == null)
                 return;
-            foreach (var item in GetInventory())
+            foreach (InventoryItem item in GetInventory())
             {
                 if (item == null) continue;
 
@@ -92,7 +96,7 @@ namespace Player.Inventory
 
         private void DeleteFishItem(InventoryItem[] items)
         {
-            foreach (var item in items)
+            foreach (InventoryItem item in items)
             {
                 Destroy(item.gameObject);
                 currentFish.Remove(item);
@@ -103,7 +107,7 @@ namespace Player.Inventory
         {
             int totalAmountOfFish = 0;
             List<InventoryItem> itemsContainingFish = new();
-            foreach (var item in GetInventory())
+            foreach (InventoryItem item in GetInventory())
             {
                 if (item == null) continue;
 
@@ -145,6 +149,15 @@ namespace Player.Inventory
             }
 
             DeleteFishItem(itemsToDelete.ToArray());
+        }
+        
+        private void ClearInventory()
+        {
+            foreach (InventoryItem item in GetInventory())
+            {
+                Destroy(item.gameObject);
+            }
+            currentFish.Clear();
         }
 
         public InventoryItem[] GetInventory()

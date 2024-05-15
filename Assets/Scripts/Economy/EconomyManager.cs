@@ -31,7 +31,7 @@ namespace Economy
             return _currentMoney - purchaseAmount >= 0;
         }
 
-        private void AddMoney(int addAmount)
+        public void AddMoney(int addAmount)
         {
             _currentMoney += addAmount;
             EventManager.OnMoneyUpdate(_currentMoney);

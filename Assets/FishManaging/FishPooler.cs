@@ -14,10 +14,6 @@ public class FishPooler : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        foreach (var fish in FishList)
-        {
-            fish.Hook = Hook;
-        }
     }
     public FishBrain GetFish()
     {
@@ -30,7 +26,6 @@ public class FishPooler : MonoBehaviour
             else if (i == FishList.Count - 1)
             {
                 FishBrain newfish = SpawnNewFish();
-                newfish.Hook = Hook;
                 FishList.Add(newfish);
                 return newfish;
             }
@@ -63,6 +58,7 @@ public class FishPooler : MonoBehaviour
     public FishBrain SpawnNewFish()
     {
         FishBrain newfish = Instantiate(fishPrefab, transform.position, Quaternion.identity);
+        newfish.gameObject.SetActive(false);
         return newfish;
     }
 }

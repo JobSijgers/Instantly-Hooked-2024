@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Economy;
 using Events;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Upgrades
         [SerializeField] private Transform upgradeShopItemParent;
         [SerializeField] private UpgradeShopHighlight upgradeShopHighlight;
         [SerializeField] private GameObject upgradeShopUI;
-        private List<UpgradeShopItem> _upgradeShopItems = new List<UpgradeShopItem>();
+        private List<UpgradeShopItem> upgradeShopItems = new List<UpgradeShopItem>();
 
         private void Awake()
         {
@@ -21,9 +22,11 @@ namespace Upgrades
 
         private void Start()
         {
+            EconomyManager.instance.AddMoney(1000);
             EventManager.UpgradeBought += ChangeItemUpgrade;
             EventManager.UpgradeShopOpen += OpenUpgradeShopUI;
             EventManager.UpgradeShopClose += CloseUpgradeShopUI;
+            EventManager.LeftShore += CloseUpgradeShopUI;
         }
 
         private void OnDestroy()
@@ -31,6 +34,7 @@ namespace Upgrades
             EventManager.UpgradeBought -= ChangeItemUpgrade;
             EventManager.UpgradeShopOpen -= OpenUpgradeShopUI;
             EventManager.UpgradeShopClose -= CloseUpgradeShopUI;
+            EventManager.LeftShore -= CloseUpgradeShopUI;
         }
         
         private void OpenUpgradeShopUI() 
@@ -38,22 +42,22 @@ namespace Upgrades
             upgradeShopUI.SetActive(true);
         }
         
-        private void CloseUpgradeShopUI()
+        public void CloseUpgradeShopUI()
         {
             upgradeShopUI.SetActive(false);
         }
         
         public void CreateUpgradeItem(Upgrade upgrade)
         {
-            var upgradeItem = Instantiate(upgradeShopItem, upgradeShopItemParent);
-            var shopItem = upgradeItem.GetComponent<UpgradeShopItem>();
+            GameObject upgradeItem = Instantiate(upgradeShopItem, upgradeShopItemParent);
+            UpgradeShopItem shopItem = upgradeItem.GetComponent<UpgradeShopItem>();
             shopItem.SetUpgrade(upgrade);
-            _upgradeShopItems.Add(shopItem);
+            upgradeShopItems.Add(shopItem);
         }
 
         private void ChangeItemUpgrade(Upgrade upgrade)
         {
-            foreach (var shopItem in _upgradeShopItems)
+            foreach (UpgradeShopItem shopItem in upgradeShopItems)
             {
                 if (shopItem.GetUpgrade() == null) continue;
                 if (shopItem.GetUpgrade().GetType() != upgrade.GetType()) continue;
@@ -62,14 +66,18 @@ namespace Upgrades
                 if (nextUpgrade == null)
                 {
                     shopItem.SetMaxed();
-                    shopItem.UpgradeButtonPressed();
+                    SelectUpgrade(null);
                     return;
                 }
                 shopItem.SetUpgrade(nextUpgrade);
-                shopItem.UpgradeButtonPressed();
+                SelectUpgrade(nextUpgrade);
             }
         }
 
+        public void ClearHighlight()
+        {
+            upgradeShopHighlight.ClearHighlight();
+        }
         public void SelectUpgrade(Upgrade upgrade)
         {
             upgradeShopHighlight.HighlightUpgrade(upgrade);

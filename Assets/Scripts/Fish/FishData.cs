@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Fish
 {
     [CreateAssetMenu(menuName = "Fish/Create Fish Data)", fileName = "FishData")]
+    [Serializable]
     public class FishData : ScriptableObject
     {
         
@@ -28,6 +29,10 @@ namespace Fish
 
         [Header("Inventory")] 
         public int maxStackAmount;
+
+        [Header("Bite")]
+        [Tooltip("1 op ??")]
+        public int biteRate;
     }
     
     

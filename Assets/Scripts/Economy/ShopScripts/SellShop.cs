@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections;
-using Events;
+﻿using Events;
 using Player.Inventory;
-using Timer;
+using Enums;
 using UnityEngine;
-
-public enum ShopState
-{
-    Open,
-    Closed
-}
 
 namespace Economy.ShopScripts
 {
     public class SellShop : MonoBehaviour
     {
-        private ShopState _shopState = ShopState.Closed;
+        private ShopState shopState = ShopState.Closed;
 
-        private SellShopUI _sellShopUI;
+        private SellShopUI sellShopUI;
         
         private void Start()
         {
@@ -33,7 +25,7 @@ namespace Economy.ShopScripts
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && _shopState == ShopState.Open)
+            if (Input.GetKeyDown(KeyCode.Escape) && shopState == ShopState.Open)
             {
                 CloseShop();
             }
@@ -41,18 +33,18 @@ namespace Economy.ShopScripts
 
         private void OpenShop()
         {
-            _shopState = ShopState.Open;
+            shopState = ShopState.Open;
         }
         
         private void CloseShop()
         {
             EventManager.OnSellShopClose();
-            _shopState = ShopState.Closed;
+            shopState = ShopState.Closed;
         }
         
         private void SellSelected(SellListItem[] fishToSell)
         {
-            foreach (var fish in fishToSell)
+            foreach (SellListItem fish in fishToSell)
             {
                 Inventory.Instance.RemoveFish(fish.data, fish.size, fish.amount);
                 EventManager.OnShopSell(fish.amount * fish.data.fishSellAmount[(int)fish.size]);

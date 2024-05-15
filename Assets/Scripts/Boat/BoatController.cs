@@ -28,6 +28,7 @@ namespace Boat
         {
             EventManager.UpgradeBought += OnUpgrade;
             EventManager.PauseStateChange += OnPause;
+            EventManager.LeftShore += UndockBoat;
             _rigidbody = GetComponent<Rigidbody>();
         }
 
@@ -35,6 +36,7 @@ namespace Boat
         {
             EventManager.PauseStateChange -= OnPause;
             EventManager.UpgradeBought -= OnUpgrade;
+            EventManager.LeftShore -= UndockBoat;
         }
 
         private void Update()
@@ -66,21 +68,19 @@ namespace Boat
         {
             //check if velocity succeeds max speed and counteracts it.
             if (_rigidbody.velocity.magnitude < maxVelocity) return;
-            var velocity = _rigidbody.velocity;
-            var counteractForce = velocity.normalized * (maxVelocity - velocity.magnitude);
+            Vector3 velocity = _rigidbody.velocity;
+            Vector3 counteractForce = velocity.normalized * (maxVelocity - velocity.magnitude);
             _rigidbody.AddForce(counteractForce);
         }
 
         public void DockBoat(Vector3 dockLocation)
         {
             StartCoroutine(MoveBoatToDock(dockLocation));
-            EventManager.UnDock += UndockBoat;
             _docked = true;
         }
 
         private void UndockBoat()
         {
-            EventManager.UnDock -= UndockBoat;
             _docked = false;
         }
 
@@ -89,12 +89,12 @@ namespace Boat
             while (Vector3.Distance(transform.position, dockLocation) > 0.3f)
             {
                 // Get direction to target
-                var boatPosition = transform.position;
-                var direction = (dockLocation - boatPosition).normalized;
-                var distance = Vector3.Distance(boatPosition, dockLocation);
-                var forceMagnitude = Mathf.Clamp(distance * speedMultiplier, 0f, Mathf.Infinity);
+                Vector3 boatPosition = transform.position;
+                Vector3 direction = (dockLocation - boatPosition).normalized;
+                float distance = Vector3.Distance(boatPosition, dockLocation);
+                float forceMagnitude = Mathf.Clamp(distance * speedMultiplier, 0f, Mathf.Infinity);
 
-                var decelerationLerp = Mathf.Clamp01((distance - dockStoppingDistance) / dockStoppingDistance);
+                float decelerationLerp = Mathf.Clamp01((distance - dockStoppingDistance) / dockStoppingDistance);
                 forceMagnitude *= decelerationLerp;
 
                 _rigidbody.AddForce(direction * forceMagnitude);

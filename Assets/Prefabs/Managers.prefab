@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 9030007309800792193}
   - component: {fileID: 6731738640997864002}
   - component: {fileID: 6877359919399279039}
+  - component: {fileID: 5682972943312613664}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dayStartMinutes: 390
-  minutesPerCycle: 12
+  minutesPerCycle: 7
 --- !u!114 &5724927979952931040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,18 +131,34 @@ MonoBehaviour:
     - {fileID: 11400000, guid: af7c789d744bb81489826d99f67d8270, type: 2}
     - {fileID: 11400000, guid: 3ab0512eb994a6549be8ba65a5a5126d, type: 2}
     - {fileID: 11400000, guid: b0a8aab20336b7442866b03e937313fa, type: 2}
+    - {fileID: 11400000, guid: d89bedcc380778548b21de5346caf6f3, type: 2}
+    - {fileID: 11400000, guid: 0d27486374d02364db17dedd711cc204, type: 2}
+    - {fileID: 11400000, guid: eded407de0d65554f92b9182cd6d7af6, type: 2}
+    - {fileID: 11400000, guid: 872654345af701a4ca47ad4d33f05fa3, type: 2}
+    - {fileID: 11400000, guid: f3515f7a420bd9d4eb4da627f8ef78dc, type: 2}
+    - {fileID: 11400000, guid: f4c228440c67c3845b42b7ed96d3aaf1, type: 2}
+    - {fileID: 11400000, guid: 0a06ced5aef7ab942a3484aa47b9ba0b, type: 2}
   - upgrades:
     - {fileID: 11400000, guid: f6e8147b4fe9ad44d942151b833e81ab, type: 2}
     - {fileID: 11400000, guid: 1780445d79735954899407def4be379a, type: 2}
     - {fileID: 11400000, guid: 32eab90220bb55e46bb97db373568104, type: 2}
+    - {fileID: 11400000, guid: 8c9686c483f8dce4db5c180cf84f8fe6, type: 2}
+    - {fileID: 11400000, guid: 05046ce99c0658248a3000d7fafb56ca, type: 2}
+    - {fileID: 11400000, guid: bc57ed1cb2a07b44486f00a8d6b78aa9, type: 2}
+    - {fileID: 11400000, guid: 8c0ad6a3b06bcda419e11fdab5c243fa, type: 2}
+    - {fileID: 11400000, guid: 69213069acce6714aa1fe6a27ecf306e, type: 2}
+    - {fileID: 11400000, guid: 1383d221a4ab5cb4b8c1c49feba76c2a, type: 2}
+    - {fileID: 11400000, guid: 307d1b9c65f73b64b99c6da85e5524dd, type: 2}
+    - {fileID: 11400000, guid: d644232e6b681eb4dae3400323830071, type: 2}
   - upgrades:
     - {fileID: 11400000, guid: 229610dd605801549959f5cc34830ca5, type: 2}
     - {fileID: 11400000, guid: 301da3bb36a07ea4c81b53244d233293, type: 2}
     - {fileID: 11400000, guid: 7bbe801391652804c99c962404cd9c4b, type: 2}
-  - upgrades:
-    - {fileID: 11400000, guid: db2eebf00456d144e992ed469e1d92f5, type: 2}
-    - {fileID: 11400000, guid: e9efd06fe23eb834485b431b98693480, type: 2}
-    - {fileID: 11400000, guid: 5c0e3dcff0b27794bba806a55e627a78, type: 2}
+    - {fileID: 11400000, guid: 1340379c4687f134b860eb48c3336fb4, type: 2}
+    - {fileID: 11400000, guid: fc0495f71f3392d4aad8919220476ed8, type: 2}
+    - {fileID: 11400000, guid: 8ace1a84d47548d4cb3773892fc83602, type: 2}
+    - {fileID: 11400000, guid: c4ef6bbcf01f7574399c718c542a6bfe, type: 2}
+    - {fileID: 11400000, guid: 8cc17109cc9351048a693392c68e1a2b, type: 2}
 --- !u!114 &6731738640997864002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,3 +211,20 @@ MonoBehaviour:
   fadeScreen: {fileID: 0}
   shore: {fileID: 0}
   sea: {fileID: 0}
+--- !u!114 &5682972943312613664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721431727958521510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fae9dc38c94d529159b0c27a9659ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stormSpawnTime: 1320
+  stormPrefab: {fileID: 3637976659660182011, guid: 3dd0cafb2e81fa9499af93879224a746,
+    type: 3}
+  stormSpawnLocation: {fileID: 0}
+  stormEndLocation: {fileID: 0}
