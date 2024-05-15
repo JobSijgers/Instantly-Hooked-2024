@@ -22,7 +22,6 @@ namespace Upgrades
 
         private void Start()
         {
-            EconomyManager.instance.AddMoney(1000);
             EventManager.UpgradeBought += ChangeItemUpgrade;
             EventManager.UpgradeShopOpen += OpenUpgradeShopUI;
             EventManager.UpgradeShopClose += CloseUpgradeShopUI;
