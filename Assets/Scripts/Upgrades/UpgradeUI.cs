@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Economy;
 using Events;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace Upgrades
 
         private void Start()
         {
+            EconomyManager.instance.AddMoney(1000);
             EventManager.UpgradeBought += ChangeItemUpgrade;
             EventManager.UpgradeShopOpen += OpenUpgradeShopUI;
             EventManager.UpgradeShopClose += CloseUpgradeShopUI;
@@ -64,14 +66,18 @@ namespace Upgrades
                 if (nextUpgrade == null)
                 {
                     shopItem.SetMaxed();
-                    shopItem.UpgradeButtonPressed();
+                    SelectUpgrade(null);
                     return;
                 }
                 shopItem.SetUpgrade(nextUpgrade);
-                shopItem.UpgradeButtonPressed();
+                SelectUpgrade(nextUpgrade);
             }
         }
 
+        public void ClearHighlight()
+        {
+            upgradeShopHighlight.ClearHighlight();
+        }
         public void SelectUpgrade(Upgrade upgrade)
         {
             upgradeShopHighlight.HighlightUpgrade(upgrade);
