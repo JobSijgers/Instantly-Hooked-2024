@@ -19,6 +19,7 @@ namespace Economy
         private void Start()
         {
             EventManager.ShopSell += AddMoney;
+            AddMoney(1000000);
         }
 
         private void OnDestroy()
