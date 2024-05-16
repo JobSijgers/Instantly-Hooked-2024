@@ -171,7 +171,7 @@ public class FishBiting : MonoBehaviour,IFishState
     {
         float dis = Vector2.Distance(Hook.instance.HookOrigin.transform.position, targetpos);
         dis -= 0.1f;
-        if (dis < Rod.GetLineLenght()) return true;
+        if (dis < Rod.GetLineLength()) return true;
         else return false;
     }
     public void GetOffHook()

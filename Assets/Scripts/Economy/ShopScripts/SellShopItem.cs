@@ -43,15 +43,15 @@ namespace Economy.ShopScripts
         public void Initialize(FishData fishData, FishSize fishSize, int amountInStack, Color backgroundColor)
         {
             base.Initialize(fishData, fishSize, backgroundColor);
-            StackSize = amountInStack;
+            stackSize = amountInStack;
             UpdateStackUI();
         }
 
         public void PlusButtonPressed()
         {
-            if (_currentSelectedAmount + 1 > StackSize)
+            if (_currentSelectedAmount + 1 > stackSize)
                 return;
-            if (_currentSelectedAmount + 1 > FishData.maxStackAmount)
+            if (_currentSelectedAmount + 1 > fishData.maxStackAmount)
                 return;
             _currentSelectedAmount += 1;
             inputField.text = _currentSelectedAmount.ToString();
@@ -73,17 +73,17 @@ namespace Economy.ShopScripts
             if (newInt == _currentSelectedAmount)
                 return;
 
-            if (newInt >= StackSize)
+            if (newInt >= stackSize)
             {
-                OnSelectedAmountChanged?.Invoke(this, StackSize - _currentSelectedAmount);
-                _currentSelectedAmount = StackSize;
-                inputField.text = StackSize.ToString();
+                OnSelectedAmountChanged?.Invoke(this, stackSize - _currentSelectedAmount);
+                _currentSelectedAmount = stackSize;
+                inputField.text = stackSize.ToString();
             }
-            else if (newInt >= FishData.maxStackAmount)
+            else if (newInt >= fishData.maxStackAmount)
             {
-                OnSelectedAmountChanged?.Invoke(this, FishData.maxStackAmount - _currentSelectedAmount);
-                _currentSelectedAmount = FishData.maxStackAmount;
-                inputField.text = FishData.maxStackAmount.ToString();
+                OnSelectedAmountChanged?.Invoke(this, fishData.maxStackAmount - _currentSelectedAmount);
+                _currentSelectedAmount = fishData.maxStackAmount;
+                inputField.text = fishData.maxStackAmount.ToString();
             }
             else if (newInt <= 0)
             {

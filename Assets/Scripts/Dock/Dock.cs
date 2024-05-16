@@ -67,7 +67,7 @@ namespace Dock
 
         private void UnDockBoat()
         {
-            _boatDocked = false;    
+            _boatDocked = false;
         }
 
         private void OnPause(PauseState newState)
@@ -77,7 +77,8 @@ namespace Dock
                 PauseState.Playing => true,
                 PauseState.InPauseMenu => false,
                 PauseState.InInventory => false,
-                _ => throw new ArgumentOutOfRangeException(nameof(newState), newState, null)
+                PauseState.InCatalogue => false,
+                PauseState.InQuests => false
             };
         }
     }

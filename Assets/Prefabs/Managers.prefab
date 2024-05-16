@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2903427400292954000}
-  - component: {fileID: 8063427436107072276}
   - component: {fileID: 8153957688211024010}
   - component: {fileID: 627966974563588867}
   - component: {fileID: 350620038377708309}
@@ -41,28 +40,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8063427436107072276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721431727958521510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 878490bcd7ff4c7f8f2bfd4d501d3b19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentFish: []
-  defaultInventorySlot: {fileID: 5340502770014464215, guid: 9f6b8d847ef59544eb51082476d407c8,
-    type: 3}
-  inventoryParent: {fileID: 0}
-  rarityColors:
-  - {r: 0.6679245, g: 0.6679245, b: 0.6679245, a: 1}
-  - {r: 0.6250953, g: 1, b: 0.48113203, a: 1}
-  - {r: 1, g: 0.9044334, b: 0.435849, a: 1}
-  - {r: 0.6534284, g: 0.1641509, b: 1, a: 1}
-  inventoryUI: {fileID: 0}
 --- !u!114 &8153957688211024010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1454e85f2ba047e8a4abffcf2bf3d965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seaLevel: 3
+  seaLevel: 3.35
   hook: {fileID: 0}
 --- !u!114 &9030007309800792193
 MonoBehaviour:

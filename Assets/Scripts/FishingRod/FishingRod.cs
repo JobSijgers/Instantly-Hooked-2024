@@ -3,7 +3,6 @@ using Enums;
 using Events;
 using PauseMenu;
 using UnityEngine;
-using UnityEngine.Experimental.Audio;
 using Upgrades;
 
 namespace FishingRod
@@ -19,14 +18,15 @@ namespace FishingRod
         private float maxLineLength = 5;
         private float currentLineLength = 0;
         private bool rodEnabled = true;
-        public float GetLineLenght() => maxLineLength;
+        public float GetLineLength() => maxLineLength;
+
         private void Start()
         {
             EventManager.Dock += OnDock;
             EventManager.UpgradeBought += UpgradeBought;
             EventManager.LeftShore += OnUndock;
             EventManager.PauseStateChange += OnPause;
-            
+
             springJoint = GetComponent<SpringJoint>();
 
             springJoint.connectedBody = hook.GetComponent<Rigidbody>();
@@ -84,10 +84,12 @@ namespace FishingRod
                 FishPooler.instance.ReturnFish(Hook.instance.FishOnHook);
                 Hook.instance.FishOnHook = null;
             }
+
             springJoint.maxDistance = newClampedLineLength;
             springJoint.connectedBody.WakeUp();
             currentLineLength = newClampedLineLength;
         }
+
         public void SetLineLength(Vector2 fishpos)
         {
             float distance = Vector2.Distance(origin.transform.position, fishpos);
@@ -98,12 +100,13 @@ namespace FishingRod
             springJoint.connectedBody.WakeUp();
             currentLineLength = newClampedLineLength;
         }
+
         private FishSize GetRandomFishSize()
         {
             var fish = Enum.GetValues(typeof(FishSize));
             return (FishSize)fish.GetValue(UnityEngine.Random.Range(0, fish.Length));
         }
-        
+
         private void OnDock()
         {
             rodEnabled = false;
@@ -128,25 +131,33 @@ namespace FishingRod
                     break;
             }
         }
+
         private void OnPause(PauseState newState)
         {
             switch (newState)
             {
                 case PauseState.Playing:
-                    rodEnabled = true;
-                    springJoint.connectedBody.isKinematic = false;
+                    SetPause(false);
                     break;
                 case PauseState.InPauseMenu:
-                    rodEnabled = false;
-                    springJoint.connectedBody.isKinematic = true;
-                    break;
+                    SetPause(true);
+                    break;  
                 case PauseState.InInventory:
-                    springJoint.connectedBody.isKinematic = true;
-                    rodEnabled = false;
+                    SetPause(true);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+                case PauseState.InCatalogue:
+                    SetPause(true);
+                    break;
+                case PauseState.InQuests:
+                    SetPause(true);
+                    break;
             }
+        }
+
+        private void SetPause(bool isPaused)
+        {
+            rodEnabled = !isPaused;
+            springJoint.connectedBody.isKinematic = isPaused;
         }
     }
 }
