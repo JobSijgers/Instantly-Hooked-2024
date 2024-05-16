@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Fish
 {
     [CreateAssetMenu(menuName = "Fish/Create Fish Data)", fileName = "FishData")]
+    [Serializable]
     public class FishData : ScriptableObject
     {
         

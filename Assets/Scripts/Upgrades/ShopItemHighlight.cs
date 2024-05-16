@@ -11,13 +11,6 @@ namespace Upgrades
         [SerializeField] private TMP_Text upgradeDescriptionText;
         [SerializeField] private TMP_Text upgradeCostText;
         [SerializeField] private TMP_Text upgradeEffectText;
-        [SerializeField] private Button upgradeButton;
-        private Upgrade _currentHighLight;
-
-        private void Start()
-        {
-            upgradeButton.onClick.AddListener(BuyButtonPressed);
-        }
 
         public void HighlightUpgrade(Upgrade upgrade)
         {
@@ -27,7 +20,6 @@ namespace Upgrades
                 upgradeDescriptionText.text = "You have maxed out this upgrade";
                 upgradeCostText.text = "";
                 upgradeEffectText.text = "";
-                upgradeButton.interactable = false;
                 return;
             }
             string upgradeEffectString = "";
@@ -38,7 +30,6 @@ namespace Upgrades
             upgradeNameText.text = upgrade.upgradeName;
             upgradeDescriptionText.text = upgrade.description;
             upgradeCostText.text = upgrade.cost.ToString();
-            upgradeButton.interactable = true;
 
 
             for (int i = 0; i < upgrade.GetEffectName().Length; i++)
@@ -47,15 +38,14 @@ namespace Upgrades
             }
 
             upgradeEffectText.text = upgradeEffectString;
-
-            _currentHighLight = upgrade;
         }
 
-        private void BuyButtonPressed()
+        public void ClearHighlight()
         {
-            if (_currentHighLight == null)
-                return;
-            UpgradeManager.Instance.UpgradeBought(_currentHighLight);
+            upgradeNameText.text = "";
+            upgradeDescriptionText.text = "";
+            upgradeCostText.text = "";
+            upgradeEffectText.text = "";
         }
     }
 }

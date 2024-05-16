@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public enum FishBitingState
 {
@@ -76,6 +77,7 @@ public class FishBiting : MonoBehaviour,IFishState
             BiteState = FishBitingState.onhook;
             waitForStruggel = StartCoroutine(WaitForStruggel(0.3f));
         }
+        if (BiteState == FishBitingState.struggeling && !IsInWater()) BiteState = FishBitingState.onhook;
         if (BiteState == FishBitingState.struggeling)
         {
             if (Input.GetMouseButton(1))
@@ -130,14 +132,14 @@ public class FishBiting : MonoBehaviour,IFishState
 
                 if (transform.position == Brain.EndPos)
                 {
-                    Vector2 newpos = Brain.GetNewPosition();
+                    Vector2 newpos = Brain.GetNewPosition(); //Reposition();
                     if (IsPositionInLineRange(newpos))
                     {
                         Brain.SetEndPos(newpos);
                     }
                 }
 
-                transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, Brain.moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, Brain.StruggelSpeed * Time.deltaTime);
                 Hook.instance.hook.transform.position = transform.position;
                 Rod.SetLineLength(transform.position);
 
@@ -151,6 +153,11 @@ public class FishBiting : MonoBehaviour,IFishState
         {
             OffHook = true;
         }
+    }
+    private Vector2 Reposition()
+    {
+        Vector2 newpos = (Vector2)transform.position + Random.insideUnitCircle * Struggelrange;
+        return newpos;
     }
     private bool IsInWater()
     {

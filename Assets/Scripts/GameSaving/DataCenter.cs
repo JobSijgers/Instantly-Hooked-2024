@@ -4,73 +4,88 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
+using Enums;
+using Fish;
+using Player.Inventory;
+using Events;
 
 public class DataCenter : MonoBehaviour
 {
+    [SerializeField] private bool DebugLogs;
     private string Filename = "/GameSafe.dat";
     private BinaryFormatter bf = new BinaryFormatter();
     private StorageCenter storageCenter = new StorageCenter();
-    public int KurwaBaut;
-    public int KurwaCaut;
-    public Kurwatje kurwatje;
+    private List<InventorySave> GameSave = new List<InventorySave>();
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S)) SafeGame();
-        if (Input.GetKeyDown(KeyCode.D)) DeleteFile();
-        if (Input.GetKeyDown(KeyCode.L)) LoadGame();
-        if (Input.GetKeyDown(KeyCode.O)) KurwaBaut++;
-        if (Input.GetKeyDown(KeyCode.P)) KurwaCaut++;
-        if (Input.GetKeyDown(KeyCode.I)) {KurwaBaut = 0; KurwaCaut = 0;}
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
+        if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
+        if (Input.GetKeyDown(KeyCode.Alpha3)) DeleteFile();
     }
     private void LoadGame()
     {
+        if (DebugLogs) Debug.Log("Load Game");
         if (File.Exists(Application.persistentDataPath + Filename))
         {
-            Debug.Log("Load Game");
-            FileStream file = File.Open(Application.persistentDataPath + Filename, FileMode.Open);
-            storageCenter =  (StorageCenter)bf.Deserialize(file);
-            KurwaBaut = storageCenter.StoreInt;
-            KurwaCaut = storageCenter.Kurwatje.kurwaFish;
-            file.Close();
+            if (DebugLogs) Debug.Log($"Debug Found at {Application.persistentDataPath + Filename}");
+
+            string file = File.ReadAllText(Application.persistentDataPath + Filename);
+            storageCenter = JsonUtility.FromJson<StorageCenter>(file);
+            WriteLoad();
         }
-        Debug.Log($"KurwaBaut{KurwaBaut} : Kurwacaut{KurwaCaut}");
+        else if (DebugLogs) Debug.Log("No File Found.");
     }
     private void SafeGame()
     {
-        Debug.Log("zaad");
-        FileStream file;
-        storageCenter.StoreInt = KurwaBaut;
-        storageCenter.Kurwatje.kurwaFish = KurwaCaut;
-        Debug.Log(kurwatje.kurwaFish);
-        if (File.Exists(Application.persistentDataPath + Filename))
-        {
-            file = File.Open(Application.persistentDataPath + Filename,FileMode.Open);
-        }
-        else
-        {
-            file = File.Create(Application.persistentDataPath + Filename);
-        }
-        Debug.Log(file.Name);
-        bf.Serialize(file,storageCenter);
-        file.Close();
+        WriteSave();
+        string json = JsonUtility.ToJson(storageCenter);
+        File.WriteAllText(Application.persistentDataPath + Filename, json);
+        Debug.Log($"Json stored at {Application.persistentDataPath + Filename}");
     }
     private void DeleteFile()
     {
         if (File.Exists(Application.persistentDataPath + Filename))
         {
+            if (DebugLogs) Debug.Log("file has been deleted");
             File.Delete(Application.persistentDataPath + Filename);
         }
+        else if (DebugLogs) Debug.Log("no file exist to delete");
+    }
+    private void WriteLoad()
+    {
+        foreach (InventorySave fishSave in storageCenter.GameSave)
+        {
+            EventManager.OnFishCaught(fishSave.FishData, fishSave.FishSize);
+        }
+    } 
+    private void WriteSave()
+    {
+        List<InventoryItem> invitems = Inventory.Instance.currentFish;
+        foreach (InventoryItem fish in invitems)
+        {
+            InventorySave fishSave = new InventorySave();
+            fishSave.FishSize = fish.GetFishSize();
+            fishSave.StackSize = fish.GetStackSize();
+            fishSave.FishData = fish.GetFishData();
+            fishSave.Color = fish.GetColor();
+            GameSave.Add(fishSave);
+        }
+        storageCenter.GameSave = GameSave;
     }
 }
 [Serializable]
-public struct Kurwatje
+public class StorageCenter
 {
-    public int kurwaFish;
+    public List<InventorySave> GameSave = new List<InventorySave>();
 }
 
 [Serializable]
-public class StorageCenter
+public struct InventorySave
 {
-    public int StoreInt;
-    public Kurwatje Kurwatje;
+    public FishData FishData;
+    public int StackSize;
+    public FishSize FishSize;
+    public Color Color;
 }
+
+

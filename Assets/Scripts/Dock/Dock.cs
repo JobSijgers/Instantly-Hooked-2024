@@ -13,7 +13,7 @@ namespace Dock
         [SerializeField] private Transform boat;
         [SerializeField] private Transform dockPoint;
         private bool _boatDocked;
-    
+
         private void Start()
         {
             BoatController controller = boat.GetComponent<BoatController>();
@@ -23,12 +23,14 @@ namespace Dock
 
             EventManager.PauseStateChange += OnPause;
             EventManager.PlayerDied += DockBoat;
+            EventManager.LeftShore += UnDockBoat;
         }
 
         private void OnDestroy()
         {
             EventManager.PauseStateChange -= OnPause;
             EventManager.PlayerDied -= DockBoat;
+            EventManager.LeftShore -= UnDockBoat;
         }
 
         private void Update()
@@ -61,6 +63,11 @@ namespace Dock
         {
             _boatDocked = true;
             EventManager.OnDock();
+        }
+
+        private void UnDockBoat()
+        {
+            _boatDocked = false;    
         }
 
         private void OnPause(PauseState newState)
