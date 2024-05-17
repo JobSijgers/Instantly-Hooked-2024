@@ -52,7 +52,7 @@ public class FishBrain : MonoBehaviour
         {
             P_fishData = value;
             moveSpeed = value.moveSpeed;
-            StruggelSpeed = value.moveSpeed * 1.5f;
+            StruggelSpeed = value.moveSpeed * 2f;
             Visual = Instantiate(value.fishObject, transform.position,Quaternion.identity, transform);
         }
     }

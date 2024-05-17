@@ -26,7 +26,7 @@ public class FishSpawner : MonoBehaviour
 
     void Update()
     {
-        if (Vector2.Distance(transform.position, hook.transform.position) < ActiveToBoatDistance && !IsThisSpawnerActive)
+        if (Vector2.Distance(transform.position, hook.transform.position) < ActiveToBoatDistance && !IsThisSpawnerActive && Hook.instance.hook.gameObject.activeInHierarchy)
         {
             ActivateThisSpwner();
         }
@@ -34,6 +34,7 @@ public class FishSpawner : MonoBehaviour
         {
             DeactivateThisSpwaner();
         }
+        else if (!Hook.instance.hook.activeInHierarchy) DeactivateThisSpwaner();
     }
     private void ActivateThisSpwner()
     {

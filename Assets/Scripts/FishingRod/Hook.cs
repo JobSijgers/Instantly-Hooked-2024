@@ -26,4 +26,8 @@ public class Hook : MonoBehaviour
     {
         FishOnHook = null;
     }
+
+#if UNITY_EDITOR
+
+#endif
 }
