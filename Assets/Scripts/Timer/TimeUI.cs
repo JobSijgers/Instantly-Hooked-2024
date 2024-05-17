@@ -37,14 +37,21 @@ namespace Timer
         private void UpdateTimeUI(float time)
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-            timeUIText.text = timeSpan.ToString(@"hh\:mm");
+            int minutes = RoundDownToNearestFive(timeSpan.Minutes);
+            TimeSpan roundedTimeSpan = new (timeSpan.Hours, minutes, timeSpan.Seconds);
+            timeUIText.text = roundedTimeSpan.ToString(@"hh\:mm");
+        }
+
+        private int RoundDownToNearestFive(int number)
+        {
+            return number / 5 * 5;
         }
 
         private void UpdateDayUI(int newDay)
         {
             dayUIText.text = $"Day: {newDay}";
         }
-
+        
         private void OnPauseStateChange(PauseState pauseState)
         {
             switch (pauseState)
