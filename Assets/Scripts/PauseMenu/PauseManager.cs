@@ -1,6 +1,5 @@
 ﻿using System;
 using Events;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace PauseMenu
@@ -10,12 +9,15 @@ namespace PauseMenu
         Playing,
         InPauseMenu,
         InInventory,
+        InCatalogue,
+        InQuests
     }
 
     public class PauseManager : MonoBehaviour
     {
-        private bool _isEnabled = true;
-        private PauseState _currentState;
+        private bool isEnabled = true;
+        private static PauseState currentState;
+
 
         private void Start()
         {
@@ -31,37 +33,62 @@ namespace PauseMenu
 
         private void Update()
         {
-            if (!_isEnabled)
+            if (!isEnabled)
                 return;
 
             CheckInventoryKey();
             CheckEscapeKey();
+            CheckJournalKey();
         }
 
         private void DisableManager()
         {
-            _isEnabled = false;
+            isEnabled = false;
         }
 
         private void EnableManager()
         {
-            _isEnabled = true;
+            isEnabled = true;
+        }
+
+        private void CheckJournalKey()
+        {
+            if (!Input.GetKeyDown(KeyCode.J)) return;
+
+            switch (currentState)
+            {
+                case PauseState.Playing:
+                    SetState(PauseState.InCatalogue);
+                    break;
+                case PauseState.InPauseMenu:
+                    break;
+                case PauseState.InInventory:
+                    break;
+                case PauseState.InCatalogue:
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InQuests:
+                    break;
+            }
         }
 
         private void CheckInventoryKey()
         {
             if (!Input.GetKeyDown(KeyCode.I)) return;
 
-            switch (_currentState)
+            switch (currentState)
             {
                 case PauseState.Playing:
-                    SetNewState(PauseState.InInventory);
+                    SetState(PauseState.InInventory);
                     break;
                 case PauseState.InPauseMenu:
                     break;
                 case PauseState.InInventory:
-                    SetNewState(PauseState.Playing);
-
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InCatalogue:
+                    break;
+                case PauseState.InQuests:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -71,31 +98,33 @@ namespace PauseMenu
         private void CheckEscapeKey()
         {
             if (!Input.GetKeyDown(KeyCode.Escape)) return;
-            switch (_currentState)
+            switch (currentState)
             {
                 case PauseState.Playing:
-                    SetNewState(PauseState.InPauseMenu);
+                    SetState(PauseState.InPauseMenu);
                     break;
 
                 case PauseState.InPauseMenu:
-                    SetNewState(PauseState.Playing);
+                    SetState(PauseState.Playing);
                     break;
 
                 case PauseState.InInventory:
-                    SetNewState(PauseState.Playing);
+                    SetState(PauseState.Playing);
                     break;
             }
         }
 
-        private void SetNewState(PauseState newState)
+        public static void SetState(PauseState newState, bool suppressEvent = false)
         {
-            _currentState = newState;
-            EventManager.OnPauseSateChange(_currentState);
+            currentState = newState;
+
+            if (!suppressEvent)
+                EventManager.OnPauseSateChange(currentState);
         }
 
         public void UnPause()
         {
-            SetNewState(PauseState.Playing);
+            SetState(PauseState.Playing);
         }
 
         public void QuitGame()

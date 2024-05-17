@@ -19,6 +19,7 @@ namespace Economy
         private void Start()
         {
             EventManager.ShopSell += AddMoney;
+            AddMoney(1000000);
         }
 
         private void OnDestroy()
@@ -31,7 +32,7 @@ namespace Economy
             return _currentMoney - purchaseAmount >= 0;
         }
 
-        private void AddMoney(int addAmount)
+        public void AddMoney(int addAmount)
         {
             _currentMoney += addAmount;
             EventManager.OnMoneyUpdate(_currentMoney);

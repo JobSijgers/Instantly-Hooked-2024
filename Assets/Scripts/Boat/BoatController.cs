@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Events;
 using Interfaces;
@@ -125,22 +124,34 @@ namespace Boat
             switch (newState)
             {
                 case PauseState.Playing:
-                    enabled = true;
-                    _rigidbody.isKinematic = false;
-                    _rigidbody.velocity = _velocityAtPause;
+                    SetPaused(false);
                     break;
                 case PauseState.InPauseMenu:
-                    enabled = false;
-                    _velocityAtPause = _rigidbody.velocity;
-                    _rigidbody.isKinematic = true;
+                    SetPaused(true);
                     break;
                 case PauseState.InInventory:
-                    enabled = false;
-                    _velocityAtPause = _rigidbody.velocity;
-                    _rigidbody.isKinematic = true;
+                    SetPaused(true);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+                case PauseState.InCatalogue:
+                    SetPaused(true);
+                    break;
+                case PauseState.InQuests:
+                    SetPaused(true);
+                    break;
+            }
+        }
+
+        private void SetPaused(bool isPaused)
+        {
+            _rigidbody.isKinematic = isPaused;
+            enabled = !isPaused;
+            if (isPaused)
+            {
+                _velocityAtPause = _rigidbody.velocity;
+            }
+            else
+            {
+                _rigidbody.velocity = _velocityAtPause;
             }
         }
     }

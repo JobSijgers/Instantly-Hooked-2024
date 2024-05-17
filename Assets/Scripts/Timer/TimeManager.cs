@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Globalization;
 using Events;
 using PauseMenu;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Timer
 {
@@ -76,8 +73,12 @@ namespace Timer
                 case PauseState.InInventory:
                     DisableTime();
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+                case PauseState.InCatalogue:
+                    DisableTime();
+                    break;
+                case PauseState.InQuests:
+                    DisableTime();
+                    break;
             }
         }
 
