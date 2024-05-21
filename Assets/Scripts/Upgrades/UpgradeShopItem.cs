@@ -1,8 +1,8 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Upgrades.Scriptable_Objects;
 
 namespace Upgrades
 {

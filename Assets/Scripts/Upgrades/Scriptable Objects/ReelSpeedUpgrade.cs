@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Upgrades
+namespace Upgrades.Scriptable_Objects
 {
     [CreateAssetMenu(fileName = "ReelSpeedUpgrade", menuName = "Upgrades/New ReelSpeed Upgrade", order = 0)]
     public class ReelSpeedUpgrade : Upgrade

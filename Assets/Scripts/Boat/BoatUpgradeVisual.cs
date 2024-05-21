@@ -2,6 +2,7 @@
 using Events;
 using UnityEngine;
 using Upgrades;
+using Upgrades.Scriptable_Objects;
 
 namespace Boat
 {

@@ -3,13 +3,14 @@ using UnityEngine;
 using Economy.ShopScripts;
 using Events;
 using Unity.VisualScripting;
+using Upgrades.Scriptable_Objects;
 
 namespace Economy
 {
     public class EconomyManager : MonoBehaviour
     {
         public static EconomyManager instance;
-        private int _currentMoney = 0;
+        private int currentMoney;
 
         private void Awake()
         {
@@ -19,29 +20,36 @@ namespace Economy
         private void Start()
         {
             EventManager.ShopSell += AddMoney;
+            EventManager.UpgradeBought += RemoveMoney;
             AddMoney(1000000);
         }
 
         private void OnDestroy()
         {
             EventManager.ShopSell -= AddMoney;
+            EventManager.UpgradeBought -= RemoveMoney;
         }
 
         public bool HasEnoughMoney(int purchaseAmount)
         {
-            return _currentMoney - purchaseAmount >= 0;
+            return currentMoney - purchaseAmount >= 0;
         }
 
-        public void AddMoney(int addAmount)
+        private void AddMoney(int addAmount)
         {
-            _currentMoney += addAmount;
-            EventManager.OnMoneyUpdate(_currentMoney);
+            currentMoney += addAmount;
+            EventManager.OnMoneyUpdate(currentMoney);
         }
-        
-        public void RemoveMoney(int removeMoney)
+
+        private void RemoveMoney(int removeMoney)
         {
-            _currentMoney -= removeMoney;
-            EventManager.OnMoneyUpdate(_currentMoney);
+            currentMoney -= removeMoney;
+            EventManager.OnMoneyUpdate(currentMoney);
+        }
+
+        private void RemoveMoney(Upgrade upgrade)
+        {
+            RemoveMoney(upgrade.cost);
         }
     }
 }

@@ -212,6 +212,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   underWaterPost: {fileID: 0}
   aboveWaterPost: {fileID: 0}
+  baseDepth: 0
+  maxWaterVignetteValues:
+    intensity: 1
+    smoothness: 1
+    color: {r: 0, g: 0, b: 0, a: 1}
+  maxDepth: -30
 --- !u!1 &4251950416590491166
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,6 +458,7 @@ GameObject:
   - component: {fileID: 8513465877253666042}
   - component: {fileID: 3278684453311875325}
   - component: {fileID: 4862848141516474607}
+  - component: {fileID: 1194312609785752343}
   m_Layer: 0
   m_Name: BoatModel
   m_TagString: Player
@@ -588,6 +595,28 @@ MonoBehaviour:
   maxVelocity: 2
   speedMultiplier: 1
   dockStoppingDistance: 1
+--- !u!114 &1194312609785752343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885529980788277765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df5bdd46b8347379ffb374b373657a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeVisuals:
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
 --- !u!1 &7091529629402758222
 GameObject:
   m_ObjectHideFlags: 0

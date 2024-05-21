@@ -5,6 +5,7 @@ using Fish;
 using PauseMenu;
 using UnityEngine.Events;
 using Upgrades;
+using Upgrades.Scriptable_Objects;
 
 namespace Events
 {

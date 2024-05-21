@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Upgrades
+namespace Upgrades.Scriptable_Objects
 {
 
     [CreateAssetMenu(fileName = "SonarUpgrade", menuName = "Upgrades/New Sonar Upgrade", order = 0)]

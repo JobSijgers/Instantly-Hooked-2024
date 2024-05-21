@@ -4,6 +4,7 @@ using Interfaces;
 using PauseMenu;
 using UnityEngine;
 using Upgrades;
+using Upgrades.Scriptable_Objects;
 
 namespace Boat
 {

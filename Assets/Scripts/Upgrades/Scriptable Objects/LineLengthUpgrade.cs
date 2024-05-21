@@ -1,7 +1,6 @@
-﻿using System.Globalization;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Upgrades
+namespace Upgrades.Scriptable_Objects
 {
     [CreateAssetMenu(fileName = "LineLengthUpgrade", menuName = "Upgrades/New Line Length Upgrade", order = 0)]
     public class LineLengthUpgrade : Upgrade

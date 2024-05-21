@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Economy;
+﻿using System.Collections.Generic;
 using Events;
 using UnityEngine;
+using Upgrades.Scriptable_Objects;
 
 namespace Upgrades
 {
@@ -13,7 +12,7 @@ namespace Upgrades
         [SerializeField] private Transform upgradeShopItemParent;
         [SerializeField] private UpgradeShopHighlight upgradeShopHighlight;
         [SerializeField] private GameObject upgradeShopUI;
-        private List<UpgradeShopItem> upgradeShopItems = new List<UpgradeShopItem>();
+        private readonly List<UpgradeShopItem> upgradeShopItems = new();
 
         private void Awake()
         {
@@ -35,17 +34,21 @@ namespace Upgrades
             EventManager.UpgradeShopClose -= CloseUpgradeShopUI;
             EventManager.LeftShore -= CloseUpgradeShopUI;
         }
-        
-        private void OpenUpgradeShopUI() 
+
+        private void OpenUpgradeShopUI()
         {
             upgradeShopUI.SetActive(true);
         }
-        
+
         public void CloseUpgradeShopUI()
         {
             upgradeShopUI.SetActive(false);
         }
-        
+
+        /// <summary>
+        /// his method creates a new upgrade item in the shop for each upgrade.
+        /// </summary>
+        /// <param name="upgrade">Upgrade to create item for</param>
         public void CreateUpgradeItem(Upgrade upgrade)
         {
             GameObject upgradeItem = Instantiate(upgradeShopItem, upgradeShopItemParent);
@@ -54,6 +57,10 @@ namespace Upgrades
             upgradeShopItems.Add(shopItem);
         }
 
+        /// <summary>
+        /// This method updates the displayed upgrade items in the shop when an upgrade is bought.
+        /// </summary>
+        /// <param name="upgrade">New  Upgrade</param>
         private void ChangeItemUpgrade(Upgrade upgrade)
         {
             foreach (UpgradeShopItem shopItem in upgradeShopItems)
@@ -61,13 +68,14 @@ namespace Upgrades
                 if (shopItem.GetUpgrade() == null) continue;
                 if (shopItem.GetUpgrade().GetType() != upgrade.GetType()) continue;
                 Upgrade nextUpgrade = UpgradeManager.Instance.GetNextUpgrade(upgrade);
-                
+
                 if (nextUpgrade == null)
                 {
                     shopItem.SetMaxed();
                     SelectUpgrade(null);
                     return;
                 }
+
                 shopItem.SetUpgrade(nextUpgrade);
                 SelectUpgrade(nextUpgrade);
             }
@@ -77,6 +85,7 @@ namespace Upgrades
         {
             upgradeShopHighlight.ClearHighlight();
         }
+
         public void SelectUpgrade(Upgrade upgrade)
         {
             upgradeShopHighlight.HighlightUpgrade(upgrade);

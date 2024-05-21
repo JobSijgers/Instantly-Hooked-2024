@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-namespace Upgrades
+namespace Upgrades.Scriptable_Objects
 {
     public abstract class Upgrade : ScriptableObject
     {
+        [Serializable]
         public class UpgradeVisual
         {
             public Mesh mesh;
