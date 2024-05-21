@@ -9261,16 +9261,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoatParent
       objectReference: {fileID: 0}
-    - target: {fileID: 348340095401458382, guid: c8a354e68f985614595d6c3335e7353b,
-        type: 3}
-      propertyPath: Rod
-      value: 
-      objectReference: {fileID: 1371235074}
-    - target: {fileID: 348340095401458382, guid: c8a354e68f985614595d6c3335e7353b,
-        type: 3}
-      propertyPath: Offset
-      value: 1.2
-      objectReference: {fileID: 0}
     - target: {fileID: 1232412229167548766, guid: c8a354e68f985614595d6c3335e7353b,
         type: 3}
       propertyPath: aboveWaterPost
@@ -9334,7 +9324,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6885529980788277765, guid: c8a354e68f985614595d6c3335e7353b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1069992038}
   m_SourcePrefab: {fileID: 100100000, guid: c8a354e68f985614595d6c3335e7353b, type: 3}
 --- !u!4 &569288543 stripped
 Transform:
@@ -17481,6 +17475,34 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1069280368}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1069992032 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6885529980788277765, guid: c8a354e68f985614595d6c3335e7353b,
+    type: 3}
+  m_PrefabInstance: {fileID: 569288542}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1069992038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069992032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df5bdd46b8347379ffb374b373657a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeVisuals:
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
 --- !u!1 &1070982837
 GameObject:
   m_ObjectHideFlags: 0
@@ -23301,18 +23323,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1370718936}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1371235074 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9063168969327594134, guid: c8a354e68f985614595d6c3335e7353b,
-    type: 3}
-  m_PrefabInstance: {fileID: 569288542}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f400a3eaf8fec364283d57ed4d5d31ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1373315269
 PrefabInstance:
   m_ObjectHideFlags: 0
