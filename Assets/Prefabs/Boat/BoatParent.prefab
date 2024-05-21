@@ -890,6 +890,18 @@ LineRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 4011258741049999018}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9063168969327594134 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5362664254823101500, guid: b666c5676e5247a418e7df7f4c5acb47,
+    type: 3}
+  m_PrefabInstance: {fileID: 4011258741049999018}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877915585109023604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f400a3eaf8fec364283d57ed4d5d31ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4907193395630176477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1025,3 +1037,5 @@ MonoBehaviour:
   bounds: {fileID: 0}
   HookOrigin: {fileID: 877915585109023604}
   fishline: {fileID: 5390991553932737750}
+  Offset: 1.2
+  Rod: {fileID: 9063168969327594134}
