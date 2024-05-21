@@ -2,6 +2,7 @@ using Fish;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -52,7 +53,7 @@ public class FishBrain : MonoBehaviour
         {
             P_fishData = value;
             moveSpeed = value.moveSpeed;
-            StruggelSpeed = value.moveSpeed * 1.5f;
+            StruggelSpeed = value.moveSpeed * 2f;
             Visual = Instantiate(value.fishObject, transform.position,Quaternion.identity, transform);
         }
     }
@@ -67,7 +68,10 @@ public class FishBrain : MonoBehaviour
         CurrentState = GetComponent<IFishState>();
         CurrentState = states.Roaming;
     }
+    private void Awake()
+    {
 
+    }
     void Update()
     {
         CurrentState = CurrentState.SwitchState();
