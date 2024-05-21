@@ -36,7 +36,7 @@ public class DataCenter : MonoBehaviour
     private void SafeGame()
     {
         WriteSave();
-        string json = JsonUtility.ToJson(storageCenter);
+        string json = JsonUtility.ToJson(storageCenter,true);
         File.WriteAllText(Application.persistentDataPath + Filename, json);
         Debug.Log($"Json stored at {Application.persistentDataPath + Filename}");
     }

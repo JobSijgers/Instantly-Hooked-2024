@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Hook : MonoBehaviour
@@ -9,6 +10,9 @@ public class Hook : MonoBehaviour
     public BoxCollider bounds;
     [SerializeField] public GameObject HookOrigin;
     [SerializeField] public LineRenderer fishline;
+    public float Offset;
+
+    public FishingRod.FishingRod Rod;
 
     private FishBrain P_FishOnHook;
     public FishBrain FishOnHook { get { return P_FishOnHook; } set { P_FishOnHook = value; } }
@@ -28,6 +32,10 @@ public class Hook : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-
+    private void OnDrawGizmos()
+    {
+        Handles.color = Color.blue;
+        Handles.DrawWireArc(Rod.transform.position, Vector3.forward, Vector3.down, 360, Rod.GetLineLength() * Offset);
+    }
 #endif
 }

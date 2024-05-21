@@ -31,14 +31,17 @@ public class FishBiting : MonoBehaviour,IFishState
 
     [Tooltip("hold multiplier")]
     [SerializeField] private float HoldMultiplier;
+    [SerializeField] private float RestoreMultyplier;
 
     [Tooltip("hoe lang kan je vasthouden na max hold time")]
     [SerializeField] private float holdoffset;
 
     [Tooltip("waneer valt de vis als er niet gereeled word")]
     [SerializeField] private float OffHookAfter;
-    private float HoldTimer;
+    private float tention;
     private float struggelTimer;
+
+    private bool endposisstruggelpos = false;
 
     // coroutine 
     private Coroutine StruggelingC;
@@ -92,26 +95,26 @@ public class FishBiting : MonoBehaviour,IFishState
         {
             if (Input.GetMouseButton(1))
             {
-                if (HoldTimer > 0) HoldTimer -= Time.deltaTime * HoldMultiplier;
+                if (tention > 0) tention -= Time.deltaTime * HoldMultiplier;
             }
-            else if (HoldTimer < 255)
+            else if (tention < 255 && transform.position != Brain.EndPos)
             {
-                HoldTimer += Time.deltaTime * HoldMultiplier;
+                tention += Time.deltaTime * RestoreMultyplier;
             }
-            HoldTimer = Mathf.Clamp(HoldTimer, 0, 255);
-            float normalizedHoldTimer = HoldTimer / 255.0f;
+            tention = Mathf.Clamp(tention, 0, 255);
+            float normalizedHoldTimer = tention / 255.0f;
             Color color = new Color(1.0f, normalizedHoldTimer, normalizedHoldTimer);
             Hook.instance.fishline.startColor = color;
             Hook.instance.fishline.endColor = color;
 
-            if (HoldTimer <= 0)
+            if (tention <= 0)
             {
                 OffHook = true;
             }
         }
         else
         {
-            HoldTimer = 255;
+            tention = 255;
             Hook.instance.fishline.startColor = Color.white;
             Hook.instance.fishline.endColor = Color.white;
         }
@@ -133,58 +136,31 @@ public class FishBiting : MonoBehaviour,IFishState
 
             case FishBitingState.struggeling:
 
-                if (transform.position == Brain.EndPos)
+                if (!endposisstruggelpos)
                 {
-                    float outline = Vector2.Distance(Hook.instance.hook.transform.position, Hook.instance.HookOrigin.transform.position);
-                    float linedis = Rod.GetLineLenght();
-                    float remainingline = linedis - outline;
-
-                    Vector2 newpos = Vector3.zero;
-
-
-                    //newpos = Reposition();
-                    newpos = ChooseSwimDirection(remainingline);
-
-                    //if (remainingline < 1)
-                    //{
-                    //    Debug.Log("repos");
-                    //    newpos = Reposition();
-                    //}
-                    //else
-                    //{
-                    //    Debug.Log("extended repos");
-                    //    newpos = ChooseSwimDirection(remainingline);
-                    //}
-
-                    if (IsPositionInLineRange(newpos, out float dist))
+                    Vector2 newpos = Brain.EndPos;
+                    newpos = ChooseSwimDirection();
+                    if (FishPooler.instance.WaterBlock.bounds.Contains(newpos))
                     {
-                        Debug.Log("in line range; set pos");
+                        endposisstruggelpos = true;
                         Brain.SetEndPos(newpos);
-
-
-
-
-
-
-
-                        //if (overigeline < 1)
-                        //{
-                        //    Debug.Log("defauld set pos");
-                        //    Brain.SetEndPos(newpos);
-                        //}
-                        //else
-                        //{
-                        //    Debug.Log("exended set pos");
-                        //    newpos = VectorFlip(newpos);
-                        //    Brain.SetEndPos(newpos);
-                        //}
                     }
                 }
-
-                float speed = Input.GetMouseButton(1) == true ? Brain.moveSpeed : Brain.StruggelSpeed;
-                transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, speed * Time.deltaTime);
-                Hook.instance.hook.transform.position = transform.position;
-                Rod.SetLineLength(transform.position);
+                if (transform.position == Brain.EndPos)
+                {
+                    if (tention > 0) tention -= Time.deltaTime * HoldMultiplier;
+                }
+                float speed = Input.GetMouseButton(1) == true ? 0 : Brain.StruggelSpeed;
+                if (Input.GetMouseButton(1))
+                {
+                    transform.position = Hook.instance.transform.position;
+                }
+                else
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, speed * Time.deltaTime);
+                    Hook.instance.hook.transform.position = transform.position;
+                    Rod.SetLineLength(transform.position);
+                }
 
                 if (StruggelingC == null)
                 {
@@ -193,22 +169,11 @@ public class FishBiting : MonoBehaviour,IFishState
                 break;
         }
     }
-    private Vector2 Reposition()
+    private Vector2 ChooseSwimDirection()
     {
-        Vector2 newpos = transform.position + Random.onUnitSphere * Struggelrange;
-        return newpos;
-    }
-    private Vector2 ChooseSwimDirection(float linelenght)
-    {
-        float angle = Random.Range(0f, 360f);
-        Vector2 swimDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
-        swimDirection *= linelenght;
-        return swimDirection;
-    }
-    private Vector2 VectorFlip(Vector2 pos)
-    {
-        if (pos.y > 0) pos.y = -pos.y; 
-        return pos;
+        float angle = Random.Range(0, 90);
+        Vector2 positionOnCircle = (Vector2)Hook.instance.HookOrigin.transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * Rod.GetLineLength() * Hook.instance.Offset;
+        return positionOnCircle;
     }
     private bool IsInWater()
     {
@@ -218,9 +183,9 @@ public class FishBiting : MonoBehaviour,IFishState
         }
         else return false;  
     }
-    private bool IsPositionInLineRange(Vector2 targetpos, out float dis)
+    private bool IsPositionInLineRange(Vector2 targetpos)
     {
-        dis = Vector2.Distance(Hook.instance.HookOrigin.transform.position, targetpos);
+        float dis = Vector2.Distance(Hook.instance.HookOrigin.transform.position, targetpos);
         dis -= 0.1f;
         if (dis < Rod.GetLineLength()) return true;
         else return false;
@@ -254,6 +219,7 @@ public class FishBiting : MonoBehaviour,IFishState
     }
     private void StruggelReset()
     {
+        Brain.SetEndPos(Vector3.zero);
         BiteState = FishBitingState.onhook;
         waitForStruggelC = StartCoroutine(WaitForStruggel(StruggelAfterTime));
     }
@@ -272,6 +238,8 @@ public class FishBiting : MonoBehaviour,IFishState
     }
     public void ResetState()
     {
+        endposisstruggelpos = false;
+        Brain.SetEndPos(Vector3.zero);
         OffHook = false;
         BiteState = FishBitingState.goingforhook;
         StruggelingC = null;
