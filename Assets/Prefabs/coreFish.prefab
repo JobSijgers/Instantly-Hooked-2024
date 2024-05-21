@@ -65,9 +65,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b51bcba5f701f44ab4916e6527cfb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateSpeed: 0
-  IntresstDistanceToHook: 4.71
-  BiteWait: 5
+  IntresstDistanceToHook: 8
+  BiteWait: 4
 --- !u!114 &3453636385491892057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,11 +82,14 @@ MonoBehaviour:
   BitingRange: 0.2
   Struggelrange: 2
   IntresstLoseDistance: 10
-  StruggelTime: 4
+  StruggelTime: 6
   StruggelAfterTime: 10
-  ToLongHold: 1
+  HoldMultiplier: 200
+  RestoreMultyplier: 400
   holdoffset: 0.5
   OffHookAfter: 1.5
+  CubeObjactos: {fileID: 843586070772292278, guid: bb151e3966ad55a42b11a7f8f4ba2d17,
+    type: 3}
 --- !u!65 &2032342212527237736
 BoxCollider:
   m_ObjectHideFlags: 0

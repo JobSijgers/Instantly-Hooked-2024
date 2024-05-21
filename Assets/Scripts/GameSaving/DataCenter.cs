@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
 using Enums;
@@ -12,8 +11,7 @@ using Events;
 public class DataCenter : MonoBehaviour
 {
     [SerializeField] private bool DebugLogs;
-    private string Filename = "/GameSafe.dat";
-    private BinaryFormatter bf = new BinaryFormatter();
+    private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
     void Update()
@@ -38,7 +36,7 @@ public class DataCenter : MonoBehaviour
     private void SafeGame()
     {
         WriteSave();
-        string json = JsonUtility.ToJson(storageCenter);
+        string json = JsonUtility.ToJson(storageCenter,true);
         File.WriteAllText(Application.persistentDataPath + Filename, json);
         Debug.Log($"Json stored at {Application.persistentDataPath + Filename}");
     }

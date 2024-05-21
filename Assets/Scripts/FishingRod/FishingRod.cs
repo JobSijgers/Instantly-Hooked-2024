@@ -57,9 +57,9 @@ namespace FishingRod
 
             if (Input.GetMouseButton(1))
             {
+                    ReelHook();
                 if (Hook.instance.FishOnHook == null || !Hook.instance.FishOnHook.IsStruggeling())
                 {
-                    ReelHook();
                 }
             }
         }

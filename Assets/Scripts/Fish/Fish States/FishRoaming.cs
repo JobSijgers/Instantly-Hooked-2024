@@ -5,7 +5,6 @@ using UnityEditor;
 public class FishRoaming : MonoBehaviour, IFishState
 {
     private FishBrain Brain;
-    [SerializeField] private float RotateSpeed;
     [SerializeField] private float IntresstDistanceToHook;
     [SerializeField] private float BiteWait;
     private Coroutine BiteC;
