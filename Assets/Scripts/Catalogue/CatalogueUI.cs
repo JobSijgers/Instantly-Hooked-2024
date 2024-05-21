@@ -41,7 +41,7 @@ namespace Catalogue
                 CatalogueItem item = tracker.GetCatalogueItem(i);
                 if (itemsInPage[i % itemsPerPage] == null)
                     continue;
-                if (item == null)
+                if (item == null || item.GetAmount() <= 0)
                 {
                     itemsInPage[i % itemsPerPage].gameObject.SetActive(false);
                     continue;

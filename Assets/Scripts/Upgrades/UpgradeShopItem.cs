@@ -23,8 +23,11 @@ namespace Upgrades
             upgradeButton.onClick.RemoveListener(UpgradeButtonPressed);
         }
 
-        public void UpgradeButtonPressed()
+        private void UpgradeButtonPressed()
         {
+            if (upgrade == null)
+                return;
+            
             UpgradeManager.Instance.UpgradeBought(upgrade);
         }
         
