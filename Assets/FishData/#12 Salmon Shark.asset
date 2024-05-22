@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0cf5ca2657daff4a93e813bde2ca940, type: 3}
+  m_Name: '#12 Salmon Shark'
+  m_EditorClassIdentifier: 
+  fishName: Salmon Shark
+  fishDescription: "The salmon shark (Lamna ditropis). It\u2019s a real apex predator.
+    It\u2019s able to increase their internal body temperature to 15.6\xB0C! The
+    salmon shark generally grows to between 200 and 260 cm in length."
+  habitat: "200 \u2013 600 m depth"
+  fishRarity: 3
+  fishSellAmount: 
+  fishObject: {fileID: 0}
+  fishVisual: {fileID: 0}
+  moveSpeed: 4
+  maxStackAmount: 5
+  biteRate: 3
