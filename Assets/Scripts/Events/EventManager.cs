@@ -29,7 +29,8 @@ namespace Events
         public static event UnityAction ArrivedAtShore;
         public static event UnityAction LeftShore;
         public static event UnityAction PlayerDied;
-        
+        public static event UnityAction<bool> BoatControlsChange;
+
         public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);
@@ -48,5 +49,6 @@ namespace Events
         public static void OnArrivedAtShore() => ArrivedAtShore?.Invoke();
         public static void OnLeftShore() => LeftShore?.Invoke();
         public static void OnPlayerDied() => PlayerDied?.Invoke();
+        public static void OnBoatControlsChanged(bool state) => BoatControlsChange?.Invoke(state);
     }
 }

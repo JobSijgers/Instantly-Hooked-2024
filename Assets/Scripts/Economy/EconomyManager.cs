@@ -10,7 +10,9 @@ namespace Economy
     public class EconomyManager : MonoBehaviour
     {
         public static EconomyManager instance;
-        private int currentMoney;
+
+        private int currentMoney = 0;
+        public int GetCurrentMoneyAmount() => currentMoney;
 
         private void Awake()
         {

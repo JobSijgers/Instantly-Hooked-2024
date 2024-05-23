@@ -7,6 +7,7 @@ namespace GameTime
 {
     public class TimeManager : MonoBehaviour
     {
+        public static TimeManager instance;
         [SerializeField] private int dayStartMinutes;
         [SerializeField] private float minutesPerCycle;
 
@@ -17,6 +18,7 @@ namespace GameTime
 
         private void Start()
         {
+            instance = this;
             // Calculate time multiplier based on minutes per cycle
             timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
@@ -95,6 +97,17 @@ namespace GameTime
         private void EnableTime()
         {
             timePassing = true;
+        }
+
+        public void GetTimeState(out int currentday, out float currenttime)
+        {
+            currentday = currentDay;
+            currenttime = currentTime;
+        }
+        public void SetTime(int currentday, float currenttime)
+        {
+            currentDay = currentday;
+            currentTime = currenttime;
         }
     }
 }

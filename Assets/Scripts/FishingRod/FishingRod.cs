@@ -82,8 +82,6 @@ namespace FishingRod
             if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null)
             {
                 EventManager.OnFishCaught(Hook.instance.FishOnHook.fishData, GetRandomFishSize());
-                FishPooler.instance.ReturnFish(Hook.instance.FishOnHook);
-                Hook.instance.FishOnHook = null;
             }
 
             springJoint.maxDistance = newClampedLineLength;
