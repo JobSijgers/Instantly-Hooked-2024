@@ -14,11 +14,13 @@ namespace GameTime
         public int endHour;
         public Texture2D startTexture;
         public Texture2D endTexture;
+        public Gradient gradient;
     }
 
     public class DayNightCycle : MonoBehaviour
     {
         [SerializeField] private List<DayPhase> dayPhases;
+        [SerializeField] private Light sun;
         private void Start()
         {
             // Subscribe to TimeUpdate event
@@ -52,12 +54,12 @@ namespace GameTime
                 float a = Mathf.Clamp(t, 0f, 1f);
 
                 // lerp between start and end textures
-                LerpSkybox(phase.startTexture, phase.endTexture, a);
+                LerpSkybox(phase.startTexture, phase.endTexture, phase.gradient, a);
                 return;
             }
         }
 
-        private void LerpSkybox(Texture a, Texture b, float t)
+        private void LerpSkybox(Texture a, Texture b, Gradient gradient, float t)
         {
             // Set textures if they are not already set
             if (RenderSettings.skybox.GetTexture("_Texture1") != a)
@@ -66,6 +68,7 @@ namespace GameTime
                 RenderSettings.skybox.SetTexture("_Texture2", b);
 
             // Set blend factor
+            sun.color = gradient.Evaluate(t);
             RenderSettings.skybox.SetFloat("_Blend", t);
         }
     }

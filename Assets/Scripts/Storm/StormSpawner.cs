@@ -8,6 +8,7 @@ namespace Storm
 {
     public class StormSpawner : MonoBehaviour
     {
+        [SerializeField] private float stormDuration;
         [SerializeField] private int stormSpawnTime;
         [SerializeField] private GameObject stormPrefab;
         [SerializeField] private Transform stormSpawnLocation;
@@ -38,7 +39,7 @@ namespace Storm
         private void SpawnStorm()
         {
             GameObject go = Instantiate(stormPrefab, stormSpawnLocation.position, Quaternion.identity);
-            go.GetComponent<IStorm>()?.InitStorm(40, stormEndLocation.position);
+            go.GetComponent<IStorm>()?.InitStorm(stormDuration, stormEndLocation.position);
             isStormActive = true;
         }
         
