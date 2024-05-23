@@ -53,6 +53,8 @@ MonoBehaviour:
     Biting: {fileID: 3453636385491892057}
   EmptyObject: {fileID: 4560276014792619125}
   RotateSpeed: 40
+  FishInterst: {fileID: 0}
+  FishGought: {fileID: 0}
 --- !u!114 &4697329898385395740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,12 +86,14 @@ MonoBehaviour:
   IntresstLoseDistance: 10
   StruggelTime: 6
   StruggelAfterTime: 10
-  HoldMultiplier: 200
-  RestoreMultyplier: 400
+  HoldMultiplier: 150
+  RestoreMultyplier: 500
   holdoffset: 0.5
   OffHookAfter: 1.5
-  CubeObjactos: {fileID: 843586070772292278, guid: bb151e3966ad55a42b11a7f8f4ba2d17,
+  angle: 80
+  CubeObjactos: {fileID: 5415960910061552456, guid: db3a4d41fa6eb08488c052a5ccb83021,
     type: 3}
+  strafpunten: 5
 --- !u!65 &2032342212527237736
 BoxCollider:
   m_ObjectHideFlags: 0

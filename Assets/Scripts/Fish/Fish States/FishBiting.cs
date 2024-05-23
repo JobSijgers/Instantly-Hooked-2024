@@ -1,8 +1,10 @@
-using FishingRod;
+using Enums;
+using Events;
+using Fish;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
+
 public enum FishBitingState
 {
     goingforhook,
@@ -39,13 +41,18 @@ public class FishBiting : MonoBehaviour,IFishState
     [Tooltip("waneer valt de vis als er niet gereeled word")]
     [SerializeField] private float OffHookAfter;
     private float tention;
-    private float struggelTimer;
+
+    [Range(10,170)]
+    [Tooltip("angle waarin de vissen naar beneden gaan als ze aan het struggelen zijn")]
+    [SerializeField] private float angle;
 
     private bool endposisstruggelpos = false;
+    [SerializeField] private float strafpunten;
 
     // coroutine 
     private Coroutine StruggelingC;
     private Coroutine waitForStruggelC;
+    private Coroutine CCD;
 
     //state change
     private bool OffHook = false;
@@ -55,6 +62,7 @@ public class FishBiting : MonoBehaviour,IFishState
         bounds = GetComponent<BoxCollider>();
         Brain = GetComponent<FishBrain>();
         Rod = FindObjectOfType<FishingRod.FishingRod>();
+        EventManager.FishCaught += OnGaught;
     }
     public void OnStateActivate()
     {
@@ -67,6 +75,7 @@ public class FishBiting : MonoBehaviour,IFishState
         {
             GetOffHook();
             ResetState();
+            EventManager.OnBoatControlsChanged(false);
             return Brain.states.Roaming;
         }
         else return this;
@@ -75,6 +84,7 @@ public class FishBiting : MonoBehaviour,IFishState
     {
         if (Vector2.Distance(transform.position, Hook.instance.hook.transform.position) < BitingRange && BiteState == FishBitingState.goingforhook)
         {
+            EventManager.OnBoatControlsChanged(true);
             BiteState = FishBitingState.onhook;
             waitForStruggelC = StartCoroutine(WaitForStruggel(0.3f));
         }
@@ -88,6 +98,8 @@ public class FishBiting : MonoBehaviour,IFishState
         {
             OffHook = true;
         }
+
+        if (Input.GetMouseButtonUp(1) && CCD == null) CCD = StartCoroutine(ClickCoolDown());
     }
     private void Struggeling()
     {
@@ -95,7 +107,10 @@ public class FishBiting : MonoBehaviour,IFishState
         {
             if (Input.GetMouseButton(1))
             {
-                if (tention > 0) tention -= Time.deltaTime * HoldMultiplier;
+                float p = 0f;
+                if (CCD == null) p = Time.deltaTime * HoldMultiplier;
+                else p = strafpunten;
+                if (tention > 0) tention -= p;
             }
             else if (tention < 255 && transform.position != Brain.EndPos)
             {
@@ -125,6 +140,10 @@ public class FishBiting : MonoBehaviour,IFishState
         {
             case FishBitingState.goingforhook:
 
+                if (!FishPooler.instance.WaterBlock.bounds.Intersects(bounds.bounds))
+                {
+                    OffHook = true;
+                }
                 Brain.SetEndPos(Hook.instance.hook.transform.position);
                 transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, Brain.moveSpeed * Time.deltaTime);
                 break;
@@ -138,28 +157,25 @@ public class FishBiting : MonoBehaviour,IFishState
 
                 if (!endposisstruggelpos)
                 {
-                    Vector2 newpos = Brain.EndPos;
+                    Vector3 newpos = Brain.EndPos;
                     newpos = ChooseSwimDirection();
-                    if (FishPooler.instance.WaterBlock.bounds.Contains(newpos))
+                    if (IsPointWithinVisionCone(Hook.instance.HookOrigin.transform.position, Vector3.down, angle, newpos) && FishPooler.instance.WaterBlock.bounds.Contains(newpos))
                     {
                         endposisstruggelpos = true;
                         Brain.SetEndPos(newpos);
                     }
                 }
+                float speed = Input.GetMouseButton(1) == true ? 0 : Brain.StruggelSpeed;
+                if (Input.GetMouseButton(1) && CCD == null) transform.position = Hook.instance.transform.position;
+                else
+                {
+                    Hook.instance.hook.transform.position = transform.position;
+                    transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, speed * Time.deltaTime);
+                    Rod.SetLineLength(transform.position);
+                }
                 if (transform.position == Brain.EndPos)
                 {
                     if (tention > 0) tention -= Time.deltaTime * HoldMultiplier;
-                }
-                float speed = Input.GetMouseButton(1) == true ? 0 : Brain.StruggelSpeed;
-                if (Input.GetMouseButton(1))
-                {
-                    transform.position = Hook.instance.transform.position;
-                }
-                else
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, speed * Time.deltaTime);
-                    Hook.instance.hook.transform.position = transform.position;
-                    Rod.SetLineLength(transform.position);
                 }
 
                 if (StruggelingC == null)
@@ -169,9 +185,17 @@ public class FishBiting : MonoBehaviour,IFishState
                 break;
         }
     }
+
+    bool IsPointWithinVisionCone(Vector3 origin, Vector3 forward, float angle, Vector3 point)
+    {
+        Vector3 directionToPoint = (point - origin).normalized;
+        float angleToTarget = Vector3.Angle(forward, directionToPoint);
+
+        return angleToTarget < angle / 2;
+    }
     private Vector2 ChooseSwimDirection()
     {
-        float angle = Random.Range(0, 90);
+        float angle = Random.Range(130, 255);
         Vector2 positionOnCircle = (Vector2)Hook.instance.HookOrigin.transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * Rod.GetLineLength() * Hook.instance.Offset;
         return positionOnCircle;
     }
@@ -182,13 +206,6 @@ public class FishBiting : MonoBehaviour,IFishState
             return true;
         }
         else return false;  
-    }
-    private bool IsPositionInLineRange(Vector2 targetpos)
-    {
-        float dis = Vector2.Distance(Hook.instance.HookOrigin.transform.position, targetpos);
-        dis -= 0.1f;
-        if (dis < Rod.GetLineLength()) return true;
-        else return false;
     }
     public void GetOffHook()
     {
@@ -221,6 +238,7 @@ public class FishBiting : MonoBehaviour,IFishState
     {
         Brain.SetEndPos(Vector3.zero);
         BiteState = FishBitingState.onhook;
+        endposisstruggelpos = false;
         waitForStruggelC = StartCoroutine(WaitForStruggel(StruggelAfterTime));
     }
     /// <summary>
@@ -232,12 +250,23 @@ public class FishBiting : MonoBehaviour,IFishState
         if (BiteState == FishBitingState.struggeling) return true;
         else return false;  
     }
+    private void OnGaught(FishData t, FishSize s)
+    {
+        if (Hook.instance.FishOnHook != null)
+        {
+            EventManager.OnBoatControlsChanged(false);
+            FishPooler.instance.ReturnFish(Hook.instance.FishOnHook);
+            GetOffHook();
+        }
+    }
     public void OnDisable()
     {
         ResetState();
+        EventManager.FishCaught -= OnGaught;
     }
     public void ResetState()
     {
+        StopAllCoroutines();
         endposisstruggelpos = false;
         Brain.SetEndPos(Vector3.zero);
         OffHook = false;
@@ -245,6 +274,12 @@ public class FishBiting : MonoBehaviour,IFishState
         StruggelingC = null;
         waitForStruggelC = null;
     }
+    private IEnumerator ClickCoolDown()
+    {
+        yield return new WaitForSeconds(0.3f);
+        CCD = null;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {

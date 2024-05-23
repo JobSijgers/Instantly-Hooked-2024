@@ -11,10 +11,12 @@ public class Hook : MonoBehaviour
     [SerializeField] public GameObject HookOrigin;
     [SerializeField] public LineRenderer fishline;
     public float Offset;
-
     public FishingRod.FishingRod Rod;
-
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem lineSnap;
     private FishBrain P_FishOnHook;
+    public MeshCollider AngleCheck;
+    private float angle = 80;
     public FishBrain FishOnHook { get { return P_FishOnHook; } set { P_FishOnHook = value; } }
     private void Awake()
     {
@@ -22,20 +24,16 @@ public class Hook : MonoBehaviour
         hook = gameObject;
         bounds = gameObject.GetComponent<BoxCollider>();
     }
-    private void Update()
-    {
-       //if (FishOnHook != null) Debug.Log(FishOnHook.gameObject);
-    }
     public void RemoveFish()
     {
         FishOnHook = null;
     }
-
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.blue;
         Handles.DrawWireArc(Rod.transform.position, Vector3.forward, Vector3.down, 360, Rod.GetLineLength() * Offset);
+
     }
 #endif
 }
