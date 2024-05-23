@@ -48389,6 +48389,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7540431243114688562, guid: a379e03251324db499843080b3ca8d67,
+        type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].emitter
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8340382179163607743, guid: a379e03251324db499843080b3ca8d67,
         type: 3}
       propertyPath: m_LocalPosition.x
