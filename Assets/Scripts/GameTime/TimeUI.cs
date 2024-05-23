@@ -4,7 +4,7 @@ using PauseMenu;
 using TMPro;
 using UnityEngine;
 
-namespace Timer
+namespace GameTime
 {
     public class TimeUI : MonoBehaviour
     {
