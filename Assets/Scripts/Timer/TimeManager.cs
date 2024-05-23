@@ -7,6 +7,7 @@ namespace Timer
 {
     public class TimeManager : MonoBehaviour
     {
+        public static TimeManager instance;
         [SerializeField] private int dayStartMinutes;
         [SerializeField] private float minutesPerCycle;
         private bool timePassing = true;
@@ -17,6 +18,7 @@ namespace Timer
 
         private void Start()
         {
+            instance = this;
             timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
             EventManager.PauseStateChange += OnPause;
@@ -90,6 +92,17 @@ namespace Timer
         private void EnableTime()
         {
             timePassing = true;
+        }
+
+        public void GetTimeState(out int currentday, out float currenttime)
+        {
+            currentday = currentDay;
+            currenttime = currentTime;
+        }
+        public void SetTime(int currentday, float currenttime)
+        {
+            currentDay = currentday;
+            currentTime = currenttime;
         }
     }
 }

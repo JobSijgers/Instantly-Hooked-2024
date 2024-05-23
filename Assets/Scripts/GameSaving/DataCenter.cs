@@ -7,6 +7,8 @@ using Enums;
 using Fish;
 using Player.Inventory;
 using Events;
+using Economy;
+using Timer;
 
 public class DataCenter : MonoBehaviour
 {
@@ -51,13 +53,20 @@ public class DataCenter : MonoBehaviour
     }
     private void WriteLoad()
     {
-        foreach (InventorySave fishSave in storageCenter.GameSave)
+        foreach (InventorySave fishSave in storageCenter.inventory)
         {
             EventManager.OnFishCaught(fishSave.FishData, fishSave.FishSize);
         }
+
+        //load money
+        EventManager.OnShopSell(storageCenter.Money);
+
+        // load time
+        TimeManager.instance.SetTime(storageCenter.Time.currentDay, storageCenter.Time.currentTime);
     } 
     private void WriteSave()
     {
+        // write fish
         List<InventoryItem> invitems = Inventory.Instance.currentFish;
         foreach (InventoryItem fish in invitems)
         {
@@ -65,16 +74,29 @@ public class DataCenter : MonoBehaviour
             fishSave.FishSize = fish.GetFishSize();
             fishSave.StackSize = fish.GetStackSize();
             fishSave.FishData = fish.GetFishData();
-            fishSave.Color = fish.GetColor();
             GameSave.Add(fishSave);
         }
-        storageCenter.GameSave = GameSave;
+        storageCenter.inventory = GameSave;
+
+        // write money
+        storageCenter.Money = EconomyManager.instance.GetCurrentMoneyAmount();
+
+        // write time
+        TimeManager.instance.GetTimeState(out int currentday, out float currenttime);
+        storageCenter.Time.currentDay = currentday;
+        storageCenter.Time.currentTime = currenttime;
+
+        //upgrades
+        //EventManager.On
     }
 }
 [Serializable]
 public class StorageCenter
 {
-    public List<InventorySave> GameSave = new List<InventorySave>();
+    public List<InventorySave> inventory = new List<InventorySave>();
+    public TimeSave Time;
+    public UpgradeSave Ubgrades;
+    public int Money;
 }
 
 [Serializable]
@@ -83,7 +105,18 @@ public struct InventorySave
     public FishData FishData;
     public int StackSize;
     public FishSize FishSize;
-    public Color Color;
 }
+[Serializable]
+public struct UpgradeSave
+{
+
+}
+[Serializable]
+public struct TimeSave
+{
+    public int currentDay;
+    public float currentTime;
+}
+
 
 

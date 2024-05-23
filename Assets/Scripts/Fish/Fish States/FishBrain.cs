@@ -2,7 +2,6 @@ using Fish;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -24,6 +23,9 @@ public class FishBrain : MonoBehaviour
     [SerializeField] private float RotateSpeed;
     private Coroutine RotateC;
     private Vector3 P_EndPos;
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem FishInterst;
+    [SerializeField] private ParticleSystem FishGought;
     public Vector3 EndPos { get { return P_EndPos; } }
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public FishSpawner GetOriginSpawner() => OriginSpawner;
@@ -53,7 +55,7 @@ public class FishBrain : MonoBehaviour
         {
             P_fishData = value;
             moveSpeed = value.moveSpeed;
-            StruggelSpeed = value.moveSpeed * 2f;
+            StruggelSpeed = value.moveSpeed * 1.5f;
             Visual = Instantiate(value.fishObject, transform.position,Quaternion.identity, transform);
         }
     }
@@ -68,19 +70,11 @@ public class FishBrain : MonoBehaviour
         CurrentState = GetComponent<IFishState>();
         CurrentState = states.Roaming;
     }
-    private void Awake()
-    {
-
-    }
     void Update()
     {
         CurrentState = CurrentState.SwitchState();
         CurrentState.UpdateState();
         ManageRoation();
-    }
-    public void MoveTo(Vector3 endpos, float speed)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, endpos, speed * Time.deltaTime);
     }
     private void ManageRoation()
     {

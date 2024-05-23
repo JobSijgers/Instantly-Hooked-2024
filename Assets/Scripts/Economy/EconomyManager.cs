@@ -10,6 +10,7 @@ namespace Economy
     {
         public static EconomyManager instance;
         private int _currentMoney = 0;
+        public int GetCurrentMoneyAmount() => _currentMoney;
 
         private void Awake()
         {
