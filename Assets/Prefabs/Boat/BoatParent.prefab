@@ -459,6 +459,7 @@ GameObject:
   - component: {fileID: 3278684453311875325}
   - component: {fileID: 4862848141516474607}
   - component: {fileID: 1194312609785752343}
+  - component: {fileID: 2136122995486566080}
   m_Layer: 0
   m_Name: BoatModel
   m_TagString: Player
@@ -596,6 +597,28 @@ MonoBehaviour:
   speedMultiplier: 1
   dockStoppingDistance: 1
 --- !u!114 &1194312609785752343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885529980788277765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df5bdd46b8347379ffb374b373657a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeVisuals:
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
+  - upgrade: {fileID: 0}
+    meshFilter: {fileID: 0}
+    meshRenderer: {fileID: 0}
+--- !u!114 &2136122995486566080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

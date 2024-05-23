@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using Events;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -70,8 +71,6 @@ namespace Depth
         private void CheckWaterPost(float depth)
         {
             bool aboveWater = depth > 0;
-            underWaterPost.SetActive(!aboveWater);
-            aboveWaterPost.SetActive(aboveWater);
             
             if (aboveWater) return;
             
@@ -80,6 +79,20 @@ namespace Depth
             underWaterVignette.intensity.value = vignette.intensity;
             underWaterVignette.smoothness.value = vignette.smoothness;
             underWaterVignette.color.value = vignette.color;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.CompareTag("Water")) return;
+            underWaterPost.SetActive(true);
+            aboveWaterPost.SetActive(false);
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (!other.CompareTag("Water")) return;
+            underWaterPost.SetActive(false);
+            aboveWaterPost.SetActive(true);
         }
     }
 }

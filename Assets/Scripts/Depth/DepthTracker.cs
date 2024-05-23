@@ -11,7 +11,7 @@ namespace Depth
         
         private void Update()
         {
-            var depth = seaLevel + hook.transform.localPosition.y;
+            float depth = seaLevel + hook.transform.position.y;
             EventManager.OnDepthUpdate(depth);
         }
     }

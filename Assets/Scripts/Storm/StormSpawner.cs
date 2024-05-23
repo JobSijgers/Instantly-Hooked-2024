@@ -38,7 +38,7 @@ namespace Storm
         private void SpawnStorm()
         {
             GameObject go = Instantiate(stormPrefab, stormSpawnLocation.position, Quaternion.identity);
-            go.GetComponent<IStorm>()?.InitStorm(60, stormEndLocation.position);
+            go.GetComponent<IStorm>()?.InitStorm(40, stormEndLocation.position);
             isStormActive = true;
         }
         

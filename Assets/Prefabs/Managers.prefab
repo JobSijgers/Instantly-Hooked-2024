@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82002a73efe4a49a0b323af36492bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayStartMinutes: 530
-  minutesPerCycle: 7
+  dayStartMinutes: 390
+  minutesPerCycle: 6
 --- !u!114 &5724927979952931040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1454e85f2ba047e8a4abffcf2bf3d965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seaLevel: 3.35
+  seaLevel: 0
   hook: {fileID: 0}
 --- !u!114 &9030007309800792193
 MonoBehaviour:
@@ -201,8 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14fae9dc38c94d529159b0c27a9659ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stormSpawnTime: 1320
-  stormPrefab: {fileID: 3637976659660182011, guid: 3dd0cafb2e81fa9499af93879224a746,
+  stormSpawnTime: 400
+  stormPrefab: {fileID: 452002490821040906, guid: a379e03251324db499843080b3ca8d67,
     type: 3}
   stormSpawnLocation: {fileID: 0}
   stormEndLocation: {fileID: 0}
