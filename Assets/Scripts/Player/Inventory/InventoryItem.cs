@@ -8,9 +8,9 @@ namespace Player.Inventory
 {
     public class InventoryItem : MonoBehaviour
     {
-        protected FishData FishData;
-        protected int StackSize = 1;
-        private FishSize _fishSize;
+        protected FishData fishData;
+        protected int stackSize = 1;
+        private FishSize fishSize;
 
         [SerializeField] protected TMP_Text stackSizeText;
         [SerializeField] private TMP_Text fishSizeText;
@@ -19,44 +19,44 @@ namespace Player.Inventory
 
         public void Initialize(FishData newFishData, FishSize newFishSize, Color backgroundColor)
         {
-            FishData = newFishData;
+            fishData = newFishData;
             fishImage.sprite = newFishData.fishVisual;
             background.color = backgroundColor;
-            _fishSize = newFishSize;
+            fishSize = newFishSize;
             fishSizeText.text = newFishSize.ToString();
             UpdateStackUI();
         }
 
         public void UpdateStackSize(int change)
         {
-            StackSize += change;
+            stackSize += change;
             UpdateStackUI();
         }
 
         public void SetStackSize(int newSize)
         {
-            StackSize = newSize;
+            stackSize = newSize;
             UpdateStackUI();
         }
 
         public int GetRemainingStackSize()
         {
-            return FishData.maxStackAmount - StackSize;
+            return fishData.maxStackAmount - stackSize;
         }
 
         public FishData GetFishData()
         {
-            return FishData;
+            return fishData;
         }
 
         public FishSize GetFishSize()
         {
-            return _fishSize;
+            return fishSize;
         }
 
         public int GetStackSize()
         {
-            return StackSize;
+            return stackSize;
         }
         public Color GetColor()
         {
@@ -65,7 +65,7 @@ namespace Player.Inventory
 
         protected void UpdateStackUI()
         {
-            stackSizeText.text = StackSize.ToString();
+            stackSizeText.text = stackSize.ToString();
         }
     }
 }

@@ -52,15 +52,19 @@ namespace Economy.ShopScripts
             }
         }
 
-        public void CloseSellShopUI()
+        private void CloseSellShopUI()
         {
             shopObject.SetActive(false);
             foreach (SellShopItem item in shopItems)
             {
                 Destroy(item.gameObject);
             }
-
             shopItems.Clear();
+        }
+        
+        public void CloseUI()
+        {
+            EventManager.OnSellShopClose();
         }
 
         public void SelectAll()

@@ -1,42 +1,49 @@
 ﻿using System;
 using System.Collections;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Economy;
-using Economy.ShopScripts;
 using Enums;
 using Events;
 using UnityEngine;
+using Upgrades.Scriptable_Objects;
 
 namespace Upgrades
 {
     public class UpgradeManager : MonoBehaviour
     {
+        // This class represents the state of an upgrade, including its current level and the array of possible upgrades.
         [Serializable]
         private class UpgradeState
         {
             [SerializeField] private Upgrade[] upgrades;
-            private int _upgradeIndex;
+            private int upgradeIndex;
+            public int GetUpgradeIndex() => upgradeIndex;
+            public void Setindex(int index) { upgradeIndex = index; }
 
             public void IncreaseUpgradeIndex()
             {
-                _upgradeIndex++;
+                upgradeIndex++;
             }
 
             public Upgrade GetCurrentUpgrade()
             {
-                return upgrades[_upgradeIndex];
+                return upgrades[upgradeIndex];
             }
 
             public Upgrade GetNextUpgrade()
             {
-                if (_upgradeIndex + 1 < upgrades.Length)
+                if (upgradeIndex + 1 < upgrades.Length)
                 {
-                    return upgrades[_upgradeIndex + 1];
+                    return upgrades[upgradeIndex + 1];
                 }
 
                 return null;
             }
 
+            /// <summary>
+            /// This method checks if the given upgrade is of the same type as the upgrades in this state.
+            /// </summary>
+            /// <param name="upgrade"></param>
+            /// <returns></returns>
             public bool IsSameType(Upgrade upgrade)
             {
                 if (upgrades.Length <= 0 || upgrade == null)
@@ -44,13 +51,18 @@ namespace Upgrades
 
                 return upgrade.GetType() == upgrades[0].GetType();
             }
+            
+            public int GetUpgradeLevel()
+            {
+                return upgradeIndex;
+            }
         }
 
         public static UpgradeManager Instance { get; private set; }
 
         [SerializeField] private UpgradeState[] upgradeStates;
-        private ShopState _shopState = ShopState.Closed;
-        
+        private ShopState shopState = ShopState.Closed;
+
         private void Awake()
         {
             Instance = this;
@@ -63,6 +75,7 @@ namespace Upgrades
             SetUpItems();
             StartCoroutine(LateStart());
         }
+
         private void OnDestroy()
         {
             EventManager.LeftShore -= NotifyUpgrades;
@@ -71,17 +84,20 @@ namespace Upgrades
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && _shopState == ShopState.Open)
+            if (Input.GetKeyDown(KeyCode.Escape) && shopState == ShopState.Open)
             {
                 CloseShop();
             }
         }
 
+        /// <summary>
+        /// This method sets up the upgrade items in the shop UI.
+        /// </summary>
         private void SetUpItems()
         {
-            foreach (UpgradeState upgradeState in upgradeStates)
+            for (int i = 0; i < upgradeStates.Length; i++)
             {
-                UpgradeUI.instance.CreateUpgradeItem(upgradeState.GetNextUpgrade());
+                UpgradeUI.instance.CreateUpgradeItem(upgradeStates[i].GetNextUpgrade(), i + 1);
             }
         }
 
@@ -96,7 +112,6 @@ namespace Upgrades
             if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
             {
                 EventManager.OnNotEnoughMoney();
-                Debug.Log("Not neough money");
                 return;
             }
 
@@ -105,7 +120,6 @@ namespace Upgrades
                 return;
 
             upgradeState.IncreaseUpgradeIndex();
-            EconomyManager.instance.RemoveMoney(upgrade.cost);
             EventManager.OnUpgradeBought(upgrade);
         }
 
@@ -114,6 +128,18 @@ namespace Upgrades
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
             return upgradeState?.GetNextUpgrade();
         }
+        
+        public int GetUpgradeLevel(Upgrade upgrade)
+        {
+            UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
+            return upgradeState?.GetUpgradeLevel() ?? 0;
+        }
+
+        /// <summary>
+        /// This method returns the UpgradeState that matches the given upgrade.
+        /// </summary>
+        /// <param name="upgrade"></param>
+        /// <returns></returns>
         private UpgradeState GetMatchingUpgradeState(Upgrade upgrade)
         {
             foreach (UpgradeState upgradeState in upgradeStates)
@@ -123,9 +149,12 @@ namespace Upgrades
                     return upgradeState;
                 }
             }
+
             return null;
         }
-
+        /// <summary>
+        /// This method notifies all upgrades that the player has left the shore.
+        /// </summary>
         private void NotifyUpgrades()
         {
             foreach (UpgradeState upgradeState in upgradeStates)
@@ -133,17 +162,33 @@ namespace Upgrades
                 EventManager.OnUpgradeBought(upgradeState.GetCurrentUpgrade());
             }
         }
-        
+
         private void OpenShop()
         {
-            _shopState = ShopState.Open;
+            shopState = ShopState.Open;
         }
-        
+
         private void CloseShop()
         {
             EventManager.OnUpgradeShopClose();
-            _shopState = ShopState.Closed;
-            
+            shopState = ShopState.Closed;
+        }
+
+        public int[] GetUpgrades()
+        {
+            int[] updateindexes = new int[upgradeStates.Length];
+            for (int i = 0; i < upgradeStates.Length -1; i++)
+            {
+                updateindexes[i] = upgradeStates[i].GetUpgradeIndex();
+            }
+            return updateindexes;
+        }
+        public void SetUpgrades(int[] upgradeindex)
+        {
+            for (int i = 0;i < upgradeStates.Length; i++)
+            {
+                upgradeStates[i].Setindex(upgradeindex[i]);
+            }
         }
         private IEnumerator LateStart()
         {

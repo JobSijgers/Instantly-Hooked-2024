@@ -12,6 +12,12 @@ public class InventoryTester : MonoBehaviour
     public int amount;
     void Start()
     {
+        StartCoroutine(A());
+    }
+
+    private IEnumerator A()
+    {
+        yield return new WaitForSeconds(2f);
         for (int i = 0; i < amount; i++)
         {
             EventManager.OnFishCaught(test, FishSize.Small);

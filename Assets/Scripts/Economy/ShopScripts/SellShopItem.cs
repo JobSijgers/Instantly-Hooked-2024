@@ -17,15 +17,9 @@ namespace Economy.ShopScripts
 
         public event FSelectedAmountChanged OnSelectedAmountChanged;
 
-        private int _currentSelectedAmount = 0;
+        private int currentSelectedAmount = 0;
 
         [SerializeField] private TMP_InputField inputField;
-        private Button _itemButton;
-
-        private void Start()
-        {
-            _itemButton = GetComponent<Button>();
-        }
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -43,65 +37,65 @@ namespace Economy.ShopScripts
         public void Initialize(FishData fishData, FishSize fishSize, int amountInStack, Color backgroundColor)
         {
             base.Initialize(fishData, fishSize, backgroundColor);
-            StackSize = amountInStack;
+            stackSize = amountInStack;
             UpdateStackUI();
         }
 
         public void PlusButtonPressed()
         {
-            if (_currentSelectedAmount + 1 > StackSize)
+            if (currentSelectedAmount + 1 > stackSize)
                 return;
-            if (_currentSelectedAmount + 1 > FishData.maxStackAmount)
+            if (currentSelectedAmount + 1 > fishData.maxStackAmount)
                 return;
-            _currentSelectedAmount += 1;
-            inputField.text = _currentSelectedAmount.ToString();
+            currentSelectedAmount += 1;
+            inputField.text = currentSelectedAmount.ToString();
             OnSelectedAmountChanged?.Invoke(this, 1);
         }
 
         public void MinusButtonPressed()
         {
-            if (_currentSelectedAmount - 1 < 0)
+            if (currentSelectedAmount - 1 < 0)
                 return;
-            _currentSelectedAmount -= 1;
-            inputField.text = _currentSelectedAmount.ToString();
+            currentSelectedAmount -= 1;
+            inputField.text = currentSelectedAmount.ToString();
             OnSelectedAmountChanged?.Invoke(this, -1);
         }
 
         public void OnInputFieldChanged()
         {
-            var newInt = int.Parse(inputField.text);
-            if (newInt == _currentSelectedAmount)
+            int newInt = int.Parse(inputField.text);
+            if (newInt == currentSelectedAmount)
                 return;
 
-            if (newInt >= StackSize)
+            if (newInt >= stackSize)
             {
-                OnSelectedAmountChanged?.Invoke(this, StackSize - _currentSelectedAmount);
-                _currentSelectedAmount = StackSize;
-                inputField.text = StackSize.ToString();
+                OnSelectedAmountChanged?.Invoke(this, stackSize - currentSelectedAmount);
+                currentSelectedAmount = stackSize;
+                inputField.text = stackSize.ToString();
             }
-            else if (newInt >= FishData.maxStackAmount)
+            else if (newInt >= fishData.maxStackAmount)
             {
-                OnSelectedAmountChanged?.Invoke(this, FishData.maxStackAmount - _currentSelectedAmount);
-                _currentSelectedAmount = FishData.maxStackAmount;
-                inputField.text = FishData.maxStackAmount.ToString();
+                OnSelectedAmountChanged?.Invoke(this, fishData.maxStackAmount - currentSelectedAmount);
+                currentSelectedAmount = fishData.maxStackAmount;
+                inputField.text = fishData.maxStackAmount.ToString();
             }
             else if (newInt <= 0)
             {
-                _currentSelectedAmount = 0;
+                OnSelectedAmountChanged?.Invoke(this, 0 - currentSelectedAmount);
+                currentSelectedAmount = 0;
                 inputField.text = 0.ToString();
-                OnSelectedAmountChanged?.Invoke(this, 0 - _currentSelectedAmount);
             }
             else
             {
-                OnSelectedAmountChanged?.Invoke(this, newInt - _currentSelectedAmount);
-                _currentSelectedAmount = newInt;
+                OnSelectedAmountChanged?.Invoke(this, newInt - currentSelectedAmount);
+                currentSelectedAmount = newInt;
             }
         }
 
         public void SetInputField(int newSelected)
         {
-            _currentSelectedAmount = newSelected;
-            inputField.text = _currentSelectedAmount.ToString();
+            currentSelectedAmount = newSelected;
+            inputField.text = currentSelectedAmount.ToString();
         }
     }
 }

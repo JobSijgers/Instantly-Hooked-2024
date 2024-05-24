@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0cf5ca2657daff4a93e813bde2ca940, type: 3}
+  m_Name: '#10 Black sea bass'
+  m_EditorClassIdentifier: 
+  fishName: Black Sea Bass
+  fishDescription: The black sea bass (Centropristis striata). Black sea bass are
+    highly sought after by commercial fisherman. This species attains a maximum length
+    of 66 cm but are by average around 30 cm.
+  habitat: shore to 100 m depth
+  fishRarity: 0
+  fishSellAmount: 
+  fishObject: {fileID: 0}
+  fishVisual: {fileID: 0}
+  moveSpeed: 3
+  maxStackAmount: 10
+  biteRate: 3

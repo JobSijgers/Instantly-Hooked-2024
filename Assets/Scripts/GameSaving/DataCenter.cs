@@ -1,21 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
 using Enums;
 using Fish;
 using Player.Inventory;
 using Events;
+using Economy;
+using GameTime;
+using Catalogue;
+using Upgrades;
 
 public class DataCenter : MonoBehaviour
 {
     [SerializeField] private bool DebugLogs;
-    private string Filename = "/GameSafe.dat";
-    private BinaryFormatter bf = new BinaryFormatter();
+    private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
+    private void Awake()
+    {
+        LoadGame();
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
@@ -38,7 +44,7 @@ public class DataCenter : MonoBehaviour
     private void SafeGame()
     {
         WriteSave();
-        string json = JsonUtility.ToJson(storageCenter);
+        string json = JsonUtility.ToJson(storageCenter,true);
         File.WriteAllText(Application.persistentDataPath + Filename, json);
         Debug.Log($"Json stored at {Application.persistentDataPath + Filename}");
     }
@@ -53,13 +59,26 @@ public class DataCenter : MonoBehaviour
     }
     private void WriteLoad()
     {
-        foreach (InventorySave fishSave in storageCenter.GameSave)
+        foreach (InventorySave fishSave in storageCenter.inventory)
         {
             EventManager.OnFishCaught(fishSave.FishData, fishSave.FishSize);
         }
+
+        //load money
+        EventManager.OnShopSell(storageCenter.Money);
+
+        // load time
+        TimeManager.instance.SetDay(storageCenter.currentDay);
+
+        // load upgrades 
+        UpgradeManager.Instance.SetUpgrades(storageCenter.upgradeIndex);
+
+        // load catalogue
+        CatalogueTracker.Instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish,storageCenter.Catalogue.amountCaught);
     } 
     private void WriteSave()
     {
+        // write fish
         List<InventoryItem> invitems = Inventory.Instance.currentFish;
         foreach (InventoryItem fish in invitems)
         {
@@ -67,16 +86,34 @@ public class DataCenter : MonoBehaviour
             fishSave.FishSize = fish.GetFishSize();
             fishSave.StackSize = fish.GetStackSize();
             fishSave.FishData = fish.GetFishData();
-            fishSave.Color = fish.GetColor();
             GameSave.Add(fishSave);
         }
-        storageCenter.GameSave = GameSave;
-    }
+        storageCenter.inventory = GameSave;
+
+        // write money
+        storageCenter.Money = EconomyManager.instance.GetCurrentMoneyAmount();
+
+        // write time
+        TimeManager.instance.GetTimeState(out int currentday);
+        storageCenter.currentDay = currentday;
+
+        //upgrades
+        storageCenter.upgradeIndex = UpgradeManager.Instance.GetUpgrades();
+
+        // catalog
+        CatalogueTracker.Instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
+        storageCenter.Catalogue.totalCollectedFish = totalFish;
+        storageCenter.Catalogue.amountCaught = amountcollectedPF;
+    } 
 }
 [Serializable]
 public class StorageCenter
 {
-    public List<InventorySave> GameSave = new List<InventorySave>();
+    public List<InventorySave> inventory = new List<InventorySave>();
+    public CatalogueSave Catalogue;
+    public int[] upgradeIndex;
+    public int currentDay;
+    public int Money;
 }
 
 [Serializable]
@@ -85,7 +122,13 @@ public struct InventorySave
     public FishData FishData;
     public int StackSize;
     public FishSize FishSize;
-    public Color Color;
 }
+[Serializable]
+public struct CatalogueSave
+{
+    public int totalCollectedFish;
+    public int[] amountCaught; 
+}
+
 
 

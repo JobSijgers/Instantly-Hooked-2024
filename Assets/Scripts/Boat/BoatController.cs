@@ -1,23 +1,21 @@
-using System;
 using System.Collections;
 using Events;
 using Interfaces;
 using PauseMenu;
+using Unity.VisualScripting;
 using UnityEngine;
 using Upgrades;
+using Upgrades.Scriptable_Objects;
 
 namespace Boat
 {
     [RequireComponent(typeof(Rigidbody))]
     public class BoatController : MonoBehaviour, IBoat
     {
-        public delegate void FDockSuccess();
-
-        public event FDockSuccess OnDockSuccess;
-
         [SerializeField] private float maxVelocity;
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float dockStoppingDistance;
+        [SerializeField] private Transform dock;
 
         private Rigidbody _rigidbody;
         private float _input;
@@ -29,6 +27,8 @@ namespace Boat
             EventManager.UpgradeBought += OnUpgrade;
             EventManager.PauseStateChange += OnPause;
             EventManager.LeftShore += UndockBoat;
+            EventManager.BoatControlsChange += DisableControls;
+            EventManager.BoatAutoDock += DockBoat;
             _rigidbody = GetComponent<Rigidbody>();
         }
 
@@ -37,6 +37,7 @@ namespace Boat
             EventManager.PauseStateChange -= OnPause;
             EventManager.UpgradeBought -= OnUpgrade;
             EventManager.LeftShore -= UndockBoat;
+            EventManager.BoatControlsChange -= DisableControls;
         }
 
         private void Update()
@@ -73,9 +74,9 @@ namespace Boat
             _rigidbody.AddForce(counteractForce);
         }
 
-        public void DockBoat(Vector3 dockLocation)
+        public void DockBoat()
         {
-            StartCoroutine(MoveBoatToDock(dockLocation));
+            StartCoroutine(MoveBoatToDock(dock.position));
             _docked = true;
         }
 
@@ -86,8 +87,14 @@ namespace Boat
 
         private IEnumerator MoveBoatToDock(Vector3 dockLocation)
         {
+            float totalDockingTime = 0f;
             while (Vector3.Distance(transform.position, dockLocation) > 0.3f)
             {
+                totalDockingTime += Time.deltaTime;
+                if (totalDockingTime >= 5f)
+                {
+                    break;
+                }
                 // Get direction to target
                 Vector3 boatPosition = transform.position;
                 Vector3 direction = (dockLocation - boatPosition).normalized;
@@ -106,7 +113,7 @@ namespace Boat
             // Stop movement at target
             _rigidbody.velocity = Vector3.zero;
 
-            OnDockSuccess?.Invoke();
+            EventManager.OnDockSuccess();
         }
 
         private void OnUpgrade(Upgrade upgrade)
@@ -125,22 +132,48 @@ namespace Boat
             switch (newState)
             {
                 case PauseState.Playing:
-                    enabled = true;
-                    _rigidbody.isKinematic = false;
-                    _rigidbody.velocity = _velocityAtPause;
+                    SetPaused(false);
                     break;
                 case PauseState.InPauseMenu:
-                    enabled = false;
-                    _velocityAtPause = _rigidbody.velocity;
-                    _rigidbody.isKinematic = true;
+                    SetPaused(true);
                     break;
                 case PauseState.InInventory:
-                    enabled = false;
-                    _velocityAtPause = _rigidbody.velocity;
-                    _rigidbody.isKinematic = true;
+                    SetPaused(true);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+                case PauseState.InCatalogue:
+                    SetPaused(true);
+                    break;
+                case PauseState.InQuests:
+                    SetPaused(true);
+                    break;
+            }
+        }
+
+        private void SetPaused(bool isPaused)
+        {
+            _rigidbody.isKinematic = isPaused;
+            enabled = !isPaused;
+            if (isPaused)
+            {
+                _velocityAtPause = _rigidbody.velocity;
+            }
+            else
+            {
+                _rigidbody.velocity = _velocityAtPause;
+            }
+        }
+
+        private void DisableControls(bool state)
+        {
+            _rigidbody.isKinematic = state;
+            //enabled = !state;
+            if (state)
+            {
+                _velocityAtPause = _rigidbody.velocity;
+            }
+            else
+            {
+                _rigidbody.velocity = _velocityAtPause;
             }
         }
     }

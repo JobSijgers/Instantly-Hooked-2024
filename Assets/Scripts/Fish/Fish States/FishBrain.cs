@@ -23,6 +23,8 @@ public class FishBrain : MonoBehaviour
     [SerializeField] private float RotateSpeed;
     private Coroutine RotateC;
     private Vector3 P_EndPos;
+    [Header("Particles")]
+    [SerializeField] public ParticleSystem FishGought;
     public Vector3 EndPos { get { return P_EndPos; } }
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public FishSpawner GetOriginSpawner() => OriginSpawner;
@@ -67,21 +69,17 @@ public class FishBrain : MonoBehaviour
         CurrentState = GetComponent<IFishState>();
         CurrentState = states.Roaming;
     }
-
     void Update()
     {
         CurrentState = CurrentState.SwitchState();
         CurrentState.UpdateState();
         ManageRoation();
     }
-    public void MoveTo(Vector3 endpos, float speed)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, endpos, speed * Time.deltaTime);
-    }
     private void ManageRoation()
     {
         Quaternion endpos = EmptyObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
+
     }
     private void StopOldRotation()
     {

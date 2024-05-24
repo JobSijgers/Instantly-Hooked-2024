@@ -16,11 +16,7 @@ namespace Dock
 
         private void Start()
         {
-            BoatController controller = boat.GetComponent<BoatController>();
-            if (controller == null)
-                return;
-            controller.OnDockSuccess += DockSuccess;
-
+            EventManager.DockSucess += DockSuccess;
             EventManager.PauseStateChange += OnPause;
             EventManager.PlayerDied += DockBoat;
             EventManager.LeftShore += UnDockBoat;
@@ -31,6 +27,7 @@ namespace Dock
             EventManager.PauseStateChange -= OnPause;
             EventManager.PlayerDied -= DockBoat;
             EventManager.LeftShore -= UnDockBoat;
+            EventManager.DockSucess -= DockSuccess;
         }
 
         private void Update()
@@ -56,7 +53,7 @@ namespace Dock
 
         private void DockBoat()
         {
-            boat.GetComponent<IBoat>()?.DockBoat(dockPoint.position);
+            boat.GetComponent<IBoat>()?.DockBoat();
         }
 
         private void DockSuccess()
@@ -67,7 +64,7 @@ namespace Dock
 
         private void UnDockBoat()
         {
-            _boatDocked = false;    
+            _boatDocked = false;
         }
 
         private void OnPause(PauseState newState)
@@ -77,7 +74,8 @@ namespace Dock
                 PauseState.Playing => true,
                 PauseState.InPauseMenu => false,
                 PauseState.InInventory => false,
-                _ => throw new ArgumentOutOfRangeException(nameof(newState), newState, null)
+                PauseState.InCatalogue => false,
+                PauseState.InQuests => false
             };
         }
     }

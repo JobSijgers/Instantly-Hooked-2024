@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0cf5ca2657daff4a93e813bde2ca940, type: 3}
+  m_Name: '#5 mahi mahi'
+  m_EditorClassIdentifier: 
+  fishName: Mahi Mahi
+  fishDescription: The mahi-mahi (Coryphaena hippurus). A surface-dweller found in
+    off-shore temperate or subtropical waters worldwide. But it seems this one just
+    likes the cold. Catches typically are around 1 m in length.
+  habitat: shoreline (200 m deep)
+  fishRarity: 3
+  fishSellAmount: 320000004b00000064000000
+  fishObject: {fileID: 4343415952701243678, guid: 07dedd3556b612c4eab592b6f6f9a178,
+    type: 3}
+  fishVisual: {fileID: 21300000, guid: 8d07a91a783f4be41aa1b47ec2fafb3c, type: 3}
+  moveSpeed: 3
+  maxStackAmount: 10
+  biteRate: 2

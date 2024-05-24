@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0cf5ca2657daff4a93e813bde2ca940, type: 3}
+  m_Name: '#3 Flounder'
+  m_EditorClassIdentifier: 
+  fishName: Flounder
+  fishDescription: "Flounders are a group of flatfish species. They are found at
+    the bottom of oceans around the world; some species will also enter estuaries.
+    Flounder typically grow to a length of 22\u201360 cm."
+  habitat: "sea bottom,  0 \u2013 100 m "
+  fishRarity: 0
+  fishSellAmount: 0f0000001400000019000000
+  fishObject: {fileID: 8305000499257683962, guid: ecda53e5b7eec6b4183f88d3d201787c,
+    type: 3}
+  fishVisual: {fileID: 21300000, guid: 65b1ea4180e54d941afe4b7252e7d71b, type: 3}
+  moveSpeed: 2
+  maxStackAmount: 10
+  biteRate: 3

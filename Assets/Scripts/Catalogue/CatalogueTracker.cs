@@ -1,5 +1,4 @@
-﻿using System;
-using Enums;
+﻿using Enums;
 using Events;
 using Fish;
 using UnityEngine;
@@ -8,8 +7,9 @@ namespace Catalogue
 {
     public class CatalogueTracker : MonoBehaviour
     {
+        public static CatalogueTracker Instance;
         [SerializeField] private CatalogueItem[] catalogueItems;
-        private int _totalCollectedFish;
+        private int totalCollectedFish;
         private void Start()
         {
             EventManager.FishCaught += AddFishToCatalogue;
@@ -24,16 +24,16 @@ namespace Catalogue
         {
             if (catalogueItems == null || catalogueItems.Length == 0) return;
             
-            foreach (var item in catalogueItems)
+            foreach (CatalogueItem item in catalogueItems)
             {
                 if (item.GetFish() != fish) continue;
                 
                 item.AddFish();
-                _totalCollectedFish++;
+                totalCollectedFish++;
                 return;
             }
         }
-
+        
         public CatalogueItem GetCatalogueItem(int index)
         {
             if (index < 0 || index >= catalogueItems.Length)
@@ -41,9 +41,34 @@ namespace Catalogue
             
             return catalogueItems[index];
         }
+        
         public int GetCatalogueItemsLength()
         {
             return catalogueItems.Length;
+        }
+
+        public int GetTotalFishCollected()
+        {
+            return totalCollectedFish;
+        }
+
+        public void GetCurrentCatalogueNotes(out int totalfish, out int[] amountcollectedPF)
+        {
+            amountcollectedPF = new int[GetCatalogueItemsLength() -1];
+            totalfish = totalCollectedFish;
+            for (int i = 0; i < GetCatalogueItemsLength() -1; i++)
+            {
+                amountcollectedPF[i] = catalogueItems[i].GetAmount();
+            }
+        }
+
+        public void SetCatalogueNotes(int totalfish,int[] amountcollectedPF)
+        {
+            totalCollectedFish = totalfish;
+            for (int i = 0; i < GetCatalogueItemsLength() -1; i++)
+            {
+                catalogueItems[i].SetAmount(amountcollectedPF[i]);
+            }
         }
     }
 }

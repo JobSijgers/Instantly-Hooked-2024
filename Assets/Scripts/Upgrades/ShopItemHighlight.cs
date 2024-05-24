@@ -1,7 +1,6 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Upgrades.Scriptable_Objects;
 
 namespace Upgrades
 {
@@ -11,8 +10,9 @@ namespace Upgrades
         [SerializeField] private TMP_Text upgradeDescriptionText;
         [SerializeField] private TMP_Text upgradeCostText;
         [SerializeField] private TMP_Text upgradeEffectText;
+        [SerializeField] private TMP_Text upgradeLevelText;
 
-        public void HighlightUpgrade(Upgrade upgrade)
+        public void HighlightUpgrade(Upgrade upgrade, int level)
         {
             if (upgrade == null)
             {
@@ -20,21 +20,27 @@ namespace Upgrades
                 upgradeDescriptionText.text = "You have maxed out this upgrade";
                 upgradeCostText.text = "";
                 upgradeEffectText.text = "";
+                upgradeLevelText.text = "";
                 return;
             }
+
             string upgradeEffectString = "";
             string[] upgradeEffectNames = upgrade.GetEffectName();
             string[] currentUpgradeEffect = UpgradeManager.Instance.GetCurrentUpgrade(upgrade).GetUpgradeEffect();
             string[] upgradeEffect = upgrade.GetUpgradeEffect();
+            string[] suffix = upgrade.GetSuffix();
+            string[] prefix = upgrade.GetPrefix();
 
             upgradeNameText.text = upgrade.upgradeName;
             upgradeDescriptionText.text = upgrade.description;
-            upgradeCostText.text = upgrade.cost.ToString();
+            upgradeCostText.text = $"Cost: ${upgrade.cost.ToString()}";
+            int levelIndex = level + 1;
+            upgradeLevelText.text = levelIndex.ToString();
 
 
             for (int i = 0; i < upgrade.GetEffectName().Length; i++)
             {
-                upgradeEffectString += $"{upgradeEffectNames[i]} {currentUpgradeEffect[i]} -> {upgradeEffect[i]} \n";
+                upgradeEffectString += $"{upgradeEffectNames[i]} {prefix[i]}{currentUpgradeEffect[i]}{suffix[i]} -> {prefix[i]}{upgradeEffect[i]}{suffix[i]} \n";
             }
 
             upgradeEffectText.text = upgradeEffectString;
@@ -46,6 +52,7 @@ namespace Upgrades
             upgradeDescriptionText.text = "";
             upgradeCostText.text = "";
             upgradeEffectText.text = "";
+            upgradeLevelText.text = "";
         }
     }
 }

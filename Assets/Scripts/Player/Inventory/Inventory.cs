@@ -4,7 +4,6 @@ using Enums;
 using Events;
 using Fish;
 using PauseMenu;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player.Inventory
@@ -14,7 +13,7 @@ namespace Player.Inventory
         public static Inventory Instance;
 
         public List<InventoryItem> currentFish;
-
+        
         [SerializeField] private GameObject defaultInventorySlot;
         [SerializeField] private Transform inventoryParent;
         [SerializeField] private Color[] rarityColors;
@@ -150,13 +149,14 @@ namespace Player.Inventory
 
             DeleteFishItem(itemsToDelete.ToArray());
         }
-        
+
         private void ClearInventory()
         {
             foreach (InventoryItem item in GetInventory())
             {
                 Destroy(item.gameObject);
             }
+
             currentFish.Clear();
         }
 
@@ -169,22 +169,43 @@ namespace Player.Inventory
         {
             return rarityColors[(int)rarity];
         }
-        
+
         private void OnPause(PauseState newState)
         {
             switch (newState)
             {
                 case PauseState.Playing:
-                    inventoryUI.gameObject.SetActive(false);
+                    CloseInventory(true);
                     break;
                 case PauseState.InPauseMenu:
+                    CloseInventory(true);
                     break;
                 case PauseState.InInventory:
-                    inventoryUI.gameObject.SetActive(true);
+                    OpenInventory(true);
+                    break;
+                case PauseState.InCatalogue:
+                    CloseInventory(true);
+                    break;
+                case PauseState.InQuests:
+                    CloseInventory(true);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
+        }
+
+        public void OpenInventory(bool suppressEvent)
+        {
+            inventoryUI.gameObject.SetActive(true);
+            PauseManager.SetState(PauseState.InInventory, suppressEvent);
+        }
+
+        public void CloseInventory(bool suppressEvent = false)
+        {
+            if (!inventoryUI.gameObject.activeSelf)
+                return;
+            inventoryUI.gameObject.SetActive(false);
+            PauseManager.SetState(PauseState.Playing, suppressEvent);
         }
     }
 }

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b976eab73a8b4f52943bf972a32a5091, type: 3}
   m_Name: ShipSpeedUpgrade 8
   m_EditorClassIdentifier: 
-  upgradeName: Speed
-  description: lvl 8
-  cost: 160
-  maxSpeed: 6.125
-  acceleration: 3.2
+  upgradeName: Ship Speed Upgrade
+  description: 
+  cost: 100
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 3.75
+  acceleration: 1.7

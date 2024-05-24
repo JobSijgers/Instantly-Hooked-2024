@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0cf5ca2657daff4a93e813bde2ca940, type: 3}
+  m_Name: '#11 Tautog'
+  m_EditorClassIdentifier: 
+  fishName: Tautog
+  fishDescription: The tautog (Tautoga onitis), also known as the blackfish. It is
+    currently the only known member of its genus. [Tautaug] happens to be a Native
+    American word, originally tautauog.
+  habitat: shore to 100m depth
+  fishRarity: 1
+  fishSellAmount: 28000000320000003c000000
+  fishObject: {fileID: 1522626296559796627, guid: 530b62dae4e373d42a60119707b537c2,
+    type: 3}
+  fishVisual: {fileID: 21300000, guid: 928a246c9d27ebb4298720f8baf45b27, type: 3}
+  moveSpeed: 3
+  maxStackAmount: 10
+  biteRate: 3

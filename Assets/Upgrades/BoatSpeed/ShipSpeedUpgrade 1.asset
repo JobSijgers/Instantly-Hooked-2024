@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b976eab73a8b4f52943bf972a32a5091, type: 3}
   m_Name: ShipSpeedUpgrade 1
   m_EditorClassIdentifier: 
-  upgradeName: Speed Default
-  description: This is thge default speed
+  upgradeName: Ship Speed Upgrade
+  description: 
   cost: 0
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
   maxSpeed: 2
   acceleration: 1

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f36a8f7ef4c40f6977654fa745d0403, type: 3}
   m_Name: ReelSpeedUpgrade 8
   m_EditorClassIdentifier: 
-  upgradeName: Reel speed
-  description: lvl 8
-  cost: 18
-  reelSpeed: 10
-  dropSpeed: 8
+  upgradeName: Reel Speed
+  description: 
+  cost: 800
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  reelSpeed: 6
+  dropSpeed: 2
