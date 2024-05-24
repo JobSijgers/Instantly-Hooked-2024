@@ -22,5 +22,21 @@ namespace Upgrades.Scriptable_Objects
                 $"{sonarDistance}"
             };
         }
+
+        public override string[] GetPrefix()
+        {
+            return new[]
+            {
+                ""  
+            };
+        }
+
+        public override string[] GetSuffix()
+        {
+            return new[]
+            {
+                "m"
+            };
+        }
     }
 }

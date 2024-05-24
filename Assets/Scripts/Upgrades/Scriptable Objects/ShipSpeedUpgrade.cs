@@ -24,5 +24,21 @@ namespace Upgrades.Scriptable_Objects
                 $"{acceleration}"
             };
         }
+
+        public override string[] GetPrefix()
+        {
+            return new[]{
+                "",
+                ""
+            };
+        }
+
+        public override string[] GetSuffix()
+        {
+            return new[]{
+                "m/s",
+                "m/s^2"
+            };
+        }
     }
 }

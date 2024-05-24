@@ -21,6 +21,21 @@ namespace Upgrades.Scriptable_Objects
                 $"{lineLength}"
             };
         }
-        
+
+        public override string[] GetPrefix()
+        {
+            return new[]
+            {
+                ""
+            };
+        }
+
+        public override string[] GetSuffix()
+        {
+            return new[]
+            {
+                "m"
+            };
+        }
     }
 }

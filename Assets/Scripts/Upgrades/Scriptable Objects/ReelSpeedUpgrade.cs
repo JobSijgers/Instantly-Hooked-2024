@@ -25,5 +25,23 @@ namespace Upgrades.Scriptable_Objects
                 $"{dropSpeed}"
             };
         }
+
+        public override string[] GetPrefix()
+        {
+            return new[]
+            {
+                "",
+                ""
+            };
+        }
+
+        public override string[] GetSuffix()
+        {
+            return new[]
+            {
+                "",
+                ""
+            };
+        }
     }
 }

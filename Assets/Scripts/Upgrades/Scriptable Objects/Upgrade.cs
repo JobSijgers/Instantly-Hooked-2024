@@ -18,5 +18,7 @@ namespace Upgrades.Scriptable_Objects
 
         public abstract string[] GetEffectName();
         public abstract string[] GetUpgradeEffect();
+        public abstract string[] GetPrefix();
+        public abstract string[] GetSuffix();
     }
 }
