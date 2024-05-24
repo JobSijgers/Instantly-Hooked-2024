@@ -37,7 +37,7 @@ namespace Timer
         private void UpdateTimeUI(float time)
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-            timeUIText.text = timeSpan.ToString(@"hh\:mm");
+            //timeUIText.text = timeSpan.ToString(@"hh\:mm");
         }
 
         private void UpdateDayUI(int newDay)

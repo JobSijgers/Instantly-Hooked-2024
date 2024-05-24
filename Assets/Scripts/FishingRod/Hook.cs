@@ -10,13 +10,10 @@ public class Hook : MonoBehaviour
     public BoxCollider bounds;
     [SerializeField] public GameObject HookOrigin;
     [SerializeField] public LineRenderer fishline;
+    [Tooltip("fix de Rod MaxLenght value * Offset")]
     public float Offset;
     public FishingRod.FishingRod Rod;
-    [Header("Particles")]
-    [SerializeField] private ParticleSystem lineSnap;
     private FishBrain P_FishOnHook;
-    public MeshCollider AngleCheck;
-    private float angle = 80;
     public FishBrain FishOnHook { get { return P_FishOnHook; } set { P_FishOnHook = value; } }
     private void Awake()
     {

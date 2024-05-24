@@ -24,8 +24,7 @@ public class FishBrain : MonoBehaviour
     private Coroutine RotateC;
     private Vector3 P_EndPos;
     [Header("Particles")]
-    [SerializeField] private ParticleSystem FishInterst;
-    [SerializeField] private ParticleSystem FishGought;
+    [SerializeField] public ParticleSystem FishGought;
     public Vector3 EndPos { get { return P_EndPos; } }
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public FishSpawner GetOriginSpawner() => OriginSpawner;

@@ -2,7 +2,6 @@ using Enums;
 using Events;
 using Fish;
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public enum FishBitingState
@@ -21,10 +20,11 @@ public class FishBiting : MonoBehaviour,IFishState
     // state
     private FishBitingState BiteState;
 
+    //state change
+    private bool OffHook = false;
+
     [Header("Range")]
     [SerializeField] private float BitingRange;
-    [Tooltip("de vis pakt binnen deze range een nieuwe positie voor struggeling")]
-    [SerializeField] private float Struggelrange;
     [SerializeField] private float IntresstLoseDistance;
 
     [Header("struggeling")]
@@ -35,27 +35,21 @@ public class FishBiting : MonoBehaviour,IFishState
     [SerializeField] private float HoldMultiplier;
     [SerializeField] private float RestoreMultyplier;
 
-    [Tooltip("hoe lang kan je vasthouden na max hold time")]
-    [SerializeField] private float holdoffset;
-
-    [Tooltip("waneer valt de vis als er niet gereeled word")]
-    [SerializeField] private float OffHookAfter;
-    private float tention;
 
     [Range(10,170)]
     [Tooltip("angle waarin de vissen naar beneden gaan als ze aan het struggelen zijn")]
     [SerializeField] private float angle;
 
-    private bool endposisstruggelpos = false;
     [SerializeField] private float strafpunten;
+
+    private bool endposisstruggelpos = false;
+    private float tention;
 
     // coroutine 
     private Coroutine StruggelingC;
     private Coroutine waitForStruggelC;
     private Coroutine CCD;
 
-    //state change
-    private bool OffHook = false;
 
     void Awake()
     {
@@ -66,6 +60,7 @@ public class FishBiting : MonoBehaviour,IFishState
     }
     public void OnStateActivate()
     {
+        Brain.FishGought.Play();
         BiteState = FishBitingState.goingforhook;
     }
     public IFishState SwitchState()
@@ -279,12 +274,4 @@ public class FishBiting : MonoBehaviour,IFishState
         yield return new WaitForSeconds(0.3f);
         CCD = null;
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.color = Color.red;
-        Handles.DrawWireArc(transform.position, Vector3.forward, Vector3.up, 360, Struggelrange);
-    }
-#endif
 }
