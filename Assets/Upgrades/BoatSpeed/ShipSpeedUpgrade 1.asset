@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: ShipSpeedUpgrade 1
   m_EditorClassIdentifier: 
   upgradeName: Speed Default
-  description: This is thge default speed
+  description: default
   cost: 0
-  maxSpeed: 2
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 1
   acceleration: 1

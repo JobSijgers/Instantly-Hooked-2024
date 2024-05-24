@@ -15,5 +15,8 @@ MonoBehaviour:
   upgradeName: Speed
   description: lvl 5 :Adds paddlewheels to your boat
   cost: 100
-  maxSpeed: 3.5
-  acceleration: 2
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 1.4
+  acceleration: 1.4

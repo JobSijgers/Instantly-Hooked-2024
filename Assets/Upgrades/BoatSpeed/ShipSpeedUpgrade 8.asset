@@ -15,5 +15,8 @@ MonoBehaviour:
   upgradeName: Speed
   description: lvl 8
   cost: 160
-  maxSpeed: 6.125
-  acceleration: 3.2
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 2
+  acceleration: 1.7

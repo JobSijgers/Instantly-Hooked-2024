@@ -15,5 +15,8 @@ MonoBehaviour:
   upgradeName: Speed
   description: lvl 3
   cost: 20
-  maxSpeed: 2.5
-  acceleration: 1.5
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 1.2
+  acceleration: 1.2

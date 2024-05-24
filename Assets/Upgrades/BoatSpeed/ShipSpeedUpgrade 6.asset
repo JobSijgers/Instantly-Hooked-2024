@@ -15,5 +15,8 @@ MonoBehaviour:
   upgradeName: Speed
   description: lvl 6
   cost: 120
-  maxSpeed: 4.375
-  acceleration: 2.4
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 1.5
+  acceleration: 1.5
