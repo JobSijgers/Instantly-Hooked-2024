@@ -16,6 +16,8 @@ namespace Upgrades
         {
             [SerializeField] private Upgrade[] upgrades;
             private int upgradeIndex;
+            public int GetUpgradeIndex() => upgradeIndex;
+            public void Setindex(int index) { upgradeIndex = index; }
 
             public void IncreaseUpgradeIndex()
             {
@@ -161,6 +163,22 @@ namespace Upgrades
             shopState = ShopState.Closed;
         }
 
+        public int[] GetUpgrades()
+        {
+            int[] updateindexes = new int[upgradeStates.Length];
+            for (int i = 0; i < upgradeStates.Length -1; i++)
+            {
+                updateindexes[i] = upgradeStates[i].GetUpgradeIndex();
+            }
+            return updateindexes;
+        }
+        public void SetUpgrades(int[] upgradeindex)
+        {
+            for (int i = 0;i < upgradeStates.Length; i++)
+            {
+                upgradeStates[i].Setindex(upgradeindex[i]);
+            }
+        }
         private IEnumerator LateStart()
         {
             yield return new WaitForEndOfFrame();

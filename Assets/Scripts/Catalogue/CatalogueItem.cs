@@ -24,5 +24,10 @@ namespace Catalogue
         {
             return _amountCaught;
         }
+
+        public void SetAmount(int fishamount)
+        {
+            _amountCaught = fishamount;
+        }
     }
 }

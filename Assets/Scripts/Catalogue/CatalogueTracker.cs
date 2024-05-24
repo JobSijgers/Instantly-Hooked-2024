@@ -7,6 +7,7 @@ namespace Catalogue
 {
     public class CatalogueTracker : MonoBehaviour
     {
+        public static CatalogueTracker Instance;
         [SerializeField] private CatalogueItem[] catalogueItems;
         private int totalCollectedFish;
         private void Start()
@@ -49,6 +50,25 @@ namespace Catalogue
         public int GetTotalFishCollected()
         {
             return totalCollectedFish;
+        }
+
+        public void GetCurrentCatalogueNotes(out int totalfish, out int[] amountcollectedPF)
+        {
+            amountcollectedPF = new int[GetCatalogueItemsLength() -1];
+            totalfish = totalCollectedFish;
+            for (int i = 0; i < GetCatalogueItemsLength() -1; i++)
+            {
+                amountcollectedPF[i] = catalogueItems[i].GetAmount();
+            }
+        }
+
+        public void SetCatalogueNotes(int totalfish,int[] amountcollectedPF)
+        {
+            totalCollectedFish = totalfish;
+            for (int i = 0; i < GetCatalogueItemsLength() -1; i++)
+            {
+                catalogueItems[i].SetAmount(amountcollectedPF[i]);
+            }
         }
     }
 }
