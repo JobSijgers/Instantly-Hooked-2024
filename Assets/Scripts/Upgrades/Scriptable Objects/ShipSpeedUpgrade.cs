@@ -36,8 +36,8 @@ namespace Upgrades.Scriptable_Objects
         public override string[] GetSuffix()
         {
             return new[]{
-                "m/s",
-                "m/s^2"
+                "",
+                ""
             };
         }
     }
