@@ -79,6 +79,7 @@ public class FishBrain : MonoBehaviour
     {
         Quaternion endpos = EmptyObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
+
     }
     private void StopOldRotation()
     {

@@ -99,15 +99,13 @@ namespace GameTime
             timePassing = true;
         }
 
-        public void GetTimeState(out int currentday, out float currenttime)
+        public void GetTimeState(out int currentday)
         {
             currentday = currentDay;
-            currenttime = currentTime;
         }
-        public void SetTime(int currentday, float currenttime)
+        public void SetDay(int currentday)
         {
             currentDay = currentday;
-            currentTime = currenttime;
         }
     }
 }

@@ -9,6 +9,8 @@ using Player.Inventory;
 using Events;
 using Economy;
 using GameTime;
+using Catalogue;
+using Upgrades;
 
 public class DataCenter : MonoBehaviour
 {
@@ -16,6 +18,10 @@ public class DataCenter : MonoBehaviour
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
+    private void Awake()
+    {
+        LoadGame();
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
@@ -62,7 +68,13 @@ public class DataCenter : MonoBehaviour
         EventManager.OnShopSell(storageCenter.Money);
 
         // load time
-        TimeManager.instance.SetTime(storageCenter.Time.currentDay, storageCenter.Time.currentTime);
+        TimeManager.instance.SetDay(storageCenter.currentDay);
+
+        // load upgrades 
+        UpgradeManager.Instance.SetUpgrades(storageCenter.upgradeIndex);
+
+        // load catalogue
+        CatalogueTracker.Instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish,storageCenter.Catalogue.amountCaught);
     } 
     private void WriteSave()
     {
@@ -82,20 +94,25 @@ public class DataCenter : MonoBehaviour
         storageCenter.Money = EconomyManager.instance.GetCurrentMoneyAmount();
 
         // write time
-        TimeManager.instance.GetTimeState(out int currentday, out float currenttime);
-        storageCenter.Time.currentDay = currentday;
-        storageCenter.Time.currentTime = currenttime;
+        TimeManager.instance.GetTimeState(out int currentday);
+        storageCenter.currentDay = currentday;
 
         //upgrades
-        //EventManager.On
-    }
+        storageCenter.upgradeIndex = UpgradeManager.Instance.GetUpgrades();
+
+        // catalog
+        CatalogueTracker.Instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
+        storageCenter.Catalogue.totalCollectedFish = totalFish;
+        storageCenter.Catalogue.amountCaught = amountcollectedPF;
+    } 
 }
 [Serializable]
 public class StorageCenter
 {
     public List<InventorySave> inventory = new List<InventorySave>();
-    public TimeSave Time;
-    public UpgradeSave Ubgrades;
+    public CatalogueSave Catalogue;
+    public int[] upgradeIndex;
+    public int currentDay;
     public int Money;
 }
 
@@ -107,15 +124,10 @@ public struct InventorySave
     public FishSize FishSize;
 }
 [Serializable]
-public struct UpgradeSave
+public struct CatalogueSave
 {
-
-}
-[Serializable]
-public struct TimeSave
-{
-    public int currentDay;
-    public float currentTime;
+    public int totalCollectedFish;
+    public int[] amountCaught; 
 }
 
 
