@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Events;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Upgrades.Scriptable_Objects;
 
 namespace Upgrades
@@ -8,9 +9,10 @@ namespace Upgrades
     public class UpgradeUI : MonoBehaviour
     {
         public static UpgradeUI instance;
-        [SerializeField] private GameObject upgradeShopItem;
+        [SerializeField] private GameObject evenUpgradeShopItem;
+        [SerializeField] private GameObject oddUpgradeShopItem;
         [SerializeField] private Transform upgradeShopItemParent;
-        [SerializeField] private UpgradeShopHighlight upgradeShopHighlight;
+        [SerializeField] private UpgradeShopHighlight fishHighlight;
         [SerializeField] private GameObject upgradeShopUI;
         private readonly List<UpgradeShopItem> upgradeShopItems = new();
 
@@ -49,9 +51,12 @@ namespace Upgrades
         /// his method creates a new upgrade item in the shop for each upgrade.
         /// </summary>
         /// <param name="upgrade">Upgrade to create item for</param>
-        public void CreateUpgradeItem(Upgrade upgrade)
+        /// <param name="id"></param>
+        public void CreateUpgradeItem(Upgrade upgrade, int id)
         {
-            GameObject upgradeItem = Instantiate(upgradeShopItem, upgradeShopItemParent);
+            GameObject upgradeItem = Instantiate(id % 2 == 0 ? evenUpgradeShopItem : oddUpgradeShopItem,
+                upgradeShopItemParent);
+
             UpgradeShopItem shopItem = upgradeItem.GetComponent<UpgradeShopItem>();
             shopItem.SetUpgrade(upgrade);
             upgradeShopItems.Add(shopItem);
@@ -83,12 +88,13 @@ namespace Upgrades
 
         public void ClearHighlight()
         {
-            upgradeShopHighlight.ClearHighlight();
+            fishHighlight.ClearHighlight();
         }
 
         public void SelectUpgrade(Upgrade upgrade)
         {
-            upgradeShopHighlight.HighlightUpgrade(upgrade);
+            int level = UpgradeManager.Instance.GetUpgradeLevel(upgrade);
+            fishHighlight.HighlightUpgrade(upgrade, level);
         }
     }
 }

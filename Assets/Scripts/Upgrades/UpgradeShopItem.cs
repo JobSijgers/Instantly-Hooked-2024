@@ -8,7 +8,6 @@ namespace Upgrades
 {
     public class UpgradeShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private TMP_Text upgradeNameText;
         [SerializeField] private TMP_Text upgradeCostText;
         [SerializeField] private Button upgradeButton;
         private Upgrade upgrade;
@@ -34,14 +33,12 @@ namespace Upgrades
         public void SetUpgrade(Upgrade upgrades)
         {
             upgrade = upgrades;
-            upgradeNameText.text = upgrade.upgradeName;
-            upgradeCostText.text = upgrade.cost.ToString();
+            upgradeCostText.text = $"{upgrade.cost.ToString()}" ;
         }
         public void SetMaxed()
         {
             upgrade = null;
-            upgradeNameText.text = "Maxed";
-            upgradeCostText.text = "";
+            upgradeCostText.text = "MAX";
         }
 
         public Upgrade GetUpgrade()

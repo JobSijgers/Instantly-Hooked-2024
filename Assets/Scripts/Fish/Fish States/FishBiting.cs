@@ -1,8 +1,10 @@
+using System;
 using Enums;
 using Events;
 using Fish;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum FishBitingState
 {
@@ -56,8 +58,14 @@ public class FishBiting : MonoBehaviour,IFishState
         bounds = GetComponent<BoxCollider>();
         Brain = GetComponent<FishBrain>();
         Rod = FindObjectOfType<FishingRod.FishingRod>();
+    }
+
+    private void OnEnable()
+    {
         EventManager.FishCaught += OnGaught;
     }
+    
+
     public void OnStateActivate()
     {
         Brain.FishGought.Play();

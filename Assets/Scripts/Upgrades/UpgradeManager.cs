@@ -51,6 +51,11 @@ namespace Upgrades
 
                 return upgrade.GetType() == upgrades[0].GetType();
             }
+            
+            public int GetUpgradeLevel()
+            {
+                return upgradeIndex;
+            }
         }
 
         public static UpgradeManager Instance { get; private set; }
@@ -90,9 +95,9 @@ namespace Upgrades
         /// </summary>
         private void SetUpItems()
         {
-            foreach (UpgradeState upgradeState in upgradeStates)
+            for (int i = 0; i < upgradeStates.Length; i++)
             {
-                UpgradeUI.instance.CreateUpgradeItem(upgradeState.GetNextUpgrade());
+                UpgradeUI.instance.CreateUpgradeItem(upgradeStates[i].GetNextUpgrade(), i + 1);
             }
         }
 
@@ -122,6 +127,12 @@ namespace Upgrades
         {
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
             return upgradeState?.GetNextUpgrade();
+        }
+        
+        public int GetUpgradeLevel(Upgrade upgrade)
+        {
+            UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
+            return upgradeState?.GetUpgradeLevel() ?? 0;
         }
 
         /// <summary>

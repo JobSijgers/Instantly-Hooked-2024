@@ -10,8 +10,9 @@ namespace Upgrades
         [SerializeField] private TMP_Text upgradeDescriptionText;
         [SerializeField] private TMP_Text upgradeCostText;
         [SerializeField] private TMP_Text upgradeEffectText;
+        [SerializeField] private TMP_Text upgradeLevelText;
 
-        public void HighlightUpgrade(Upgrade upgrade)
+        public void HighlightUpgrade(Upgrade upgrade, int level)
         {
             if (upgrade == null)
             {
