@@ -5318,7 +5318,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c8414395fe6ddad4db2983d996d064dc, type: 2}
+  - {fileID: 2100000, guid: de6f4241039feb24b9158e009280d30c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6375,12 +6375,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3484502653424183613, guid: 880bb88813c4edf4691efa811e434074,
     type: 3}
   m_PrefabInstance: {fileID: 1063967632}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1964769802 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4280800205532584425, guid: 8c4d40822ac51664d8baf2e0deafb958,
-    type: 3}
-  m_PrefabInstance: {fileID: 6129989792955808358}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2106782764 stripped
 Transform:
@@ -46224,11 +46218,6 @@ PrefabInstance:
       propertyPath: m_Drag
       value: 0.2
       objectReference: {fileID: 0}
-    - target: {fileID: 4862848141516474607, guid: c8a354e68f985614595d6c3335e7353b,
-        type: 3}
-      propertyPath: dock
-      value: 
-      objectReference: {fileID: 1964769802}
     - target: {fileID: 5214755133079981107, guid: c8a354e68f985614595d6c3335e7353b,
         type: 3}
       propertyPath: m_LocalPosition.z
