@@ -42,9 +42,14 @@ namespace Upgrades
             upgradeShopUI.SetActive(true);
         }
 
-        public void CloseUpgradeShopUI()
+        private void CloseUpgradeShopUI()
         {
             upgradeShopUI.SetActive(false);
+        }
+
+        public void CloseUI()
+        {
+            EventManager.OnUpgradeShopClose();
         }
 
         /// <summary>
