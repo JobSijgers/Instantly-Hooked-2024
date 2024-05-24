@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ShipSpeedUpgrade 35
   m_EditorClassIdentifier: 
   upgradeName: Ship Speed Upgrade
-  description: lvl 5 :Adds paddlewheels to your boat
-  cost: 0
+  description: 
+  cost: 1300
   upgradeVisual:
     mesh: {fileID: 0}
     material: {fileID: 0}
-  maxSpeed: 0
-  acceleration: 0
+  maxSpeed: 12.5
+  acceleration: 5.5

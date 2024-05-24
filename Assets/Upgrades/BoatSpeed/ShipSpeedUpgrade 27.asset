@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ShipSpeedUpgrade 27
   m_EditorClassIdentifier: 
   upgradeName: Ship Speed Upgrade
-  description: lvl 7
-  cost: 0
+  description: 
+  cost: 850
   upgradeVisual:
     mesh: {fileID: 0}
     material: {fileID: 0}
-  maxSpeed: 0
-  acceleration: 0
+  maxSpeed: 9
+  acceleration: 3.8
