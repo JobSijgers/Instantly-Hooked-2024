@@ -15,5 +15,8 @@ MonoBehaviour:
   upgradeName: Speed
   description: lvl 7
   cost: 140
-  maxSpeed: 5.25
-  acceleration: 2.8
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 1.75
+  acceleration: 1.6

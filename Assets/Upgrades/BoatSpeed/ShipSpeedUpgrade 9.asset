@@ -15,5 +15,8 @@ MonoBehaviour:
   upgradeName: Speed
   description: lvl 9
   cost: 180
-  maxSpeed: 7
-  acceleration: 3.6
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 2.25
+  acceleration: 1.8

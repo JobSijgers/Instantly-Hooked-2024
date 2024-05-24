@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b976eab73a8b4f52943bf972a32a5091, type: 3}
-  m_Name: ShipSpeedUpgrade 10
+  m_Name: ShipSpeedUpgrade 40
   m_EditorClassIdentifier: 
   upgradeName: Speed
   description: lvl MAX
@@ -18,5 +18,5 @@ MonoBehaviour:
   upgradeVisual:
     mesh: {fileID: 0}
     material: {fileID: 0}
-  maxSpeed: 2.5
-  acceleration: 1.9
+  maxSpeed: 0
+  acceleration: 0

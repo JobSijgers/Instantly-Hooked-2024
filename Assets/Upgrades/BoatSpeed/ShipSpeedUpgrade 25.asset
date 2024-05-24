@@ -9,10 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d57260b7cc3c48a1b5a885c7d9802886, type: 3}
-  m_Name: SonarUpgrade 1
+  m_Script: {fileID: 11500000, guid: b976eab73a8b4f52943bf972a32a5091, type: 3}
+  m_Name: ShipSpeedUpgrade 25
   m_EditorClassIdentifier: 
-  upgradeName: default
-  description: 0
-  cost: 0
-  sonarDistance: 0
+  upgradeName: Speed
+  description: lvl 5 :Adds paddlewheels to your boat
+  cost: 100
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  maxSpeed: 0
+  acceleration: 0
