@@ -2,6 +2,7 @@ using System.Collections;
 using Events;
 using Interfaces;
 using PauseMenu;
+using Unity.VisualScripting;
 using UnityEngine;
 using Upgrades;
 using Upgrades.Scriptable_Objects;
@@ -86,8 +87,14 @@ namespace Boat
 
         private IEnumerator MoveBoatToDock(Vector3 dockLocation)
         {
+            float totalDockingTime = 0f;
             while (Vector3.Distance(transform.position, dockLocation) > 0.3f)
             {
+                totalDockingTime += Time.deltaTime;
+                if (totalDockingTime >= 5f)
+                {
+                    break;
+                }
                 // Get direction to target
                 Vector3 boatPosition = transform.position;
                 Vector3 direction = (dockLocation - boatPosition).normalized;
