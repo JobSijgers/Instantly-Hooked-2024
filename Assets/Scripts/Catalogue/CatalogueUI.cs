@@ -43,13 +43,13 @@ namespace Catalogue
                     continue;
                 if (item == null || item.GetAmount() <= 0)
                 {
-                    itemsInPage[i % itemsPerPage].gameObject.SetActive(false);
+                    itemsInPage[i % itemsPerPage].DisableHolder();
                     continue;
                 }
 
                 string fishName = $"#{i + 1}  {item.GetFish().fishName}";
             
-                itemsInPage[i % itemsPerPage].gameObject.SetActive(true);
+                itemsInPage[i % itemsPerPage].EnableHolder();
                 itemsInPage[i % itemsPerPage].Initialize(fishName, item.GetFish().fishDescription,
                     item.GetAmount(), item.GetFish().habitat, raritySprites[(int)item.GetFish().fishRarity],
                     item.GetFish().fishVisual);

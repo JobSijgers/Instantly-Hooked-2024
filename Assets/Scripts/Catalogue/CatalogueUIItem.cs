@@ -6,6 +6,7 @@ namespace Catalogue
 {
     public class CatalogueUIItem : MonoBehaviour
     {
+        [SerializeField] private GameObject holder;
         [SerializeField] private TMP_Text fishNameText;
         [SerializeField] private TMP_Text fishDescriptionText;
         [SerializeField] private TMP_Text fishAmountText;
@@ -22,6 +23,15 @@ namespace Catalogue
             fishHabitatText.text = fishHabitat;
             fishRarityImage.sprite = fishRaritySprite;
             fishImage.sprite = fishSprite;
+        }
+
+        public void DisableHolder()
+        {
+            holder.gameObject.SetActive(false);
+        }
+        public void EnableHolder()
+        {
+            holder.gameObject.SetActive(true);
         }
     }
 }
