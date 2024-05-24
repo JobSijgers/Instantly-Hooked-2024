@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd1d686157d45cf91c7387b1c3d08fa, type: 3}
   m_Name: LineLengthUpgrade 11
   m_EditorClassIdentifier: 
-  upgradeName: Line length
-  description: lvl MAX
-  cost: 55
-  lineLength: 100
+  upgradeName: Line Length
+  description: 
+  cost: 80
+  upgradeVisual:
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  lineLength: 30

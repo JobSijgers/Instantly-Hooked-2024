@@ -10,10 +10,9 @@ public class Hook : MonoBehaviour
     public BoxCollider bounds;
     [SerializeField] public GameObject HookOrigin;
     [SerializeField] public LineRenderer fishline;
+    [Tooltip("fix de Rod MaxLenght value * Offset")]
     public float Offset;
-
     public FishingRod.FishingRod Rod;
-
     private FishBrain P_FishOnHook;
     public FishBrain FishOnHook { get { return P_FishOnHook; } set { P_FishOnHook = value; } }
     private void Awake()
@@ -22,20 +21,16 @@ public class Hook : MonoBehaviour
         hook = gameObject;
         bounds = gameObject.GetComponent<BoxCollider>();
     }
-    private void Update()
-    {
-       //if (FishOnHook != null) Debug.Log(FishOnHook.gameObject);
-    }
     public void RemoveFish()
     {
         FishOnHook = null;
     }
-
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.blue;
         Handles.DrawWireArc(Rod.transform.position, Vector3.forward, Vector3.down, 360, Rod.GetLineLength() * Offset);
+
     }
 #endif
 }

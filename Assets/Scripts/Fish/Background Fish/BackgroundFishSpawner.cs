@@ -1,4 +1,6 @@
-﻿using Interfaces;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Interfaces;
 using PathCreation;
 using UnityEngine;
 
@@ -15,11 +17,16 @@ namespace Fish.Background_Fish
 
         private void Start()
         {
+            StartCoroutine(SpawnAllFish());
+        }
+        private IEnumerator SpawnAllFish()
+        {
             for (int i = 0; i < fishCount; i++)
             {
                 GameObject fish = SpawnFish();
                 IBackgroundFish pathFollower = fish.AddComponent<PathFollower>();
                 pathFollower?.Initialize(GetRandomPath(), GetRandomOffset(), GetRandomSpeed());
+                yield return new WaitForSeconds(0.1f);
             }
         }
 

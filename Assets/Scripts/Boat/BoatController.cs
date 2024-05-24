@@ -29,6 +29,7 @@ namespace Boat
             EventManager.UpgradeBought += OnUpgrade;
             EventManager.PauseStateChange += OnPause;
             EventManager.LeftShore += UndockBoat;
+            EventManager.BoatControlsChange += DisableControls;
             _rigidbody = GetComponent<Rigidbody>();
         }
 
@@ -37,6 +38,7 @@ namespace Boat
             EventManager.PauseStateChange -= OnPause;
             EventManager.UpgradeBought -= OnUpgrade;
             EventManager.LeftShore -= UndockBoat;
+            EventManager.BoatControlsChange -= DisableControls;
         }
 
         private void Update()
@@ -147,6 +149,20 @@ namespace Boat
             _rigidbody.isKinematic = isPaused;
             enabled = !isPaused;
             if (isPaused)
+            {
+                _velocityAtPause = _rigidbody.velocity;
+            }
+            else
+            {
+                _rigidbody.velocity = _velocityAtPause;
+            }
+        }
+
+        private void DisableControls(bool state)
+        {
+            _rigidbody.isKinematic = state;
+            //enabled = !state;
+            if (state)
             {
                 _velocityAtPause = _rigidbody.velocity;
             }
