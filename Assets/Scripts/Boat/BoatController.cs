@@ -11,13 +11,10 @@ namespace Boat
     [RequireComponent(typeof(Rigidbody))]
     public class BoatController : MonoBehaviour, IBoat
     {
-        public delegate void FDockSuccess();
-
-        public event FDockSuccess OnDockSuccess;
-
         [SerializeField] private float maxVelocity;
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float dockStoppingDistance;
+        [SerializeField] private Transform dock;
 
         private Rigidbody _rigidbody;
         private float _input;
@@ -30,6 +27,7 @@ namespace Boat
             EventManager.PauseStateChange += OnPause;
             EventManager.LeftShore += UndockBoat;
             EventManager.BoatControlsChange += DisableControls;
+            EventManager.BoatAutoDock += DockBoat;
             _rigidbody = GetComponent<Rigidbody>();
         }
 
@@ -75,9 +73,9 @@ namespace Boat
             _rigidbody.AddForce(counteractForce);
         }
 
-        public void DockBoat(Vector3 dockLocation)
+        public void DockBoat()
         {
-            StartCoroutine(MoveBoatToDock(dockLocation));
+            StartCoroutine(MoveBoatToDock(dock.position));
             _docked = true;
         }
 
@@ -108,7 +106,7 @@ namespace Boat
             // Stop movement at target
             _rigidbody.velocity = Vector3.zero;
 
-            OnDockSuccess?.Invoke();
+            EventManager.OnDockSuccess();
         }
 
         private void OnUpgrade(Upgrade upgrade)

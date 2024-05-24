@@ -16,11 +16,7 @@ namespace Dock
 
         private void Start()
         {
-            BoatController controller = boat.GetComponent<BoatController>();
-            if (controller == null)
-                return;
-            controller.OnDockSuccess += DockSuccess;
-
+            EventManager.DockSucess += DockSuccess;
             EventManager.PauseStateChange += OnPause;
             EventManager.PlayerDied += DockBoat;
             EventManager.LeftShore += UnDockBoat;
@@ -31,6 +27,7 @@ namespace Dock
             EventManager.PauseStateChange -= OnPause;
             EventManager.PlayerDied -= DockBoat;
             EventManager.LeftShore -= UnDockBoat;
+            EventManager.DockSucess -= DockSuccess;
         }
 
         private void Update()
@@ -56,7 +53,7 @@ namespace Dock
 
         private void DockBoat()
         {
-            boat.GetComponent<IBoat>()?.DockBoat(dockPoint.position);
+            boat.GetComponent<IBoat>()?.DockBoat();
         }
 
         private void DockSuccess()
