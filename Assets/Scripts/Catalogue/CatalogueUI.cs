@@ -1,5 +1,4 @@
-﻿using System;
-using Events;
+﻿using Events;
 using PauseMenu;
 using TMPro;
 using UnityEngine;
@@ -26,7 +25,6 @@ namespace Catalogue
             EventManager.PauseStateChange += OnPauseStateChange;
             tracker = GetComponent<CatalogueTracker>();
             itemsPerPage = itemsInPage.Length;
-            LoadPage(0);
         }
 
         private void OnDestroy()
@@ -34,8 +32,12 @@ namespace Catalogue
             EventManager.PauseStateChange -= OnPauseStateChange;
         }
 
+        /// <summary>
+        /// Loads a page of the catalogue with the given index.
+        /// </summary>
         private void LoadPage(int index)
         {
+            // Loop through the items in the page based on the given index and the number of items per page
             for (int i = index * itemsPerPage; i < index * itemsPerPage + itemsPerPage; i++)
             {
                 CatalogueItem item = tracker.GetCatalogueItem(i);
@@ -50,6 +52,7 @@ namespace Catalogue
                 string fishName = $"#{i + 1}  {item.GetFish().fishName}";
             
                 itemsInPage[i % itemsPerPage].EnableHolder();
+                // Initialize the corresponding UI element with the item's details
                 itemsInPage[i % itemsPerPage].Initialize(fishName, item.GetFish().fishDescription,
                     item.GetAmount(), item.GetFish().habitat, raritySprites[(int)item.GetFish().fishRarity],
                     item.GetFish().fishVisual);
@@ -61,8 +64,8 @@ namespace Catalogue
             catalogueUIParent.SetActive(true);
             currentPage = 0;
             LoadPage(currentPage);
-            CheckPreviousPage();
-            CheckNextPage();
+            CheckPreviousPageButton();
+            CheckNextPageButton();
 
             totalFishCollectedText.text = tracker.GetTotalFishCollected().ToString();
             PauseManager.SetState(PauseState.InCatalogue, suppressEvent);
@@ -76,7 +79,10 @@ namespace Catalogue
             PauseManager.SetState(PauseState.Playing, suppressEvent);
         }
 
-        private void CheckPreviousPage()
+        /// <summary>
+        /// Checks if the previous page button should be active.
+        /// </summary>
+        private void CheckPreviousPageButton()
         {
             if (currentPage <= 0)
             {
@@ -84,14 +90,17 @@ namespace Catalogue
             }
         }
 
-        private void CheckNextPage()
+        /// <summary>
+        /// Checks if the next page button should be active.
+        /// </summary>
+        private void CheckNextPageButton()
         {
             if ((currentPage + 1) * itemsPerPage >= tracker.GetCatalogueItemsLength())
             {
                 nextPageButton.SetActive(false);
             }
         }
-
+        
         public void LoadNextPage()
         {
             currentPage++;

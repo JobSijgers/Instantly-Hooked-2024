@@ -27,13 +27,11 @@ namespace GameTime
 
         private void Start()
         {
-            // Subscribe to TimeUpdate event
             EventManager.TimeUpdate += UpdateSkybox;
         }
 
         private void OnDestroy()
         {
-            // Unsubscribe from TimeUpdate event
             EventManager.TimeUpdate -= UpdateSkybox;
         }
 
@@ -44,7 +42,6 @@ namespace GameTime
             float currentTimeInMinutes = (int)timeSpan.TotalMinutes;
             RotateLight(currentTimeInMinutes / 1440f);
 
-            // Iterate over each phase
             foreach (DayPhase phase in dayPhases)
             {
                 // Skip if current time is not within the phase
@@ -58,7 +55,6 @@ namespace GameTime
                 float t = (currentTimeInMinutes - startTimeInMinutes) / (endTimeInMinutes - startTimeInMinutes);
                 float a = Mathf.Clamp(t, 0f, 1f);
 
-                // lerp between start and end textures
                 LerpSkybox(phase.startTexture, phase.endTexture, phase.gradient, a);
                 return;
             }
@@ -72,10 +68,8 @@ namespace GameTime
             if (RenderSettings.skybox.GetTexture("_Texture2") != b)
                 RenderSettings.skybox.SetTexture("_Texture2", b);
             
-            // Set blend factor
             RenderSettings.skybox.SetFloat("_Blend", t);
 
-            //update directional light color and rotation
             sun.color = gradient.Evaluate(t);
         }
         
