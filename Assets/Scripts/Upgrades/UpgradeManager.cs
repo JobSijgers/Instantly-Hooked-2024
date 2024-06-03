@@ -114,11 +114,11 @@ namespace Upgrades
                 EventManager.OnNotEnoughMoney();
                 return;
             }
-
+            
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
             if (upgradeState == null)
                 return;
-
+            EconomyManager.instance.RemoveMoney(upgrade.cost);
             upgradeState.IncreaseUpgradeIndex();
             EventManager.OnUpgradeBought(upgrade);
         }

@@ -22,13 +22,11 @@ namespace Economy
         private void Start()
         {
             EventManager.ShopSell += AddMoney;
-            EventManager.UpgradeBought += RemoveMoney;
         }
 
         private void OnDestroy()
         {
             EventManager.ShopSell -= AddMoney;
-            EventManager.UpgradeBought -= RemoveMoney;
         }
 
         public bool HasEnoughMoney(int purchaseAmount)
@@ -42,15 +40,10 @@ namespace Economy
             EventManager.OnMoneyUpdate(currentMoney);
         }
 
-        private void RemoveMoney(int removeMoney)
+        public void RemoveMoney(int removeMoney)
         {
             currentMoney -= removeMoney;
             EventManager.OnMoneyUpdate(currentMoney);
-        }
-
-        private void RemoveMoney(Upgrade upgrade)
-        {
-            RemoveMoney(upgrade.cost);
         }
     }
 }

@@ -50,6 +50,10 @@ public class FishSpawner : MonoBehaviour
     {
         foreach (FishBrain fish in ActiveFish)
         {
+            if (fish == null)
+            {
+                continue;
+            }
             if (Hook.instance.FishOnHook == null)
             {
                 fishPooler.ReturnFish(fish);

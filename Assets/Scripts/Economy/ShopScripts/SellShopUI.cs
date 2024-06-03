@@ -74,8 +74,7 @@ namespace Economy.ShopScripts
         public void SelectAll()
         {
             ClearSellSheet();
-            currentTotalSellMoneyAmount = 0;
-            currentTotalSellAmount = 0;
+            ResetTotalSellAmounts();
             foreach (SellShopItem item in shopItems)
             {
                 item.SetInputField(item.GetStackSize());
@@ -102,6 +101,7 @@ namespace Economy.ShopScripts
                     sellSheet.Remove(shoppingItem);
                     Destroy(sellTexts[^1].gameObject);
                     sellTexts.RemoveAt(sellTexts.Count - 1);
+                    ChangeTotalSellAmounts(change, item);
                     UpdateShoppingListUI();
                     return;
                 }
@@ -109,13 +109,13 @@ namespace Economy.ShopScripts
                 shoppingItem.amount += change;
                 sellSheet[i] = shoppingItem;
 
-                currentTotalSellMoneyAmount += change * item.GetFishData().fishSellAmount[(int)item.GetFishSize()];
-                currentTotalSellAmount += change;
+                ChangeTotalSellAmounts(change, item);
                 UpdateShoppingListUI();
                 return;
             }
 
             sellSheet.Add(new SellListItem(item, change));
+            ChangeTotalSellAmounts(change, item);
             UpdateShoppingListUI();
         }
 
@@ -140,7 +140,7 @@ namespace Economy.ShopScripts
             }
 
             totalSellMoney.text = $"${currentTotalSellMoneyAmount}";
-            totalSellAmount.text = currentTotalSellMoneyAmount.ToString();
+            totalSellAmount.text = currentTotalSellAmount.ToString();
         }
 
         /// <summary>
@@ -161,11 +161,8 @@ namespace Economy.ShopScripts
 
         public void SellSelectItems()
         {
-            
-            
-            currentTotalSellAmount = 0;
-            currentTotalSellMoneyAmount = 0;
-            
+            SetTotalSellAmounts(0, 0);
+
             EventManager.OnSellSelectedButton(sellSheet.ToArray());
             ClearSellSheet();
             UpdateShoppingListUI();
@@ -182,6 +179,24 @@ namespace Economy.ShopScripts
 
             sellSheet.Clear();
             sellTexts.Clear();
+        }
+
+        private void ResetTotalSellAmounts()
+        {
+            SetTotalSellAmounts(0, 0);
+        }
+
+        private void SetTotalSellAmounts(int totalMoney, int totalAmount)
+        {
+            currentTotalSellMoneyAmount = totalMoney;
+            currentTotalSellAmount = totalAmount;
+        }
+
+        private void ChangeTotalSellAmounts(int change, SellShopItem item)
+        {
+            SetTotalSellAmounts(
+                currentTotalSellMoneyAmount + change * item.GetFishData().fishSellAmount[(int)item.GetFishSize()],
+                currentTotalSellAmount + change);
         }
     }
 }
