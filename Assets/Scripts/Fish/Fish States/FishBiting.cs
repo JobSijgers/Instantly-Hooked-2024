@@ -27,7 +27,7 @@ public class FishBiting : MonoBehaviour,IFishState
 
     [Header("Range")]
     [SerializeField] private float BitingRange;
-    [SerializeField] private float IntresstLoseDistance;
+    [SerializeField] private float IntresstLossafter;
 
     [Header("struggeling")]
     [SerializeField] private float StruggelTime;
@@ -50,22 +50,18 @@ public class FishBiting : MonoBehaviour,IFishState
     // coroutine 
     private Coroutine StruggelingC;
     private Coroutine waitForStruggelC;
+    private Coroutine ResetStateAfterTimeIntrest;
     private Coroutine CCD;
-
-
     void Awake()
     {
         bounds = GetComponent<BoxCollider>();
         Brain = GetComponent<FishBrain>();
         Rod = FindObjectOfType<FishingRod.FishingRod>();
     }
-
     private void OnEnable()
     {
         EventManager.FishCaught += OnGaught;
     }
-    
-
     public void OnStateActivate()
     {
         Brain.FishGought.Play();
@@ -97,10 +93,7 @@ public class FishBiting : MonoBehaviour,IFishState
         MoveMent();
         Struggeling();
 
-        if (Vector3.Distance(transform.position, Hook.instance.hook.transform.position) > IntresstLoseDistance)
-        {
-            OffHook = true;
-        }
+        if (Input.GetMouseButton(1) && BiteState == FishBitingState.goingforhook && ResetStateAfterTimeIntrest == null) ResetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
 
         if (Input.GetMouseButtonUp(1) && CCD == null) CCD = StartCoroutine(ClickCoolDown());
     }
@@ -162,7 +155,7 @@ public class FishBiting : MonoBehaviour,IFishState
                 {
                     Vector3 newpos = Brain.EndPos;
                     newpos = ChooseSwimDirection();
-                    if (IsPointWithinVisionCone(Hook.instance.HookOrigin.transform.position, Vector3.down, angle, newpos) && FishPooler.instance.WaterBlock.bounds.Contains(newpos))
+                    if (IsPointWithinAngle(Hook.instance.HookOrigin.transform.position, Vector3.down, angle, newpos) && FishPooler.instance.WaterBlock.bounds.Contains(newpos))
                     {
                         endposisstruggelpos = true;
                         Brain.SetEndPos(newpos);
@@ -189,7 +182,7 @@ public class FishBiting : MonoBehaviour,IFishState
         }
     }
 
-    bool IsPointWithinVisionCone(Vector3 origin, Vector3 forward, float angle, Vector3 point)
+    bool IsPointWithinAngle(Vector3 origin, Vector3 forward, float angle, Vector3 point)
     {
         Vector3 directionToPoint = (point - origin).normalized;
         float angleToTarget = Vector3.Angle(forward, directionToPoint);
@@ -202,7 +195,7 @@ public class FishBiting : MonoBehaviour,IFishState
         Vector2 positionOnCircle = (Vector2)Hook.instance.HookOrigin.transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * Rod.GetLineLength() * Hook.instance.Offset;
         return positionOnCircle;
     }
-    private bool IsInWater()
+    public bool IsInWater()
     {
         if (FishPooler.instance.WaterBlock.bounds.Intersects(bounds.bounds))
         {
@@ -224,6 +217,19 @@ public class FishBiting : MonoBehaviour,IFishState
             Brain.SetEndPos(transform.position);
         }
         else waitForStruggelC = StartCoroutine(WaitForStruggel(StruggelAfterTime));
+    }
+    private IEnumerator FishStateReset()
+    {
+        float t = 0.0f;
+        while (t < IntresstLossafter)
+        {
+            t += Time.deltaTime;
+            Debug.Log($"intress loss timer : {t}");
+            if (!Input.GetMouseButton(1)) ResetStateAfterTimeIntrest = null;
+            yield return null;
+        }
+        if (t >= IntresstLossafter && BiteState == FishBitingState.goingforhook) OffHook = true;
+        ResetStateAfterTimeIntrest = null;
     }
     public IEnumerator FishStruggel()
     {
@@ -281,5 +287,10 @@ public class FishBiting : MonoBehaviour,IFishState
     {
         yield return new WaitForSeconds(0.3f);
         CCD = null;
+    }
+    public bool IsFishStruggeling()
+    {
+        if (BiteState == FishBitingState.struggeling) return true;
+        else return false;
     }
 }

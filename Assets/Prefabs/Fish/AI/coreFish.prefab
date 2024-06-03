@@ -35,6 +35,7 @@ Transform:
   m_Children:
   - {fileID: 5083287377374751935}
   - {fileID: 943231614418374227}
+  - {fileID: 3715165259074818643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7012671117014001069
@@ -49,11 +50,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783d447a74f5427418febb806f165f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VisualHolder: {fileID: 8020548641093939901}
   states:
     Roaming: {fileID: 4697329898385395740}
     Biting: {fileID: 3453636385491892057}
   EmptyObject: {fileID: 4560276014792619125}
   RotateSpeed: 40
+  WiggleAngle: 0.9
+  Wigggleincrease: 0
+  WiggleSpeed: 0
   FishGought: {fileID: 2912724422201163877}
 --- !u!114 &4697329898385395740
 MonoBehaviour:
@@ -82,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BitingRange: 0.2
-  IntresstLoseDistance: 10
+  IntresstLossafter: 2
   StruggelTime: 6
   StruggelAfterTime: 10
   HoldMultiplier: 150
@@ -133,6 +138,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4560276014792619125}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6656720431704336348}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8020548641093939901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3715165259074818643}
+  m_Layer: 0
+  m_Name: visualHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3715165259074818643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020548641093939901}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
