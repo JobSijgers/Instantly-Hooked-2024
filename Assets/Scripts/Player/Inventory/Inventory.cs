@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Enums;
 using Events;
 using Fish;
@@ -8,12 +7,14 @@ using UnityEngine;
 
 namespace Player.Inventory
 {
+    // This class manages the player's inventory, including adding and removing fish, and updating the UI.
     public class Inventory : MonoBehaviour
     {
         public static Inventory Instance;
 
+        // List of current fish items in the player's inventory.
         public List<InventoryItem> currentFish;
-        
+
         [SerializeField] private GameObject defaultInventorySlot;
         [SerializeField] private Transform inventoryParent;
         [SerializeField] private Color[] rarityColors;
@@ -29,8 +30,6 @@ namespace Player.Inventory
         {
             EventManager.PauseStateChange += OnPause;
             EventManager.PlayerDied += ClearInventory;
-
-            inventoryUI.gameObject.SetActive(false);
         }
 
         private void OnDestroy()
@@ -40,6 +39,10 @@ namespace Player.Inventory
             EventManager.FishCaught -= AddFish;
         }
 
+
+        /// <summary>
+        /// This method adds a fish to the inventory. If the fish is already in the inventory, it increases the stack size.
+        /// </summary>
         private void AddFish(FishData fishToAdd, FishSize size)
         {
             if (fishToAdd.maxStackAmount <= 1) return;
@@ -60,6 +63,9 @@ namespace Player.Inventory
             currentFish.Add(item);
         }
 
+        /// <summary>
+        /// This method removes a specified amount of a specific type and size of fish from the inventory.
+        /// </summary>
         public void RemoveFish(FishData fishToRemove, FishSize size, int amount)
         {
             int remainingAmount = amount;
@@ -93,6 +99,11 @@ namespace Player.Inventory
             }
         }
 
+
+        /// <summary>
+        /// This method deletes a specific inventory item and removes it from the current fish list.
+        /// </summary>
+        /// <param name="items"></param>
         private void DeleteFishItem(InventoryItem[] items)
         {
             foreach (InventoryItem item in items)
@@ -102,6 +113,11 @@ namespace Player.Inventory
             }
         }
 
+        /// <summary>
+        /// This method recalculates the stack sizes of a specific type and size of fish in the inventory.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="size"></param>
         private void RecalculateItemStacks(FishData data, FishSize size)
         {
             int totalAmountOfFish = 0;
@@ -160,16 +176,27 @@ namespace Player.Inventory
             currentFish.Clear();
         }
 
+        /// <summary>
+        /// This method returns an array of all current fish items in the inventory.
+        /// </summary>
+        /// <returns></returns>
         public InventoryItem[] GetInventory()
         {
             return currentFish.ToArray();
         }
 
+        /// <summary>
+        /// This method returns the color associated with a specific fish rarity.
+        /// </summary>
         public Color GetRarityColor(FishRarity rarity)
         {
             return rarityColors[(int)rarity];
         }
-
+        
+        /// <summary>
+        /// This method handles the inventory UI based on the current game pause state.
+        /// </summary>
+        /// <param name="newState"></param>
         private void OnPause(PauseState newState)
         {
             switch (newState)
@@ -189,8 +216,6 @@ namespace Player.Inventory
                 case PauseState.InQuests:
                     CloseInventory(true);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
         }
 

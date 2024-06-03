@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Events;
 using Fish;
 using Player.Inventory;
@@ -19,9 +20,11 @@ namespace Economy.ShopScripts
 
 
         private SellShopItem selectedItem;
-        private List<SellShopItem> shopItems = new();
-        private List<SellListItem> sellSheet = new();
-        private List<TMP_Text> sellTexts = new();
+        private readonly List<SellShopItem> shopItems = new();
+        private readonly List<SellListItem> sellSheet = new();
+        private readonly List<TMP_Text> sellTexts = new();
+        private int currentTotalSellMoneyAmount;
+        private int currentTotalSellAmount;
 
         private void Start()
         {
@@ -52,7 +55,7 @@ namespace Economy.ShopScripts
             }
         }
 
-        public void CloseSellShopUI()
+        private void CloseSellShopUI()
         {
             shopObject.SetActive(false);
             foreach (SellShopItem item in shopItems)
@@ -63,9 +66,16 @@ namespace Economy.ShopScripts
             shopItems.Clear();
         }
 
+        public void CloseUI()
+        {
+            EventManager.OnSellShopClose();
+        }
+
         public void SelectAll()
         {
             ClearSellSheet();
+            currentTotalSellMoneyAmount = 0;
+            currentTotalSellAmount = 0;
             foreach (SellShopItem item in shopItems)
             {
                 item.SetInputField(item.GetStackSize());
@@ -73,6 +83,9 @@ namespace Economy.ShopScripts
             }
         }
 
+        /// <summary>
+        /// Updates the shopping list when the selected amount of an item changes.
+        /// </summary>
         private void UpdateShoppingList(SellShopItem item, int change)
         {
             FishData data = item.GetFishData();
@@ -95,6 +108,9 @@ namespace Economy.ShopScripts
 
                 shoppingItem.amount += change;
                 sellSheet[i] = shoppingItem;
+
+                currentTotalSellMoneyAmount += change * item.GetFishData().fishSellAmount[(int)item.GetFishSize()];
+                currentTotalSellAmount += change;
                 UpdateShoppingListUI();
                 return;
             }
@@ -103,6 +119,9 @@ namespace Economy.ShopScripts
             UpdateShoppingListUI();
         }
 
+        /// <summary>
+        /// Updates the shopping list UI to reflect the current state of the shopping list.
+        /// </summary>
         private void UpdateShoppingListUI()
         {
             for (int i = 0; i < sellSheet.Count; i++)
@@ -120,40 +139,33 @@ namespace Economy.ShopScripts
                 }
             }
 
-            totalSellMoney.text = $"${CalculateTotalMoney()}";
-            totalSellAmount.text = CalculateTotalAmount().ToString();
+            totalSellMoney.text = $"${currentTotalSellMoneyAmount}";
+            totalSellAmount.text = currentTotalSellMoneyAmount.ToString();
         }
 
-        private string GetSellListText(SellListItem itemToSell)
+        /// <summary>
+        /// Returns a string representing a sell list item.
+        /// </summary>
+        private static string GetSellListText(SellListItem itemToSell)
         {
-            return
-                $"{itemToSell.amount} x {itemToSell.name}, {itemToSell.size} : ${itemToSell.amount * itemToSell.singleCost} ";
-        }
-
-        private int CalculateTotalMoney()
-        {
-            int total = 0;
-            foreach (SellListItem sell in sellSheet)
-            {
-                total += sell.amount * sell.singleCost;
-            }
-
-            return total;
-        }
-
-        private int CalculateTotalAmount()
-        {
-            int total = 0;
-            foreach (SellListItem sell in sellSheet)
-            {
-                total += sell.amount;
-            }
-
-            return total;
+            StringBuilder sb = new();
+            sb.Append(itemToSell.amount);
+            sb.Append(" x ");
+            sb.Append(itemToSell.name);
+            sb.Append(", ");
+            sb.Append(itemToSell.size);
+            sb.Append(" : $");
+            sb.Append(itemToSell.amount * itemToSell.singleCost);
+            return sb.ToString();
         }
 
         public void SellSelectItems()
         {
+            
+            
+            currentTotalSellAmount = 0;
+            currentTotalSellMoneyAmount = 0;
+            
             EventManager.OnSellSelectedButton(sellSheet.ToArray());
             ClearSellSheet();
             UpdateShoppingListUI();
@@ -163,7 +175,7 @@ namespace Economy.ShopScripts
 
         private void ClearSellSheet()
         {
-            foreach (var text in sellTexts)
+            foreach (TMP_Text text in sellTexts)
             {
                 Destroy(text.gameObject);
             }

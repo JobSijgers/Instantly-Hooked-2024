@@ -42,8 +42,9 @@ namespace GameTime
             timeUIText.text = roundedTimeSpan.ToString(@"hh\:mm");
         }
 
-        private int RoundDownToNearestFive(int number)
+        private static int RoundDownToNearestFive(int number)
         {
+            //Since integers automatically round down there is no need to use mahtf.floor
             return number / 5 * 5;
         }
 
@@ -54,24 +55,12 @@ namespace GameTime
         
         private void OnPauseStateChange(PauseState pauseState)
         {
-            switch (pauseState)
+            if (pauseState == PauseState.Playing)
             {
-                case PauseState.Playing:
-                    gameObject.SetActive(true);
-                    break;
-                case PauseState.InPauseMenu:
-                    gameObject.SetActive(false);
-                    break;
-                case PauseState.InInventory:
-                    gameObject.SetActive(false);
-                    break;
-                case PauseState.InCatalogue:
-                    gameObject.SetActive(false);
-                    break;
-                case PauseState.InQuests:
-                    gameObject.SetActive(false);
-                    break;
+                gameObject.SetActive(true);
+                return;
             }
+            gameObject.SetActive(false);
         }
     }
 }

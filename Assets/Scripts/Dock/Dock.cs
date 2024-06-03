@@ -16,7 +16,7 @@ namespace Dock
 
         private void Start()
         {
-            EventManager.DockSucess += DockSuccess;
+            EventManager.DockSuccess += DockSuccess;
             EventManager.PauseStateChange += OnPause;
             EventManager.PlayerDied += DockBoat;
             EventManager.LeftShore += UnDockBoat;
@@ -27,7 +27,7 @@ namespace Dock
             EventManager.PauseStateChange -= OnPause;
             EventManager.PlayerDied -= DockBoat;
             EventManager.LeftShore -= UnDockBoat;
-            EventManager.DockSucess -= DockSuccess;
+            EventManager.DockSuccess -= DockSuccess;
         }
 
         private void Update()
