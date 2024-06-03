@@ -28,7 +28,6 @@ public class FishBiting : MonoBehaviour,IFishState
     [Header("Range")]
     [SerializeField] private float BitingRange;
     [SerializeField] private float IntresstLossafter;
-    private float intresstloseTimer;
 
     [Header("struggeling")]
     [SerializeField] private float StruggelTime;
@@ -53,8 +52,6 @@ public class FishBiting : MonoBehaviour,IFishState
     private Coroutine waitForStruggelC;
     private Coroutine ResetStateAfterTimeIntrest;
     private Coroutine CCD;
-
-
     void Awake()
     {
         bounds = GetComponent<BoxCollider>();
@@ -158,7 +155,7 @@ public class FishBiting : MonoBehaviour,IFishState
                 {
                     Vector3 newpos = Brain.EndPos;
                     newpos = ChooseSwimDirection();
-                    if (IsPointWithinVisionCone(Hook.instance.HookOrigin.transform.position, Vector3.down, angle, newpos) && FishPooler.instance.WaterBlock.bounds.Contains(newpos))
+                    if (IsPointWithinAngle(Hook.instance.HookOrigin.transform.position, Vector3.down, angle, newpos) && FishPooler.instance.WaterBlock.bounds.Contains(newpos))
                     {
                         endposisstruggelpos = true;
                         Brain.SetEndPos(newpos);
@@ -185,7 +182,7 @@ public class FishBiting : MonoBehaviour,IFishState
         }
     }
 
-    bool IsPointWithinVisionCone(Vector3 origin, Vector3 forward, float angle, Vector3 point)
+    bool IsPointWithinAngle(Vector3 origin, Vector3 forward, float angle, Vector3 point)
     {
         Vector3 directionToPoint = (point - origin).normalized;
         float angleToTarget = Vector3.Angle(forward, directionToPoint);
@@ -198,7 +195,7 @@ public class FishBiting : MonoBehaviour,IFishState
         Vector2 positionOnCircle = (Vector2)Hook.instance.HookOrigin.transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * Rod.GetLineLength() * Hook.instance.Offset;
         return positionOnCircle;
     }
-    private bool IsInWater()
+    public bool IsInWater()
     {
         if (FishPooler.instance.WaterBlock.bounds.Intersects(bounds.bounds))
         {
@@ -290,5 +287,10 @@ public class FishBiting : MonoBehaviour,IFishState
     {
         yield return new WaitForSeconds(0.3f);
         CCD = null;
+    }
+    public bool IsFishStruggeling()
+    {
+        if (BiteState == FishBitingState.struggeling) return true;
+        else return false;
     }
 }
