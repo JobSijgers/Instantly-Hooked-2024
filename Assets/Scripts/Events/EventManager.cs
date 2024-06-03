@@ -1,12 +1,10 @@
-﻿using System.Numerics;
-using System.Resources;
-using Economy.ShopScripts;
+﻿using Economy.ShopScripts;
 using Enums;
 using Fish;
 using PauseMenu;
 using UnityEngine.Events;
-using Upgrades;
 using Upgrades.Scriptable_Objects;
+using static Quests.QuestTracker;
 
 namespace Events
 {
@@ -32,7 +30,8 @@ namespace Events
         public static event UnityAction LeftShore;
         public static event UnityAction PlayerDied;
         public static event UnityAction<bool> BoatControlsChange;
-        public static event UnityAction BoatAutoDock; 
+        public static event UnityAction BoatAutoDock;
+        public static event UnityAction<QuestProgress> QuestCompleted;
 
         public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
@@ -55,5 +54,6 @@ namespace Events
         public static void OnPlayerDied() => PlayerDied?.Invoke();
         public static void OnBoatControlsChanged(bool state) => BoatControlsChange?.Invoke(state);
         public static void OnBoatAutoDock() => BoatAutoDock?.Invoke();
+        public static void OnQuestCompleted(QuestProgress quest) => QuestCompleted?.Invoke(quest);
     }
 }

@@ -1627,7 +1627,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2721431727958521510, guid: e89f50422cb727c44b417ee7c144a113,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 480647514}
   m_SourcePrefab: {fileID: 100100000, guid: e89f50422cb727c44b417ee7c144a113, type: 3}
 --- !u!114 &401925677 stripped
 MonoBehaviour:
@@ -1635,7 +1639,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 401925676}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 480647513}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a567144427874e6b93990cf25e8ebbcd, type: 3}
@@ -1647,7 +1651,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 401925676}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 480647513}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdd41825c40e4c2d9550754fc8f09e4a, type: 3}
@@ -1659,7 +1663,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 401925676}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 480647513}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c82002a73efe4a49a0b323af36492bfd, type: 3}
@@ -2555,6 +2559,42 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 472327628}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &480647513 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2721431727958521510, guid: e89f50422cb727c44b417ee7c144a113,
+    type: 3}
+  m_PrefabInstance: {fileID: 401925676}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &480647514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480647513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f42b1435a6048c39d021f219ca2c018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questStates:
+  - difficulty: 0
+    quests:
+    - {fileID: 11400000, guid: 6e2168984fcf32c4b838015a24dbf516, type: 2}
+    - {fileID: 11400000, guid: 370f39828af1ec6429fd34647e166da5, type: 2}
+    - {fileID: 11400000, guid: 26bb3aff3d7171247be35e01f9bc4371, type: 2}
+    - {fileID: 11400000, guid: 5c71c3f823299344bb7d3025d1323aaa, type: 2}
+    maxQuestsActive: 3
+  - difficulty: 1
+    quests:
+    - {fileID: 11400000, guid: 4996c909a0621494eb90670bc3d3a644, type: 2}
+    - {fileID: 11400000, guid: 7de3e7f2d3d5d994f8531840a8fadac9, type: 2}
+    maxQuestsActive: 2
+  - difficulty: 2
+    quests:
+    - {fileID: 11400000, guid: aad2bf7d2c31ec4438fd576c7ec3d42c, type: 2}
+    - {fileID: 11400000, guid: 7de0489788b93794091c65d72930f7ef, type: 2}
+    maxQuestsActive: 1
 --- !u!1001 &500251383
 PrefabInstance:
   m_ObjectHideFlags: 0

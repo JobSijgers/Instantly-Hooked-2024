@@ -37,7 +37,7 @@ namespace Economy
         private void AddMoney(int addAmount)
         {
             currentMoney += addAmount;
-            EventManager.OnMoneyUpdate(currentMoney);
+            EventManager.OnMoneyUpdate(currentMoney); 
         }
 
         public void RemoveMoney(int removeMoney)
