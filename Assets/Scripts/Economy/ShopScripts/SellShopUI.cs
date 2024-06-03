@@ -161,6 +161,11 @@ namespace Economy.ShopScripts
 
         public void SellSelectItems()
         {
+            
+            
+            currentTotalSellAmount = 0;
+            currentTotalSellMoneyAmount = 0;
+            
             EventManager.OnSellSelectedButton(sellSheet.ToArray());
             ClearSellSheet();
             UpdateShoppingListUI();
