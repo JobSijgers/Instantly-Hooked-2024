@@ -5,19 +5,24 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 public class FishSpawner : MonoBehaviour
 {
+    [Serializable]
+    private struct FishToSpawn
+    {
+        public FishData fishData;
+        public int amount;
+    }
+
     [SerializeField] private Vector2 SpawnArea;
     [SerializeField] private float ActiveToBoatDistance;
-    [SerializeField] private FishData[] FishTypesToSpawn;
-    [SerializeField] private int FishInArea;
+    [SerializeField] private FishToSpawn[] FishTypesToSpawn;
     [SerializeField] private GameObject hook;
 
     private FishPooler fishPooler;
     private List<FishBrain> ActiveFish = new List<FishBrain>();
     private bool IsThisSpawnerActive = false;
-
-    public Vector2 GetSpawnBunds() => SpawnArea;
 
     void Start()
     {
@@ -26,26 +31,31 @@ public class FishSpawner : MonoBehaviour
 
     void Update()
     {
-        if (Vector2.Distance(transform.position, hook.transform.position) < ActiveToBoatDistance && !IsThisSpawnerActive && Hook.instance.hook.gameObject.activeInHierarchy)
+        if (Vector2.Distance(transform.position, hook.transform.position) < ActiveToBoatDistance &&
+            !IsThisSpawnerActive && Hook.instance.hook.gameObject.activeInHierarchy)
         {
             ActivateThisSpwner();
         }
-        else if (Vector2.Distance(transform.position, hook.transform.position) > ActiveToBoatDistance && IsThisSpawnerActive)
+        else if (Vector2.Distance(transform.position, hook.transform.position) > ActiveToBoatDistance &&
+                 IsThisSpawnerActive)
         {
             DeactivateThisSpwaner();
         }
         else if (!Hook.instance.hook.activeInHierarchy) DeactivateThisSpwaner();
     }
+
     private void ActivateThisSpwner()
     {
         IsThisSpawnerActive = true;
         SpawnFish();
     }
+
     private void DeactivateThisSpwaner()
     {
         IsThisSpawnerActive = false;
         RemoveFish();
     }
+
     private void RemoveFish()
     {
         foreach (FishBrain fish in ActiveFish)
@@ -54,6 +64,7 @@ public class FishSpawner : MonoBehaviour
             {
                 continue;
             }
+
             if (Hook.instance.FishOnHook == null)
             {
                 fishPooler.ReturnFish(fish);
@@ -63,22 +74,27 @@ public class FishSpawner : MonoBehaviour
                 fishPooler.ReturnFish(fish);
             }
         }
+
         ActiveFish.Clear();
     }
+
     private void SpawnFish()
     {
-        for (int i = 0; i < FishInArea; i++)
+        foreach (FishToSpawn fishType in FishTypesToSpawn)
         {
-            FishBrain fish = fishPooler.GetFish();
-            fish.SetOriginSpawner(this);
-            fish.fishData = FishTypesToSpawn[Random.Range(0, FishTypesToSpawn.Length)];
-            fish.transform.position = GetRandomPos();
-            fish.transform.SetParent(transform);
-            ActiveFish.Add(fish);
-            fish.gameObject.SetActive(true);
+            for (int i = 0; i < fishType.amount; i++)
+            {
+                FishBrain fish = fishPooler.GetFish();
+                fish.SetOriginSpawner(this);
+                fish.fishData = fishType.fishData;
+                fish.transform.position = GetRandomPos();
+                fish.transform.SetParent(transform);
+                ActiveFish.Add(fish);
+                fish.gameObject.SetActive(true);
+            }
         }
     }
-    
+
     public Vector3 GetRandomPos()
     {
         Vector3 pos = new Vector3()
@@ -90,23 +106,26 @@ public class FishSpawner : MonoBehaviour
         return pos;
     }
 #if UNITY_EDITOR
-    [Header("Editor Gizmos")]
-    [SerializeField] private Color color = Color.green;
+    [Header("Editor Gizmos")] [SerializeField]
+    private Color color = Color.green;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
         Gizmos.DrawWireCube(transform.position, SpawnArea);
         Handles.color = color;
-        Handles.DrawWireArc(transform.position,Vector3.forward,Vector3.up,360,ActiveToBoatDistance);
+        Handles.DrawWireArc(transform.position, Vector3.forward, Vector3.up, 360, ActiveToBoatDistance);
         int i = 0;
-        foreach (FishData fish in FishTypesToSpawn)
+
+        foreach (FishToSpawn type in FishTypesToSpawn)
         {
+            if (type.fishData == null)
+                return;
             i++;
             Vector3 pos = transform.position;
             pos.y += i * 2;
-            Handles.Label(pos, fish.fishName);
+            Handles.Label(pos, type.fishData.fishName);
         }
     }
 #endif
 }
-
