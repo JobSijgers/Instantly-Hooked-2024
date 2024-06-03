@@ -27,7 +27,8 @@ public class FishBiting : MonoBehaviour,IFishState
 
     [Header("Range")]
     [SerializeField] private float BitingRange;
-    [SerializeField] private float IntresstLoseDistance;
+    [SerializeField] private float IntresstLossafter;
+    private float intresstloseTimer;
 
     [Header("struggeling")]
     [SerializeField] private float StruggelTime;
@@ -50,6 +51,7 @@ public class FishBiting : MonoBehaviour,IFishState
     // coroutine 
     private Coroutine StruggelingC;
     private Coroutine waitForStruggelC;
+    private Coroutine ResetStateAfterTimeIntrest;
     private Coroutine CCD;
 
 
@@ -59,13 +61,10 @@ public class FishBiting : MonoBehaviour,IFishState
         Brain = GetComponent<FishBrain>();
         Rod = FindObjectOfType<FishingRod.FishingRod>();
     }
-
     private void OnEnable()
     {
         EventManager.FishCaught += OnGaught;
     }
-    
-
     public void OnStateActivate()
     {
         Brain.FishGought.Play();
@@ -97,10 +96,7 @@ public class FishBiting : MonoBehaviour,IFishState
         MoveMent();
         Struggeling();
 
-        if (Vector3.Distance(transform.position, Hook.instance.hook.transform.position) > IntresstLoseDistance)
-        {
-            OffHook = true;
-        }
+        if (Input.GetMouseButton(1) && BiteState == FishBitingState.goingforhook && ResetStateAfterTimeIntrest == null) ResetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
 
         if (Input.GetMouseButtonUp(1) && CCD == null) CCD = StartCoroutine(ClickCoolDown());
     }
@@ -224,6 +220,19 @@ public class FishBiting : MonoBehaviour,IFishState
             Brain.SetEndPos(transform.position);
         }
         else waitForStruggelC = StartCoroutine(WaitForStruggel(StruggelAfterTime));
+    }
+    private IEnumerator FishStateReset()
+    {
+        float t = 0.0f;
+        while (t < IntresstLossafter)
+        {
+            t += Time.deltaTime;
+            Debug.Log($"intress loss timer : {t}");
+            if (!Input.GetMouseButton(1)) ResetStateAfterTimeIntrest = null;
+            yield return null;
+        }
+        if (t >= IntresstLossafter && BiteState == FishBitingState.goingforhook) OffHook = true;
+        ResetStateAfterTimeIntrest = null;
     }
     public IEnumerator FishStruggel()
     {
