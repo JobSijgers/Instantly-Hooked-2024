@@ -54,6 +54,7 @@ namespace FishingRod
             if (Input.GetMouseButton(0))
             {
                 CastHook();
+                Debug.Log("hook casted" + dropSpeed + maxLineLength);
             }
 
             if (Input.GetMouseButton(1))
