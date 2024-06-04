@@ -79,7 +79,7 @@ namespace FishingRod
         {
             float newLineLength = currentLineLength - reelingSpeed * Time.deltaTime;
             float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
-            if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null)
+            if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.states.Biting.CurrentState == FishBitingState.onhook)
             {
                 FishBrain fish = Hook.instance.FishOnHook;
                 EventManager.OnFishCaught(fish.fishData, fish.fishSize);
