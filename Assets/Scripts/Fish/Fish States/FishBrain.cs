@@ -2,6 +2,8 @@ using Fish;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -35,6 +37,7 @@ public class FishBrain : MonoBehaviour
     [Header("Particles")]
     [SerializeField] public ParticleSystem FishGought;
 
+    public FishSize fishSize;
     public Vector3 EndPos { get { return P_EndPos; } }
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public FishSpawner GetOriginSpawner() => OriginSpawner;
@@ -57,6 +60,13 @@ public class FishBrain : MonoBehaviour
             P_CurrentState = value;
         }
     }
+
+    public void Initialize(FishData data, FishSize size)
+    {
+        fishData = data;
+        fishSize = size;
+    }
+    
     public FishData fishData
     {
         get { return P_fishData; }
