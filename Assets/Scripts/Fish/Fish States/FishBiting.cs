@@ -5,6 +5,7 @@ using Fish;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Net;
 
 public enum FishBitingState
 {

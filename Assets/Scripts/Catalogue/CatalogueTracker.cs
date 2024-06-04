@@ -10,7 +10,10 @@ namespace Catalogue
         public static CatalogueTracker Instance;
         [SerializeField] private CatalogueItem[] catalogueItems;
         private int totalCollectedFish;
-
+        private void Awake()
+        {
+            Instance = this;
+        }
         private void Start()
         {
             EventManager.FishCaught += AddFishToCatalogue;
@@ -58,7 +61,7 @@ namespace Catalogue
 
         public void GetCurrentCatalogueNotes(out int totalfish, out int[] amountcollectedPF)
         {
-            amountcollectedPF = new int[GetCatalogueItemsLength() - 1];
+            amountcollectedPF = new int[GetCatalogueItemsLength() -1];
             totalfish = totalCollectedFish;
             for (int i = 0; i < GetCatalogueItemsLength() - 1; i++)
             {

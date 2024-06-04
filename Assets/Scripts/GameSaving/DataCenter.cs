@@ -33,7 +33,7 @@ public class DataCenter : MonoBehaviour
         if (DebugLogs) Debug.Log("Load Game");
         if (File.Exists(Application.persistentDataPath + Filename))
         {
-            if (DebugLogs) Debug.Log($"Debug Found at {Application.persistentDataPath + Filename}");
+            if (DebugLogs) Debug.Log($"Found at {Application.persistentDataPath + Filename}");
 
             string file = File.ReadAllText(Application.persistentDataPath + Filename);
             storageCenter = JsonUtility.FromJson<StorageCenter>(file);
