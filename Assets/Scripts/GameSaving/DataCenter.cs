@@ -24,9 +24,12 @@ public class DataCenter : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
-        if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
-        if (Input.GetKeyDown(KeyCode.Alpha3)) DeleteFile();
+        if (Input.GetKey(KeyCode.Slash))
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
+            if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
+            if (Input.GetKeyDown(KeyCode.Alpha3)) DeleteFile();
+        }
     }
     private void LoadGame()
     {
@@ -104,7 +107,11 @@ public class DataCenter : MonoBehaviour
         CatalogueTracker.Instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
         storageCenter.Catalogue.totalCollectedFish = totalFish;
         storageCenter.Catalogue.amountCaught = amountcollectedPF;
-    } 
+    }
+    private void OnApplicationQuit()
+    {
+        SafeGame();
+    }
 }
 [Serializable]
 public class StorageCenter
