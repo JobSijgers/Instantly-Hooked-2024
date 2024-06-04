@@ -15,7 +15,7 @@ namespace Quests
         public Quest quest;
         public bool isUse;
 
-        public void SetQuest(QuestProgress questProgress)
+        public virtual void SetQuest(QuestProgress questProgress)
         {
             questIcon.sprite = questProgress.quest.questIcon;
             questProgressAmount.text = $"{questProgress.progress}/{questProgress.completionAmount}";
@@ -23,7 +23,7 @@ namespace Quests
             isUse = true;
         }
 
-        public void ClearDetail()
+        public virtual void ClearDetail()
         {
             questIcon.sprite = null;
             questProgressAmount.text = "";
