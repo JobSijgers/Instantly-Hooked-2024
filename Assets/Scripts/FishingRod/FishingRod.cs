@@ -92,6 +92,7 @@ namespace FishingRod
         public void SetLineLength(Vector2 fishpos)
         {
             float distance = Vector2.Distance(origin.transform.position, fishpos);
+            distance += 0.1f;
             float newLineLength = distance;
             float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
 
@@ -123,6 +124,7 @@ namespace FishingRod
             {
                 case LineLengthUpgrade lineLengthUpgrade:
                     maxLineLength = lineLengthUpgrade.lineLength;
+                    Hook.instance.Offset = lineLengthUpgrade.offset;
                     break;
                 case ReelSpeedUpgrade reelSpeedUpgrade:
                     reelingSpeed = reelSpeedUpgrade.reelSpeed;
