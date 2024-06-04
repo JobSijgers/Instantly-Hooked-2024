@@ -110,12 +110,18 @@ namespace FishingRod
         private void OnDock()
         {
             rodEnabled = false;
+            currentLineLength = 0;
             springJoint.maxDistance = 0;
+            springJoint.connectedBody.velocity = Vector3.zero;
         }
 
         private void OnUndock()
         {
             rodEnabled = true;
+            currentLineLength = 0;
+            springJoint.maxDistance = 0;
+            springJoint.connectedBody.velocity = Vector3.zero;
+            springJoint.connectedBody.WakeUp();
         }
 
         private void UpgradeBought(Upgrade upgrade)

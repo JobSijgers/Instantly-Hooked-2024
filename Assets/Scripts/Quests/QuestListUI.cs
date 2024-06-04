@@ -12,8 +12,8 @@ namespace Quests
         [SerializeField] private Transform questDetailUIParent;
 
         private QuestDetailUI[] questDetailUIs;
-        
-        private void Start()
+
+        private void Awake()
         {
             questDetailUIs = new QuestDetailUI[maxQuestsDisplayed];
             for (int i = 0; i < maxQuestsDisplayed; i++)
@@ -88,6 +88,7 @@ namespace Quests
         {
             for (int i = 0; i < questDetailUIs.Length; i++)
             {
+
                 if (!questDetailUIs[i].isUse)
                 {
                     return i;

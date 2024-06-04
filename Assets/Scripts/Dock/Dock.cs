@@ -32,7 +32,7 @@ namespace Dock
 
         private void Update()
         {
-            if (IsBoatInRange() && !_boatDocked)
+            if (IsBoatInRange() && !_boatDocked && Hook.instance.FishOnHook == null)
             {
                 GetDockInput();
             }
