@@ -18,9 +18,9 @@ public class DataCenter : MonoBehaviour
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
-    private void Awake()
+    private void Start()
     {
-        LoadGame();
+        Invoke("LoadGame", 0.1f);
     }
     void Update()
     {
