@@ -17,10 +17,10 @@ namespace Boat
         [SerializeField] private float dockStoppingDistance;
         [SerializeField] private Transform dock;
 
-        private Rigidbody _rigidbody;
-        private float _input;
-        private bool _docked;
-        private Vector3 _velocityAtPause;
+        private Rigidbody rb;
+        private float input;
+        private bool docked;
+        private Vector3 velocityAtPause;
 
         private void Start()
         {
@@ -29,7 +29,7 @@ namespace Boat
             EventManager.LeftShore += UndockBoat;
             EventManager.BoatControlsChange += DisableControls;
             EventManager.BoatAutoDock += DockBoat;
-            _rigidbody = GetComponent<Rigidbody>();
+            rb = GetComponent<Rigidbody>();
         }
 
         private void OnDestroy()
@@ -42,15 +42,15 @@ namespace Boat
 
         private void Update()
         {
-            if (!_docked)
+            if (!docked)
             {
-                _input = GetBoatInput();
+                input = GetBoatInput();
             }
         }
 
         private void FixedUpdate()
         {
-            MoveBoat(_input);
+            MoveBoat(input);
         }
 
         private static float GetBoatInput()
@@ -61,28 +61,28 @@ namespace Boat
         private void MoveBoat(float input)
         {
             if (input == 0) return;
-            _rigidbody.AddForce(Vector3.right * (input * speedMultiplier));
+            rb.AddForce(Vector3.right * (input * speedMultiplier));
             LimitVelocity();
         }
 
         private void LimitVelocity()
         {
             //check if velocity succeeds max speed and counteracts it.
-            if (_rigidbody.velocity.magnitude < maxVelocity) return;
-            Vector3 velocity = _rigidbody.velocity;
+            if (rb.velocity.magnitude < maxVelocity) return;
+            Vector3 velocity = rb.velocity;
             Vector3 counteractForce = velocity.normalized * (maxVelocity - velocity.magnitude);
-            _rigidbody.AddForce(counteractForce);
+            rb.AddForce(counteractForce);
         }
 
         public void DockBoat()
         {
             StartCoroutine(MoveBoatToDock(dock.position));
-            _docked = true;
+            docked = true;
         }
 
         private void UndockBoat()
         {
-            _docked = false;
+            docked = false;
         }
 
         private IEnumerator MoveBoatToDock(Vector3 dockLocation)
@@ -91,7 +91,7 @@ namespace Boat
             while (Vector3.Distance(transform.position, dockLocation) > 0.3f)
             {
                 totalDockingTime += Time.deltaTime;
-                if (totalDockingTime >= 5f)
+                if (totalDockingTime >= 2f)
                 {
                     break;
                 }
@@ -104,14 +104,14 @@ namespace Boat
                 float decelerationLerp = Mathf.Clamp01((distance - dockStoppingDistance) / dockStoppingDistance);
                 forceMagnitude *= decelerationLerp;
 
-                _rigidbody.AddForce(direction * forceMagnitude);
+                rb.AddForce(direction * forceMagnitude);
                 LimitVelocity();
 
                 yield return null;
             }
 
             // Stop movement at target
-            _rigidbody.velocity = Vector3.zero;
+            rb.velocity = Vector3.zero;
 
             EventManager.OnDockSuccess();
         }
@@ -151,29 +151,29 @@ namespace Boat
 
         private void SetPaused(bool isPaused)
         {
-            _rigidbody.isKinematic = isPaused;
+            rb.isKinematic = isPaused;
             enabled = !isPaused;
             if (isPaused)
             {
-                _velocityAtPause = _rigidbody.velocity;
+                velocityAtPause = rb.velocity;
             }
             else
             {
-                _rigidbody.velocity = _velocityAtPause;
+                rb.velocity = velocityAtPause;
             }
         }
 
         private void DisableControls(bool state)
         {
-            _rigidbody.isKinematic = state;
+            rb.isKinematic = state;
             //enabled = !state;
             if (state)
             {
-                _velocityAtPause = _rigidbody.velocity;
+                velocityAtPause = rb.velocity;
             }
             else
             {
-                _rigidbody.velocity = _velocityAtPause;
+                rb.velocity = velocityAtPause;
             }
         }
     }
