@@ -5,7 +5,6 @@ using Fish;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using System.Net;
 
 public enum FishBitingState
 {
@@ -22,6 +21,7 @@ public class FishBiting : MonoBehaviour,IFishState
 
     // state
     private FishBitingState BiteState;
+    public FishBitingState CurrentState => BiteState;
 
     //state change
     private bool OffHook = false;
@@ -95,6 +95,7 @@ public class FishBiting : MonoBehaviour,IFishState
         Struggeling();
 
         if (Input.GetMouseButton(1) && BiteState == FishBitingState.goingforhook && ResetStateAfterTimeIntrest == null) ResetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
+        else if (ResetStateAfterTimeIntrest != null) StopCoroutine(ResetStateAfterTimeIntrest);
 
         if (Input.GetMouseButtonUp(1) && CCD == null) CCD = StartCoroutine(ClickCoolDown());
     }
