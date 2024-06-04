@@ -32,7 +32,10 @@ namespace Events
         public static event UnityAction<bool> BoatControlsChange;
         public static event UnityAction BoatAutoDock;
         public static event UnityAction<QuestProgress> QuestCompleted;
-
+        public static event UnityAction<QuestProgress> QuestUpdated;
+        public static event UnityAction<QuestProgress> QuestHighlighted;
+        public static event UnityAction<QuestProgress> QuestUnHighlighted; 
+        
         public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);
@@ -55,5 +58,8 @@ namespace Events
         public static void OnBoatControlsChanged(bool state) => BoatControlsChange?.Invoke(state);
         public static void OnBoatAutoDock() => BoatAutoDock?.Invoke();
         public static void OnQuestCompleted(QuestProgress quest) => QuestCompleted?.Invoke(quest);
+        public static void OnQuestUpdated(QuestProgress quest) => QuestUpdated?.Invoke(quest);
+        public static void OnQuestHighlight(QuestProgress quest) => QuestHighlighted?.Invoke(quest);
+        public static void OnQuestUnHighlight(QuestProgress quest) => QuestUnHighlighted?.Invoke(quest);
     }
 }

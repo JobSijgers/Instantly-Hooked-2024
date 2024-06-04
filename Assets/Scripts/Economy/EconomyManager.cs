@@ -2,6 +2,7 @@
 using UnityEngine;
 using Economy.ShopScripts;
 using Events;
+using Quests;
 using Unity.VisualScripting;
 using Upgrades.Scriptable_Objects;
 
@@ -22,11 +23,13 @@ namespace Economy
         private void Start()
         {
             EventManager.ShopSell += AddMoney;
+            EventManager.QuestCompleted += AddMoney;
         }
 
         private void OnDestroy()
         {
             EventManager.ShopSell -= AddMoney;
+            EventManager.QuestCompleted -= AddMoney;
         }
 
         public bool HasEnoughMoney(int purchaseAmount)
@@ -38,6 +41,11 @@ namespace Economy
         {
             currentMoney += addAmount;
             EventManager.OnMoneyUpdate(currentMoney); 
+        }
+
+        private void AddMoney(QuestProgress questProgress)
+        {
+            AddMoney(questProgress.completionMoney);
         }
 
         public void RemoveMoney(int removeMoney)
