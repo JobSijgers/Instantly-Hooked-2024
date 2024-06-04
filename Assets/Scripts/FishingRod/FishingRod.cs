@@ -81,7 +81,8 @@ namespace FishingRod
             float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
             if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null)
             {
-                EventManager.OnFishCaught(Hook.instance.FishOnHook.fishData, GetRandomFishSize());
+                FishBrain fish = Hook.instance.FishOnHook;
+                EventManager.OnFishCaught(fish.fishData, fish.fishSize);
             }
 
             springJoint.maxDistance = newClampedLineLength;
@@ -100,13 +101,7 @@ namespace FishingRod
             springJoint.connectedBody.WakeUp();
             currentLineLength = newClampedLineLength;
         }
-
-        private FishSize GetRandomFishSize()
-        {
-            var fish = Enum.GetValues(typeof(FishSize));
-            return (FishSize)fish.GetValue(UnityEngine.Random.Range(0, fish.Length));
-        }
-
+        
         private void OnDock()
         {
             rodEnabled = false;
