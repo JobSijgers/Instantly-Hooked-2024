@@ -15,6 +15,7 @@ using Upgrades;
 public class DataCenter : MonoBehaviour
 {
     [SerializeField] private bool DebugLogs;
+    [SerializeField] private bool EnableGameSaving;
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
@@ -110,7 +111,7 @@ public class DataCenter : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        SafeGame();
+        if (EnableGameSaving) SafeGame();
     }
 }
 [Serializable]
