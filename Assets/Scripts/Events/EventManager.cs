@@ -2,9 +2,9 @@
 using Enums;
 using Fish;
 using PauseMenu;
+using Quests;
 using UnityEngine.Events;
 using Upgrades.Scriptable_Objects;
-using static Quests.QuestTracker;
 
 namespace Events
 {

@@ -1,15 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Enums;
 using Events;
 using Fish;
 using Quests.ScriptableObjects;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 namespace Quests
 {
-    public partial class QuestTracker : MonoBehaviour
+    public class QuestTracker : MonoBehaviour
     {
+        [Serializable]
+        public class QuestState
+        {
+            public QuestDifficulty difficulty;
+            public Quest[] quests;
+            public int maxQuestsActive;
+            
+            public Quest GetRandomQuest()
+            {
+                return quests[Random.Range(0, quests.Length)];
+            }
+        }
+        
         [SerializeField] private QuestState[] questStates;
         private readonly Dictionary<QuestProgress, QuestDifficulty> activeQuests = new();
         
@@ -58,10 +73,10 @@ namespace Quests
         {
             foreach (QuestProgress activeQuest in activeQuests.Keys)
             {
-                if (!activeQuest.Quest.IsQuestConditionMet(fishData, fishSize)) continue;
-                activeQuest.Progress++;
+                if (!activeQuest.quest.IsQuestConditionMet(fishData, fishSize)) continue;
+                activeQuest.progress++;
 
-                if (activeQuest.Progress >= activeQuest.CompletionAmount)
+                if (activeQuest.progress >= activeQuest.completionAmount)
                 {
                     QuestCompleted(activeQuest);
                 }
