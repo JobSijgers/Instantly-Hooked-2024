@@ -12,6 +12,8 @@ namespace Quests.ScriptableObjects
         [Header("Quest Info")]
         public int minAmount;
         public int maxAmount;
+        public string questDescription;
+        public Sprite questIcon;
         
         [Header("Completion Info")]        
         public int minCompletionMoney;
