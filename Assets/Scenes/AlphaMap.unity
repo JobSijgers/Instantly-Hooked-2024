@@ -776,6 +776,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackgroundFishSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 7665750550996351167, guid: 3a10df7411eb60d4d9cc772880dae15e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1539,11 +1544,6 @@ PrefabInstance:
       propertyPath: sun
       value: 
       objectReference: {fileID: 121771055}
-    - target: {fileID: 1879113531662654534, guid: e89f50422cb727c44b417ee7c144a113,
-        type: 3}
-      propertyPath: dayPhases.Array.data[0].endHour
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 2721431727958521510, guid: e89f50422cb727c44b417ee7c144a113,
         type: 3}
       propertyPath: m_Name
@@ -1632,11 +1632,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2721431727958521510, guid: e89f50422cb727c44b417ee7c144a113,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 480647522}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e89f50422cb727c44b417ee7c144a113, type: 3}
 --- !u!114 &401925677 stripped
 MonoBehaviour:
@@ -1644,7 +1640,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 401925676}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480647513}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a567144427874e6b93990cf25e8ebbcd, type: 3}
@@ -1656,7 +1652,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 401925676}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480647513}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdd41825c40e4c2d9550754fc8f09e4a, type: 3}
@@ -1668,7 +1664,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 401925676}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480647513}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c82002a73efe4a49a0b323af36492bfd, type: 3}
@@ -2564,26 +2560,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 472327628}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &480647513 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2721431727958521510, guid: e89f50422cb727c44b417ee7c144a113,
-    type: 3}
-  m_PrefabInstance: {fileID: 401925676}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &480647522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480647513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3bf28c37ff114f4da3a8ac790b9b42c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  test: {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
-  amount: 30
 --- !u!1001 &500251383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42219,6 +42195,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6370882141956733204, guid: e0bdd10fecc4e644f9ad131fe77297c7,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6370882141956733204, guid: e0bdd10fecc4e644f9ad131fe77297c7,
+        type: 3}
       propertyPath: m_TagString
       value: Water
       objectReference: {fileID: 0}
@@ -43605,6 +43586,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fog
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642938028769679595, guid: e339ff407fd7f6041bc39d84e3a499b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7021719291404870458, guid: e339ff407fd7f6041bc39d84e3a499b0,
         type: 3}
@@ -49892,6 +49878,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: world blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 217110857145547240, guid: 977b7a08965b54a49b45c67f1164c03a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3789642122667805506, guid: 977b7a08965b54a49b45c67f1164c03a,
         type: 3}
@@ -59809,6 +59800,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: under the sea
+      objectReference: {fileID: 0}
+    - target: {fileID: 8052193778320829054, guid: 34ce5174b56b607489f180641b3d22ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8478020496898730541, guid: 34ce5174b56b607489f180641b3d22ef,
         type: 3}
