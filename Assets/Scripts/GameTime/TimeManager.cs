@@ -15,10 +15,12 @@ namespace GameTime
         private int currentDay;
         private float timeMultiplier;
         private float currentTime;
-
-        private void Start()
+        private void Awake()
         {
             instance = this;
+        }
+        private void Start()
+        {
             // Calculate time multiplier based on minutes per cycle
             timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
