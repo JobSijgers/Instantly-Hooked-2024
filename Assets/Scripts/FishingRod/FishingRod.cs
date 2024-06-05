@@ -19,6 +19,7 @@ namespace FishingRod
         private float maxLineLength = 5;
         private float currentLineLength = 0;
         private bool rodEnabled = true;
+        private float offset;
         public float GetLineLength() => maxLineLength;
 
         private void Start()
@@ -37,6 +38,7 @@ namespace FishingRod
             }
 
             springJoint.maxDistance = 0;
+            offset = Vector3.Distance(hook.position, origin.position);
         }
 
         private void OnDestroy()
@@ -51,15 +53,23 @@ namespace FishingRod
         {
             if (!rodEnabled)
                 return;
-            Debug.Log(!Hook.instance.touchingGround);
+            Debug.Log(Vector3.Distance(hook.position, origin.position) - offset);
             if (Input.GetMouseButton(0) && !Hook.instance.touchingGround)
             {
                 CastHook();
             }
-
-            if (Input.GetMouseButton(1))
+            else if (Input.GetMouseButton(1))
             { 
                 ReelHook();
+            }
+            else if (Hook.instance.touchingGround)
+            {
+                float newLineLength = Vector3.Distance(hook.position, origin.position) - offset;
+                float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
+
+                springJoint.maxDistance = newClampedLineLength;
+                springJoint.connectedBody.WakeUp();
+                currentLineLength = newClampedLineLength;
             }
         }
 

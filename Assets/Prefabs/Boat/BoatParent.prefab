@@ -65,7 +65,7 @@ Transform:
   m_GameObject: {fileID: 901135911926748738}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.6100311, y: 11.189178, z: -39.2978}
+  m_LocalPosition: {x: -10.389969, y: 13.189178, z: -43.2978}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -216,7 +216,7 @@ MonoBehaviour:
   aboveWaterPost: {fileID: 0}
   baseDepth: 0
   maxWaterVignetteValues:
-    intensity: 1
+    intensity: 0.8
     smoothness: 1
     color: {r: 0, g: 0, b: 0, a: 1}
   maxDepth: -100
@@ -1755,8 +1755,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8595114945799238788, guid: 13efefa90c8218a4ba81850065e29312,
         type: 3}
+      propertyPath: m_Size.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595114945799238788, guid: 13efefa90c8218a4ba81850065e29312,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595114945799238788, guid: 13efefa90c8218a4ba81850065e29312,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595114945799238788, guid: 13efefa90c8218a4ba81850065e29312,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595114945799238788, guid: 13efefa90c8218a4ba81850065e29312,
+        type: 3}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886036352175596115, guid: 13efefa90c8218a4ba81850065e29312,
+        type: 3}
+      propertyPath: m_Drag
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8886036352175596115, guid: 13efefa90c8218a4ba81850065e29312,
         type: 3}
@@ -1817,3 +1842,4 @@ MonoBehaviour:
   fishline: {fileID: 5390991553932737750}
   Offset: 1.2
   Rod: {fileID: 9063168969327594134}
+  touchingGround: 0
