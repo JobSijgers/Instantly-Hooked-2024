@@ -16,7 +16,7 @@ public class Hook : MonoBehaviour
     public FishingRod.FishingRod Rod;
     private FishBrain P_FishOnHook;
     public FishBrain FishOnHook { get { return P_FishOnHook; } set { P_FishOnHook = value; } }
-    public bool touchingGround;
+    public bool touchingGround = false;
     private void Awake()
     {
         instance = this;

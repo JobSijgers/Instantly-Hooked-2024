@@ -51,6 +51,7 @@ namespace FishingRod
         {
             if (!rodEnabled)
                 return;
+            Debug.Log(!Hook.instance.touchingGround);
             if (Input.GetMouseButton(0) && !Hook.instance.touchingGround)
             {
                 CastHook();
