@@ -10,13 +10,13 @@ namespace PauseMenu
         InPauseMenu,
         InInventory,
         InCatalogue,
-        InQuests
+        InQuests,
     }
 
     public class PauseManager : MonoBehaviour
     {
         private bool isEnabled = true;
-        private static PauseState currentState;
+        private static PauseState _currentState;
 
 
         private void Start()
@@ -39,6 +39,7 @@ namespace PauseMenu
             CheckInventoryKey();
             CheckEscapeKey();
             CheckJournalKey();
+            CheckQKey();
         }
 
         private void DisableManager()
@@ -55,7 +56,7 @@ namespace PauseMenu
         {
             if (!Input.GetKeyDown(KeyCode.J)) return;
 
-            switch (currentState)
+            switch (_currentState)
             {
                 case PauseState.Playing:
                     SetState(PauseState.InCatalogue);
@@ -63,11 +64,13 @@ namespace PauseMenu
                 case PauseState.InPauseMenu:
                     break;
                 case PauseState.InInventory:
+                    SetState(PauseState.Playing);
                     break;
                 case PauseState.InCatalogue:
                     SetState(PauseState.Playing);
                     break;
                 case PauseState.InQuests:
+                    SetState(PauseState.Playing);
                     break;
             }
         }
@@ -76,7 +79,7 @@ namespace PauseMenu
         {
             if (!Input.GetKeyDown(KeyCode.I)) return;
 
-            switch (currentState)
+            switch (_currentState)
             {
                 case PauseState.Playing:
                     SetState(PauseState.InInventory);
@@ -87,8 +90,10 @@ namespace PauseMenu
                     SetState(PauseState.Playing);
                     break;
                 case PauseState.InCatalogue:
+                    SetState(PauseState.Playing);
                     break;
                 case PauseState.InQuests:
+                    SetState(PauseState.Playing);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -98,17 +103,42 @@ namespace PauseMenu
         private void CheckEscapeKey()
         {
             if (!Input.GetKeyDown(KeyCode.Escape)) return;
-            switch (currentState)
+            switch (_currentState)
             {
                 case PauseState.Playing:
                     SetState(PauseState.InPauseMenu);
                     break;
-
                 case PauseState.InPauseMenu:
                     SetState(PauseState.Playing);
                     break;
-
                 case PauseState.InInventory:
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InCatalogue:
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InQuests:
+                    SetState(PauseState.Playing);
+                    break;
+            }
+        }
+        private void CheckQKey()
+        {
+            if (!Input.GetKeyDown(KeyCode.Q)) return;
+            switch (_currentState)
+            {
+                case PauseState.Playing:
+                    SetState(PauseState.InQuests);
+                    break;
+                case PauseState.InPauseMenu:
+                    break;
+                case PauseState.InInventory:
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InCatalogue:
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InQuests:
                     SetState(PauseState.Playing);
                     break;
             }
@@ -116,10 +146,10 @@ namespace PauseMenu
 
         public static void SetState(PauseState newState, bool suppressEvent = false)
         {
-            currentState = newState;
+            _currentState = newState;
 
             if (!suppressEvent)
-                EventManager.OnPauseSateChange(currentState);
+                EventManager.OnPauseSateChange(_currentState);
         }
 
         public void UnPause()

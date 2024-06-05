@@ -1,5 +1,6 @@
 ﻿using System;
 using Events;
+using PauseMenu;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -29,6 +30,12 @@ namespace Quests
             EventManager.QuestUnHighlighted += UnhighlightQuest;
             EventManager.QuestUpdated += UpdateQuestProgress;
             EventManager.QuestCompleted += UnhighlightQuest;
+            EventManager.PauseStateChange += ChangeActiveState;
+        }
+
+        private void ChangeActiveState(PauseState state)
+        {
+            questDetailUIParent.gameObject.SetActive(state == PauseState.Playing);
         }
 
         private void OnDisable()
@@ -37,6 +44,7 @@ namespace Quests
             EventManager.QuestUnHighlighted -= UnhighlightQuest;
             EventManager.QuestUpdated -= UpdateQuestProgress;
             EventManager.QuestCompleted -= UnhighlightQuest;
+            EventManager.PauseStateChange -= ChangeActiveState;
         }
 
         private void HighlightQuest(QuestProgress highlightedQuest)
@@ -62,9 +70,9 @@ namespace Quests
         {
             foreach (QuestDetailUI questDetailUI in questDetailUIs)
             {
-                if (!questDetailUI.isUse) continue;
+                if (!questDetailUI.IsInUse()) continue;
 
-                if (questDetailUI.quest != questProgress.quest) continue;
+                if (questDetailUI.GetQuest() != questProgress.quest) continue;
                 
                 questDetailUI.SetQuest(questProgress);
                 return;
@@ -75,7 +83,7 @@ namespace Quests
         {
             for (int i = 0; i < questDetailUIs.Length; i++)
             {
-                if (questDetailUIs[i].quest == questProgress.quest)
+                if (questDetailUIs[i].GetQuest() == questProgress.quest)
                 {
                     return i;
                 }
@@ -89,7 +97,7 @@ namespace Quests
             for (int i = 0; i < questDetailUIs.Length; i++)
             {
 
-                if (!questDetailUIs[i].isUse)
+                if (!questDetailUIs[i].IsInUse())
                 {
                     return i;
                 }
