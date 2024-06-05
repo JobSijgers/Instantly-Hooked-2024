@@ -24,7 +24,8 @@ namespace Quests
                 return quests[Random.Range(0, quests.Length)];
             }
         }
-        
+
+        public static QuestTracker instance;
         [SerializeField] private QuestState[] questStates;
         private readonly List<QuestProgress> activeQuests = new();
 
@@ -36,6 +37,11 @@ namespace Quests
         private void OnDisable()
         {
             EventManager.FishCaught -= IsQuestConditionMet;
+        }
+
+        private void Awake()
+        {
+            instance = this;
         }
 
         private void Start()
@@ -91,6 +97,7 @@ namespace Quests
                 QuestProgress progress = new(newQuest, randomAmount, randomMoney, difficulty);
                 activeQuests.Add(progress);
             }
+
             Debug.Log("New Quest Generated");
         }
 
@@ -137,6 +144,11 @@ namespace Quests
             // Generate a new quest of the same difficulty
             GenerateNewQuest(questProgress.difficulty);
             EventManager.OnQuestHighlight(activeQuests[activeQuests.Count - 1]);
+        }
+        
+        public QuestProgress[] GetQuests()
+        {
+            return activeQuests.ToArray();
         }
     }
 }

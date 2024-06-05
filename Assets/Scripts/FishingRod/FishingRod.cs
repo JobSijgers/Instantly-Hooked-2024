@@ -51,17 +51,15 @@ namespace FishingRod
         {
             if (!rodEnabled)
                 return;
-            if (Input.GetMouseButton(0))
+            Debug.Log(!Hook.instance.touchingGround);
+            if (Input.GetMouseButton(0) && !Hook.instance.touchingGround)
             {
                 CastHook();
             }
 
             if (Input.GetMouseButton(1))
-            {
-                    ReelHook();
-                if (Hook.instance.FishOnHook == null || !Hook.instance.FishOnHook.IsStruggeling())
-                {
-                }
+            { 
+                ReelHook();
             }
         }
 
