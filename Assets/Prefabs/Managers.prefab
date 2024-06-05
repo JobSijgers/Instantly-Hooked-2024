@@ -405,18 +405,25 @@ MonoBehaviour:
   questStates:
   - difficulty: 0
     quests:
-    - {fileID: 11400000, guid: 433e3d170fd0a0e4a838eca095a57194, type: 2}
-    - {fileID: 11400000, guid: d8ed7d267033b6845ac48e3291ecfcd5, type: 2}
-    - {fileID: 11400000, guid: a42688f62eb2dee47a033c5819992f83, type: 2}
-    maxQuestsActive: 1
+    - {fileID: 11400000, guid: 3cc0270f975b20b42887792ee9c64003, type: 2}
+    - {fileID: 11400000, guid: 4485359bd85af524599f037864b9ec34, type: 2}
+    - {fileID: 11400000, guid: f4cde7d89a5026a4a9727b4c697fe1b0, type: 2}
+    - {fileID: 11400000, guid: 5e5e6819107fe844b87b540ff38110dc, type: 2}
+    - {fileID: 11400000, guid: 04e8e084b22311448b83ac2532ae8a3f, type: 2}
+    - {fileID: 11400000, guid: a1fa893db3a820c4db9578c9e5194317, type: 2}
+    maxQuestsActive: 3
   - difficulty: 1
     quests:
-    - {fileID: 11400000, guid: 9371d8e0c3d542d40aec7ad0688085eb, type: 2}
-    - {fileID: 11400000, guid: dc214a91820ec9741a0e841b2ecaae51, type: 2}
-    - {fileID: 11400000, guid: e094405e675c6eb44a061cc89af9b201, type: 2}
-    maxQuestsActive: 1
+    - {fileID: 11400000, guid: edf49ee55c3f8154db385a80e0f7fca8, type: 2}
+    - {fileID: 11400000, guid: eff7c080f3f81954ea196385245fc1dc, type: 2}
+    - {fileID: 11400000, guid: dddc963294c0d994faeacbb83e7443b0, type: 2}
+    maxQuestsActive: 2
   - difficulty: 2
     quests:
-    - {fileID: 11400000, guid: 076714ce77ead944eadb2e62c1b6c7bb, type: 2}
-    - {fileID: 11400000, guid: bc62b40739efa6d428dfc4b3ec5a0642, type: 2}
+    - {fileID: 11400000, guid: 326d98041c5b7cd4cbaf8523430e70f8, type: 2}
+    - {fileID: 11400000, guid: 4d0694a424cc0eb4a88126a648485e20, type: 2}
+    - {fileID: 11400000, guid: 1d6749a1d538b5a4387faf31af551274, type: 2}
+    - {fileID: 11400000, guid: 79021dbc572d3aa4fa2c6d7d995a076c, type: 2}
+    - {fileID: 11400000, guid: e49a2839b33f89041acca81b56672e66, type: 2}
+    - {fileID: 11400000, guid: 1a399532970c5274cb193c5983d07c5b, type: 2}
     maxQuestsActive: 1

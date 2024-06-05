@@ -53,7 +53,6 @@ namespace FishingRod
         {
             if (!rodEnabled)
                 return;
-            Debug.Log(Vector3.Distance(hook.position, origin.position) - offset);
             if (Input.GetMouseButton(0) && !Hook.instance.touchingGround)
             {
                 CastHook();
