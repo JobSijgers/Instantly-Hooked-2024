@@ -51,17 +51,14 @@ namespace FishingRod
         {
             if (!rodEnabled)
                 return;
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !Hook.instance.touchingGround)
             {
                 CastHook();
             }
 
             if (Input.GetMouseButton(1))
-            {
-                    ReelHook();
-                if (Hook.instance.FishOnHook == null || !Hook.instance.FishOnHook.IsStruggeling())
-                {
-                }
+            { 
+                ReelHook();
             }
         }
 
@@ -79,7 +76,7 @@ namespace FishingRod
         {
             float newLineLength = currentLineLength - reelingSpeed * Time.deltaTime;
             float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
-            if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null)
+            if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.states.Biting.CurrentState == FishBitingState.onhook)
             {
                 FishBrain fish = Hook.instance.FishOnHook;
                 EventManager.OnFishCaught(fish.fishData, fish.fishSize);

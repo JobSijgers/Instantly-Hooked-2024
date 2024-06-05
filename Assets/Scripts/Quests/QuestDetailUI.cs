@@ -1,32 +1,37 @@
 ﻿using System;
 using Quests.ScriptableObjects;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Quests
 {
     public class QuestDetailUI : MonoBehaviour
     {
         [SerializeField] private TMP_Text questProgressAmount;
-        [SerializeField] private TMP_Text questCompletionMoney;
-        [FormerlySerializedAs("questProgress")] public Quest quest;
-        public bool isUse;
+        [SerializeField] private Image questIcon;
+        private Quest quest; 
+        private bool inUse;
 
-        public void SetQuest(QuestProgress questProgress)
+        public virtual void SetQuest(QuestProgress questProgress)
         {
-            questCompletionMoney.text = questProgress.completionMoney.ToString();
+            questIcon.sprite = questProgress.quest.questIcon;
             questProgressAmount.text = $"{questProgress.progress}/{questProgress.completionAmount}";
             quest = questProgress.quest;
-            isUse = true;
+            inUse = true;
         }
 
-        public void ClearDetail()
+        public virtual void ClearDetail()
         {
-            questCompletionMoney.text = "";
+            questIcon.sprite = null;
             questProgressAmount.text = "";
             quest = null;
-            isUse = false;
+            inUse = false;
         }
+
+        public bool IsInUse() => inUse;
+        public Quest GetQuest() => quest;
     }
 }

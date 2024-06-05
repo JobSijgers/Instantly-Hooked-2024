@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -15,15 +16,36 @@ public class Hook : MonoBehaviour
     public FishingRod.FishingRod Rod;
     private FishBrain P_FishOnHook;
     public FishBrain FishOnHook { get { return P_FishOnHook; } set { P_FishOnHook = value; } }
+    public bool touchingGround;
     private void Awake()
     {
         instance = this;
         hook = gameObject;
         bounds = gameObject.GetComponent<BoxCollider>();
     }
+    public void Update()
+    {
+        Physics.gravity = FishOnHook != null ? new Vector3(0, -9.81f, 0) : new Vector3(0, -50f, 0);
+    }
     public void RemoveFish()
     {
         FishOnHook = null;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Terrain"))
+        {
+            touchingGround = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Terrain"))
+        {
+            touchingGround = false;
+        }
     }
 #if UNITY_EDITOR
     private void OnDrawGizmos()
