@@ -21,6 +21,10 @@ public class Hook : MonoBehaviour
         hook = gameObject;
         bounds = gameObject.GetComponent<BoxCollider>();
     }
+    public void Update()
+    {
+        Physics.gravity = FishOnHook != null ? new Vector3(0, -9.81f, 0) : new Vector3(0, -50f, 0);
+    }
     public void RemoveFish()
     {
         FishOnHook = null;
