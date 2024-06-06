@@ -682,28 +682,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &202203383 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 308356219163824327, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-    type: 3}
-  m_PrefabInstance: {fileID: 284200190}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &202203388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202203383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec8c8cba55c04c809100b17bf4a8bb8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxQuestsDisplayed: 5
-  questDetailUIPrefab: {fileID: 8120721667499409581, guid: 5f5e9030a45ea6c4b879d80b5b65de4b,
-    type: 3}
-  questDetailUIParent: {fileID: 887798333}
 --- !u!1 &223134765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,10 +1344,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 308356219163824327, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 202203388}
     - targetCorrespondingSourceObject: {fileID: 5645200530325230906, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       insertIndex: -1
@@ -3886,12 +3860,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3484502653424183613, guid: 880bb88813c4edf4691efa811e434074,
     type: 3}
   m_PrefabInstance: {fileID: 467522149}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &887798333 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7037344499596978594, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-    type: 3}
-  m_PrefabInstance: {fileID: 284200190}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &932680379
 GameObject:
