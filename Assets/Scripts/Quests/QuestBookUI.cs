@@ -1,8 +1,6 @@
-﻿using Catalogue;
-using Events;
+﻿using Events;
 using PauseMenu;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Quests
 {
@@ -14,8 +12,6 @@ namespace Quests
         [SerializeField] private HighlightQuestUI questUIHighlight;
 
         private ExpandedQuestDetailUI[] questDetails;
-
-        private int currentPage;
 
         private void Start()
         {
@@ -31,7 +27,7 @@ namespace Quests
         {
             questBookUIParent.SetActive(true);
             LoadQuests();
-            PauseManager.SetState(PauseState.InCatalogue, suppressEvent);
+            PauseManager.SetState(PauseState.InQuests, suppressEvent);
         }
 
         private void LoadQuests()
@@ -79,7 +75,6 @@ namespace Quests
 
         public void CloseQuests(bool suppressEvent)
         {
-            Debug.Log("Closing Quests" + questBookUIParent.activeSelf);
             if (!questBookUIParent.activeSelf)
                 return;
             questBookUIParent.SetActive(false);
