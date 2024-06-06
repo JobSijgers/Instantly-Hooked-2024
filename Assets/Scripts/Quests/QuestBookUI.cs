@@ -79,6 +79,7 @@ namespace Quests
 
         public void CloseQuests(bool suppressEvent)
         {
+            Debug.Log("Closing Quests" + questBookUIParent.activeSelf);
             if (!questBookUIParent.activeSelf)
                 return;
             questBookUIParent.SetActive(false);
