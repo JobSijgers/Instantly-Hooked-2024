@@ -50,16 +50,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783d447a74f5427418febb806f165f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VisualHolder: {fileID: 8020548641093939901}
   states:
     Roaming: {fileID: 4697329898385395740}
     Biting: {fileID: 3453636385491892057}
-  EmptyObject: {fileID: 4560276014792619125}
   RotateSpeed: 40
   WiggleAngle: 0.9
-  Wigggleincrease: 0
-  WiggleSpeed: 0
+  EmptyObject: {fileID: 4560276014792619125}
   FishGought: {fileID: 2912724422201163877}
+  fishSize: 0
 --- !u!114 &4697329898385395740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +71,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IntresstDistanceToHook: 8
-  BiteWait: 4
+  BiteWait: 2
+  BiteMultiply: 0
+  ShowGizmos: 0
 --- !u!114 &3453636385491892057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,12 +88,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BitingRange: 0.2
   IntresstLossafter: 2
-  StruggelTime: 6
-  StruggelAfterTime: 10
   HoldMultiplier: 150
   RestoreMultyplier: 500
   angle: 64
-  strafpunten: 5
+  strafpunten: 20
+  StamDrainUpgradePower: 0
+  MaxStamina: 10
+  StamRegainMultiply: 1
+  StamDrainMultiply: 1
 --- !u!65 &2032342212527237736
 BoxCollider:
   m_ObjectHideFlags: 0
