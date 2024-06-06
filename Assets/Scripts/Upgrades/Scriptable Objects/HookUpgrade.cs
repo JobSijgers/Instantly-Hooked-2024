@@ -5,7 +5,8 @@ namespace Upgrades.Scriptable_Objects
     [CreateAssetMenu(fileName = "HookUpgrade", menuName = "Upgrades/New Hook effectiveness Upgrade", order = 0)]
     public class HookUpgrade : Upgrade
     {
-        public int BiteMultiply;
+        public float BiteMultiply;
+        public float StaminaDrain;
         public override string[] GetEffectName()
         {
             return new[]

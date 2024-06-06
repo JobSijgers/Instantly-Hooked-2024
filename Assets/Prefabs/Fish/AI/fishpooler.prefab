@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9c076bff90d56843920d2d8c6002930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WaterBlock: {fileID: 0}
   FishList:
   - {fileID: 2947458896668910987}
   - {fileID: 6858789368894006518}
@@ -78,6 +79,7 @@ MonoBehaviour:
   fishPrefab: {fileID: 7012671117014001069, guid: ce0e7a2aa7fe00f419e972b315c6f755,
     type: 3}
   MaxFishInList: 30
+  Hook: {fileID: 0}
 --- !u!1001 &20322542551821173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -914,6 +916,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453636385491892057, guid: ce0e7a2aa7fe00f419e972b315c6f755,
+        type: 3}
+      propertyPath: MaxStamina
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453636385491892057, guid: ce0e7a2aa7fe00f419e972b315c6f755,
+        type: 3}
+      propertyPath: strafpunten
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453636385491892057, guid: ce0e7a2aa7fe00f419e972b315c6f755,
+        type: 3}
+      propertyPath: StamDrainMultiply
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453636385491892057, guid: ce0e7a2aa7fe00f419e972b315c6f755,
+        type: 3}
+      propertyPath: StamRegainMultiply
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453636385491892057, guid: ce0e7a2aa7fe00f419e972b315c6f755,
+        type: 3}
+      propertyPath: StamDrainUpgradePower
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6656720431704336348, guid: ce0e7a2aa7fe00f419e972b315c6f755,
         type: 3}

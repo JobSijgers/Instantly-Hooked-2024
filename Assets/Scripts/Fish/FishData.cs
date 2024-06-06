@@ -30,7 +30,7 @@ namespace Fish
         [Header("Inventory")] 
         public int maxStackAmount;
 
-        [Header("Bite")] [Tooltip("1 op ??")] 
+        [Header("Bite")] [Range(1,10)]
         public int biteRate;
 
 
