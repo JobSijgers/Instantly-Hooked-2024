@@ -41,6 +41,7 @@ namespace Storm
             GameObject go = Instantiate(stormPrefab, stormSpawnLocation.position, Quaternion.identity);
             go.GetComponent<IStorm>()?.InitStorm(stormDuration, stormEndLocation.position);
             isStormActive = true;
+            EventManager.OnStormSpawned(go.transform);
         }
         
         private void ResetStorm(int day)
