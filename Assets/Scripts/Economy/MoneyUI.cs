@@ -36,7 +36,7 @@ namespace Economy
                 float smoothStep = Mathf.SmoothStep(0, 1, t);
 
                 currentMoney = (int)Mathf.Lerp(currentMoney, targetMoney, smoothStep);
-                moneyText.text = $"Money: {currentMoney}";
+                moneyText.text = currentMoney.ToString("N0");
 
                 yield return null;
             }

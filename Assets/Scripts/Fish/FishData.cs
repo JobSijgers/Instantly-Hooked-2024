@@ -9,31 +9,49 @@ namespace Fish
     [Serializable]
     public class FishData : ScriptableObject
     {
-        
         public string fishName;
         public string fishDescription;
         public string habitat;
-        
-        [Header("Economy")]
+
+        [Header("Economy")] 
         public FishRarity fishRarity;
         public int[] fishSellAmount;
 
         [Header("Visual")] 
         public GameObject fishObject;
+        public float[] fishSize;
 
-        [Header("UI")] 
+        [Header("UI")]
         public Sprite fishVisual;
-     
-        [Header("Stats")]
+
+        [Header("Stats")] 
         public float moveSpeed;
 
         [Header("Inventory")] 
         public int maxStackAmount;
 
-        [Header("Bite")]
-        [Tooltip("1 op ??")]
+        [Header("Bite")] [Tooltip("1 op ??")] 
         public int biteRate;
+
+
+        public Vector3 GetScale(FishSize size)
+        {
+            if (fishSize.Length != 3)
+            {
+                Debug.LogWarning("<color=#f00>Fish siz e array is not the correct size in: " + fishName + " Defaulting to 1</color>");
+                return Vector3.one;
+            }
+            switch (size)
+            {
+                case FishSize.Small:
+                    return new Vector3(fishSize[0], fishSize[0], fishSize[0]);
+                case FishSize.Medium:
+                    return new Vector3(fishSize[1], fishSize[1], fishSize[1]);
+                case FishSize.Large:
+                    return new Vector3(fishSize[2], fishSize[2], fishSize[2]);
+                default:
+                    return Vector3.zero;
+            }
+        }
     }
-    
-    
 }

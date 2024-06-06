@@ -89,7 +89,7 @@ public class FishSpawner : MonoBehaviour
                 fish.SetOriginSpawner(this);
                 fish.Initialize(fishType.fishData, GetRandomFishSize());
                 fish.transform.position = GetRandomPos();
-                fish.transform.localScale = GetFishSize(fish.fishSize);
+                fish.transform.localScale = fish.fishData.GetScale(fish.fishSize);
                 fish.transform.SetParent(transform);
                 ActiveFish.Add(fish);
                 fish.gameObject.SetActive(true);
@@ -97,27 +97,11 @@ public class FishSpawner : MonoBehaviour
         }
     }
 
-    private Vector3 GetFishSize(FishSize size)
-    {
-        switch (size)
-        {
-            case FishSize.Small:
-                return new Vector3(0.7f, 0.7f, 0.7f);
-            case FishSize.Medium:
-                return new Vector3(1f, 1f, 1f);
-            case FishSize.Large:
-                return new Vector3(1.3f, 1.3f, 1.3f);
-        }
-
-        return new Vector3(1f, 1f, 1f);
-    }
-
     private FishSize GetRandomFishSize()
     {
         Array fish = Enum.GetValues(typeof(FishSize));
         return (FishSize)fish.GetValue(Random.Range(0, fish.Length));
     }
-
 
     public Vector3 GetRandomPos()
     {
