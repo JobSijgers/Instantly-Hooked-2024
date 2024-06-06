@@ -38,7 +38,7 @@ namespace Fish
         {
             if (fishSize.Length != 3)
             {
-                Debug.LogWarning("Fish size array is not the correct size in: " + fishName + "Defaulting to 1");
+                Debug.LogWarning("<color=#f00>Fish siz e array is not the correct size in: " + fishName + " Defaulting to 1</color>");
                 return Vector3.one;
             }
             switch (size)
