@@ -97,6 +97,7 @@ public class FishBrain : MonoBehaviour
     public void SetEndPos(Vector3 endpos)
     {
         P_EndPos = endpos;
+        //Debug.Log(P_EndPos);
         EmptyObject.transform.LookAt(EndPos);
         StopOldRotation();
     }
