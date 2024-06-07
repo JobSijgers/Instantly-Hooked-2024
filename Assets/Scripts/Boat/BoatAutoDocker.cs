@@ -18,10 +18,9 @@ namespace Boat
             EventManager.TimeUpdate -= CheckTime;
         }
         
-        private void CheckTime(float time)
+        private void CheckTime(TimeSpan time)
         {
-            TimeSpan span = TimeSpan.FromSeconds(time);
-            if (span.TotalMinutes >= dockTime)
+            if (time.TotalMinutes >= dockTime)
             {
                 EventManager.OnBoatAutoDock();
             }

@@ -25,17 +25,33 @@ namespace Compass
         {
             EventManager.StormSpawned += OnStormSpawned;
             EventManager.NewDay += OnNewDay;
+            EventManager.ArrivedAtShore += DisableCompass;
+            EventManager.LeftShore += EnableCompass;
         }
 
         private void OnDisable()
         {
             EventManager.StormSpawned -= OnStormSpawned;
             EventManager.NewDay -= OnNewDay;
+            EventManager.ArrivedAtShore -= DisableCompass;
+            EventManager.LeftShore -= EnableCompass;
         }
 
         private void Update()
         {
+            if (background.gameObject.activeSelf == false)
+                return;
             RenderUI();
+        }
+
+        private void DisableCompass()
+        {
+            background.gameObject.SetActive(false);
+        }
+
+        private void EnableCompass()
+        {
+            background.gameObject.SetActive(true);
         }
 
         private void OnNewDay(int dayCount)

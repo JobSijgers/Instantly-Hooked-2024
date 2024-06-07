@@ -1,6 +1,7 @@
 ﻿using Fish;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace FishPopup
@@ -11,7 +12,7 @@ namespace FishPopup
         [SerializeField] private TMP_Text fishName;
         [SerializeField] private Image fishImage;
         [SerializeField] private Image sizeImage;
-        [SerializeField] private ParticleSystem particleSystem;
+        [SerializeField] private ParticleSystem[] particleSystems;
         private const float DeleteAfterSeconds = 2f;
 
         public void InitPopup(FishData data, Sprite sprite, Sprite sizeSprite, Color color)
@@ -20,9 +21,13 @@ namespace FishPopup
             fishName.text = data.fishName;
             fishImage.sprite = data.fishVisual;
             sizeImage.sprite = sizeSprite;
-            ParticleSystem.MainModule particleSystemMain = particleSystem.main;
-            particleSystemMain.startColor = color;
+
             Destroy(gameObject, DeleteAfterSeconds);
+            foreach (ParticleSystem particle in particleSystems)
+            {
+                ParticleSystem.MainModule particleSystemMain = particle.main;
+                particleSystemMain.startColor = color;
+            }
         }
     }
 }
