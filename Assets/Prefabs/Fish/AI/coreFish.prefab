@@ -98,6 +98,8 @@ MonoBehaviour:
   MaxStamina: 10
   StamRegainMultiply: 1
   StamDrainMultiply: 1
+  MinStaminaStruggelValue: 6
+  StruggelHalfStamina: 1.8
 --- !u!65 &2032342212527237736
 BoxCollider:
   m_ObjectHideFlags: 0
