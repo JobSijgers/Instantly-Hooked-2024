@@ -15,41 +15,14 @@ namespace PauseMenu
 
     public class PauseManager : MonoBehaviour
     {
-        private bool isEnabled = true;
         private static PauseState _currentState;
-
-
-        private void Start()
-        {
-            EventManager.ArrivedAtShore += DisableManager;
-            EventManager.LeftShore += EnableManager;
-        }
-
-        private void OnDestroy()
-        {
-            EventManager.ArrivedAtShore -= DisableManager;
-            EventManager.LeftShore -= EnableManager;
-        }
 
         private void Update()
         {
-            if (!isEnabled)
-                return;
-
             CheckInventoryKey();
             CheckEscapeKey();
             CheckJournalKey();
             CheckQKey();
-        }
-
-        private void DisableManager()
-        {
-            isEnabled = false;
-        }
-
-        private void EnableManager()
-        {
-            isEnabled = true;
         }
 
         private void CheckJournalKey()
@@ -72,6 +45,8 @@ namespace PauseMenu
                 case PauseState.InQuests:
                     SetState(PauseState.Playing);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -120,8 +95,11 @@ namespace PauseMenu
                 case PauseState.InQuests:
                     SetState(PauseState.Playing);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
+
         private void CheckQKey()
         {
             if (!Input.GetKeyDown(KeyCode.Q)) return;
@@ -141,6 +119,8 @@ namespace PauseMenu
                 case PauseState.InQuests:
                     SetState(PauseState.Playing);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
