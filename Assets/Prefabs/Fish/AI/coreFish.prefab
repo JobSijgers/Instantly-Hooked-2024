@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4697329898385395740}
   - component: {fileID: 3453636385491892057}
   - component: {fileID: 2032342212527237736}
+  - component: {fileID: 978197661077812072}
   m_Layer: 7
   m_Name: coreFish
   m_TagString: Untagged
@@ -54,7 +55,7 @@ MonoBehaviour:
   states:
     Roaming: {fileID: 4697329898385395740}
     Biting: {fileID: 3453636385491892057}
-  RotateSpeed: 40
+  RotateSpeed: 39.9
   WiggleAngle: 0.9
   EmptyObject: {fileID: 4560276014792619125}
   FishGought: {fileID: 2912724422201163877}
@@ -93,7 +94,7 @@ MonoBehaviour:
   RestoreMultyplier: 500
   angle: 64
   strafpunten: 20
-  StamDrainUpgradePower: 0
+  StamDrainUpgradePower_p: 1
   MaxStamina: 10
   StamRegainMultiply: 1
   StamDrainMultiply: 1
@@ -118,6 +119,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.7492363, y: 1, z: 1}
   m_Center: {x: 0.06110084, y: 0, z: 0}
+--- !u!114 &978197661077812072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835189133300826452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f54c29301fea9c4ea4679ade8ede61e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StaminaMeter: {fileID: 863432060201700518}
 --- !u!1 &1094042179574331429
 GameObject:
   m_ObjectHideFlags: 0

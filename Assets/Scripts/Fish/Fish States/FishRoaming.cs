@@ -75,7 +75,7 @@ public class FishRoaming : MonoBehaviour, IFishState
         yield return new WaitForSeconds(BiteWait);
         float br = Brain.fishData.biteRate + BiteMultiply;
         br /= 10f;
-        Debug.Log(br);
+       //ebug.Log(br);
         float randomvalue = Random.value;
         if (randomvalue < br && Hook.instance.FishOnHook == null)
         {
