@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Upgrades.Scriptable_Objects;
 
 namespace Upgrades
@@ -11,6 +12,7 @@ namespace Upgrades
         [SerializeField] private TMP_Text upgradeCostText;
         [SerializeField] private TMP_Text upgradeEffectText;
         [SerializeField] private TMP_Text upgradeLevelText;
+        [SerializeField] private Image progressBar;
 
         public void HighlightUpgrade(Upgrade upgrade, int level)
         {
@@ -21,6 +23,7 @@ namespace Upgrades
                 upgradeCostText.text = "";
                 upgradeEffectText.text = "";
                 upgradeLevelText.text = "";
+                progressBar.fillAmount = 1;
                 return;
             }
 
@@ -44,6 +47,7 @@ namespace Upgrades
             }
 
             upgradeEffectText.text = upgradeEffectString;
+            progressBar.fillAmount = (float) levelIndex / UpgradeManager.Instance.GetMaxLevel(upgrade);
         }
 
         public void ClearHighlight()
@@ -53,6 +57,7 @@ namespace Upgrades
             upgradeCostText.text = "";
             upgradeEffectText.text = "";
             upgradeLevelText.text = "";
+            progressBar.fillAmount = 0;
         }
     }
 }

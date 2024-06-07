@@ -134,6 +134,12 @@ namespace Upgrades
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
             return upgradeState?.GetUpgradeLevel() ?? 0;
         }
+        
+        public int GetMaxLevel(Upgrade upgrade)
+        {
+            UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
+            return upgradeState?.GetUpgradeIndex() ?? 0;
+        }
 
         /// <summary>
         /// This method returns the UpgradeState that matches the given upgrade.
