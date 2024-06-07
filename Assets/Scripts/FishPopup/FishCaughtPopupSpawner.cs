@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using System;
+using Enums;
 using Events;
 using Fish;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace FishPopup
         [SerializeField] private Sprite[] fishSizeSprites;
         [SerializeField] private Color[] fishRarityColors;
         [SerializeField] private GameObject fishCaughtPopupPrefab;
+
         private void OnEnable()
         {
             EventManager.FishCaught += SpawnPopup;
@@ -20,7 +22,7 @@ namespace FishPopup
         {
             EventManager.FishCaught -= SpawnPopup;
         }
-        
+
         private void SpawnPopup(FishData data, FishSize size)
         {
             GameObject go = Instantiate(fishCaughtPopupPrefab, transform);
@@ -28,7 +30,7 @@ namespace FishPopup
             Sprite sizeSprite = fishSizeSprites[(int)size];
             Color color = fishRarityColors[(int)data.fishRarity];
             go.GetComponent<FishCaughtPopup>()?.InitPopup(data, sprite, sizeSprite, color);
+            Debug.Log("test");
         }
-        
     }
 }
