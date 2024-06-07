@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3623156140063102821}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Atlantic Sailfish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,8 +26,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -51.431, y: -1.472, z: -1.684}
-  m_LocalScale: {x: 310.484, y: 310.48395, z: 310.48395}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7519668030967779620}
   m_Father: {fileID: 0}
@@ -114,6 +114,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Atlantic Sailfish
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c99c4f806ee85dd4ba09031665e59fbc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

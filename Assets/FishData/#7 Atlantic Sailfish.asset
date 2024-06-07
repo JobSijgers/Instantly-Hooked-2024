@@ -17,11 +17,12 @@ MonoBehaviour:
     fin known as the sail. considered by many scientists the fastest fish in the
     ocean! Sailfish grow quickly, reaching 1.5 m, but can grown up to 3 m.
   habitat: shoreline to 300 m depth
-  fishRarity: 3
+  fishRarity: 2
   fishSellAmount: 
   fishObject: {fileID: 4108366964610354655, guid: cc8947e43ec7fb640b87fb57b0766dcc,
     type: 3}
-  fishVisual: {fileID: 0}
+  fishSize: []
+  fishVisual: {fileID: 21300000, guid: e6b75754b63f1094bac3414be9977e31, type: 3}
   moveSpeed: 5
   maxStackAmount: 5
   biteRate: 3

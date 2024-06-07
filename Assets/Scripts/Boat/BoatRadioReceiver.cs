@@ -34,10 +34,9 @@ namespace Boat
             messageArrived = false;
             message.SetActive(false);
         }
-        private void CheckMessage(float time)
+        private void CheckMessage(TimeSpan time)
         {
-            TimeSpan span = TimeSpan.FromSeconds(time);
-            if (span.TotalMinutes >=  messageArriveTime && !messageArrived)
+            if (time.TotalMinutes >=  messageArriveTime && !messageArrived)
             {
                 BroadcastMessage();
             }

@@ -3,6 +3,7 @@ using Enums;
 using Events;
 using PauseMenu;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Upgrades;
 using Upgrades.Scriptable_Objects;
 
@@ -51,7 +52,7 @@ namespace FishingRod
 
         private void Update()
         {
-            if (!rodEnabled)
+            if (!rodEnabled || EventSystem.current.IsPointerOverGameObject())
                 return;
             if (Input.GetMouseButton(0) && !Hook.instance.touchingGround)
             {

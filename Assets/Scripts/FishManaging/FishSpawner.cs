@@ -116,23 +116,29 @@ public class FishSpawner : MonoBehaviour
 #if UNITY_EDITOR
     [Header("Editor Gizmos")] [SerializeField]
     private Color color = Color.green;
+    [SerializeField] private bool ShowActivateRange = true;
+    [SerializeField] private bool ShowBounds = true;
+    [SerializeField] private bool ShowFishNames = true;
 
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
-        Gizmos.DrawWireCube(transform.position, SpawnArea);
+        if (ShowBounds) Gizmos.DrawWireCube(transform.position, SpawnArea);
         Handles.color = color;
-        Handles.DrawWireArc(transform.position, Vector3.forward, Vector3.up, 360, ActiveToBoatDistance);
+        if (ShowActivateRange) Handles.DrawWireArc(transform.position, Vector3.forward, Vector3.up, 360, ActiveToBoatDistance);
         int i = 0;
 
-        foreach (FishToSpawn type in FishTypesToSpawn)
+        if (ShowFishNames)
         {
-            if (type.fishData == null)
-                return;
-            i++;
-            Vector3 pos = transform.position;
-            pos.y += i * 2;
-            Handles.Label(pos, type.fishData.fishName);
+            foreach (FishToSpawn type in FishTypesToSpawn)
+            {
+                if (type.fishData == null)
+                    return;
+                i++;
+                Vector3 pos = transform.position;
+                pos.y += i * 2;
+                Handles.Label(pos, type.fishData.fishName);
+            }
         }
     }
 #endif

@@ -1,8 +1,10 @@
-﻿using Economy.ShopScripts;
+﻿using System;
+using Economy.ShopScripts;
 using Enums;
 using Fish;
 using PauseMenu;
 using Quests;
+using UnityEngine;
 using UnityEngine.Events;
 using Upgrades.Scriptable_Objects;
 
@@ -10,7 +12,7 @@ namespace Events
 {
     public static class EventManager
     {
-        public static event UnityAction<float> TimeUpdate;
+        public static event UnityAction<TimeSpan> TimeUpdate;
         public static event UnityAction<int> NewDay;
         public static event UnityAction<int> MoneyUpdate;
         public static event UnityAction Dock;
@@ -34,9 +36,10 @@ namespace Events
         public static event UnityAction<QuestProgress> QuestCompleted;
         public static event UnityAction<QuestProgress> QuestUpdated;
         public static event UnityAction<QuestProgress> QuestHighlighted;
-        public static event UnityAction<QuestProgress> QuestUnHighlighted; 
+        public static event UnityAction<QuestProgress> QuestUnHighlighted;
+        public static event UnityAction<Transform> StormSpawned; 
         
-        public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
+        public static void OnTimeUpdate(TimeSpan value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);
         public static void OnDock() => Dock?.Invoke();
@@ -61,5 +64,6 @@ namespace Events
         public static void OnQuestUpdated(QuestProgress quest) => QuestUpdated?.Invoke(quest);
         public static void OnQuestHighlight(QuestProgress quest) => QuestHighlighted?.Invoke(quest);
         public static void OnQuestUnHighlight(QuestProgress quest) => QuestUnHighlighted?.Invoke(quest);
+        public static void OnStormSpawned(Transform storm) => StormSpawned?.Invoke(storm);
     }
 }

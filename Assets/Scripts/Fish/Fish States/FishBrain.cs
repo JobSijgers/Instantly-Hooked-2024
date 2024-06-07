@@ -3,8 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Enums;
-using Unity.VisualScripting;
 using UnityEngine;
+using Upgrades.Scriptable_Objects;
+using Events;
 
 [Serializable]
 public struct FishStates
@@ -15,37 +16,52 @@ public struct FishStates
 public class FishBrain : MonoBehaviour
 {
     private FishData P_fishData;
-    private IFishState P_CurrentState;
-    private FishSpawner OriginSpawner;
-    [SerializeField] private GameObject VisualHolder;
-    private GameObject Visual;
+
+    [Header("states")]
     public FishStates states;
+    private IFishState P_CurrentState;
+
+    [Header("Movement")]
+    [SerializeField] private float RotateSpeed;
+    [SerializeField] private float WiggleAngle;
+    private Vector3 P_EndPos;
     private float P_struggelSpeed;
     private float P_moveSpeed;
+
+    [Header("visual")]
     [SerializeField] private GameObject EmptyObject;
-    [SerializeField] private float RotateSpeed;
-    private Vector3 P_EndPos;
-    [SerializeField] private float WiggleAngle;
+    private GameObject Visual;
+    [HideInInspector] public FishUI UI;
 
-    [Header("Wiggle")]
-    [SerializeField] private float Wigggleincrease;
-    [SerializeField] private float WiggleSpeed;
-
-    //corotines
-    private Coroutine RotateC;
+    private FishSpawner OriginSpawner;
 
     [Header("Particles")]
     [SerializeField] public ParticleSystem FishGought;
 
+    [Header("Fish Size")]
     public FishSize fishSize;
+
+    //corotines
+    private Coroutine RotateC;
+
+    //propeties
     public Vector3 EndPos { get { return P_EndPos; } }
+    
+    // spawners 
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public FishSpawner GetOriginSpawner() => OriginSpawner;
+
+    //visual
     public void DestroyVisual() => Destroy(Visual);
-    public Vector3 GetNewPosition() => OriginSpawner.GetRandomPos();
+
+    // 
     public bool IsStruggeling() => states.Biting.IsStruggeling();
+
+    //movement
+    public Vector3 GetNewPosition() => OriginSpawner.GetRandomPos();
     public float moveSpeed { get { return P_moveSpeed; } set { P_moveSpeed = value; } }
     public float StruggelSpeed { get { return P_struggelSpeed; } set { P_struggelSpeed = value; } }
+
     public IFishState CurrentState
     {
         get { return P_CurrentState; }
@@ -84,8 +100,13 @@ public class FishBrain : MonoBehaviour
         EmptyObject.transform.LookAt(EndPos);
         StopOldRotation();
     }
+    private void Awake()
+    {
+        EventManager.UpgradeBought += OnBaitBought;
+    }
     void Start()
     {
+        UI = GetComponent<FishUI>();
         CurrentState = GetComponent<IFishState>();
         CurrentState = states.Roaming;
     }
@@ -99,7 +120,6 @@ public class FishBrain : MonoBehaviour
     {
         Quaternion endpos = EmptyObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
-
     }
     private void StopOldRotation()
     {
@@ -124,6 +144,20 @@ public class FishBrain : MonoBehaviour
         OriginSpawner = null;
         P_EndPos = Vector3.zero;
         CurrentState = states.Roaming;
+    }
+    public void OnBaitBought(Upgrade upgrade)
+    {
+        switch (upgrade)
+        {
+            case HookUpgrade hookupgrade:
+                states.Roaming.BiteMultiply = hookupgrade.BiteMultiply;
+                states.Biting.StamDrainUpgradePower = hookupgrade.StaminaDrain;
+                break;
+        }
+    }
+    private void OnDestroy()
+    {
+        EventManager.UpgradeBought += OnBaitBought;
     }
 }
 

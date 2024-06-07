@@ -35,17 +35,16 @@ namespace GameTime
             EventManager.TimeUpdate -= UpdateSkybox;
         }
 
-        private void UpdateSkybox(float time)
+        private void UpdateSkybox(TimeSpan time)
         {
             // Convert time to TimeSpan
-            TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-            float currentTimeInMinutes = (int)timeSpan.TotalMinutes;
+            float currentTimeInMinutes = (int)time.TotalMinutes;
             RotateLight(currentTimeInMinutes / 1440f);
 
             foreach (DayPhase phase in dayPhases)
             {
                 // Skip if current time is not within the phase
-                if (timeSpan.Hours < phase.startHour || timeSpan.Hours >= phase.endHour) continue;
+                if (time.Hours < phase.startHour || time.Hours >= phase.endHour) continue;
 
                 // Calculate start and end time in minutes
                 float startTimeInMinutes = phase.startHour * 60;
