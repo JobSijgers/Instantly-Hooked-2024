@@ -14,6 +14,7 @@ namespace FishingRod
     {
         [SerializeField] private Transform origin;
         [SerializeField] private Transform hook;
+        [SerializeField] private int minLineLength;
         private SpringJoint springJoint;
         private float reelingSpeed = 5;
         private float dropSpeed = 3;
@@ -37,8 +38,9 @@ namespace FishingRod
             {
                 Debug.LogError("No rigidbody attached to hook");
             }
-
-            springJoint.maxDistance = 0;
+            
+            currentLineLength = minLineLength;
+            springJoint.maxDistance = minLineLength;
             offset = Vector3.Distance(hook.position, origin.position);
         }
 
@@ -65,7 +67,7 @@ namespace FishingRod
             else if (Hook.instance.touchingGround)
             {
                 float newLineLength = Vector3.Distance(hook.position, origin.position) - offset;
-                float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
+                float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength, maxLineLength);
 
                 springJoint.maxDistance = newClampedLineLength;
                 springJoint.connectedBody.WakeUp();
@@ -76,7 +78,7 @@ namespace FishingRod
         private void CastHook()
         {
             float newLineLength = currentLineLength + dropSpeed * Time.deltaTime;
-            float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
+            float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength, maxLineLength);
 
             springJoint.maxDistance = newClampedLineLength;
             springJoint.connectedBody.WakeUp();
@@ -86,7 +88,7 @@ namespace FishingRod
         private void ReelHook()
         {
             float newLineLength = currentLineLength - reelingSpeed * Time.deltaTime;
-            float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
+            float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength , maxLineLength);
             if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.states.Biting.CurrentState == FishBitingState.onhook)
             {
                 FishBrain fish = Hook.instance.FishOnHook;
@@ -103,7 +105,7 @@ namespace FishingRod
             float distance = Vector2.Distance(origin.transform.position, fishpos);
             distance += 0.1f;
             float newLineLength = distance;
-            float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
+            float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength, maxLineLength);
 
             springJoint.maxDistance = newClampedLineLength;
             springJoint.connectedBody.WakeUp();
@@ -113,16 +115,16 @@ namespace FishingRod
         private void OnDock()
         {
             rodEnabled = false;
-            currentLineLength = 0;
-            springJoint.maxDistance = 0;
+            currentLineLength = minLineLength;
+            springJoint.maxDistance = minLineLength;
             springJoint.connectedBody.velocity = Vector3.zero;
         }
 
         private void OnUndock()
         {
             rodEnabled = true;
-            currentLineLength = 0;
-            springJoint.maxDistance = 0;
+            currentLineLength = minLineLength;
+            springJoint.maxDistance = minLineLength;
             springJoint.connectedBody.velocity = Vector3.zero;
             springJoint.connectedBody.WakeUp();
         }

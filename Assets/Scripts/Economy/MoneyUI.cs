@@ -12,7 +12,7 @@ namespace Economy
         [SerializeField] private TMP_Text moneyText;
         private int targetMoney;
         private int currentMoney;
-        private bool isAnimating;
+
         private void Start()
         {
             EventManager.MoneyUpdate += UpdateMoneyUI;
@@ -22,36 +22,34 @@ namespace Economy
         {
             EventManager.MoneyUpdate -= UpdateMoneyUI;
         }
-        
-        private IEnumerator AnimateMoneyCount()
-        {
-            isAnimating = true;
-            const float duration = 2.0f; // duration of the animation in seconds
-            float elapsed = 0.0f;
 
-            while (currentMoney < targetMoney)
+        private float EaseOutCubic(float x)
+        {
+            return 1 - Mathf.Pow(1 - x, 3);
+        }
+
+        private IEnumerator UpdateMoneySmoothly(int targetMoney, float duration)
+        {
+            float elapsed = 0;
+            int startingMoney = currentMoney;
+
+            while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
-                float t = elapsed / duration;
-                float smoothStep = Mathf.SmoothStep(0, 1, t);
-
-                currentMoney = (int)Mathf.Lerp(currentMoney, targetMoney, smoothStep);
-                moneyText.text = currentMoney.ToString("N0");
-
+                float t = EaseOutCubic(elapsed / duration);
+                currentMoney = Mathf.RoundToInt(Mathf.Lerp(startingMoney, targetMoney, t));
                 yield return null;
             }
 
-            currentMoney = targetMoney; // ensure the final value is accurate
-            isAnimating = false;
+            currentMoney = targetMoney;
         }
 
         private void UpdateMoneyUI(int newMoney)
         {
-            targetMoney = newMoney;
-            if (!isAnimating)
-            {
-                StartCoroutine(AnimateMoneyCount());
-            }
+            if (currentMoney == newMoney) return;
+
+            StopAllCoroutines();
+            StartCoroutine(UpdateMoneySmoothly(newMoney, 1.0f));
         }
     }
 }
