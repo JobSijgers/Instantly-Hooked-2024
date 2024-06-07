@@ -27,10 +27,9 @@ namespace Storm
             EventManager.NewDay -= ResetStorm;
         }
 
-        private void CheckStormTime(float time)
+        private void CheckStormTime(TimeSpan time)
         {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-            if (timeSpan.Hours * 60 + timeSpan.Minutes >= stormSpawnTime && !isStormActive)
+            if (time.Hours * 60 + time.Minutes >= stormSpawnTime && !isStormActive)
             {
                 SpawnStorm();
             }

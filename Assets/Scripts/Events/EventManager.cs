@@ -1,4 +1,5 @@
-﻿using Economy.ShopScripts;
+﻿using System;
+using Economy.ShopScripts;
 using Enums;
 using Fish;
 using PauseMenu;
@@ -11,7 +12,7 @@ namespace Events
 {
     public static class EventManager
     {
-        public static event UnityAction<float> TimeUpdate;
+        public static event UnityAction<TimeSpan> TimeUpdate;
         public static event UnityAction<int> NewDay;
         public static event UnityAction<int> MoneyUpdate;
         public static event UnityAction Dock;
@@ -38,7 +39,7 @@ namespace Events
         public static event UnityAction<QuestProgress> QuestUnHighlighted;
         public static event UnityAction<Transform> StormSpawned; 
         
-        public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
+        public static void OnTimeUpdate(TimeSpan value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);
         public static void OnDock() => Dock?.Invoke();

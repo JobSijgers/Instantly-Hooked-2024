@@ -34,11 +34,10 @@ namespace GameTime
             EventManager.NewDay -= UpdateDayUI;
         }
 
-        private void UpdateTimeUI(float time)
+        private void UpdateTimeUI(TimeSpan time)
         {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-            int minutes = RoundDownToNearestFive(timeSpan.Minutes);
-            TimeSpan roundedTimeSpan = new (timeSpan.Hours, minutes, timeSpan.Seconds);
+            int minutes = RoundDownToNearestFive(time.Minutes);
+            TimeSpan roundedTimeSpan = new (time.Hours, minutes, time.Seconds);
             timeUIText.text = roundedTimeSpan.ToString(@"hh\:mm");
         }
 

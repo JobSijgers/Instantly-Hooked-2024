@@ -48,11 +48,11 @@ namespace GameTime
 
             // Update current time
             currentTime += Time.deltaTime * timeMultiplier;
-            EventManager.OnTimeUpdate(currentTime);
+            TimeSpan span = TimeSpan.FromSeconds(currentTime);
+            EventManager.OnTimeUpdate(span);
 
             // Check if a new day has started
-            TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
-            if (timeSpan.Days >= 1)
+            if (span.Days >= 1)
             {
                 EndDay();
             }
@@ -70,8 +70,9 @@ namespace GameTime
 
             // Reset time and broadcast new day and time update events
             ResetTime();
+            TimeSpan span = TimeSpan.FromSeconds(currentTime);
             EventManager.OnNewDay(currentDay);
-            EventManager.OnTimeUpdate(currentTime);
+            EventManager.OnTimeUpdate(span);
         }
 
         private void OnPause(PauseState newState)
