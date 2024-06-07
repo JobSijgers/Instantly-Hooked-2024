@@ -12,7 +12,7 @@ public enum FishBitingState
     struggeling,
     onhook
 }
-public class FishBiting : MonoBehaviour,IFishState
+public class FishBiting : MonoBehaviour, IFishState
 {
     //refs
     private FishBrain Brain;
@@ -34,18 +34,19 @@ public class FishBiting : MonoBehaviour,IFishState
     [SerializeField] private float HoldMultiplier;
     [SerializeField] private float RestoreMultyplier;
 
-    [Range(10,170)]
+    [Range(10, 170)]
     [Tooltip("angle waarbinnen de vissen naar beneden gaan als ze aan het struggelen zijn")]
     [SerializeField] private float angle;
 
     [SerializeField] private float strafpunten;
 
     [Header("Stamina")]
-    public float StamDrainUpgradePower;
     [SerializeField] private float MaxStamina;
     [SerializeField] private float StamRegainMultiply;
     [SerializeField] private float StamDrainMultiply;
+    private float StamDrainUpgradePower_p = 1;
     private float Stamina;
+    public float StamDrainUpgradePower { get { return StamDrainUpgradePower_p; } set { StamDrainUpgradePower = value; } }
 
     private bool endposisstruggelpos = false;
     private float tention;
@@ -79,6 +80,7 @@ public class FishBiting : MonoBehaviour,IFishState
             GetOffHook();
             ResetState();
             EventManager.OnBoatControlsChanged(false);
+            Brain.UI.ActiceState(false);
             return Brain.states.Roaming;
         }
         else return this;
@@ -88,6 +90,7 @@ public class FishBiting : MonoBehaviour,IFishState
         if (Vector2.Distance(transform.position, Hook.instance.hook.transform.position) < BitingRange && BiteState == FishBitingState.goingforhook)
         {
             EventManager.OnBoatControlsChanged(true);
+            Brain.UI.ActiceState(true);
             BiteState = FishBitingState.onhook;
         }
 
@@ -299,5 +302,11 @@ public class FishBiting : MonoBehaviour,IFishState
     {
         if (BiteState == FishBitingState.struggeling) return true;
         else return false;
+    }
+
+    public void GetStaminaStats(out float stamina, out float maxstamina)
+    {
+        stamina = Stamina;
+        maxstamina = MaxStamina;
     }
 }
