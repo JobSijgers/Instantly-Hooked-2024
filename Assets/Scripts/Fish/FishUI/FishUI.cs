@@ -10,8 +10,8 @@ public class FishUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image StaminaMeter;
     private GameObject StaminaMeterObject;
- 
-    void Start()
+
+    private void Awake()
     {
         Brain = GetComponent<FishBrain>();
         StaminaMeterObject = StaminaMeter.gameObject;
@@ -29,6 +29,7 @@ public class FishUI : MonoBehaviour
             case true:
                 StaminaMeterObject.SetActive(true);
                 break;
+
             case false:
                 StaminaMeterObject.SetActive(false);
                 break;

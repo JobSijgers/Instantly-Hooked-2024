@@ -44,6 +44,9 @@ public class FishBiting : MonoBehaviour, IFishState
     [SerializeField] private float MaxStamina;
     [SerializeField] private float StamRegainMultiply;
     [SerializeField] private float StamDrainMultiply;
+    [SerializeField] private float MinStaminaStruggelValue;
+    [Range(1,10)]
+    [SerializeField] private float StruggelHalfStamina;
     private float StamDrainUpgradePower_p = 1;
     private float Stamina;
     public float StamDrainUpgradePower { get { return StamDrainUpgradePower_p; } set { StamDrainUpgradePower = value; } }
@@ -239,6 +242,16 @@ public class FishBiting : MonoBehaviour, IFishState
         while (Stamina < MaxStamina)
         {
             Stamina += Time.deltaTime * StamRegainMultiply;
+            // kies of de vis met niet volle stamina kan gaan struggelen
+            if (Stamina > MinStaminaStruggelValue)
+            {
+                float RandomValue = Random.value;
+                if (RandomValue < StruggelHalfStamina)
+                {
+                    BiteState = FishBitingState.struggeling;
+                    ReGain = null;
+                }
+            }
             yield return null;
         }
         ReGain = null;
