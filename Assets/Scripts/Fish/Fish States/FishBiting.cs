@@ -80,6 +80,7 @@ public class FishBiting : MonoBehaviour, IFishState
             GetOffHook();
             ResetState();
             EventManager.OnBoatControlsChanged(false);
+            Brain.UI.ActiceState(false);
             return Brain.states.Roaming;
         }
         else return this;
@@ -89,6 +90,7 @@ public class FishBiting : MonoBehaviour, IFishState
         if (Vector2.Distance(transform.position, Hook.instance.hook.transform.position) < BitingRange && BiteState == FishBitingState.goingforhook)
         {
             EventManager.OnBoatControlsChanged(true);
+            Brain.UI.ActiceState(true);
             BiteState = FishBitingState.onhook;
         }
 
