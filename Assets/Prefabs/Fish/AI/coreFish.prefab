@@ -58,6 +58,7 @@ MonoBehaviour:
   RotateSpeed: 39.9
   WiggleAngle: 0.9
   EmptyObject: {fileID: 4560276014792619125}
+  UI: {fileID: 0}
   FishGought: {fileID: 2912724422201163877}
   fishSize: 0
 --- !u!114 &4697329898385395740
@@ -94,7 +95,6 @@ MonoBehaviour:
   RestoreMultyplier: 500
   angle: 64
   strafpunten: 20
-  StamDrainUpgradePower_p: 1
   MaxStamina: 10
   StamRegainMultiply: 1
   StamDrainMultiply: 1
@@ -149,7 +149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8612980967609800197
 RectTransform:
   m_ObjectHideFlags: 0

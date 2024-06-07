@@ -31,6 +31,7 @@ public class FishBrain : MonoBehaviour
     [Header("visual")]
     [SerializeField] private GameObject EmptyObject;
     private GameObject Visual;
+    [HideInInspector] public FishUI UI;
 
     private FishSpawner OriginSpawner;
 
@@ -105,6 +106,7 @@ public class FishBrain : MonoBehaviour
     }
     void Start()
     {
+        UI = GetComponent<FishUI>();
         CurrentState = GetComponent<IFishState>();
         CurrentState = states.Roaming;
     }
