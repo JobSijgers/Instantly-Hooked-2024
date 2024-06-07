@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static System.Collections.Specialized.BitVector32;
 
 public class Hook : MonoBehaviour
 {
@@ -51,6 +52,11 @@ public class Hook : MonoBehaviour
     public void RemoveFish()
     {
         FishOnHook = null;
+    }
+    public void ResetRodColor()
+    {
+        Hook.instance.fishline.startColor = Color.white;
+        Hook.instance.fishline.endColor = Color.white;
     }
 
     private void OnCollisionEnter(Collision other)
