@@ -56,6 +56,11 @@ namespace Upgrades
             {
                 return upgradeIndex;
             }
+            
+            public int GetMaxLevel()
+            {
+                return upgrades.Length;
+            }
         }
 
         public static UpgradeManager Instance { get; private set; }
@@ -138,7 +143,7 @@ namespace Upgrades
         public int GetMaxLevel(Upgrade upgrade)
         {
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
-            return upgradeState?.GetUpgradeIndex() ?? 0;
+            return upgradeState?.GetMaxLevel() ?? 0;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Upgrades.Scriptable_Objects;
@@ -47,7 +48,7 @@ namespace Upgrades
             }
 
             upgradeEffectText.text = upgradeEffectString;
-            progressBar.fillAmount = (float) levelIndex / UpgradeManager.Instance.GetMaxLevel(upgrade);
+            progressBar.fillAmount = (float) (levelIndex - 1) / (UpgradeManager.Instance.GetMaxLevel(upgrade) - 1);
         }
 
         public void ClearHighlight()

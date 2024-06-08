@@ -97,8 +97,6 @@ namespace Quests
                 QuestProgress progress = new(newQuest, randomAmount, randomMoney, difficulty);
                 activeQuests.Add(progress);
             }
-
-            Debug.Log("New Quest Generated");
         }
 
         private bool DoesQuestExist(Quest newQuest)
