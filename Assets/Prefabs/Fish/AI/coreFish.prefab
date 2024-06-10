@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BitingRange: 0.2
   IntresstLossafter: 2
+  OffsetFromGround: 10
   HoldMultiplier: 150
   RestoreMultyplier: 500
   angle: 64
@@ -99,12 +100,10 @@ MonoBehaviour:
   StamRegainMultiply: 1
   StamDrainMultiply: 1
   MinStaminaStruggelValue: 6
-  StruggelHalfStamina: 1.8
+  StruggelHalfStaminaKans: 0.163
   Ground:
     serializedVersion: 2
     m_Bits: 4096
-  CubeObjectos: {fileID: 7216929513045376677, guid: 2914319d2c6c56b4cb5858251f2f121e,
-    type: 3}
 --- !u!65 &2032342212527237736
 BoxCollider:
   m_ObjectHideFlags: 0
