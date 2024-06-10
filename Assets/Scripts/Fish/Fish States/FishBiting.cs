@@ -192,6 +192,8 @@ public class FishBiting : MonoBehaviour, IFishState
                     {
                         endposisstruggelpos = true;
                         Brain.SetEndPos(point);
+                        Debug.Log("point " + point);
+                        Debug.Log("position " + transform.position);
                     }
                 }
 
