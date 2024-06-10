@@ -78,6 +78,26 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7609145667655734672, guid: dd3356e92af50884fa19f64bd9488e77,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -2797864980895152918, guid: dd3356e92af50884fa19f64bd9488e77,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -2240151287705473546, guid: dd3356e92af50884fa19f64bd9488e77,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -412989040442181847, guid: dd3356e92af50884fa19f64bd9488e77,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -329340364626206919, guid: dd3356e92af50884fa19f64bd9488e77,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -87,6 +107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Seaweedtest (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dd3356e92af50884fa19f64bd9488e77,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: dd3356e92af50884fa19f64bd9488e77,
         type: 3}
@@ -132,18 +157,18 @@ LODGroup:
   m_LocalReferencePoint: {x: 0, y: 0.75947666, z: 0}
   m_Size: 1.5189533
   m_FadeMode: 0
-  m_AnimateCrossFading: 0
+  m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
+  - screenRelativeHeight: 0.9159924
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4491032935246108256}
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.61992174
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4491032935246108256}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.007440609
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4491032935246108256}
