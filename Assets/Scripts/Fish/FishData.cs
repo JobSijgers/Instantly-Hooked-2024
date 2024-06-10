@@ -36,22 +36,11 @@ namespace Fish
 
         public Vector3 GetScale(FishSize size)
         {
-            if (fishSize.Length != 3)
-            {
-                Debug.LogWarning("<color=#f00>Fish siz e array is not the correct size in: " + fishName + " Defaulting to 1</color>");
-                return Vector3.one;
-            }
-            switch (size)
-            {
-                case FishSize.Small:
-                    return new Vector3(fishSize[0], fishSize[0], fishSize[0]);
-                case FishSize.Medium:
-                    return new Vector3(fishSize[1], fishSize[1], fishSize[1]);
-                case FishSize.Large:
-                    return new Vector3(fishSize[2], fishSize[2], fishSize[2]);
-                default:
-                    return Vector3.zero;
-            }
+            if (fishSize.Length == Enum.GetNames(typeof(FishSize)).Length) 
+                return fishSize[(int)size] * Vector3.one;
+            
+            Debug.LogWarning("<color=#f00>Fish siz e array is not the correct size in: " + fishName + " Defaulting to 1</color>");
+            return Vector3.one;
         }
     }
 }

@@ -5,6 +5,8 @@ using Fish;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEditor;
+using System.Net;
 
 public enum FishBitingState
 {
@@ -30,6 +32,7 @@ public class FishBiting : MonoBehaviour, IFishState
     [Header("Range")]
     [SerializeField] private float BitingRange;
     [SerializeField] private float IntresstLossafter;
+    [SerializeField] private float OffsetFromGround;
 
     [Tooltip("hold multiplier")]
     [SerializeField] private float HoldMultiplier;
@@ -47,8 +50,8 @@ public class FishBiting : MonoBehaviour, IFishState
     [SerializeField] private float StamRegainMultiply;
     [SerializeField] private float StamDrainMultiply;
     [SerializeField] private float MinStaminaStruggelValue;
-    [Range(1,10)]
-    [SerializeField] private float StruggelHalfStamina;
+    [Range(0.01f,1f)]
+    [SerializeField] private float StruggelHalfStaminaKans;
     private float StamDrainUpgradePower_p = 1;
     private float Stamina;
     public float StamDrainUpgradePower { get { return StamDrainUpgradePower_p; } set { StamDrainUpgradePower = value; } }
@@ -180,7 +183,7 @@ public class FishBiting : MonoBehaviour, IFishState
 
             case FishBitingState.struggeling:
                 // zet positie als die nog niet bestaat
-                if (!endposisstruggelpos)
+                if (!endposisstruggelpos || Brain.EndPos == Vector3.zero)
                 {
                     Vector3 newpos = Brain.EndPos;
                     newpos = ChooseSwimDirection();
@@ -218,11 +221,6 @@ public class FishBiting : MonoBehaviour, IFishState
                 break;
         }
     }
-    private void FindGround(Vector3 point, out Vector3 newpoint)
-    {
-        if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, point, out RaycastHit hit, 1000, Ground)) newpoint = hit.point;
-        else newpoint = point;
-    }
     bool IsPointWithinAngle(Vector3 origin, Vector3 forward, float angle, Vector3 point)
     {
         Vector3 directionToPoint = (point - origin).normalized;
@@ -235,6 +233,21 @@ public class FishBiting : MonoBehaviour, IFishState
         float angle = Random.Range(130, 255);
         Vector2 positionOnCircle = (Vector2)Hook.instance.HookOrigin.transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * Rod.GetLineLength() * Hook.instance.Offset;
         return positionOnCircle;
+    }
+    private void FindGround(Vector3 point, out Vector3 newpoint)
+    {
+        if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, point, out RaycastHit hit, 1000, Ground))
+        {
+            Debug.Log(hit.collider);
+            if (hit.collider.CompareTag("GeenEndPos"))
+            {
+                newpoint = Vector3.zero;
+                return;
+            }
+            newpoint = hit.point;
+        }
+        else newpoint = point;
+        if (newpoint != Vector3.zero) newpoint.y -= OffsetFromGround;
     }
     private IEnumerator FishStateReset()
     {
@@ -253,22 +266,30 @@ public class FishBiting : MonoBehaviour, IFishState
         while (Stamina < MaxStamina)
         {
             Stamina += Time.deltaTime * StamRegainMultiply;
-            // kies of de vis met niet volle stamina kan gaan struggelen
-            //if (Stamina > MinStaminaStruggelValue)
-            //{
-            //    float RandomValue = Random.value;
-            //    if (RandomValue < StruggelHalfStamina)
-            //    {
-            //        BiteState = FishBitingState.struggeling;
-            //        StruggelingC =  StartCoroutine(FishStruggel());
-            //        ReGain = null;
-            //    }
-            //}
+            if (BeginStruggelBeforeFullC == null) BeginStruggelBeforeFullC = StartCoroutine(BeginStruggelBeforeFull());
             yield return null;
         }
         BiteState = FishBitingState.struggeling;
         StruggelingC = StartCoroutine(FishStruggel());
         ReGain = null;
+    }
+    Coroutine BeginStruggelBeforeFullC;
+    private IEnumerator BeginStruggelBeforeFull()
+    {
+        // kies of de vis met niet volle stamina kan gaan struggelen
+        if (Stamina > MinStaminaStruggelValue)
+        {
+            float RandomValue = Random.value;
+            if (RandomValue < StruggelHalfStaminaKans)
+            {
+                BiteState = FishBitingState.struggeling;
+                StopCoroutine(ReGain);
+                ReGain = null;
+            }
+        }
+        // zet een colldown van een seconden op deze functie omdat anders de vis altijd struggelt op StruggelHalfStaminaKans value
+        yield return new WaitForSeconds(1);
+        BeginStruggelBeforeFullC = null;
     }
     public IEnumerator FishStruggel()
     {

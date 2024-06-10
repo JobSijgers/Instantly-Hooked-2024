@@ -97,7 +97,6 @@ public class FishBrain : MonoBehaviour
     public void SetEndPos(Vector3 endpos)
     {
         P_EndPos = endpos;
-        //Debug.Log(P_EndPos);
         EmptyObject.transform.LookAt(EndPos);
         StopOldRotation();
     }
@@ -119,7 +118,9 @@ public class FishBrain : MonoBehaviour
     }
     private void ManageRoation()
     {
-        Quaternion endpos = EmptyObject.transform.rotation;
+        Quaternion endpos;
+        if (states.Biting.CurrentState == FishBitingState.onhook) EmptyObject.transform.LookAt(Hook.instance.hook.transform);
+        endpos = EmptyObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
     private void StopOldRotation()
