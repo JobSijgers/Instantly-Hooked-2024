@@ -1,16 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using Interfaces;
 using PathCreation;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Fish.Background_Fish
 {
     public class BackgroundFishSpawner : MonoBehaviour
     {
-        [SerializeField] private PathCreator[] paths;
-        [SerializeField] private GameObject[] fishToSpawn;
-        [SerializeField] private int fishCount;
+        [Serializable]
+        private struct BackgroundFish
+        {
+            public GameObject fish;
+            public int fishCount;
+        }
+
+        [SerializeField] private PathCreator path;
+        [SerializeField] private BackgroundFish[] fishToSpawn;
         [SerializeField] private Vector3 maxOffset;
         [SerializeField] private float minSpeed;
         [SerializeField] private float maxSpeed;
@@ -19,28 +26,29 @@ namespace Fish.Background_Fish
         {
             StartCoroutine(SpawnAllFish());
         }
+
         private IEnumerator SpawnAllFish()
         {
-            for (int i = 0; i < fishCount; i++)
+            Vector3 beginPoint = path.path.GetPoint(0);
+
+            foreach (BackgroundFish backgroundFish in fishToSpawn)
             {
-                GameObject fish = SpawnFish();
-                IBackgroundFish pathFollower = fish.AddComponent<PathFollower>();
-                pathFollower?.Initialize(GetRandomPath(), GetRandomOffset(), GetRandomSpeed());
-                yield return new WaitForSeconds(0.1f);
+                for (int i = 0; i < backgroundFish.fishCount; i++)
+                {
+                    GameObject fish = SpawnFish(backgroundFish.fish, beginPoint);
+                    IBackgroundFish pathFollower = fish.AddComponent<PathFollower>();
+                    pathFollower?.Initialize(path, GetRandomOffset(), GetRandomSpeed());
+                    yield return new WaitForSeconds(0.1f);
+                }
             }
         }
 
-        private GameObject SpawnFish()
+        private GameObject SpawnFish(GameObject fish, Vector3 beginPoint)
         {
-            return Instantiate(fishToSpawn[Random.Range(0, fishToSpawn.Length)], transform);
+            GameObject go = Instantiate(fish, transform);
+            go.transform.position = beginPoint;
+            return go;
         }
-
-        private PathCreator GetRandomPath()
-        {
-            int randomIndex = Random.Range(0, paths.Length);
-            return paths[randomIndex];
-        }
-
         private Vector3 GetRandomOffset()
         {
             float randomX = Random.Range(-maxOffset.x, maxOffset.x);
