@@ -5,6 +5,8 @@ using Fish;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEditor;
+using System.Net;
 
 public enum FishBitingState
 {
@@ -181,7 +183,7 @@ public class FishBiting : MonoBehaviour, IFishState
 
             case FishBitingState.struggeling:
                 // zet positie als die nog niet bestaat
-                if (!endposisstruggelpos)
+                if (!endposisstruggelpos || Brain.EndPos == Vector3.zero)
                 {
                     Vector3 newpos = Brain.EndPos;
                     newpos = ChooseSwimDirection();
@@ -234,9 +236,18 @@ public class FishBiting : MonoBehaviour, IFishState
     }
     private void FindGround(Vector3 point, out Vector3 newpoint)
     {
-        if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, point, out RaycastHit hit, 1000, Ground)) newpoint = hit.point;
+        if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, point, out RaycastHit hit, 1000, Ground))
+        {
+            Debug.Log(hit.collider);
+            if (hit.collider.CompareTag("GeenEndPos"))
+            {
+                newpoint = Vector3.zero;
+                return;
+            }
+            newpoint = hit.point;
+        }
         else newpoint = point;
-        point.y -= OffsetFromGround;
+        if (newpoint != Vector3.zero) newpoint.y -= OffsetFromGround;
     }
     private IEnumerator FishStateReset()
     {
