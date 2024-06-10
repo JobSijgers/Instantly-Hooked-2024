@@ -123,6 +123,7 @@ namespace FishingRod
         private void OnUndock()
         {
             rodEnabled = true;
+            springJoint.connectedBody.gameObject.transform.position = transform.position;
             currentLineLength = minLineLength;
             springJoint.maxDistance = minLineLength;
             springJoint.connectedBody.velocity = Vector3.zero;
