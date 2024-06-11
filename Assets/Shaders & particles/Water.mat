@@ -51,10 +51,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Depth_Fade_Distance: 0.97
+    - _Depth_Fade_Distance: 0.32
+    - _Horizon_Distance: 6.77
     - _QueueControl: 1
     - _QueueOffset: 0
     m_Colors:
     - _DeepColor: {r: 0.16078433, g: 0.41453314, b: 0.4509804, a: 1}
-    - _Shallow_Color: {r: 0.45934492, g: 0.59183085, b: 0.6226415, a: 0}
+    - _Deep_Color: {r: 0.3111641, g: 0.4501321, b: 0.5169811, a: 1}
+    - _Horizon_Color: {r: 0.645283, g: 0.46817738, b: 0.18871474, a: 1}
+    - _Shallow_Color: {r: 0.56702733, g: 0.7708982, b: 0.81886786, a: 1}
   m_BuildTextureStacks: []
