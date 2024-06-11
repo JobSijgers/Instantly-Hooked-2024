@@ -5,8 +5,6 @@ using Fish;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using UnityEditor;
-using System.Net;
 
 public enum FishBitingState
 {
@@ -137,6 +135,13 @@ public class FishBiting : MonoBehaviour, IFishState
 
         // anti spam clikcing
         if (Input.GetMouseButtonUp(1) && ccd == null) ccd = StartCoroutine(ClickCoolDown());
+
+        // stop struggel coroutine als vis buiten het water is
+        if (struggelingC != null && !IsInWater())
+        {
+            StopCoroutine(struggelingC);
+            struggelingC = null;
+        }
     }
 
     private void Struggeling()
@@ -194,6 +199,7 @@ public class FishBiting : MonoBehaviour, IFishState
                 transform.position = Hook.instance.hook.transform.position;
                 if (reGain == null)
                 {
+                    Debug.Log("start coroutine");
                     reGain = StartCoroutine(RegainStamina());
                 }
 
@@ -287,13 +293,16 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina < MaxStamina)
         {
+            Debug.Log("gegain");
             stamina += Time.deltaTime * StamRegainMultiply;
             if (BeginStruggelBeforeFullC == null) BeginStruggelBeforeFullC = StartCoroutine(BeginStruggelBeforeFull());
             yield return null;
         }
-
-        biteState = FishBitingState.Struggling;
-        struggelingC = StartCoroutine(FishStruggel());
+        if (IsInWater())
+        {
+            biteState = FishBitingState.Struggling;
+            struggelingC = StartCoroutine(FishStruggel());
+        }
         reGain = null;
     }
 
@@ -322,6 +331,7 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina > 0.1f)
         {
+            Debug.Log("strugglel");
             stamina -= Time.deltaTime * StamDrainMultiply * StaminaDrainUpgradePower;
             yield return null;
         }
