@@ -199,7 +199,6 @@ public class FishBiting : MonoBehaviour, IFishState
                 transform.position = Hook.instance.hook.transform.position;
                 if (reGain == null)
                 {
-                    Debug.Log("start coroutine");
                     reGain = StartCoroutine(RegainStamina());
                 }
 
@@ -293,7 +292,6 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina < MaxStamina)
         {
-            Debug.Log("gegain");
             stamina += Time.deltaTime * StamRegainMultiply;
             if (BeginStruggelBeforeFullC == null) BeginStruggelBeforeFullC = StartCoroutine(BeginStruggelBeforeFull());
             yield return null;
@@ -331,7 +329,6 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina > 0.1f)
         {
-            Debug.Log("strugglel");
             stamina -= Time.deltaTime * StamDrainMultiply * StaminaDrainUpgradePower;
             yield return null;
         }
