@@ -24,7 +24,6 @@ namespace Economy
         {
             EventManager.ShopSell += AddMoney;
             EventManager.QuestCompleted += AddMoney;
-            AddMoney(100000);
         }
 
         private void OnDestroy()

@@ -38,10 +38,12 @@ namespace Economy
                 elapsed += Time.deltaTime;
                 float t = EaseOutCubic(elapsed / duration);
                 currentMoney = Mathf.RoundToInt(Mathf.Lerp(startingMoney, targetMoney, t));
+                moneyText.text = currentMoney.ToString();
                 yield return null;
             }
 
             currentMoney = targetMoney;
+            moneyText.text = currentMoney.ToString();
         }
 
         private void UpdateMoneyUI(int newMoney)
