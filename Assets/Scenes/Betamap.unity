@@ -25,7 +25,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 2edda3a08644a58409b0983b9e7fc466, type: 2}
   m_HaloStrength: 0.5
@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 121771055}
-  m_IndirectSpecularColor: {r: 0.014593521, g: 0.029486975, b: 0.09169587, a: 1}
+  m_IndirectSpecularColor: {r: 0.22016117, g: 0.3630125, b: 0.6094135, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -100,7 +100,8 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: f9209b4b6c2b7594e867ade0566f854f,
     type: 2}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: dbb01f80c49f53043ae3245ee4be5d5b,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1368,6 +1369,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &290714928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 290714929}
+  - component: {fileID: 290714930}
+  m_Layer: 0
+  m_Name: GameObject (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &290714929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290714928}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 154.7, y: -66.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &290714930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290714928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 70, y: 70}
+  ActiveToBoatDistance: 60
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: 64ee70390a9ffb14a88dd9385fb2e426, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: 3fad15ea63214c449b885d87cea152f2, type: 2}
+    amount: 3
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
 --- !u!1001 &401925676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2435,6 +2496,66 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 63426662}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &454905183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 454905184}
+  - component: {fileID: 454905185}
+  m_Layer: 0
+  m_Name: GameObject (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &454905184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454905183}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 120.55, y: -31.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &454905185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454905183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 70, y: 40}
+  ActiveToBoatDistance: 60
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: 64ee70390a9ffb14a88dd9385fb2e426, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: 3fad15ea63214c449b885d87cea152f2, type: 2}
+    amount: 3
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
 --- !u!1 &508523671
 GameObject:
   m_ObjectHideFlags: 0
@@ -2558,6 +2679,172 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 63426662}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &592699771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 592699772}
+  - component: {fileID: 592699773}
+  m_Layer: 0
+  m_Name: GameObject (12)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &592699772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592699771}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 126.8, y: -12.450001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &592699773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592699771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 83.7, y: 17.9}
+  ActiveToBoatDistance: 40
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 2
+  - fishData: {fileID: 11400000, guid: e55a9157923dec84ca28f4c8f0731e0d, type: 2}
+    amount: 7
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
+--- !u!1 &596269851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 596269852}
+  - component: {fileID: 596269853}
+  m_Layer: 0
+  m_Name: GameObject (11)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &596269852
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596269851}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 73.63, y: -12.450001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &596269853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596269851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 28.2, y: 17.9}
+  ActiveToBoatDistance: 40
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 2
+  - fishData: {fileID: 11400000, guid: e55a9157923dec84ca28f4c8f0731e0d, type: 2}
+    amount: 7
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
+--- !u!1 &659949795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 659949796}
+  - component: {fileID: 659949797}
+  m_Layer: 0
+  m_Name: GameObject (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &659949796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659949795}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.62, y: -8.12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &659949797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659949795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 20, y: 9.44}
+  ActiveToBoatDistance: 30
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
+    amount: 7
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
 --- !u!1 &669839569 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6433167881098458465, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
@@ -2577,6 +2864,124 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeState: 0
+--- !u!1 &771670063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 771670064}
+  - component: {fileID: 771670065}
+  m_Layer: 0
+  m_Name: GameObject (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &771670064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771670063}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 73.63, y: -25.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &771670065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771670063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 28.2, y: 17.9}
+  ActiveToBoatDistance: 40
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
+    amount: 7
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 2
+  - fishData: {fileID: 11400000, guid: e55a9157923dec84ca28f4c8f0731e0d, type: 2}
+    amount: 3
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
+--- !u!1 &874942445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 874942446}
+  - component: {fileID: 874942447}
+  m_Layer: 0
+  m_Name: GameObject (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &874942446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874942445}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 138.3, y: -42.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &874942447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874942445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 70, y: 40}
+  ActiveToBoatDistance: 60
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: 64ee70390a9ffb14a88dd9385fb2e426, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: 3fad15ea63214c449b885d87cea152f2, type: 2}
+    amount: 3
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
 --- !u!1 &964301566
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,6 +3012,18 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1872422722}
+  - {fileID: 1122116988}
+  - {fileID: 659949796}
+  - {fileID: 1338454127}
+  - {fileID: 1491001525}
+  - {fileID: 771670064}
+  - {fileID: 596269852}
+  - {fileID: 592699772}
+  - {fileID: 1381312988}
+  - {fileID: 290714929}
+  - {fileID: 874942446}
+  - {fileID: 454905184}
+  - {fileID: 1466543650}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1047594562
@@ -2699,12 +3116,294 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1047594562}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1122116987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122116988}
+  - component: {fileID: 1122116989}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1122116988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122116987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -16.88, y: -6.09, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1122116989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122116987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 29.8, y: 5}
+  ActiveToBoatDistance: 30
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
+    amount: 7
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
+--- !u!1 &1338454126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1338454127}
+  - component: {fileID: 1338454128}
+  m_Layer: 0
+  m_Name: GameObject (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1338454127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338454126}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27.63, y: -11.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1338454128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338454126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 28.2, y: 15.9}
+  ActiveToBoatDistance: 30
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
+    amount: 7
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 1
+  - fishData: {fileID: 11400000, guid: e55a9157923dec84ca28f4c8f0731e0d, type: 2}
+    amount: 3
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
+--- !u!1 &1381312987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1381312988}
+  - component: {fileID: 1381312989}
+  m_Layer: 0
+  m_Name: GameObject (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1381312988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381312987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 156.6, y: -108.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1381312989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381312987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 50, y: 17.9}
+  ActiveToBoatDistance: 40
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
+    amount: 3
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 3
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
+--- !u!1 &1466543649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1466543650}
+  - component: {fileID: 1466543651}
+  m_Layer: 0
+  m_Name: GameObject (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1466543650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466543649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.9, y: -14.58, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1466543651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466543649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 20, y: 9.44}
+  ActiveToBoatDistance: 30
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
+    amount: 7
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 1
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
 --- !u!20 &1472138451 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2311704639637540051, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
     type: 3}
   m_PrefabInstance: {fileID: 284200190}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1491001524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1491001525}
+  - component: {fileID: 1491001526}
+  m_Layer: 0
+  m_Name: GameObject (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1491001525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491001524}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 47.129997, y: -12.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 964301567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1491001526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491001524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnArea: {x: 28.2, y: 17.9}
+  ActiveToBoatDistance: 40
+  FishTypesToSpawn:
+  - fishData: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
+    amount: 7
+  - fishData: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+    amount: 7
+  - fishData: {fileID: 11400000, guid: e55a9157923dec84ca28f4c8f0731e0d, type: 2}
+    amount: 3
+  hook: {fileID: 7871922690961851994}
+  color: {r: 0, g: 1, b: 0, a: 1}
+  ShowActivateRange: 1
+  ShowBounds: 1
+  ShowFishNames: 1
 --- !u!4 &1727910823 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4112722109053125785, guid: d196332c17e4d714db124e4a3fc5934e,
@@ -2743,7 +3442,7 @@ Transform:
   m_GameObject: {fileID: 1872422721}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.74, y: -5, z: 0}
+  m_LocalPosition: {x: -39.06, y: -5.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2761,11 +3460,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2446e3f77083a7e40bee62d60e1c8f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnArea: {x: 20, y: 10}
-  ActiveToBoatDistance: 15
+  SpawnArea: {x: 20, y: 4}
+  ActiveToBoatDistance: 30
   FishTypesToSpawn:
   - fishData: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
-    amount: 10
+    amount: 7
   hook: {fileID: 7871922690961851994}
   color: {r: 0, g: 1, b: 0, a: 1}
   ShowActivateRange: 1
