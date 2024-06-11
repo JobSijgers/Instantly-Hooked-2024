@@ -211,10 +211,11 @@ public class FishBiting : MonoBehaviour, IFishState
                     Vector2 dir = brain.EndPos;
                     dir = ChooseSwimDirection();
                     FindGround(dir, out Vector2 point);
-                    if (FishPooler.instance.WaterBlock.bounds.Contains(point))
+                    Vector2 fixedpoint = point + (Vector2)Hook.instance.HookOrigin.transform.position;
+                    if (FishPooler.instance.WaterBlock.bounds.Contains(fixedpoint))
                     {
                         endPosIsStrugglePos = true;
-                        brain.SetEndPos(point + (Vector2)Hook.instance.HookOrigin.transform.position);
+                        brain.SetEndPos(fixedpoint);
                     }
                 }
 
