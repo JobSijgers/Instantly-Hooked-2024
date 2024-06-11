@@ -38,8 +38,7 @@ public class FishBiting : MonoBehaviour, IFishState
     [SerializeField] private float RestoreMultyplier;
     private float tension;
 
-    [Range(10, 170)]
-    [Tooltip("angle waarbinnen de vissen naar beneden gaan als ze aan het struggelen zijn")]
+    [Range(1, 180)]
     [SerializeField]
     private float angle;
 
@@ -211,11 +210,10 @@ public class FishBiting : MonoBehaviour, IFishState
                     Vector2 dir = brain.EndPos;
                     dir = ChooseSwimDirection();
                     FindGround(dir, out Vector2 point);
-                    Vector2 fixedpoint = point + (Vector2)Hook.instance.HookOrigin.transform.position;
-                    if (FishPooler.instance.WaterBlock.bounds.Contains(fixedpoint))
+                    if (FishPooler.instance.WaterBlock.bounds.Contains(point))
                     {
                         endPosIsStrugglePos = true;
-                        brain.SetEndPos(fixedpoint);
+                        brain.SetEndPos(point);
                     }
                 }
 
@@ -254,18 +252,18 @@ public class FishBiting : MonoBehaviour, IFishState
         Vector2 dir = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)).normalized;
         return dir;
     }
-
     private void FindGround(Vector2 direction, out Vector2 newpoint)
     {
+        Debug.DrawRay(Hook.instance.HookOrigin.transform.position, direction * rod.GetLineLength(), Color.red);
         if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, direction, out RaycastHit hit,
                 rod.GetLineLength(), Ground))
         {
+            Debug.Log(hit.collider.gameObject);
             if (hit.collider.CompareTag("GeenEndPos"))
             {
                 newpoint = Vector2.zero;
                 return;
             }
-
             newpoint = hit.point;
             newpoint += new Vector2(0, OffsetFromGround);
         }
@@ -273,8 +271,17 @@ public class FishBiting : MonoBehaviour, IFishState
         {
             newpoint = direction * rod.GetLineLength();
         }
+        if (IsPointWithinAngle(Hook.instance.HookOrigin.transform.position,Vector2.down, angle, newpoint))
+        {
+            newpoint = Vector2.zero;
+        }
     }
-
+    bool IsPointWithinAngle(Vector3 origin, Vector3 forward, float angle, Vector3 point)
+    {
+        Vector3 directionToPoint = (point - origin).normalized;
+        float angleToTarget = Vector3.Angle(forward, directionToPoint);
+        return angleToTarget < angle / 2;
+    }
     private IEnumerator FishStateReset()
     {
         float t = 0.0f;
