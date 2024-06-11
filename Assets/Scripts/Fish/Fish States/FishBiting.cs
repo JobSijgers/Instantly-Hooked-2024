@@ -370,4 +370,9 @@ public class FishBiting : MonoBehaviour, IFishState
         stamina = Stamina;
         maxstamina = MaxStamina;
     }
+    
+    public float GetTension()
+    {
+        return tention / 255;
+    }
 }

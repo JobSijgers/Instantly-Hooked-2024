@@ -1,40 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class FishUI : MonoBehaviour
 {
-    private FishBrain Brain;
+    private FishBrain brain;
 
-    [Header("UI")]
-    [SerializeField] private Image StaminaMeter;
-    private GameObject StaminaMeterObject;
-
+    [Header("UI")] [SerializeField] private GameObject uiHolder;
+    [SerializeField] private Image staminaMeter;
+    [SerializeField] private GameObject tensionHandle;
+    [SerializeField] private int minAngle;
+    [SerializeField] private int maxAngle;
+    private float time;
+    
     private void Awake()
     {
-        Brain = GetComponent<FishBrain>();
-        StaminaMeterObject = StaminaMeter.gameObject;
+        brain = GetComponent<FishBrain>();
     }
 
-    void Update()
+    private void Update()
     {
-        Brain.states.Biting.GetStaminaStats(out float stamina, out float maxstamina);
-        StaminaMeter.fillAmount = stamina / maxstamina;
+        if (!uiHolder.activeSelf)
+            return;
+        brain.states.Biting.GetStaminaStats(out float stamina, out float maxstamina);
+        staminaMeter.fillAmount = stamina / maxstamina;
+        
+        float angle = Mathf.Lerp(minAngle, maxAngle, brain.states.Biting.GetTension());
+        
+        time += Time.deltaTime;
+        float noise = Mathf.PerlinNoise(time, 0);
+        float jiggle = Mathf.Lerp(-5, 5, noise);
+        angle += jiggle;
+
+        tensionHandle.transform.localEulerAngles = new Vector3(0, 0, angle);
     }
+
     public void ActiceState(bool state)
     {
         switch (state)
         {
             case true:
-                StaminaMeterObject.SetActive(true);
+                uiHolder.SetActive(true);
+                time = 0;
                 break;
 
             case false:
-                StaminaMeterObject.SetActive(false);
+                uiHolder.SetActive(false);
                 break;
         }
     }
+
     private void OnDisable()
     {
         ActiceState(false);
