@@ -119,7 +119,7 @@ public class FishBrain : MonoBehaviour
     private void ManageRoation()
     {
         Quaternion endpos;
-        if (states.Biting.CurrentState == FishBitingState.onhook) EmptyObject.transform.LookAt(Hook.instance.hook.transform);
+        if (states.Biting.CurrentState == FishBitingState.OnHook) EmptyObject.transform.LookAt(Hook.instance.hook.transform);
         endpos = EmptyObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
@@ -153,7 +153,7 @@ public class FishBrain : MonoBehaviour
         {
             case HookUpgrade hookupgrade:
                 states.Roaming.BiteMultiply = hookupgrade.BiteMultiply;
-                states.Biting.StamDrainUpgradePower = hookupgrade.StaminaDrain;
+                states.Biting.StaminaDrainUpgradePower = hookupgrade.StaminaDrain;
                 break;
         }
     }

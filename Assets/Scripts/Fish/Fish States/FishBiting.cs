@@ -10,102 +10,113 @@ using System.Net;
 
 public enum FishBitingState
 {
-    goingforhook,
-    struggeling,
-    onhook
+    GoingForHook,
+    Struggling,
+    OnHook
 }
+
 public class FishBiting : MonoBehaviour, IFishState
 {
     //refs
-    private FishBrain Brain;
+    private FishBrain brain;
     private BoxCollider bounds;
-    private FishingRod.FishingRod Rod;
+    private FishingRod.FishingRod rod;
 
     // state
-    private FishBitingState BiteState;
-    public FishBitingState CurrentState => BiteState;
+    private FishBitingState biteState;
+    public FishBitingState CurrentState => biteState;
 
     //state change
-    private bool OffHook = false;
-    private bool endposisstruggelpos = false;
+    private bool offHook = false;
+    private bool endPosIsStrugglePos = false;
 
-    [Header("Range")]
-    [SerializeField] private float BitingRange;
+    [Header("Range")] [SerializeField] private float BitingRange;
     [SerializeField] private float IntresstLossafter;
     [SerializeField] private float OffsetFromGround;
 
-    [Tooltip("hold multiplier")]
-    [SerializeField] private float HoldMultiplier;
+    [Tooltip("hold multiplier")] [SerializeField]
+    private float HoldMultiplier;
+
     [SerializeField] private float RestoreMultyplier;
-    private float tention;
+    private float tension;
 
     [Range(10, 170)]
     [Tooltip("angle waarbinnen de vissen naar beneden gaan als ze aan het struggelen zijn")]
-    [SerializeField] private float angle;
+    [SerializeField]
+    private float angle;
 
     [SerializeField] private float strafpunten;
 
-    [Header("Stamina")]
-    [SerializeField] private float MaxStamina;
+    [Header("Stamina")] [SerializeField] private float MaxStamina;
     [SerializeField] private float StamRegainMultiply;
     [SerializeField] private float StamDrainMultiply;
     [SerializeField] private float MinStaminaStruggelValue;
-    [Range(0.01f,1f)]
-    [SerializeField] private float StruggelHalfStaminaKans;
-    private float StamDrainUpgradePower_p = 1;
-    private float Stamina;
-    public float StamDrainUpgradePower { get { return StamDrainUpgradePower_p; } set { StamDrainUpgradePower = value; } }
+    [Range(0.01f, 1f)] [SerializeField] private float StruggelHalfStaminaKans;
+    private float staminaDrainMultiplier = 1;
+    private float stamina;
 
-    [Header("LayerMask")]
-    [SerializeField] private LayerMask Ground;
+    public float StaminaDrainUpgradePower
+    {
+        get { return staminaDrainMultiplier; }
+        set { StaminaDrainUpgradePower = value; }
+    }
+
+    [Header("LayerMask")] [SerializeField] private LayerMask Ground;
 
     // coroutine 
-    private Coroutine StruggelingC;
-    private Coroutine ResetStateAfterTimeIntrest;
-    private Coroutine CCD;
-    private Coroutine ReGain;
+    private Coroutine struggelingC;
+    private Coroutine resetStateAfterTimeIntrest;
+    private Coroutine ccd;
+    private Coroutine reGain;
+
     void Awake()
     {
         bounds = GetComponent<BoxCollider>();
-        Brain = GetComponent<FishBrain>();
-        Rod = FindObjectOfType<FishingRod.FishingRod>();
+        brain = GetComponent<FishBrain>();
+        rod = FindObjectOfType<FishingRod.FishingRod>();
     }
+
     private void OnEnable()
     {
         EventManager.FishCaught += OnGaught;
     }
+
     public void OnStateActivate()
     {
-        Stamina = MaxStamina;
-        Brain.FishGought.Play();
-        BiteState = FishBitingState.goingforhook;
+        stamina = MaxStamina;
+        brain.FishGought.Play();
+        biteState = FishBitingState.GoingForHook;
     }
+
     public IFishState SwitchState()
     {
-        if (Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.gameObject != gameObject) return Brain.states.Roaming;
-        if (OffHook)
+        if (Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.gameObject != gameObject)
+            return brain.states.Roaming;
+        if (offHook)
         {
             GetOffHook();
             ResetState();
             Hook.instance.ResetRodColor();
             EventManager.OnBoatControlsChanged(false);
-            Brain.UI.ActiceState(false);
-            return Brain.states.Roaming;
+            brain.UI.ActiceState(false);
+            return brain.states.Roaming;
         }
         else return this;
     }
+
     public void UpdateState()
     {
         // zodra de fish bij de hook in de buurt is dan word de state veranderd naar fish on hook
-        if (Vector2.Distance(transform.position, Hook.instance.hook.transform.position) < BitingRange && BiteState == FishBitingState.goingforhook)
+        if (Vector2.Distance(transform.position, Hook.instance.hook.transform.position) < BitingRange &&
+            biteState == FishBitingState.GoingForHook)
         {
             EventManager.OnBoatControlsChanged(true);
-            Brain.UI.ActiceState(true);
-            BiteState = FishBitingState.onhook;
+            brain.UI.ActiceState(true);
+            biteState = FishBitingState.OnHook;
         }
 
         // is de vis buiten water terwijl er word gestruggelt dan word er nu niet meer gestruggelt
-        if (BiteState == FishBitingState.struggeling && !IsInWater()) BiteState = FishBitingState.onhook;
+        if (biteState == FishBitingState.Struggling && !IsInWater()) biteState = FishBitingState.OnHook;
 
         //refrech coroutine
         //niet nodig?
@@ -115,204 +126,218 @@ public class FishBiting : MonoBehaviour, IFishState
         MoveMent();
         Struggeling();
 
-       // anti fish baiting
-        if (Input.GetMouseButton(1) && BiteState == FishBitingState.goingforhook && ResetStateAfterTimeIntrest == null) ResetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
-        else if (!Input.GetMouseButton(1) && ResetStateAfterTimeIntrest != null)
+        // anti fish baiting
+        if (Input.GetMouseButton(1) && biteState == FishBitingState.GoingForHook && resetStateAfterTimeIntrest == null)
+            resetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
+        else if (!Input.GetMouseButton(1) && resetStateAfterTimeIntrest != null)
         {
-            StopCoroutine(ResetStateAfterTimeIntrest);
-            ResetStateAfterTimeIntrest = null;
+            StopCoroutine(resetStateAfterTimeIntrest);
+            resetStateAfterTimeIntrest = null;
         }
 
         // anti spam clikcing
-        if (Input.GetMouseButtonUp(1) && CCD == null) CCD = StartCoroutine(ClickCoolDown());
+        if (Input.GetMouseButtonUp(1) && ccd == null) ccd = StartCoroutine(ClickCoolDown());
     }
+
     private void Struggeling()
     {
-        if (BiteState == FishBitingState.struggeling)
+        if (biteState == FishBitingState.Struggling)
         {
             if (Input.GetMouseButton(1))
             {
                 float tentionincrease = 0f;
-                if (CCD == null) tentionincrease = Time.deltaTime * HoldMultiplier;
+                if (ccd == null) tentionincrease = Time.deltaTime * HoldMultiplier;
                 else tentionincrease = strafpunten;
-                if (tention > 0) tention -= tentionincrease;
+                if (tension > 0) tension -= tentionincrease;
             }
-            else if (tention < 255 && transform.position != Brain.EndPos)
+            else if (tension < 255 && transform.position != brain.EndPos)
             {
-                tention += Time.deltaTime * RestoreMultyplier;
+                tension += Time.deltaTime * RestoreMultyplier;
             }
-            tention = Mathf.Clamp(tention, 0, 255);
-            float normalizedHoldTimer = tention / 255.0f;
+
+            tension = Mathf.Clamp(tension, 0, 255);
+            float normalizedHoldTimer = tension / 255.0f;
             Color color = new Color(1.0f, normalizedHoldTimer, normalizedHoldTimer);
             Hook.instance.fishline.startColor = color;
             Hook.instance.fishline.endColor = color;
 
-            if (tention <= 0)
+            if (tension <= 0)
             {
-                OffHook = true;
+                offHook = true;
             }
         }
         else
         {
-            tention = 255;
+            tension = 255;
             Hook.instance.ResetRodColor();
         }
     }
+
     private void MoveMent()
     {
-        switch (BiteState)
+        switch (biteState)
         {
-            case FishBitingState.goingforhook:
+            case FishBitingState.GoingForHook:
 
                 if (!FishPooler.instance.WaterBlock.bounds.Intersects(bounds.bounds))
                 {
-                    OffHook = true;
+                    offHook = true;
                 }
-                Brain.SetEndPos(Hook.instance.hook.transform.position);
-                transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, Brain.moveSpeed * Time.deltaTime);
+
+                brain.SetEndPos(Hook.instance.hook.transform.position);
+                transform.position =
+                    Vector3.MoveTowards(transform.position, brain.EndPos, brain.moveSpeed * Time.deltaTime);
                 break;
 
-            case FishBitingState.onhook:
+            case FishBitingState.OnHook:
 
                 transform.position = Hook.instance.hook.transform.position;
-                if (ReGain == null)
+                if (reGain == null)
                 {
-                    ReGain = StartCoroutine(RegainStamina());
+                    reGain = StartCoroutine(RegainStamina());
                 }
+
                 break;
 
-            case FishBitingState.struggeling:
+            case FishBitingState.Struggling:
                 // zet positie als die nog niet bestaat
-                if (!endposisstruggelpos || Brain.EndPos == Vector3.zero)
+                if (!endPosIsStrugglePos || brain.EndPos == Vector3.zero)
                 {
-                    Vector3 newpos = Brain.EndPos;
-                    newpos = ChooseSwimDirection();
-                    FindGround(newpos,out Vector3 point);
-                    if (IsPointWithinAngle(Hook.instance.HookOrigin.transform.position, Vector3.down, angle, point) && FishPooler.instance.WaterBlock.bounds.Contains(point))
+                    Vector2 dir = brain.EndPos;
+                    dir = ChooseSwimDirection();
+                    FindGround(dir, out Vector2 point);
+                    if (FishPooler.instance.WaterBlock.bounds.Contains(point))
                     {
-                        endposisstruggelpos = true;
-                        Brain.SetEndPos(point);
-                        Debug.Log("point " + point);
-                        Debug.Log("position " + transform.position);
+                        endPosIsStrugglePos = true;
+                        brain.SetEndPos(point + (Vector2)Hook.instance.HookOrigin.transform.position);
                     }
                 }
 
-                float speed = Input.GetMouseButton(1) == true ? 0 : Brain.StruggelSpeed;
+                float speed = Input.GetMouseButton(1) == true ? 0 : brain.StruggelSpeed;
 
                 //zet de vis op hook positie als de vis omhook gehesen word
                 //zet anders de positie van de vis op de hook en zet de nieuwe benodigde linelenght
-                if (Input.GetMouseButton(1) && CCD == null) transform.position = Hook.instance.transform.position;
+                if (Input.GetMouseButton(1) && ccd == null) transform.position = Hook.instance.transform.position;
                 else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, speed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, brain.EndPos, speed * Time.deltaTime);
                     Hook.instance.hook.transform.position = transform.position;
-                    Rod.SetLineLength(transform.position);
+                    rod.SetLineLength(transform.position);
                 }
 
                 //build tention als de vis op de endpos zit
-                if (transform.position == Brain.EndPos)
+                if (transform.position == brain.EndPos)
                 {
-                    if (tention > 0) tention -= Time.deltaTime * HoldMultiplier;
+                    if (tension > 0) tension -= Time.deltaTime * HoldMultiplier;
                 }
 
                 // corotine refresh
-                if (StruggelingC == null)
+                if (struggelingC == null)
                 {
-                    StruggelingC = StartCoroutine(FishStruggel());
+                    struggelingC = StartCoroutine(FishStruggel());
                 }
+
                 break;
         }
     }
-    bool IsPointWithinAngle(Vector3 origin, Vector3 forward, float angle, Vector3 point)
-    {
-        Vector3 directionToPoint = (point - origin).normalized;
-        float angleToTarget = Vector3.Angle(forward, directionToPoint);
 
-        return angleToTarget < angle / 2;
-    }
     private Vector2 ChooseSwimDirection()
     {
-        float angle = Random.Range(130, 255);
-        Vector2 positionOnCircle = (Vector2)Hook.instance.HookOrigin.transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 1000 * Hook.instance.Offset;
-        Vector2 direction = (Vector2)Hook.instance.HookOrigin.transform.position - positionOnCircle;
-        direction.Normalize();
-        return (Vector2)Hook.instance.HookOrigin.transform.position + direction * Rod.GetLineLength();
+        float angle = Random.Range(240, 300);
+        float angleInRadians = angle * Mathf.Deg2Rad;
+        Vector2 dir = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)).normalized;
+        return dir;
     }
-    private void FindGround(Vector3 point, out Vector3 newpoint)
-    {   
-        Debug.DrawRay(Hook.instance.HookOrigin.transform.position, point, Color.red);
-        if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, point, out RaycastHit hit, 1000, Ground))
+
+    private void FindGround(Vector2 direction, out Vector2 newpoint)
+    {
+        if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, direction, out RaycastHit hit,
+                rod.GetLineLength(), Ground))
         {
-            Debug.Log(hit.collider);
             if (hit.collider.CompareTag("GeenEndPos"))
             {
-                newpoint = Vector3.zero;
+                newpoint = Vector2.zero;
                 return;
             }
+
             newpoint = hit.point;
+            newpoint += new Vector2(0, OffsetFromGround);
         }
-        else newpoint = point;
-        if (newpoint != Vector3.zero) newpoint.y -= OffsetFromGround;
+        else
+        {
+            newpoint = direction * rod.GetLineLength();
+        }
     }
+
     private IEnumerator FishStateReset()
     {
         float t = 0.0f;
         while (t < IntresstLossafter)
         {
             t += Time.deltaTime;
-            if (!Input.GetMouseButton(1)) ResetStateAfterTimeIntrest = null;
+            if (!Input.GetMouseButton(1)) resetStateAfterTimeIntrest = null;
             yield return null;
         }
-        if (t >= IntresstLossafter && BiteState == FishBitingState.goingforhook) OffHook = true;
-        ResetStateAfterTimeIntrest = null;
+
+        if (t >= IntresstLossafter && biteState == FishBitingState.GoingForHook) offHook = true;
+        resetStateAfterTimeIntrest = null;
     }
+
     public IEnumerator RegainStamina()
     {
-        while (Stamina < MaxStamina)
+        while (stamina < MaxStamina)
         {
-            Stamina += Time.deltaTime * StamRegainMultiply;
+            stamina += Time.deltaTime * StamRegainMultiply;
             if (BeginStruggelBeforeFullC == null) BeginStruggelBeforeFullC = StartCoroutine(BeginStruggelBeforeFull());
             yield return null;
         }
-        BiteState = FishBitingState.struggeling;
-        StruggelingC = StartCoroutine(FishStruggel());
-        ReGain = null;
+
+        biteState = FishBitingState.Struggling;
+        struggelingC = StartCoroutine(FishStruggel());
+        reGain = null;
     }
+
     Coroutine BeginStruggelBeforeFullC;
+
     private IEnumerator BeginStruggelBeforeFull()
     {
         // kies of de vis met niet volle stamina kan gaan struggelen
-        if (Stamina > MinStaminaStruggelValue)
+        if (stamina > MinStaminaStruggelValue)
         {
             float RandomValue = Random.value;
             if (RandomValue < StruggelHalfStaminaKans)
             {
-                BiteState = FishBitingState.struggeling;
-                StopCoroutine(ReGain);
-                ReGain = null;
+                biteState = FishBitingState.Struggling;
+                StopCoroutine(reGain);
+                reGain = null;
             }
         }
+
         // zet een colldown van een seconden op deze functie omdat anders de vis altijd struggelt op StruggelHalfStaminaKans value
         yield return new WaitForSeconds(1);
         BeginStruggelBeforeFullC = null;
     }
+
     public IEnumerator FishStruggel()
     {
-        while (Stamina > 0.1f)
+        while (stamina > 0.1f)
         {
-            Stamina -= Time.deltaTime * StamDrainMultiply * StamDrainUpgradePower;
+            stamina -= Time.deltaTime * StamDrainMultiply * StaminaDrainUpgradePower;
             yield return null;
         }
-        StruggelingC = null;
+
+        struggelingC = null;
         StruggelReset();
         yield return null;
     }
+
     private void StruggelReset()
     {
-        Brain.SetEndPos(Vector3.zero);
-        BiteState = FishBitingState.onhook;
-        endposisstruggelpos = false;
+        brain.SetEndPos(Vector3.zero);
+        biteState = FishBitingState.OnHook;
+        endPosIsStrugglePos = false;
     }
+
     private void OnGaught(FishData t, FishSize s)
     {
         if (Hook.instance.FishOnHook != null)
@@ -322,15 +347,17 @@ public class FishBiting : MonoBehaviour, IFishState
             GetOffHook();
         }
     }
+
     /// <summary>
     /// return if the fish is in a struggle
     /// </summary>
     /// <returns></returns>
     public bool IsStruggeling()
     {
-        if (BiteState == FishBitingState.struggeling) return true;
-        else return false;  
+        if (biteState == FishBitingState.Struggling) return true;
+        else return false;
     }
+
     public bool IsInWater()
     {
         if (FishPooler.instance.WaterBlock.bounds.Intersects(bounds.bounds))
@@ -339,43 +366,48 @@ public class FishBiting : MonoBehaviour, IFishState
         }
         else return false;
     }
+
     public void GetOffHook()
     {
         Hook.instance.FishOnHook = null;
     }
+
     public void OnDisable()
     {
         ResetState();
         EventManager.FishCaught -= OnGaught;
     }
+
     public void ResetState()
     {
         StopAllCoroutines();
-        endposisstruggelpos = false;
-        Brain.SetEndPos(Vector3.zero);
-        OffHook = false;
-        BiteState = FishBitingState.goingforhook;
-        StruggelingC = null;
+        endPosIsStrugglePos = false;
+        brain.SetEndPos(Vector3.zero);
+        offHook = false;
+        biteState = FishBitingState.GoingForHook;
+        struggelingC = null;
     }
+
     private IEnumerator ClickCoolDown()
     {
         yield return new WaitForSeconds(0.3f);
-        CCD = null;
+        ccd = null;
     }
+
     public bool IsFishStruggeling()
     {
-        if (BiteState == FishBitingState.struggeling) return true;
+        if (biteState == FishBitingState.Struggling) return true;
         else return false;
     }
 
     public void GetStaminaStats(out float stamina, out float maxstamina)
     {
-        stamina = Stamina;
+        stamina = this.stamina;
         maxstamina = MaxStamina;
     }
-    
+
     public float GetTension()
     {
-        return tention / 255;
+        return tension / 255;
     }
 }

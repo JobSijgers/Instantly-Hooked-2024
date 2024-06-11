@@ -43,7 +43,7 @@ public class Hook : MonoBehaviour
         else
         {
             
-            Physics.gravity = FishOnHook.states.Biting.CurrentState == FishBitingState.struggeling
+            Physics.gravity = FishOnHook.states.Biting.CurrentState == FishBitingState.Struggling
                 ? new Vector3(0, -9.81f, 0) :
                 new Vector3(0, -60f, 0);
         }
