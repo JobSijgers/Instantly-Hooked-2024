@@ -26,8 +26,7 @@ namespace FishPopup
 
         private void SpawnPopup(FishData data, FishSize size)
             {
-                GameObject go = Instantiate(fishCaughtPopupPrefab, spawnLocation.position, Quaternion.identity);
-                go.transform.SetParent(transform);
+                GameObject go = Instantiate(fishCaughtPopupPrefab, spawnLocation);
                 Sprite sprite = fishCaughtSprites[(int)data.fishRarity];
                 Sprite sizeSprite = fishSizeSprites[(int)size];
                 Color color = fishRarityColors[(int)data.fishRarity];

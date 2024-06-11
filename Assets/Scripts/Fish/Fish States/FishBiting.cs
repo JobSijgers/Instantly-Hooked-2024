@@ -192,6 +192,8 @@ public class FishBiting : MonoBehaviour, IFishState
                     {
                         endposisstruggelpos = true;
                         Brain.SetEndPos(point);
+                        Debug.Log("point " + point);
+                        Debug.Log("position " + transform.position);
                     }
                 }
 
@@ -231,11 +233,14 @@ public class FishBiting : MonoBehaviour, IFishState
     private Vector2 ChooseSwimDirection()
     {
         float angle = Random.Range(130, 255);
-        Vector2 positionOnCircle = (Vector2)Hook.instance.HookOrigin.transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * Rod.GetLineLength() * Hook.instance.Offset;
-        return positionOnCircle;
+        Vector2 positionOnCircle = (Vector2)Hook.instance.HookOrigin.transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 1000 * Hook.instance.Offset;
+        Vector2 direction = (Vector2)Hook.instance.HookOrigin.transform.position - positionOnCircle;
+        direction.Normalize();
+        return (Vector2)Hook.instance.HookOrigin.transform.position + direction * Rod.GetLineLength();
     }
     private void FindGround(Vector3 point, out Vector3 newpoint)
-    {
+    {   
+        Debug.DrawRay(Hook.instance.HookOrigin.transform.position, point, Color.red);
         if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, point, out RaycastHit hit, 1000, Ground))
         {
             Debug.Log(hit.collider);
@@ -367,5 +372,10 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         stamina = Stamina;
         maxstamina = MaxStamina;
+    }
+    
+    public float GetTension()
+    {
+        return tention / 255;
     }
 }
