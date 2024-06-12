@@ -11,7 +11,8 @@ namespace Economy
     public class EconomyManager : MonoBehaviour
     {
         public static EconomyManager instance;
-
+        
+        [SerializeField] private int startingMoney = 0;
         private int currentMoney = 0;
         public int GetCurrentMoneyAmount() => currentMoney;
 
@@ -24,6 +25,8 @@ namespace Economy
         {
             EventManager.ShopSell += AddMoney;
             EventManager.QuestCompleted += AddMoney;
+            currentMoney = startingMoney;
+            EventManager.OnMoneyUpdate(currentMoney);
         }
 
         private void OnDestroy()
