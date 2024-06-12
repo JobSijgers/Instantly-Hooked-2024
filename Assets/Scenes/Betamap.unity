@@ -855,6 +855,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6457640639358448832, guid: d196332c17e4d714db124e4a3fc5934e,
         type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457640639358448832, guid: d196332c17e4d714db124e4a3fc5934e,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -1307,6 +1312,12 @@ MonoBehaviour:
   ShowActivateRange: 1
   ShowBounds: 1
   ShowFishNames: 1
+--- !u!65 &172762545 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 6103384884036079897, guid: d196332c17e4d714db124e4a3fc5934e,
+    type: 3}
+  m_PrefabInstance: {fileID: 63426662}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &222999762
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,7 +2273,7 @@ PrefabInstance:
         type: 3}
       propertyPath: WaterBlock
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 172762545}
     - target: {fileID: 1086121996707038541, guid: 3282ea657e07203428045b00d9d35d24,
         type: 3}
       propertyPath: MaxFishInList
