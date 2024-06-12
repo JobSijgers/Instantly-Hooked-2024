@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Events;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -50,6 +51,22 @@ namespace Upgrades
         public void CloseUI()
         {
             EventManager.OnUpgradeShopClose();
+        }
+
+        private void Update()
+        {
+            Debug.LogWarning("dont forget to remove this");
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                if (upgradeShopUI.activeSelf)
+                {
+                    CloseUI();
+                }
+                else
+                {
+                    OpenUpgradeShopUI();
+                }
+            }
         }
 
         /// <summary>

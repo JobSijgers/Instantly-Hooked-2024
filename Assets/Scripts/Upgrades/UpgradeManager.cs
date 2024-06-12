@@ -12,7 +12,7 @@ namespace Upgrades
     {
         // This class represents the state of an upgrade, including its current level and the array of possible upgrades.
         [Serializable]
-        private class UpgradeState
+        public class UpgradeState
         {
             [SerializeField] private Upgrade[] upgrades;
             private int upgradeIndex;
@@ -60,6 +60,11 @@ namespace Upgrades
             public int GetMaxLevel()
             {
                 return upgrades.Length;
+            }
+            public void SetUpgradeLevel(int index)
+            {
+                upgradeIndex = index;
+                Instance.NotifyUpgrades();
             }
         }
 
@@ -114,11 +119,12 @@ namespace Upgrades
 
         public void UpgradeBought(Upgrade upgrade)
         {
-            if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
-            {
-                EventManager.OnNotEnoughMoney();
-                return;
-            }
+            Debug.LogWarning("Currently no money check active");
+            // if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
+            // {
+            //     EventManager.OnNotEnoughMoney();
+            //     return;
+            // }
             
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
             if (upgradeState == null)
@@ -151,7 +157,7 @@ namespace Upgrades
         /// </summary>
         /// <param name="upgrade"></param>
         /// <returns></returns>
-        private UpgradeState GetMatchingUpgradeState(Upgrade upgrade)
+        public UpgradeState GetMatchingUpgradeState(Upgrade upgrade)
         {
             foreach (UpgradeState upgradeState in upgradeStates)
             {
