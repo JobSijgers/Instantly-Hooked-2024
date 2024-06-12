@@ -34,9 +34,13 @@ namespace GameTime
 
         private void OnDestroy()
         {
-            EventManager.TimeUpdate -= UpdateSkybox;
-            LerpSkybox(dayPhases[0].startTexture, dayPhases[0].endTexture, dayPhases[0].sunGradient, 0f);
+            if (RenderSettings.skybox.GetTexture("_Texture1") != dayPhases[0].startTexture)
+                RenderSettings.skybox.SetTexture("_Texture1", dayPhases[0].startTexture);
+            if (RenderSettings.skybox.GetTexture("_Texture2") != dayPhases[0].endTexture)
+                RenderSettings.skybox.SetTexture("_Texture2", dayPhases[0].endTexture);
+            RenderSettings.skybox.SetFloat("_Blend", 0);
             SetSeaColor(dayPhases[0].waterGradient, 0f);
+            EventManager.TimeUpdate -= UpdateSkybox;
         }
 
         private void UpdateSkybox(TimeSpan time)
@@ -44,6 +48,7 @@ namespace GameTime
             // Convert time to TimeSpan
             float currentTimeInMinutes = (int)time.TotalMinutes;
             RotateLight(currentTimeInMinutes / 1440f);
+
 
             foreach (DayPhase phase in dayPhases)
             {
