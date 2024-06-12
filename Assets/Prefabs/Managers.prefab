@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4b4f49b14242e6bd785a0b9254a1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMoney: 2000
+  startingMoney: 0
 --- !u!114 &627966974563588867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,10 +321,40 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    waterGradient:
+    horizonWaterGradient:
       serializedVersion: 2
       key0: {r: 1, g: 0.5244505, b: 0, a: 1}
-      key1: {r: 0, g: 0.7294118, b: 0.47058824, a: 1}
+      key1: {r: 0, g: 0.7294118, b: 0.6845364, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    waterGradient:
+      serializedVersion: 2
+      key0: {r: 0.14901961, g: 0.17254902, b: 0.3254902, a: 1}
+      key1: {r: 0, g: 0.44313726, b: 0.59607846, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -386,10 +416,40 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
+    horizonWaterGradient:
+      serializedVersion: 2
+      key0: {r: 0, g: 0.7294118, b: 0.6845364, a: 1}
+      key1: {r: 1, g: 0.5244505, b: 0, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
     waterGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0.7294118, b: 0.47058824, a: 1}
-      key1: {r: 1, g: 0.5339615, b: 0.020000003, a: 1}
+      key0: {r: 0, g: 0.44313726, b: 0.59607846, a: 1}
+      key1: {r: 0.14901961, g: 0.17254902, b: 0.3254902, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -451,10 +511,40 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    waterGradient:
+    horizonWaterGradient:
       serializedVersion: 2
       key0: {r: 1, g: 0.5244505, b: 0, a: 1}
-      key1: {r: 0.080491215, g: 0.106101915, b: 0.4490565, a: 1}
+      key1: {r: 0.013082949, g: 0.020678231, b: 0.13207549, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    waterGradient:
+      serializedVersion: 2
+      key0: {r: 0.14526492, g: 0.17936675, b: 0.33230793, a: 1}
+      key1: {r: 0.0720897, g: 0.094147205, b: 0.18867922, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
