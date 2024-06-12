@@ -14,14 +14,21 @@ using Upgrades;
 
 public class DataCenter : MonoBehaviour
 {
-    [SerializeField] private bool DebugLogs;
+    [Header("Commands")]
+    [Header("/+1 save file")]
+    [Header("/+2  load file")]
+    [Header("/+3  delete file")]
+    [Space(20)]
+    [Header("Settings")]
     [SerializeField] private bool EnableGameSaving;
+    [SerializeField] private bool AutoLoadGame; 
+    [SerializeField] private bool DebugLogs;
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
     private void Start()
     {
-        Invoke("LoadGame", 0.1f);
+        if (AutoLoadGame) Invoke("LoadGame", 0.1f);
     }
     void Update()
     {
