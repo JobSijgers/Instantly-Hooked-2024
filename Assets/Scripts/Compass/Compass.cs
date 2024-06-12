@@ -82,10 +82,10 @@ namespace Compass
         private void RenderUI()
         {
             playerIcon.localPosition =
-                new Vector2(GetPositionOnCompass(player), 0);
+                new Vector2(GetPositionOnCompass(player), -background.rect.height / 2);
             if (storm == null) return;
             stormIcon.localPosition =
-                new Vector2(GetPositionOnCompass(storm), 0);
+                new Vector2(GetPositionOnCompass(storm), -background.rect.height / 2);
         }
     }
 }

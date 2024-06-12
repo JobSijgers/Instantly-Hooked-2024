@@ -14,17 +14,13 @@ namespace Generic
         
         private void Start()
         {
+            EventManager.NewDay += ToggleActive;
+            EventManager.LeftShore += CheckState;
             isEnabled = defaultState;
             gameObject.SetActive(isEnabled);
         }
 
-        private void OnEnable()
-        {
-            EventManager.NewDay += ToggleActive;
-            EventManager.LeftShore += CheckState;
-        }
-
-        private void OnDisable()
+        private void OnDestroy()
         {
             EventManager.NewDay -= ToggleActive;
             EventManager.LeftShore -= CheckState;
