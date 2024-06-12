@@ -16,6 +16,7 @@ public struct FishStates
 public class FishBrain : MonoBehaviour
 {
     private FishData P_fishData;
+    private FishSpawner OriginSpawner;
 
     [Header("states")]
     public FishStates states;
@@ -23,17 +24,15 @@ public class FishBrain : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float RotateSpeed;
-    [SerializeField] private float WiggleAngle;
     private Vector3 P_EndPos;
     private float P_struggelSpeed;
     private float P_moveSpeed;
 
     [Header("visual")]
-    [SerializeField] private GameObject EmptyObject;
+    [SerializeField] private GameObject RotationObject;
+    private GameObject inner;
     private GameObject Visual;
-    [HideInInspector] public FishUI UI;
-
-    private FishSpawner OriginSpawner;
+    private FishUI UI;
 
     [Header("Particles")]
     [SerializeField] public ParticleSystem FishGought;
@@ -53,6 +52,8 @@ public class FishBrain : MonoBehaviour
 
     //visual
     public void DestroyVisual() => Destroy(Visual);
+    public GameObject innerVisual => inner;
+    public FishUI FishUI => UI;
 
     // 
     public bool IsStruggeling() => states.Biting.IsStruggeling();
@@ -92,12 +93,13 @@ public class FishBrain : MonoBehaviour
             moveSpeed = value.moveSpeed;
             StruggelSpeed = value.moveSpeed * 1.5f;
             Visual = Instantiate(value.fishObject, transform.position, Quaternion.identity, transform);
+            inner = Visual.transform.GetChild(0).gameObject;
         }
     }
     public void SetEndPos(Vector3 endpos)
     {
         P_EndPos = endpos;
-        EmptyObject.transform.LookAt(EndPos);
+        RotationObject.transform.LookAt(EndPos);
         StopOldRotation();
     }
     private void Awake()
@@ -119,15 +121,9 @@ public class FishBrain : MonoBehaviour
     private void ManageRoation()
     {
         Quaternion endpos;
-        Vector2 lookuppos = new Vector2()
-        {
-            x = transform.position.x,
-            y = Hook.instance.HookOrigin.transform.position.y,
-        };
-        if (states.Biting.CurrentState == FishBitingState.OnHook && !states.Biting.IsInWater()) EmptyObject.transform.LookAt(lookuppos);
-        else if (states.Biting.CurrentState == FishBitingState.OnHook) EmptyObject.transform.LookAt(Hook.instance.HookOrigin.transform.position);
-        else EmptyObject.transform.LookAt(EndPos);
-        endpos = EmptyObject.transform.rotation;
+        if (states.Biting.CurrentState == FishBitingState.OnHook) RotationObject.transform.LookAt(Hook.instance.HookOrigin.transform.position);
+        else RotationObject.transform.LookAt(EndPos);
+        endpos = RotationObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
     private void StopOldRotation()
@@ -168,30 +164,4 @@ public class FishBrain : MonoBehaviour
     {
         EventManager.UpgradeBought += OnBaitBought;
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(EndPos, 1);
-    }
 }
-
-
-    /// <summary>
-    /// dit verkloot de vissen. iets om later een keer werkent te krijgen
-    /// </summary>
-    //private void FishWiggle()
-    //{
-    //    float time = Time.time * 2;
-    //    float wiggelangle = WiggleAngle;
-    //    if (!states.Biting.IsInWater() || states.Biting.IsFishStruggeling())
-    //    {
-    //        time *= 3;
-    //        wiggelangle *= 3;
-    //    }
-    //    float a = Visual.transform.localEulerAngles.y - (wiggelangle / 2);
-    //    Vector3 startrot = new Vector3(Visual.transform.localEulerAngles.x, a, Visual.transform.localEulerAngles.z);
-    //    float b = Visual.transform.localEulerAngles.y + (wiggelangle / 2);
-    //    Vector3 endrot = new Vector3(Visual.transform.localEulerAngles.x, b, Visual.transform.localEulerAngles.z);
-    //    p = Mathf.PingPong(time, 1);
-    //    Vector3 newrot = Vector3.Lerp(endrot, startrot, p);
-    //    Visual.transform.localEulerAngles = newrot;
-    //}

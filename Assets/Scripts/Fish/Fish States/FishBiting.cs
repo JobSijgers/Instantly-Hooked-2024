@@ -95,7 +95,7 @@ public class FishBiting : MonoBehaviour, IFishState
             ResetState();
             Hook.instance.ResetRodColor();
             EventManager.OnBoatControlsChanged(false);
-            brain.UI.ActiceState(false);
+            brain.FishUI.ActiceState(false);
             return brain.states.Roaming;
         }
         else return this;
@@ -108,17 +108,12 @@ public class FishBiting : MonoBehaviour, IFishState
             biteState == FishBitingState.GoingForHook)
         {
             EventManager.OnBoatControlsChanged(true);
-            brain.UI.ActiceState(true);
+            brain.FishUI.ActiceState(true);
             biteState = FishBitingState.OnHook;
         }
 
         // is de vis buiten water terwijl er word gestruggelt dan word er nu niet meer gestruggelt
         if (biteState == FishBitingState.Struggling && !IsInWater()) biteState = FishBitingState.OnHook;
-
-        //refrech coroutine
-        //niet nodig?
-        //if (BiteState == FishBitingState.struggeling && StruggelingC == null) StruggelingC = StartCoroutine(FishStruggel());
-        //if (BiteState == FishBitingState.onhook && ReGain == null) ReGain = StartCoroutine(RegainStamina());
 
         MoveMent();
         Struggeling();
