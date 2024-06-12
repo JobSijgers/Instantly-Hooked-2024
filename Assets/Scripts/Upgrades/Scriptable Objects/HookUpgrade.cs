@@ -11,7 +11,7 @@ namespace Upgrades.Scriptable_Objects
         {
             return new[]
             {
-                "Hook Effectiveness: "
+                "Fish Stamina draining: "
             };
         }
 
@@ -27,7 +27,7 @@ namespace Upgrades.Scriptable_Objects
         {
             return new[]
             {
-                ""
+                "+"
             };
         }
 
@@ -35,7 +35,7 @@ namespace Upgrades.Scriptable_Objects
         {
             return new[]
             {
-                "/ 10 %"
+                "%"
             };
         }
     }
