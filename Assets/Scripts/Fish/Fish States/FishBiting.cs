@@ -30,7 +30,7 @@ public class FishBiting : MonoBehaviour, IFishState
 
     [Header("Range")] [SerializeField] private float BitingRange;
     [SerializeField] private float IntresstLossafter;
-    [SerializeField] private float OffsetFromGround;
+    [SerializeField] private float OffsetFromGround = 2;
 
     [Tooltip("hold multiplier")] [SerializeField]
     private float HoldMultiplier;
@@ -243,7 +243,7 @@ public class FishBiting : MonoBehaviour, IFishState
     }
     private void FindGround(Vector2 direction, out Vector2 newpoint)
     {
-        Debug.DrawRay(Hook.instance.HookOrigin.transform.position, direction * rod.GetLineLength(), Color.red);
+        Debug.DrawRay(Hook.instance.HookOrigin.transform.position, direction * rod.GetLineLength(), Color.red, 2);
         if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, direction, out RaycastHit hit,
                 rod.GetLineLength(), Ground))
         {
@@ -254,15 +254,11 @@ public class FishBiting : MonoBehaviour, IFishState
                 return;
             }
             newpoint = hit.point;
-            newpoint += new Vector2(0, OffsetFromGround);
         }
         else
         {
             newpoint = direction * rod.GetLineLength();
-        }
-        if (IsPointWithinAngle(Hook.instance.HookOrigin.transform.position,Vector2.down, angle, newpoint))
-        {
-            newpoint = Vector2.zero;
+            newpoint += (Vector2)Hook.instance.HookOrigin.transform.position;
         }
     }
     bool IsPointWithinAngle(Vector3 origin, Vector3 forward, float angle, Vector3 point)
