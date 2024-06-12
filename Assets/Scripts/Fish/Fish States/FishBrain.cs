@@ -156,7 +156,7 @@ public class FishBrain : MonoBehaviour
         {
             case HookUpgrade hookupgrade:
                 states.Roaming.BiteMultiply = hookupgrade.BiteMultiply;
-                states.Biting.StaminaDrainUpgradePower = hookupgrade.StaminaDrain;
+                states.Biting.staminaDrainUpgradePower = hookupgrade.StaminaDrain;
                 break;
         }
     }
