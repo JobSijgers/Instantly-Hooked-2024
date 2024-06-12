@@ -13,7 +13,7 @@ namespace Economy
         private int targetMoney;
         private int currentMoney;
 
-        private void Start()
+        private void Awake()
         {
             EventManager.MoneyUpdate += UpdateMoneyUI;
         }
