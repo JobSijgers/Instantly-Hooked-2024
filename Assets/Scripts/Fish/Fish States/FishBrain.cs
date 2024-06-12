@@ -119,7 +119,14 @@ public class FishBrain : MonoBehaviour
     private void ManageRoation()
     {
         Quaternion endpos;
-        if (states.Biting.CurrentState == FishBitingState.OnHook) EmptyObject.transform.LookAt(Hook.instance.hook.transform);
+        Vector2 lookuppos = new Vector2()
+        {
+            x = transform.position.x,
+            y = Hook.instance.HookOrigin.transform.position.y,
+        };
+        if (states.Biting.CurrentState == FishBitingState.OnHook && !states.Biting.IsInWater()) EmptyObject.transform.LookAt(lookuppos);
+        else if (states.Biting.CurrentState == FishBitingState.OnHook) EmptyObject.transform.LookAt(Hook.instance.HookOrigin.transform.position);
+        else EmptyObject.transform.LookAt(EndPos);
         endpos = EmptyObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
@@ -160,6 +167,10 @@ public class FishBrain : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.UpgradeBought += OnBaitBought;
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(EndPos, 1);
     }
 }
 
