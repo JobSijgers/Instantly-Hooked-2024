@@ -29,9 +29,9 @@ public class FishUI : MonoBehaviour
         
         float angle = Mathf.Lerp(minAngle, maxAngle, brain.states.Biting.GetTension());
         
-        time += Time.deltaTime;
+        time += Time.deltaTime * 5;
         float noise = Mathf.PerlinNoise(time, 0);
-        float jiggle = Mathf.Lerp(-5, 5, noise);
+        float jiggle = Mathf.Lerp(-7 , 7, noise);
         angle += jiggle;
 
         tensionHandle.transform.localEulerAngles = new Vector3(0, 0, angle);

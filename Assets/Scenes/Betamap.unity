@@ -855,6 +855,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6457640639358448832, guid: d196332c17e4d714db124e4a3fc5934e,
         type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457640639358448832, guid: d196332c17e4d714db124e4a3fc5934e,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -1307,6 +1312,12 @@ MonoBehaviour:
   ShowActivateRange: 1
   ShowBounds: 1
   ShowFishNames: 1
+--- !u!65 &172762545 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 6103384884036079897, guid: d196332c17e4d714db124e4a3fc5934e,
+    type: 3}
+  m_PrefabInstance: {fileID: 63426662}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &222999762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,16 +1390,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 761978676355381506, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 135
-      objectReference: {fileID: 0}
-    - target: {fileID: 761978676355381506, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 1088103464600463142, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1524,16 +1525,6 @@ PrefabInstance:
       propertyPath: endOfMap
       value: 
       objectReference: {fileID: 747490330}
-    - target: {fileID: 3100644336615387299, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 3100644336615387299, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 4931153364004198887, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1569,21 +1560,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 401925678}
-    - target: {fileID: 7771128679514327604, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1276
-      objectReference: {fileID: 0}
-    - target: {fileID: 7771128679514327604, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7771128679514327604, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -30
-      objectReference: {fileID: 0}
     - target: {fileID: 8428340843913469300, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1603,17 +1579,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8638390038361100762, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 092213c6c11a0fa44b0d2bc1d63d04f8,
-        type: 3}
-    - target: {fileID: 8831285668287482481, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
-        type: 3}
-      propertyPath: maxQuestsDisplayed
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9062731892561992315, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
@@ -1769,6 +1734,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 350620038377708309, guid: e89f50422cb727c44b417ee7c144a113,
+        type: 3}
+      propertyPath: dayStartMinutes
+      value: 390
+      objectReference: {fileID: 0}
     - target: {fileID: 1879113531662654534, guid: e89f50422cb727c44b417ee7c144a113,
         type: 3}
       propertyPath: sun
@@ -2262,12 +2232,7 @@ PrefabInstance:
         type: 3}
       propertyPath: WaterBlock
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1086121996707038541, guid: 3282ea657e07203428045b00d9d35d24,
-        type: 3}
-      propertyPath: MaxFishInList
-      value: 15
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 172762545}
     - target: {fileID: 6734810415367264361, guid: 3282ea657e07203428045b00d9d35d24,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5296,6 +5261,11 @@ PrefabInstance:
       propertyPath: underWaterPost
       value: 
       objectReference: {fileID: 1778433129}
+    - target: {fileID: 3713268730440792920, guid: c8a354e68f985614595d6c3335e7353b,
+        type: 3}
+      propertyPath: m_Antialiasing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3713268730440792920, guid: c8a354e68f985614595d6c3335e7353b,
         type: 3}
       propertyPath: m_Cameras.Array.size

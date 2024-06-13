@@ -89,7 +89,6 @@ public class FishSpawner : MonoBehaviour
                 fish.SetOriginSpawner(this);
                 fish.Initialize(fishType.fishData, GetRandomFishSize());
                 fish.transform.position = GetRandomPos();
-                fish.transform.localScale = fish.fishData.GetScale(fish.fishSize);
                 fish.transform.SetParent(transform);
                 ActiveFish.Add(fish);
                 fish.gameObject.SetActive(true);
