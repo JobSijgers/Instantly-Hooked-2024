@@ -18,14 +18,12 @@ namespace Dock
         {
             EventManager.DockSuccess += DockSuccess;
             EventManager.PauseStateChange += OnPause;
-            EventManager.PlayerDied += DockBoat;
             EventManager.LeftShore += UnDockBoat;
         }
 
         private void OnDestroy()
         {
             EventManager.PauseStateChange -= OnPause;
-            EventManager.PlayerDied -= DockBoat;
             EventManager.LeftShore -= UnDockBoat;
             EventManager.DockSuccess -= DockSuccess;
         }

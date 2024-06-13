@@ -29,6 +29,7 @@ namespace Boat
             EventManager.LeftShore += UndockBoat;
             EventManager.BoatControlsChange += DisableControls;
             EventManager.BoatAutoDock += DockBoat;
+            EventManager.PlayerDied += ResetBoatPosition;
             rb = GetComponent<Rigidbody>();
         }
 
@@ -38,6 +39,8 @@ namespace Boat
             EventManager.UpgradeBought -= OnUpgrade;
             EventManager.LeftShore -= UndockBoat;
             EventManager.BoatControlsChange -= DisableControls;
+            EventManager.BoatAutoDock -= DockBoat;
+            EventManager.PlayerDied -= ResetBoatPosition;
         }
 
         private void Update()
@@ -175,6 +178,13 @@ namespace Boat
             {
                 rb.velocity = velocityAtPause;
             }
+        }
+        
+        private void ResetBoatPosition()
+        {
+            transform.position = dock.position;
+            rb.velocity = Vector3.zero;
+            DockBoat();
         }
     }
 }
