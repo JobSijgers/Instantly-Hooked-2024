@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using Catalogue;
 using Enums;
 using Events;
 using Fish;
 using PauseMenu;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Player.Inventory
@@ -19,6 +22,9 @@ namespace Player.Inventory
         [SerializeField] private Transform inventoryParent;
         [SerializeField] private Color[] rarityColors;
         [SerializeField] private Transform inventoryUI;
+        [SerializeField] private Sprite[] raritySprites;
+        [SerializeField] private CatalogueUIItem highlight;
+
 
         private void Awake()
         {
@@ -176,6 +182,21 @@ namespace Player.Inventory
             currentFish.Clear();
         }
 
+
+        private int GetFishCount(FishData data)
+        {
+            int runningTotal = 0;
+            foreach (InventoryItem item in currentFish)
+            {
+                if (item.GetFishData() != data)
+                    continue;
+
+                runningTotal += item.GetStackSize();
+            }
+
+            return runningTotal;
+        }
+
         /// <summary>
         /// This method returns an array of all current fish items in the inventory.
         /// </summary>
@@ -192,7 +213,7 @@ namespace Player.Inventory
         {
             return rarityColors[(int)rarity];
         }
-        
+
         /// <summary>
         /// This method handles the inventory UI based on the current game pause state.
         /// </summary>
@@ -223,14 +244,34 @@ namespace Player.Inventory
         {
             inventoryUI.gameObject.SetActive(true);
             PauseManager.SetState(PauseState.InInventory, suppressEvent);
+            if (currentFish.Count == 0 || currentFish == null)
+            {
+                ClearHightlight();
+            }
+            else
+            {
+                HighlightItem(currentFish[0].GetFishData());
+            }
         }
-
+        
         public void CloseInventory(bool suppressEvent = false)
         {
             if (!inventoryUI.gameObject.activeSelf)
                 return;
             inventoryUI.gameObject.SetActive(false);
             PauseManager.SetState(PauseState.Playing, suppressEvent);
+        }
+
+        public void HighlightItem(FishData item)
+        {
+            highlight.gameObject.SetActive(true);
+            highlight.Initialize(item.name, item.fishDescription, GetFishCount(item), item.habitat,
+                raritySprites[(int)item.fishRarity], item.fishVisual);
+        }
+        
+        private void ClearHightlight()
+        {
+            highlight.gameObject.SetActive(false);
         }
     }
 }
