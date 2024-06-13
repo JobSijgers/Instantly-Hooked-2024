@@ -53,7 +53,6 @@ public class FishBiting : MonoBehaviour, IFishState
     [SerializeField] private float StamDrainMultiply;
     [SerializeField] private float MinStaminaStruggelValue;
     [Range(0.01f, 1f)] [SerializeField] private float StruggelHalfStaminaKans;
-    [HideInInspector] public float staminaDrainUpgradePower = 1;
     private float stamina;
 
     [Header("LayerMask")] [SerializeField] private LayerMask Ground;
@@ -339,7 +338,7 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina > 0.1f)
         {
-            stamina -= Time.deltaTime * StamDrainMultiply * staminaDrainUpgradePower;
+            stamina -= Time.deltaTime * StamDrainMultiply * FishUpgradeCheck.instance.staminaDrainUpgradePower;
             yield return null;
         }
 
