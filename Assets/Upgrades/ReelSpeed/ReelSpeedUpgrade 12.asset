@@ -15,8 +15,6 @@ MonoBehaviour:
   upgradeName: Reel Speed
   description: 
   cost: 1750
-  upgradeVisual:
-    mesh: {fileID: 0}
-    material: {fileID: 0}
-  reelSpeed: 15
-  dropSpeed: 30
+  upgradeVisual: {fileID: 0}
+  reelSpeed: 30
+  dropSpeed: 40

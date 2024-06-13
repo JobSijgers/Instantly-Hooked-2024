@@ -15,8 +15,6 @@ MonoBehaviour:
   upgradeName: Ship Speed Upgrade
   description: 
   cost: 5
-  upgradeVisual:
-    mesh: {fileID: 0}
-    material: {fileID: 0}
-  maxSpeed: 2.25
-  acceleration: 1.1
+  upgradeVisual: {fileID: 0}
+  maxSpeed: 6
+  acceleration: 3
