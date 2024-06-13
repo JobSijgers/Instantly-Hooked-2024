@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Events;
-using Upgrades.Scriptable_Objects;
 public class FishRoaming : MonoBehaviour, IFishState
 {
     private FishBrain Brain;
@@ -11,7 +10,7 @@ public class FishRoaming : MonoBehaviour, IFishState
     [Header("fish intresst")]
     [SerializeField] private float IntresstDistanceToHook;
     [SerializeField] private float BiteWait;
-    public float BiteMultiply;
+    private float biteMultiply;
 
     private Coroutine BiteC;
 
@@ -20,6 +19,9 @@ public class FishRoaming : MonoBehaviour, IFishState
 
     //state change
     private bool BiteState = false;
+
+    //propeties
+    public float BiteMultiply { set { biteMultiply = value; } }
 
     void Awake()
     {
@@ -73,12 +75,12 @@ public class FishRoaming : MonoBehaviour, IFishState
     private IEnumerator ChoseToBite()
     {
         yield return new WaitForSeconds(BiteWait);
-        float br = Brain.fishData.biteRate + BiteMultiply;
+        float br = Brain.fishData.biteRate + biteMultiply;
         br /= 10f;
         float randomvalue = Random.value;
         if (randomvalue < br && Hook.instance.FishOnHook == null)
         {
-            Hook.instance.FishOnHook = Brain;
+            //Hook.instance.FishOnHook = Brain;
             BiteState = true;
         }
         BiteC = null;
