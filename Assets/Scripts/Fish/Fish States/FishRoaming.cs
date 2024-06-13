@@ -10,7 +10,6 @@ public class FishRoaming : MonoBehaviour, IFishState
     [Header("fish intresst")]
     [SerializeField] private float IntresstDistanceToHook;
     [SerializeField] private float BiteWait;
-    private float biteMultiply;
 
     private Coroutine BiteC;
 
@@ -19,9 +18,6 @@ public class FishRoaming : MonoBehaviour, IFishState
 
     //state change
     private bool BiteState = false;
-
-    //propeties
-    public float BiteMultiply { set { biteMultiply = value; } }
 
     void Awake()
     {
@@ -75,12 +71,11 @@ public class FishRoaming : MonoBehaviour, IFishState
     private IEnumerator ChoseToBite()
     {
         yield return new WaitForSeconds(BiteWait);
-        float br = Brain.fishData.biteRate + biteMultiply;
+        float br = Brain.fishData.biteRate + FishUpgradeCheck.instance.BiteMultiply;
         br /= 10f;
         float randomvalue = Random.value;
         if (randomvalue < br && Hook.instance.FishOnHook == null)
         {
-            //Hook.instance.FishOnHook = Brain;
             BiteState = true;
         }
         BiteC = null;

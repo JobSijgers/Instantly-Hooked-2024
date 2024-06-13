@@ -11,6 +11,7 @@ namespace Upgrades.Scriptable_Objects
         {
             return new[]
             {
+                "Bait Effectiveness",
                 "Fish Stamina draining: "
             };
         }
@@ -19,7 +20,8 @@ namespace Upgrades.Scriptable_Objects
         {
             return new[]
             {
-                $"{BiteMultiply}"
+                $"{BiteMultiply}",
+                $"{StaminaDrain}"
             };
         }
 
@@ -27,6 +29,7 @@ namespace Upgrades.Scriptable_Objects
         {
             return new[]
             {
+                "+",
                 "+"
             };
         }
@@ -35,6 +38,7 @@ namespace Upgrades.Scriptable_Objects
         {
             return new[]
             {
+                "%",
                 "%"
             };
         }
