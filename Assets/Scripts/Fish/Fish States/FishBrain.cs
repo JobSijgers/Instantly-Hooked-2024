@@ -96,7 +96,7 @@ public class FishBrain : MonoBehaviour
             Visual = Instantiate(value.fishObject, transform.position, Quaternion.identity, transform);
             inner = Visual.transform.GetChild(0).gameObject;
             Vector3 scale = fishData.GetScale(fishSize);
-            innerVisual.transform.localScale = scale;
+            Visual.transform.localScale = scale;
             RotationObject.transform.localScale = scale;
             states.Biting.Stamina = value.stamina;
         }
