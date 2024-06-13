@@ -30,8 +30,11 @@ namespace Fish
         [Header("Inventory")] 
         public int maxStackAmount;
 
-        [Header("Bite")] [Range(1,10)]
+        [Header("BiteRate")] [Range(1,10)]
         public int biteRate;
+
+        [Header("Stamina")]
+        public float stamina;
 
 
         public Vector3 GetScale(FishSize size)

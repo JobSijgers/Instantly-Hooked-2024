@@ -31,10 +31,12 @@ public class FishBiting : MonoBehaviour, IFishState
     [Header("Range")] [SerializeField] private float BitingRange;
     [SerializeField] private float IntresstLossafter;
     [SerializeField] private float OffsetFromGround = 2;
+    [SerializeField] private float goughtParticleRange;
 
     [Tooltip("hold multiplier")] [SerializeField]
     private float HoldMultiplier;
 
+    [Header("Tention")]
     [SerializeField] private float RestoreMultyplier;
     private float tension;
 
@@ -42,9 +44,11 @@ public class FishBiting : MonoBehaviour, IFishState
     [SerializeField]
     private float angle;
 
+    [Header("Anitie spam")]
     [SerializeField] private float strafpunten;
 
-    [Header("Stamina")] [SerializeField] private float MaxStamina;
+    [Header("Stamina")]
+    private float MaxStamina;
     [SerializeField] private float StamRegainMultiply;
     [SerializeField] private float StamDrainMultiply;
     [SerializeField] private float MinStaminaStruggelValue;
@@ -59,6 +63,9 @@ public class FishBiting : MonoBehaviour, IFishState
     private Coroutine resetStateAfterTimeIntrest;
     private Coroutine ccd;
     private Coroutine reGain;
+
+    // propeties
+    public float Stamina { set { MaxStamina = value; } } 
 
     void Awake()
     {
@@ -75,14 +82,17 @@ public class FishBiting : MonoBehaviour, IFishState
     public void OnStateActivate()
     {
         stamina = MaxStamina;
-        brain.FishGought.Play();
+        brain.FishIntresst.Play();
         biteState = FishBitingState.GoingForHook;
     }
 
     public IFishState SwitchState()
     {
         if (Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.gameObject != gameObject)
+        {
+            brain.SetEndPos(Vector3.zero);
             return brain.states.Roaming;
+        }
         if (offHook)
         {
             GetOffHook();
@@ -97,13 +107,20 @@ public class FishBiting : MonoBehaviour, IFishState
 
     public void UpdateState()
     {
+        float dist = Vector2.Distance(transform.position, Hook.instance.hook.transform.position);
         // zodra de fish bij de hook in de buurt is dan word de state veranderd naar fish on hook
-        if (Vector2.Distance(transform.position, Hook.instance.hook.transform.position) < BitingRange &&
-            biteState == FishBitingState.GoingForHook)
+        if (dist < BitingRange && biteState == FishBitingState.GoingForHook)
         {
+            Hook.instance.FishOnHook = brain;
             EventManager.OnBoatControlsChanged(true);
             brain.FishUI.ActiceState(true);
             biteState = FishBitingState.OnHook;
+        }
+
+        //speel particles af als de fish dicht bij de hook in de buurt is
+        if (dist < goughtParticleRange && biteState == FishBitingState.GoingForHook && !brain.FishGought.isPlaying)
+        {
+            brain.FishGought.Play();
         }
 
         // is de vis buiten water terwijl er word gestruggelt dan word er nu niet meer gestruggelt

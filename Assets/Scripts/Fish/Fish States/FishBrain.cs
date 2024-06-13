@@ -36,6 +36,7 @@ public class FishBrain : MonoBehaviour
 
     [Header("Particles")]
     [SerializeField] public ParticleSystem FishGought;
+    [SerializeField] public ParticleSystem FishIntresst;
 
     [Header("Fish Size")]
     public FishSize fishSize;
@@ -97,6 +98,7 @@ public class FishBrain : MonoBehaviour
             Vector3 scale = fishData.GetScale(fishSize);
             innerVisual.transform.localScale = scale;
             RotationObject.transform.localScale = scale;
+            states.Biting.Stamina = value.stamina;
         }
     }
     public void SetEndPos(Vector3 endpos)
