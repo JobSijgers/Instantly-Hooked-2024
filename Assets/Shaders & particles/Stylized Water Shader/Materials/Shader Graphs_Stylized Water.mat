@@ -67,7 +67,7 @@ Material:
     - _Lighting_Smoothness: 0.26
     - _Normals_Scale: 0.071
     - _Normals_Speed: 0.142
-    - _Normals_Strength: 0.2
+    - _Normals_Strength: 0.497
     - _QueueControl: 1
     - _QueueOffset: 0
     - _Refraction_Scale: 0.01
@@ -83,8 +83,8 @@ Material:
     - _Surface_Foam_Speed: 0.93
     - _Surface_Foam_Tiling: 84.8
     - _Wave_Length: 3.5
-    - _Wave_Speed: 0.62
-    - _Wave_Steepness: 0.1
+    - _Wave_Speed: 0.717
+    - _Wave_Steepness: 0.209
     m_Colors:
     - _Deep_Color: {r: 0.14901961, g: 0.17254902, b: 0.3254902, a: 1}
     - _Diffuse_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -96,7 +96,7 @@ Material:
     - _Shore_Color: {r: 0, g: 0, b: 0, a: 0}
     - _Specular_Color: {r: 0.3835172, g: 0.49029943, b: 0.645283, a: 0.1764706}
     - _Surface_Foam_Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Wave_Directions: {r: 0, g: 57.28, b: 1, a: 0.2}
+    - _Wave_Directions: {r: 0, g: 0.5, b: 1, a: 0.2}
   m_BuildTextureStacks: []
 --- !u!114 &6558234974639672788
 MonoBehaviour:
