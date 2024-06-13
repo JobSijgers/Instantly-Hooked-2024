@@ -94,6 +94,9 @@ public class FishBrain : MonoBehaviour
             StruggelSpeed = value.moveSpeed * 1.5f;
             Visual = Instantiate(value.fishObject, transform.position, Quaternion.identity, transform);
             inner = Visual.transform.GetChild(0).gameObject;
+            Vector3 scale = fishData.GetScale(fishSize);
+            innerVisual.transform.localScale = scale;
+            RotationObject.transform.localScale = scale;
         }
     }
     public void SetEndPos(Vector3 endpos)
