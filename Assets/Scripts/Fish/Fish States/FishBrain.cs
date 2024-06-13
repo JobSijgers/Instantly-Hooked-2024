@@ -46,7 +46,7 @@ public class FishBrain : MonoBehaviour
 
     //propeties
     public Vector3 EndPos { get { return P_EndPos; } }
-    
+
     // spawners 
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
     public FishSpawner GetOriginSpawner() => OriginSpawner;
@@ -84,7 +84,7 @@ public class FishBrain : MonoBehaviour
         fishData = data;
         fishSize = size;
     }
-    
+
     public FishData fishData
     {
         get { return P_fishData; }
@@ -106,10 +106,6 @@ public class FishBrain : MonoBehaviour
         P_EndPos = endpos;
         RotationObject.transform.LookAt(EndPos);
         StopOldRotation();
-    }
-    private void Awake()
-    {
-        EventManager.UpgradeBought += OnBaitBought;
     }
     void Start()
     {
@@ -154,19 +150,5 @@ public class FishBrain : MonoBehaviour
         OriginSpawner = null;
         P_EndPos = Vector3.zero;
         CurrentState = states.Roaming;
-    }
-    public void OnBaitBought(Upgrade upgrade)
-    {
-        switch (upgrade)
-        {
-            case HookUpgrade hookupgrade:
-                states.Roaming.BiteMultiply = hookupgrade.BiteMultiply;
-                states.Biting.staminaDrainUpgradePower = hookupgrade.StaminaDrain;
-                break;
-        }
-    }
-    private void OnDestroy()
-    {
-        EventManager.UpgradeBought += OnBaitBought;
     }
 }
