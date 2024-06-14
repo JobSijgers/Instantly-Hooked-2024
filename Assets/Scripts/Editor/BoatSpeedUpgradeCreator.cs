@@ -44,8 +44,8 @@ namespace Editor
             GUILayout.Space(5f);
             GUILayout.Label("Acceleration", EditorStyles.boldLabel);
             startAcceleration = EditorGUILayout.FloatField("Start Acceleration", startAcceleration);
-            maxAcceleration = EditorGUILayout.FloatField("Max Length", maxAcceleration);
-            accelerationCurve = EditorGUILayout.CurveField("Length Curve", accelerationCurve);
+            maxAcceleration = EditorGUILayout.FloatField("Max Acceleration", maxAcceleration);
+            accelerationCurve = EditorGUILayout.CurveField("Acceleration Curve", accelerationCurve);
             roundAcceleration = EditorGUILayout.Toggle("Round Acceleration", roundAcceleration);
             roundedAcceleration = EditorGUILayout.FloatField("Rounded Acceleration", roundedAcceleration);
             GUILayout.Space(5f);
@@ -87,7 +87,7 @@ namespace Editor
                 upgrade.cost =
                     Mathf.RoundToInt(costCurve.Evaluate(i / (float)amountToCreate) * (maxCost - startingCost) +
                                      startingCost);
-                upgrade.cost = roundCost ? RoundTo(upgrade.cost, roundedCost) : upgrade.cost;
+                upgrade.cost = roundCost ? (int)RoundTo(upgrade.cost, roundedCost) : upgrade.cost;
                 upgrade.upgradeName = upgradeName;
                 upgrade.description = description;
                 upgrade.upgradeVisual = null;
@@ -98,16 +98,15 @@ namespace Editor
         }
 
         private float CalculateAndRound(float startValue, float maxValue, AnimationCurve curve, int i, bool shouldRound,
-             float roundTo)
+            float roundTo)
         {
-            float value =
-                Mathf.RoundToInt(curve.Evaluate(i / (float)amountToCreate) * (maxValue - startValue) + startValue);
+            float value = curve.Evaluate(i / (float)amountToCreate) * (maxValue - startValue) + startValue;
             return shouldRound ? RoundTo(value, roundTo) : value;
         }
 
-        private static int RoundTo(float number, float roundTo)
+        private static float RoundTo(float number, float roundTo)
         {
-            return (int)number / (int)roundTo * (int)roundTo;
+            return Mathf.Floor(number / roundTo) * roundTo;
         }
     }
 }
