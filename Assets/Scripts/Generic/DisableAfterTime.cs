@@ -7,20 +7,34 @@ namespace Generic
     public class DisableAfterTime : MonoBehaviour
     {
         [SerializeField] private float timeToDisable;
-        
+        [SerializeField] private bool resetOnNewDay;
+
         private void Start()
         {
             EventManager.TimeUpdate += CheckTime;
+            if (resetOnNewDay)
+            {
+                EventManager.NewDay += Reset;
+            }
         }
-        
+
         private void OnDestroy()
         {
             EventManager.TimeUpdate -= CheckTime;
+            if (resetOnNewDay)
+            {
+                EventManager.NewDay -= Reset;
+            }
         }
 
-        private void CheckTime(TimeSpan arg0)
+        private void CheckTime(TimeSpan time)
         {
-            gameObject.SetActive(arg0.TotalMinutes < timeToDisable);
+            gameObject.SetActive(time.TotalMinutes < timeToDisable);
+        }
+
+        private void Reset(int day)
+        {
+            gameObject.SetActive(true);
         }
     }
 }
