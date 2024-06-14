@@ -38,6 +38,7 @@ namespace Events
         public static event UnityAction<QuestProgress> QuestHighlighted;
         public static event UnityAction<QuestProgress> QuestUnHighlighted;
         public static event UnityAction<Transform> StormSpawned; 
+        public static event UnityAction<QuestProgress> HUDQuestSelected;
         
         public static void OnTimeUpdate(TimeSpan value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
@@ -65,5 +66,6 @@ namespace Events
         public static void OnQuestHighlight(QuestProgress quest) => QuestHighlighted?.Invoke(quest);
         public static void OnQuestUnHighlight(QuestProgress quest) => QuestUnHighlighted?.Invoke(quest);
         public static void OnStormSpawned(Transform storm) => StormSpawned?.Invoke(storm);
+        public static void OnHUDQuestSelected(QuestProgress quest) => HUDQuestSelected?.Invoke(quest);
     }
 }

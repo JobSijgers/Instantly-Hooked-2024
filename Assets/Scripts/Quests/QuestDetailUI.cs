@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Quests
 {
-    public class QuestDetailUI : MonoBehaviour
+    public abstract class QuestDetailUI : MonoBehaviour
     {
         [SerializeField] private TMP_Text questProgressAmount;
         [SerializeField] private Image questIcon;

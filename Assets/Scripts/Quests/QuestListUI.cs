@@ -3,6 +3,7 @@ using Events;
 using PauseMenu;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Quests
 {
@@ -12,15 +13,15 @@ namespace Quests
         [SerializeField] private GameObject questDetailUIPrefab;
         [SerializeField] private Transform questDetailUIParent;
 
-        private QuestDetailUI[] questDetailUIs;
+        private HUDQuest[] hudQuests;
 
         private void Awake()
         {
-            questDetailUIs = new QuestDetailUI[maxQuestsDisplayed];
+            hudQuests = new HUDQuest[maxQuestsDisplayed];
             for (int i = 0; i < maxQuestsDisplayed; i++)
             {
                 GameObject questDetailUI = Instantiate(questDetailUIPrefab, questDetailUIParent);
-                questDetailUIs[i] = questDetailUI.GetComponent<QuestDetailUI>();
+                hudQuests[i] = questDetailUI.GetComponent<HUDQuest>();
             }
         }
         
@@ -53,37 +54,37 @@ namespace Quests
             if (freeQuestSlot == -1) return;
             {
                 highlightedQuest.highlighted = true;
-                questDetailUIs[freeQuestSlot].SetQuest(highlightedQuest);
+                hudQuests[freeQuestSlot].SetQuest(highlightedQuest);
             }
         }
-
+        
         private void UnhighlightQuest(QuestProgress unHighlightedQuest)
         {
             int questSlot = GetQuestSlot(unHighlightedQuest);
             if (questSlot == -1) return;
 
             unHighlightedQuest.highlighted = false;
-            questDetailUIs[questSlot].ClearDetail();
+            hudQuests[questSlot].ClearDetail();
         }
-
+        
         private void UpdateQuestProgress(QuestProgress questProgress)
         {
-            foreach (QuestDetailUI questDetailUI in questDetailUIs)
+            foreach (HUDQuest hudQuest in hudQuests)
             {
-                if (!questDetailUI.IsInUse()) continue;
+                if (!hudQuest.IsInUse()) continue;
 
-                if (questDetailUI.GetQuest() != questProgress.quest) continue;
+                if (hudQuest.GetQuest() != questProgress.quest) continue;
                 
-                questDetailUI.SetQuest(questProgress);
+                hudQuest.SetQuest(questProgress);
                 return;
             }
         }
 
         private int GetQuestSlot(QuestProgress questProgress)
         {
-            for (int i = 0; i < questDetailUIs.Length; i++)
+            for (int i = 0; i < hudQuests.Length; i++)
             {
-                if (questDetailUIs[i].GetQuest() == questProgress.quest)
+                if (hudQuests[i].GetQuest() == questProgress.quest)
                 {
                     return i;
                 }
@@ -94,10 +95,10 @@ namespace Quests
 
         private int GetFreeQuestSlot()
         {
-            for (int i = 0; i < questDetailUIs.Length; i++)
+            for (int i = 0; i < hudQuests.Length; i++)
             {
 
-                if (!questDetailUIs[i].IsInUse())
+                if (!hudQuests[i].IsInUse())
                 {
                     return i;
                 }
