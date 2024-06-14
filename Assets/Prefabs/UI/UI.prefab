@@ -344,7 +344,6 @@ RectTransform:
   - {fileID: 1329965322945654103}
   - {fileID: 5985857404823290840}
   - {fileID: 3471689036327419385}
-  - {fileID: 9054147793007907553}
   m_Father: {fileID: 447970313106941031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -369,7 +368,7 @@ MonoBehaviour:
   upgradeCostText: {fileID: 4268300798733150243}
   upgradeEffectText: {fileID: 3097616874190642175}
   upgradeLevelText: {fileID: 9190018946735382816}
-  progressBar: {fileID: 5732115027362225077}
+  progressBar: {fileID: 4427363906710408294}
 --- !u!1 &193253040268571255
 GameObject:
   m_ObjectHideFlags: 0
@@ -4551,7 +4550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8381067334744193434
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8047,81 +8046,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1 &6046112018895761336
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9054147793007907553}
-  - component: {fileID: 8192745499833022081}
-  - component: {fileID: 5732115027362225077}
-  m_Layer: 5
-  m_Name: ProgressPar
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &9054147793007907553
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6046112018895761336}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1999355739703118928}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: -448}
-  m_SizeDelta: {x: 507, y: 66}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &8192745499833022081
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6046112018895761336}
-  m_CullTransparentMesh: 1
---- !u!114 &5732115027362225077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6046112018895761336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2f38b404948205c44b8086a3487c0ece, type: 3}
-  m_Type: 3
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 0
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6052371231890323713
 GameObject:
   m_ObjectHideFlags: 0
@@ -9390,7 +9314,7 @@ GameObject:
   - component: {fileID: 8385284674067752236}
   - component: {fileID: 4427363906710408294}
   m_Layer: 5
-  m_Name: ProgressPar
+  m_Name: ProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
