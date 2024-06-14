@@ -24,7 +24,6 @@ namespace Boat
             if (upgrade.upgradeVisual == null)
                 return;
             GameObject go = Instantiate(upgrade.upgradeVisual, upgradeVisualParent);
-            go.transform.rotation = Quaternion.Euler(0, -90, 0);
         }
     }
 }
