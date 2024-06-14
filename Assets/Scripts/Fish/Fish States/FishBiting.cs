@@ -29,9 +29,11 @@ public class FishBiting : MonoBehaviour, IFishState
     private bool endPosIsStrugglePos = false;
 
     [Header("Range")] [SerializeField] private float BitingRange;
-    [SerializeField] private float IntresstLossafter;
     [SerializeField] private float OffsetFromGround = 2;
-    [SerializeField] private float goughtParticleRange;
+
+    [Header("Intresst")]
+    [SerializeField] private float intresst;
+    [SerializeField] private float IntresstLossafter;
 
     [Tooltip("hold multiplier")] [SerializeField]
     private float HoldMultiplier;
@@ -114,11 +116,6 @@ public class FishBiting : MonoBehaviour, IFishState
             EventManager.OnBoatControlsChanged(true);
             brain.FishUI.ActiceState(true);
             biteState = FishBitingState.OnHook;
-        }
-
-        //speel particles af als de fish dicht bij de hook in de buurt is
-        if (dist < goughtParticleRange && biteState == FishBitingState.GoingForHook && !brain.FishGought.isPlaying)
-        {
             brain.FishGought.Play();
         }
 
@@ -188,14 +185,13 @@ public class FishBiting : MonoBehaviour, IFishState
         {
             case FishBitingState.GoingForHook:
 
-                if (!FishPooler.instance.WaterBlock.bounds.Intersects(bounds.bounds))
+                if (!brain.FishAproach.isPlaying) brain.FishAproach.Play();
+                if (!FishPooler.instance.WaterBlock.bounds.Intersects(Hook.instance.bounds.bounds))
                 {
                     offHook = true;
                 }
-
                 brain.SetEndPos(Hook.instance.hook.transform.position);
-                transform.position =
-                    Vector3.MoveTowards(transform.position, brain.EndPos, brain.moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, brain.EndPos, brain.moveSpeed * Time.deltaTime);
                 break;
 
             case FishBitingState.OnHook:
@@ -263,7 +259,6 @@ public class FishBiting : MonoBehaviour, IFishState
         if (Physics.Raycast(Hook.instance.HookOrigin.transform.position, direction, out RaycastHit hit,
                 rod.GetLineLength(), Ground))
         {
-            Debug.Log(hit.collider.gameObject);
             if (hit.collider.CompareTag("GeenEndPos"))
             {
                 newpoint = Vector2.zero;
