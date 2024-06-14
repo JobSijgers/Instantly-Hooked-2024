@@ -9,7 +9,7 @@ public class FishRoaming : MonoBehaviour, IFishState
 
     [Header("fish intresst")]
     [SerializeField] private float IntresstDistanceToHook;
-    [SerializeField] private float BiteWait;
+    [SerializeField] private float[] BiteWait;
 
     private Coroutine BiteC;
 
@@ -70,7 +70,8 @@ public class FishRoaming : MonoBehaviour, IFishState
     }
     private IEnumerator ChoseToBite()
     {
-        yield return new WaitForSeconds(BiteWait);
+        float wait = Random.Range(BiteWait[0], BiteWait[1]);
+        yield return new WaitForSeconds(wait);
         float br = Brain.fishData.biteRate + FishUpgradeCheck.instance.BiteMultiply;
         br /= 10f;
         float randomvalue = Random.value;

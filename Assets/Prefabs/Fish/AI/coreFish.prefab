@@ -224,7 +224,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IntresstDistanceToHook: 8
-  BiteWait: 2
+  BiteWait:
+  - 2
+  - 3
   ShowGizmos: 0
 --- !u!114 &3453636385491892057
 MonoBehaviour:
