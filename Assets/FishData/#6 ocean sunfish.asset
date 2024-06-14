@@ -22,11 +22,11 @@ MonoBehaviour:
   fishObject: {fileID: 2632610224707210309, guid: 7b38bfd6738dcd84f8ca09433368ad79,
     type: 3}
   fishSize:
-  - 0.85
-  - 1
-  - 1.3
+  - 100
+  - 120
+  - 140
   fishVisual: {fileID: 21300000, guid: b6d7752e955c59b4581f915025fc724c, type: 3}
   moveSpeed: 1
   maxStackAmount: 5
-  biteRate: 2
+  biteRate: 1
   stamina: 10
