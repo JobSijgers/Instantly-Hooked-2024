@@ -1,10 +1,7 @@
-using System;
-using Enums;
 using Events;
 using PauseMenu;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Upgrades;
 using Upgrades.Scriptable_Objects;
 
 namespace FishingRod
@@ -15,13 +12,14 @@ namespace FishingRod
         [SerializeField] private Transform origin;
         [SerializeField] private Transform hook;
         [SerializeField] private int minLineLength;
+        [SerializeField] private float seaLevel;
         private SpringJoint springJoint;
         private float reelingSpeed = 5;
         private float dropSpeed = 3;
         private float maxLineLength = 5;
         private float currentLineLength = 0;
         private bool rodEnabled = true;
-        private float offset;
+        private float defaultOffset;
         public float GetLineLength() => maxLineLength;
 
         private void Start()
@@ -41,7 +39,7 @@ namespace FishingRod
             
             currentLineLength = minLineLength;
             springJoint.maxDistance = minLineLength;
-            offset = Vector3.Distance(hook.position, origin.position);
+            defaultOffset = Vector2.Distance(origin.position, new Vector2(origin.position.x, seaLevel));
         }
 
         private void OnDestroy()
@@ -66,7 +64,7 @@ namespace FishingRod
             }
             else if (Hook.instance.touchingGround)
             {
-                float newLineLength = Vector3.Distance(hook.position, origin.position) - offset;
+                float newLineLength = Vector3.Distance(hook.position, origin.position) - 0.5f;
                 float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength, maxLineLength);
 
                 springJoint.maxDistance = newClampedLineLength;
@@ -135,8 +133,7 @@ namespace FishingRod
             switch (upgrade)
             {
                 case LineLengthUpgrade lineLengthUpgrade:
-                    maxLineLength = lineLengthUpgrade.lineLength;
-                    Hook.instance.Offset = lineLengthUpgrade.offset;
+                    maxLineLength = lineLengthUpgrade.lineLength + defaultOffset;
                     break;
                 case ReelSpeedUpgrade reelSpeedUpgrade:
                     reelingSpeed = reelSpeedUpgrade.reelSpeed;

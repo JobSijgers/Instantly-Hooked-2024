@@ -6,7 +6,6 @@ namespace Upgrades.Scriptable_Objects
     public class LineLengthUpgrade : Upgrade
     {
         public float lineLength;
-        public float offset;
         public override string[] GetEffectName()
         {
             return new[]

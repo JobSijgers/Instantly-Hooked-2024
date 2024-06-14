@@ -78,7 +78,7 @@ public class Hook : MonoBehaviour
     private void OnDrawGizmos()
     {
         Handles.color = Color.blue;
-        Handles.DrawWireArc(Rod.transform.position, Vector3.forward, Vector3.down, 360, Rod.GetLineLength() * Offset);
+        Handles.DrawWireArc(Rod.transform.position, Vector3.forward, Vector3.down, 360, Rod.GetLineLength());
     }
 #endif
 }

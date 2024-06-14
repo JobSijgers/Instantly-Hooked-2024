@@ -21,7 +21,7 @@ namespace Editor
         private string description;
         private string upgradePath;
 
-        [MenuItem("Window/Generate Upgrades")]
+        [MenuItem("Window/Upgrade Creator/Line Length")]
         public static void ShowWindow()
         {
             GetWindow(typeof(LineLengthUpgradeCreator));
@@ -64,7 +64,7 @@ namespace Editor
                 int cost = Mathf.RoundToInt(costCurve.Evaluate(i / (float)amountToCreate) * (maxCost - startingCost) +
                                             startingCost);
                 upgrade.cost = roundCost ? RoundTo(cost, roundedCost) : cost;
-                upgrade.upgradeName = upgradeName + " " + upgrade.lineLength + "m";
+                upgrade.upgradeName = upgradeName;
                 upgrade.description = description;
                 upgrade.upgradeVisual = null;
                 AssetDatabase.CreateAsset(upgrade, $"{upgradePath}/{upgrade.name}.asset");
