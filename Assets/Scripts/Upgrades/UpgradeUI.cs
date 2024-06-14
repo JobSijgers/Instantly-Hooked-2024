@@ -52,23 +52,7 @@ namespace Upgrades
         {
             EventManager.OnUpgradeShopClose();
         }
-
-        private void Update()
-        {
-            Debug.LogWarning("dont forget to remove this");
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                if (upgradeShopUI.activeSelf)
-                {
-                    CloseUI();
-                }
-                else
-                {
-                    OpenUpgradeShopUI();
-                }
-            }
-        }
-
+        
         /// <summary>
         /// his method creates a new upgrade item in the shop for each upgrade.
         /// </summary>

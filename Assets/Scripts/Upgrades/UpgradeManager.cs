@@ -119,12 +119,11 @@ namespace Upgrades
 
         public void UpgradeBought(Upgrade upgrade)
         {
-            Debug.LogWarning("Currently no money check active");
-            // if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
-            // {
-            //     EventManager.OnNotEnoughMoney();
-            //     return;
-            // }
+            if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
+            {
+                EventManager.OnNotEnoughMoney();
+                return;
+            }
             
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
             if (upgradeState == null)
