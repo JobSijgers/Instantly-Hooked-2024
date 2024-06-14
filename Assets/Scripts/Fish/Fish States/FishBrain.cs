@@ -6,6 +6,7 @@ using Enums;
 using UnityEngine;
 using Upgrades.Scriptable_Objects;
 using Events;
+using PauseMenu;
 
 [Serializable]
 public struct FishStates
@@ -18,9 +19,13 @@ public class FishBrain : MonoBehaviour
     private FishData P_fishData;
     private FishSpawner OriginSpawner;
 
+    [Header("scripts")]
+    public FishWiggle wiggle;
+
     [Header("states")]
     public FishStates states;
     private IFishState P_CurrentState;
+    private bool activeState = true;
 
     [Header("Movement")]
     [SerializeField] private float RotateSpeed;
@@ -56,13 +61,16 @@ public class FishBrain : MonoBehaviour
     public GameObject innerVisual => inner;
     public FishUI FishUI => UI;
 
-    // 
+    // struggeling
     public bool IsStruggeling() => states.Biting.IsStruggeling();
 
     //movement
     public Vector3 GetNewPosition() => OriginSpawner.GetRandomPos();
     public float moveSpeed { get { return P_moveSpeed; } set { P_moveSpeed = value; } }
     public float StruggelSpeed { get { return P_struggelSpeed; } set { P_struggelSpeed = value; } }
+
+    // state
+    public bool ActiveState => activeState;
 
     public IFishState CurrentState
     {
@@ -99,6 +107,8 @@ public class FishBrain : MonoBehaviour
             Visual.transform.localScale = scale;
             RotationObject.transform.localScale = scale;
             states.Biting.Stamina = value.stamina;
+
+            wiggle.SetWiggle();
         }
     }
     public void SetEndPos(Vector3 endpos)
@@ -112,12 +122,16 @@ public class FishBrain : MonoBehaviour
         UI = GetComponent<FishUI>();
         CurrentState = GetComponent<IFishState>();
         CurrentState = states.Roaming;
+        EventManager.PauseStateChange += PauseFish;
     }
     void Update()
     {
-        CurrentState = CurrentState.SwitchState();
-        CurrentState.UpdateState();
-        ManageRoation();
+        if (activeState)
+        {
+            CurrentState = CurrentState.SwitchState();
+            CurrentState.UpdateState();
+            ManageRoation();
+        }
     }
     private void ManageRoation()
     {
@@ -145,10 +159,26 @@ public class FishBrain : MonoBehaviour
         yield return null;
         RotateC = null;
     }
+    private void PauseFish(PauseState state)
+    {
+        switch (state)
+        {
+            case PauseState.InPauseMenu:
+                activeState = false; 
+                break;
+            case PauseState.Playing:
+                activeState = true;
+                break;
+        }
+    }
     public void OnDisable()
     {
         OriginSpawner = null;
         P_EndPos = Vector3.zero;
         CurrentState = states.Roaming;
+    }
+    private void OnDestroy()
+    {
+        EventManager.PauseStateChange -= PauseFish;
     }
 }

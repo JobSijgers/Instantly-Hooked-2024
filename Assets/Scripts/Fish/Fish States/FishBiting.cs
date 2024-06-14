@@ -288,8 +288,11 @@ public class FishBiting : MonoBehaviour, IFishState
         float t = 0.0f;
         while (t < IntresstLossafter)
         {
-            t += Time.deltaTime;
-            if (!Input.GetMouseButton(1)) resetStateAfterTimeIntrest = null;
+            if (brain.ActiveState)
+            {
+                t += Time.deltaTime;
+                if (!Input.GetMouseButton(1)) resetStateAfterTimeIntrest = null;
+            }
             yield return null;
         }
 
@@ -301,8 +304,11 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina < MaxStamina)
         {
-            stamina += Time.deltaTime * StamRegainMultiply;
-            if (BeginStruggelBeforeFullC == null) BeginStruggelBeforeFullC = StartCoroutine(BeginStruggelBeforeFull());
+            if (brain.ActiveState)
+            {
+                stamina += Time.deltaTime * StamRegainMultiply;
+                if (BeginStruggelBeforeFullC == null) BeginStruggelBeforeFullC = StartCoroutine(BeginStruggelBeforeFull());
+            }
             yield return null;
         }
         if (IsInWater())
@@ -338,7 +344,7 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina > 0.1f)
         {
-            stamina -= Time.deltaTime * StamDrainMultiply * FishUpgradeCheck.instance.staminaDrainUpgradePower;
+            if (brain.ActiveState) stamina -= Time.deltaTime * StamDrainMultiply * FishUpgradeCheck.instance.staminaDrainUpgradePower;
             yield return null;
         }
 
