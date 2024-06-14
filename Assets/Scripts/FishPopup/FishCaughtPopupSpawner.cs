@@ -31,7 +31,6 @@ namespace FishPopup
                 Sprite sizeSprite = fishSizeSprites[(int)size];
                 Color color = fishRarityColors[(int)data.fishRarity];
                 go.GetComponent<FishCaughtPopup>()?.InitPopup(data, sprite, sizeSprite, color);
-                Debug.Log("test");
             }
         }
     }
