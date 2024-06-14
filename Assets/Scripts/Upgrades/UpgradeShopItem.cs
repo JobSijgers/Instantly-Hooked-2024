@@ -10,7 +10,6 @@ namespace Upgrades
     {
         [SerializeField] private TMP_Text upgradeCostText;
         [SerializeField] private Button upgradeButton;
-        [SerializeField] private TMP_InputField inputField;
         private Upgrade upgrade;
         
         private void Start()
@@ -55,13 +54,6 @@ namespace Upgrades
         public void OnPointerExit(PointerEventData eventData)
         {
             UpgradeUI.instance.ClearHighlight();
-        }
-
-        public void idk()
-        {
-            Debug.LogWarning("dont forget to remove this");
-            int newInt = int.Parse(inputField.text);
-            UpgradeManager.Instance.GetMatchingUpgradeState(upgrade).SetUpgradeLevel(newInt);
         }
     }
 }
