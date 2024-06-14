@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 3295589505491106283}
   - component: {fileID: 6099481723448406068}
   - component: {fileID: 3631979456764404776}
+  - component: {fileID: 4114397054482643370}
   m_Layer: 0
   m_Name: tutorial 1
   m_TagString: Untagged
@@ -111,7 +112,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.99468124, z: -0, w: -0.103000775}
   m_LocalPosition: {x: -63.15, y: 2.93, z: -1.92}
-  m_LocalScale: {x: 2.4071, y: 2.4071, z: 2.4071}
+  m_LocalScale: {x: 2.4070995, y: 2.4071, z: 2.4070995}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2944824948696101871}
@@ -162,9 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterHeight: 0
-  steepness: 0.17
-  wavelength: 2.87
-  speed: 0.36
+  steepness: 0.2
+  wavelength: 3.2
+  speed: 0.5
   directions:
   - 0
   - 0.5
@@ -179,6 +180,21 @@ MonoBehaviour:
   - {fileID: 395748137335938864}
   - {fileID: 2963219446315954839}
   - {fileID: 1980392091799185519}
+--- !u!114 &4114397054482643370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2807881793670030161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d626c99a3b91495c93937e2d269228ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayToChangeState: 2
+  defaultState: 1
+  destroyOnToggle: 1
 --- !u!1 &3616680158908741929
 GameObject:
   m_ObjectHideFlags: 0
