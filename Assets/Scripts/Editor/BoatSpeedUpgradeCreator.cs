@@ -9,19 +9,19 @@ namespace Editor
         private string upgradeName;
         private string description;
         private string upgradePath;
-        private int startAcceleration;
         private int amountToCreate;
-        private int maxAcceleration;
+        private float startAcceleration;
+        private float maxAcceleration;
         private AnimationCurve accelerationCurve = new AnimationCurve();
         private bool roundAcceleration;
-        private int roundedAcceleration;
+        private float roundedAcceleration;
         private int startingCost;
         private int maxCost;
-        private int startMaxSpeed;
-        private int maxMaxSpeed;
+        private float startMaxSpeed;
+        private float maxMaxSpeed;
         private AnimationCurve maxSpeedCurve = new AnimationCurve();
         private bool roundMaxSpeed;
-        private int roundedMaxSpeed;
+        private float roundedMaxSpeed;
         private AnimationCurve costCurve = new AnimationCurve();
         private bool roundCost;
         private int roundedCost;
@@ -43,18 +43,18 @@ namespace Editor
             amountToCreate = EditorGUILayout.IntField("Amount to Create", amountToCreate);
             GUILayout.Space(5f);
             GUILayout.Label("Acceleration", EditorStyles.boldLabel);
-            startAcceleration = EditorGUILayout.IntField("Start Acceleration", startAcceleration);
-            maxAcceleration = EditorGUILayout.IntField("Max Length", maxAcceleration);
+            startAcceleration = EditorGUILayout.FloatField("Start Acceleration", startAcceleration);
+            maxAcceleration = EditorGUILayout.FloatField("Max Length", maxAcceleration);
             accelerationCurve = EditorGUILayout.CurveField("Length Curve", accelerationCurve);
             roundAcceleration = EditorGUILayout.Toggle("Round Acceleration", roundAcceleration);
-            roundedAcceleration = EditorGUILayout.IntField("Rounded Acceleration", roundedAcceleration);
+            roundedAcceleration = EditorGUILayout.FloatField("Rounded Acceleration", roundedAcceleration);
             GUILayout.Space(5f);
             GUILayout.Label("Max Speed", EditorStyles.boldLabel);
-            startMaxSpeed = EditorGUILayout.IntField("Starting Max Speed", startMaxSpeed);
-            maxMaxSpeed = EditorGUILayout.IntField("Max Max Speed", maxMaxSpeed);
+            startMaxSpeed = EditorGUILayout.FloatField("Starting Max Speed", startMaxSpeed);
+            maxMaxSpeed = EditorGUILayout.FloatField("Max Max Speed", maxMaxSpeed);
             maxSpeedCurve = EditorGUILayout.CurveField("Max Speed Curve", maxSpeedCurve);
             roundMaxSpeed = EditorGUILayout.Toggle("Round Max Speed", roundMaxSpeed);
-            roundedMaxSpeed = EditorGUILayout.IntField("Rounded Max Speed", roundedMaxSpeed);
+            roundedMaxSpeed = EditorGUILayout.FloatField("Rounded Max Speed", roundedMaxSpeed);
             GUILayout.Space(5f);
             GUILayout.Label("Cost", EditorStyles.boldLabel);
             startingCost = EditorGUILayout.IntField("Starting Cost", startingCost);
@@ -98,16 +98,16 @@ namespace Editor
         }
 
         private float CalculateAndRound(float startValue, float maxValue, AnimationCurve curve, int i, bool shouldRound,
-            int roundTo)
+             float roundTo)
         {
             float value =
                 Mathf.RoundToInt(curve.Evaluate(i / (float)amountToCreate) * (maxValue - startValue) + startValue);
             return shouldRound ? RoundTo(value, roundTo) : value;
         }
 
-        private static int RoundTo(float number, int roundTo)
+        private static int RoundTo(float number, float roundTo)
         {
-            return (int)number / roundTo * roundTo;
+            return (int)number / (int)roundTo * (int)roundTo;
         }
     }
 }
