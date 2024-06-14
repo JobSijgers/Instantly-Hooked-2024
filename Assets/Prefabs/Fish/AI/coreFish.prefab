@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783d447a74f5427418febb806f165f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wiggle: {fileID: 7177675940641543140}
   states:
     Roaming: {fileID: 4697329898385395740}
     Biting: {fileID: 3453636385491892057}
@@ -224,7 +225,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IntresstDistanceToHook: 8
-  BiteWait: 2
+  BiteWait:
+  - 2
+  - 3
   ShowGizmos: 0
 --- !u!114 &3453636385491892057
 MonoBehaviour:
@@ -303,6 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0598525fc96dae54baea3fb7036ad7cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brain: {fileID: 7012671117014001069}
   wiggelAngle: 14
   fastWiggelSpeed: 3
   wiggleSpeed: 2
