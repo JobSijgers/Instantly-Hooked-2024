@@ -42,6 +42,7 @@ public class FishBrain : MonoBehaviour
     [Header("Particles")]
     [SerializeField] public ParticleSystem FishGought;
     [SerializeField] public ParticleSystem FishIntresst;
+    [SerializeField] public ParticleSystem FishAproach;
 
     [Header("Fish Size")]
     public FishSize fishSize;
@@ -170,6 +171,14 @@ public class FishBrain : MonoBehaviour
                 activeState = true;
                 break;
         }
+    }
+    public bool PlayerInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) ||
+            Input.GetKeyDown(KeyCode.Escape) ||
+            Input.GetMouseButton(1))
+            return true;
+        else return false;
     }
     public void OnDisable()
     {
