@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class FishWiggle : MonoBehaviour
 {
-    private FishBrain brain;
+    [Header("Scitps")]
+    [SerializeField] private FishBrain brain;
 
     [Header("wiggle")]
-    private Vector3[] wiggleRot;
     [SerializeField] private float wiggelAngle;
     [SerializeField] private float fastWiggelSpeed;
     [SerializeField] private float wiggleSpeed;
     [SerializeField] private float widerWiggleAngle;
-
-    void Start()
+    private Vector3[] wiggleRot;
+    public void SetWiggle()
     {
-        Debug.Log("wiggle start");
-        brain = GetComponent<FishBrain>();
         wiggleRot = new Vector3[4];
         wiggleRot[0].y = brain.innerVisual.transform.eulerAngles.y - wiggelAngle / 2;
         wiggleRot[1].y = brain.innerVisual.transform.eulerAngles.y + wiggelAngle / 2;

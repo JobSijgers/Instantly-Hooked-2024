@@ -19,6 +19,9 @@ public class FishBrain : MonoBehaviour
     private FishData P_fishData;
     private FishSpawner OriginSpawner;
 
+    [Header("scripts")]
+    public FishWiggle wiggle;
+
     [Header("states")]
     public FishStates states;
     private IFishState P_CurrentState;
@@ -104,6 +107,8 @@ public class FishBrain : MonoBehaviour
             Visual.transform.localScale = scale;
             RotationObject.transform.localScale = scale;
             states.Biting.Stamina = value.stamina;
+
+            wiggle.SetWiggle();
         }
     }
     public void SetEndPos(Vector3 endpos)
