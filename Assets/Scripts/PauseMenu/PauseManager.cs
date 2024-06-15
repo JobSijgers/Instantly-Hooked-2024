@@ -10,52 +10,26 @@ namespace PauseMenu
         InPauseMenu,
         InInventory,
         InCatalogue,
-        InQuests
+        InQuests,
     }
 
     public class PauseManager : MonoBehaviour
     {
-        private bool isEnabled = true;
-        private static PauseState currentState;
-
-
-        private void Start()
-        {
-            EventManager.ArrivedAtShore += DisableManager;
-            EventManager.LeftShore += EnableManager;
-        }
-
-        private void OnDestroy()
-        {
-            EventManager.ArrivedAtShore -= DisableManager;
-            EventManager.LeftShore -= EnableManager;
-        }
+        private static PauseState _currentState;
 
         private void Update()
         {
-            if (!isEnabled)
-                return;
-
             CheckInventoryKey();
             CheckEscapeKey();
             CheckJournalKey();
-        }
-
-        private void DisableManager()
-        {
-            isEnabled = false;
-        }
-
-        private void EnableManager()
-        {
-            isEnabled = true;
+            CheckQKey();
         }
 
         private void CheckJournalKey()
         {
             if (!Input.GetKeyDown(KeyCode.J)) return;
 
-            switch (currentState)
+            switch (_currentState)
             {
                 case PauseState.Playing:
                     SetState(PauseState.InCatalogue);
@@ -63,12 +37,16 @@ namespace PauseMenu
                 case PauseState.InPauseMenu:
                     break;
                 case PauseState.InInventory:
+                    SetState(PauseState.Playing);
                     break;
                 case PauseState.InCatalogue:
                     SetState(PauseState.Playing);
                     break;
                 case PauseState.InQuests:
+                    SetState(PauseState.Playing);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -76,7 +54,7 @@ namespace PauseMenu
         {
             if (!Input.GetKeyDown(KeyCode.I)) return;
 
-            switch (currentState)
+            switch (_currentState)
             {
                 case PauseState.Playing:
                     SetState(PauseState.InInventory);
@@ -87,8 +65,10 @@ namespace PauseMenu
                     SetState(PauseState.Playing);
                     break;
                 case PauseState.InCatalogue:
+                    SetState(PauseState.Playing);
                     break;
                 case PauseState.InQuests:
+                    SetState(PauseState.Playing);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -98,28 +78,58 @@ namespace PauseMenu
         private void CheckEscapeKey()
         {
             if (!Input.GetKeyDown(KeyCode.Escape)) return;
-            switch (currentState)
+            switch (_currentState)
             {
                 case PauseState.Playing:
                     SetState(PauseState.InPauseMenu);
                     break;
-
                 case PauseState.InPauseMenu:
                     SetState(PauseState.Playing);
                     break;
-
                 case PauseState.InInventory:
                     SetState(PauseState.Playing);
                     break;
+                case PauseState.InCatalogue:
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InQuests:
+                    SetState(PauseState.Playing);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void CheckQKey()
+        {
+            if (!Input.GetKeyDown(KeyCode.Q)) return;
+            switch (_currentState)
+            {
+                case PauseState.Playing:
+                    SetState(PauseState.InQuests);
+                    break;
+                case PauseState.InPauseMenu:
+                    break;
+                case PauseState.InInventory:
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InCatalogue:
+                    SetState(PauseState.Playing);
+                    break;
+                case PauseState.InQuests:
+                    SetState(PauseState.Playing);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         public static void SetState(PauseState newState, bool suppressEvent = false)
         {
-            currentState = newState;
+            _currentState = newState;
 
             if (!suppressEvent)
-                EventManager.OnPauseSateChange(currentState);
+                EventManager.OnPauseSateChange(_currentState);
         }
 
         public void UnPause()

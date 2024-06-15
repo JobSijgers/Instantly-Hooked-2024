@@ -8,7 +8,7 @@ namespace Catalogue
     public class CatalogueItem
     {
         [SerializeField] private FishData fishToTrack;
-        private int _amountCaught;
+        private int amountCaught;
             
         public FishData GetFish()
         {
@@ -17,17 +17,17 @@ namespace Catalogue
             
         public void AddFish()
         {
-            _amountCaught++;
+            amountCaught++;
         }
         
         public int GetAmount()
         {
-            return _amountCaught;
+            return amountCaught;
         }
 
         public void SetAmount(int fishamount)
         {
-            _amountCaught = fishamount;
+            amountCaught = fishamount;
         }
     }
 }

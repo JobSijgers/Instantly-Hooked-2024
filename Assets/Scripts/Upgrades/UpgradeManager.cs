@@ -12,7 +12,7 @@ namespace Upgrades
     {
         // This class represents the state of an upgrade, including its current level and the array of possible upgrades.
         [Serializable]
-        private class UpgradeState
+        public class UpgradeState
         {
             [SerializeField] private Upgrade[] upgrades;
             private int upgradeIndex;
@@ -55,6 +55,16 @@ namespace Upgrades
             public int GetUpgradeLevel()
             {
                 return upgradeIndex;
+            }
+            
+            public int GetMaxLevel()
+            {
+                return upgrades.Length;
+            }
+            public void SetUpgradeLevel(int index)
+            {
+                upgradeIndex = index;
+                Instance.NotifyUpgrades();
             }
         }
 
@@ -114,11 +124,11 @@ namespace Upgrades
                 EventManager.OnNotEnoughMoney();
                 return;
             }
-
+            
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
             if (upgradeState == null)
                 return;
-
+            EconomyManager.instance.RemoveMoney(upgrade.cost);
             upgradeState.IncreaseUpgradeIndex();
             EventManager.OnUpgradeBought(upgrade);
         }
@@ -134,13 +144,19 @@ namespace Upgrades
             UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
             return upgradeState?.GetUpgradeLevel() ?? 0;
         }
+        
+        public int GetMaxLevel(Upgrade upgrade)
+        {
+            UpgradeState upgradeState = GetMatchingUpgradeState(upgrade);
+            return upgradeState?.GetMaxLevel() ?? 0;
+        }
 
         /// <summary>
         /// This method returns the UpgradeState that matches the given upgrade.
         /// </summary>
         /// <param name="upgrade"></param>
         /// <returns></returns>
-        private UpgradeState GetMatchingUpgradeState(Upgrade upgrade)
+        public UpgradeState GetMatchingUpgradeState(Upgrade upgrade)
         {
             foreach (UpgradeState upgradeState in upgradeStates)
             {

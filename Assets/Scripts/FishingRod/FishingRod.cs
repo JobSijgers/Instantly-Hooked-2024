@@ -1,9 +1,7 @@
-using System;
-using Enums;
 using Events;
 using PauseMenu;
 using UnityEngine;
-using Upgrades;
+using UnityEngine.EventSystems;
 using Upgrades.Scriptable_Objects;
 
 namespace FishingRod
@@ -13,12 +11,15 @@ namespace FishingRod
     {
         [SerializeField] private Transform origin;
         [SerializeField] private Transform hook;
+        [SerializeField] private int minLineLength;
+        [SerializeField] private float seaLevel;
         private SpringJoint springJoint;
         private float reelingSpeed = 5;
         private float dropSpeed = 3;
         private float maxLineLength = 5;
         private float currentLineLength = 0;
         private bool rodEnabled = true;
+        private float defaultOffset;
         public float GetLineLength() => maxLineLength;
 
         private void Start()
@@ -35,8 +36,10 @@ namespace FishingRod
             {
                 Debug.LogError("No rigidbody attached to hook");
             }
-
-            springJoint.maxDistance = 0;
+            
+            currentLineLength = minLineLength;
+            springJoint.maxDistance = minLineLength;
+            defaultOffset = Vector2.Distance(origin.position, new Vector2(origin.position.x, seaLevel));
         }
 
         private void OnDestroy()
@@ -49,26 +52,31 @@ namespace FishingRod
 
         private void Update()
         {
-            if (!rodEnabled)
+            if (!rodEnabled || EventSystem.current.IsPointerOverGameObject())
                 return;
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !Hook.instance.touchingGround)
             {
                 CastHook();
             }
-
-            if (Input.GetMouseButton(1))
+            else if (Input.GetMouseButton(1))
+            { 
+                ReelHook();
+            }
+            else if (Hook.instance.touchingGround)
             {
-                    ReelHook();
-                if (Hook.instance.FishOnHook == null || !Hook.instance.FishOnHook.IsStruggeling())
-                {
-                }
+                float newLineLength = Vector3.Distance(hook.position, origin.position) - 0.5f;
+                float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength, maxLineLength);
+
+                springJoint.maxDistance = newClampedLineLength;
+                springJoint.connectedBody.WakeUp();
+                currentLineLength = newClampedLineLength;
             }
         }
 
         private void CastHook()
         {
             float newLineLength = currentLineLength + dropSpeed * Time.deltaTime;
-            float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
+            float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength, maxLineLength);
 
             springJoint.maxDistance = newClampedLineLength;
             springJoint.connectedBody.WakeUp();
@@ -78,10 +86,11 @@ namespace FishingRod
         private void ReelHook()
         {
             float newLineLength = currentLineLength - reelingSpeed * Time.deltaTime;
-            float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
-            if (newClampedLineLength <= 0 && Hook.instance.FishOnHook != null)
+            float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength , maxLineLength);
+            if (newClampedLineLength <= minLineLength && Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.states.Biting.CurrentState == FishBitingState.OnHook)
             {
-                EventManager.OnFishCaught(Hook.instance.FishOnHook.fishData, GetRandomFishSize());
+                FishBrain fish = Hook.instance.FishOnHook;
+                EventManager.OnFishCaught(fish.fishData, fish.fishSize);
             }
 
             springJoint.maxDistance = newClampedLineLength;
@@ -92,29 +101,31 @@ namespace FishingRod
         public void SetLineLength(Vector2 fishpos)
         {
             float distance = Vector2.Distance(origin.transform.position, fishpos);
+            distance += 0.1f;
             float newLineLength = distance;
-            float newClampedLineLength = Mathf.Clamp(newLineLength, 0, maxLineLength);
+            float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength, maxLineLength);
 
             springJoint.maxDistance = newClampedLineLength;
             springJoint.connectedBody.WakeUp();
             currentLineLength = newClampedLineLength;
         }
-
-        private FishSize GetRandomFishSize()
-        {
-            var fish = Enum.GetValues(typeof(FishSize));
-            return (FishSize)fish.GetValue(UnityEngine.Random.Range(0, fish.Length));
-        }
-
+        
         private void OnDock()
         {
             rodEnabled = false;
-            springJoint.maxDistance = 0;
+            currentLineLength = minLineLength;
+            springJoint.maxDistance = minLineLength;
+            springJoint.connectedBody.velocity = Vector3.zero;
         }
 
         private void OnUndock()
         {
             rodEnabled = true;
+            springJoint.connectedBody.gameObject.transform.position = transform.position;
+            currentLineLength = minLineLength;
+            springJoint.maxDistance = minLineLength;
+            springJoint.connectedBody.velocity = Vector3.zero;
+            springJoint.connectedBody.WakeUp();
         }
 
         private void UpgradeBought(Upgrade upgrade)
@@ -122,7 +133,7 @@ namespace FishingRod
             switch (upgrade)
             {
                 case LineLengthUpgrade lineLengthUpgrade:
-                    maxLineLength = lineLengthUpgrade.lineLength;
+                    maxLineLength = lineLengthUpgrade.lineLength + defaultOffset;
                     break;
                 case ReelSpeedUpgrade reelSpeedUpgrade:
                     reelingSpeed = reelSpeedUpgrade.reelSpeed;

@@ -2,11 +2,12 @@
 using Fish;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Player.Inventory
 {
-    public class InventoryItem : MonoBehaviour
+    public class InventoryItem : MonoBehaviour, IPointerEnterHandler
     {
         protected FishData fishData;
         protected int stackSize = 1;
@@ -66,6 +67,11 @@ namespace Player.Inventory
         protected void UpdateStackUI()
         {
             stackSizeText.text = stackSize.ToString();
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            Inventory.Instance.HighlightItem(fishData);
         }
     }
 }

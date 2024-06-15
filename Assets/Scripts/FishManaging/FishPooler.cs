@@ -35,6 +35,10 @@ public class FishPooler : MonoBehaviour
     }
     public void ReturnFish(FishBrain fish)
     {
+        if (fish == null)
+        {
+            return;
+        }
         if (ToManyFishActive())
         {
             FishList.Remove(fish);
@@ -52,8 +56,7 @@ public class FishPooler : MonoBehaviour
         {
             if (!fish.gameObject.activeInHierarchy) i++;
         }
-        if (i > MaxFishInList) return true;
-        else return false;
+        return i >= MaxFishInList;
     }
     public FishBrain SpawnNewFish()
     {

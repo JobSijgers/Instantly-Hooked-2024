@@ -18,10 +18,15 @@ MonoBehaviour:
     Mature alligator gar commonly measure 1.8 m '
   habitat: shoreline to 200 m depth
   fishRarity: 3
-  fishSellAmount: 6400000096000000c8000000
+  fishSellAmount: fa0000002c0100005e010000
   fishObject: {fileID: 1485429694535822778, guid: 72a4d32171320924cb66aba118a61222,
     type: 3}
+  fishSize:
+  - 1.2
+  - 1.5
+  - 1.8
   fishVisual: {fileID: 21300000, guid: 7500f29c6af007d41959f7a2a17e55d4, type: 3}
-  moveSpeed: 4
+  moveSpeed: 9
   maxStackAmount: 10
   biteRate: 2
+  stamina: 30

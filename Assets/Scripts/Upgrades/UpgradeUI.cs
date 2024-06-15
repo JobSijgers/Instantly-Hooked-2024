@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Events;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -51,7 +52,7 @@ namespace Upgrades
         {
             EventManager.OnUpgradeShopClose();
         }
-
+        
         /// <summary>
         /// his method creates a new upgrade item in the shop for each upgrade.
         /// </summary>

@@ -18,9 +18,15 @@ MonoBehaviour:
     salmon shark generally grows to between 200 and 260 cm in length."
   habitat: "200 \u2013 600 m depth"
   fishRarity: 3
-  fishSellAmount: 
-  fishObject: {fileID: 0}
-  fishVisual: {fileID: 0}
-  moveSpeed: 4
+  fishSellAmount: fa0000002c01000090010000
+  fishObject: {fileID: 2472471435180684056, guid: 0bc02b9d9f58fae43b641a87515e9c66,
+    type: 3}
+  fishSize:
+  - 160
+  - 170
+  - 190
+  fishVisual: {fileID: 21300000, guid: a5386451b80df734cbeff0f122f06b9a, type: 3}
+  moveSpeed: 7
   maxStackAmount: 5
-  biteRate: 3
+  biteRate: 2
+  stamina: 45

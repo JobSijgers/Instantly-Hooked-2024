@@ -2,6 +2,7 @@
 using UnityEngine;
 using Economy.ShopScripts;
 using Events;
+using Quests;
 using Unity.VisualScripting;
 using Upgrades.Scriptable_Objects;
 
@@ -10,7 +11,8 @@ namespace Economy
     public class EconomyManager : MonoBehaviour
     {
         public static EconomyManager instance;
-
+        
+        [SerializeField] private int startingMoney = 0;
         private int currentMoney = 0;
         public int GetCurrentMoneyAmount() => currentMoney;
 
@@ -22,13 +24,15 @@ namespace Economy
         private void Start()
         {
             EventManager.ShopSell += AddMoney;
-            EventManager.UpgradeBought += RemoveMoney;
+            EventManager.QuestCompleted += AddMoney;
+            currentMoney = startingMoney;
+            EventManager.OnMoneyUpdate(currentMoney);
         }
 
         private void OnDestroy()
         {
             EventManager.ShopSell -= AddMoney;
-            EventManager.UpgradeBought -= RemoveMoney;
+            EventManager.QuestCompleted -= AddMoney;
         }
 
         public bool HasEnoughMoney(int purchaseAmount)
@@ -39,18 +43,18 @@ namespace Economy
         private void AddMoney(int addAmount)
         {
             currentMoney += addAmount;
-            EventManager.OnMoneyUpdate(currentMoney);
+            EventManager.OnMoneyUpdate(currentMoney); 
         }
 
-        private void RemoveMoney(int removeMoney)
+        private void AddMoney(QuestProgress questProgress)
+        {
+            AddMoney(questProgress.completionMoney);
+        }
+
+        public void RemoveMoney(int removeMoney)
         {
             currentMoney -= removeMoney;
             EventManager.OnMoneyUpdate(currentMoney);
-        }
-
-        private void RemoveMoney(Upgrade upgrade)
-        {
-            RemoveMoney(upgrade.cost);
         }
     }
 }

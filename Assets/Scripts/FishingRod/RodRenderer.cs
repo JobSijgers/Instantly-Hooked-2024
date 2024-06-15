@@ -12,7 +12,7 @@ namespace FishingRod
         [SerializeField] private float pointInterval;
         private PathCreator _path;
         private LineRenderer _lineRenderer;
-        private const float MaxLineRenderDistance = 1000;
+        private const float MaxLineRenderDistance = 10000;
         private void Start()
         {
             _path = gameObject.AddComponent<PathCreator>();

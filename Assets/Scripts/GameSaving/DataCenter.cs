@@ -14,26 +14,37 @@ using Upgrades;
 
 public class DataCenter : MonoBehaviour
 {
+    [Header("Commands")]
+    [Header("/+1 save file")]
+    [Header("/+2  load file")]
+    [Header("/+3  delete file")]
+    [Space(20)]
+    [Header("Settings")]
+    [SerializeField] private bool EnableGameSaving;
+    [SerializeField] private bool AutoLoadGame; 
     [SerializeField] private bool DebugLogs;
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
-    private void Awake()
+    private void Start()
     {
-        LoadGame();
+        if (AutoLoadGame) Invoke("LoadGame", 0.1f);
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
-        if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
-        if (Input.GetKeyDown(KeyCode.Alpha3)) DeleteFile();
+        if (Input.GetKey(KeyCode.Slash))
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
+            if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
+            if (Input.GetKeyDown(KeyCode.Alpha3)) DeleteFile();
+        }
     }
     private void LoadGame()
     {
         if (DebugLogs) Debug.Log("Load Game");
         if (File.Exists(Application.persistentDataPath + Filename))
         {
-            if (DebugLogs) Debug.Log($"Debug Found at {Application.persistentDataPath + Filename}");
+            if (DebugLogs) Debug.Log($"Found at {Application.persistentDataPath + Filename}");
 
             string file = File.ReadAllText(Application.persistentDataPath + Filename);
             storageCenter = JsonUtility.FromJson<StorageCenter>(file);
@@ -104,7 +115,11 @@ public class DataCenter : MonoBehaviour
         CatalogueTracker.Instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
         storageCenter.Catalogue.totalCollectedFish = totalFish;
         storageCenter.Catalogue.amountCaught = amountcollectedPF;
-    } 
+    }
+    private void OnApplicationQuit()
+    {
+        if (EnableGameSaving) SafeGame();
+    }
 }
 [Serializable]
 public class StorageCenter

@@ -18,9 +18,15 @@ MonoBehaviour:
     grows to 1.25 m but can reach a length of 6 m."
   habitat: "50 \u2013 100 m depth."
   fishRarity: 3
-  fishSellAmount: 
-  fishObject: {fileID: 0}
-  fishVisual: {fileID: 0}
-  moveSpeed: 4
+  fishSellAmount: 5a0000006e00000082000000
+  fishObject: {fileID: 3544500704071359097, guid: 1adf66d88353219408b6d45864110b60,
+    type: 3}
+  fishSize:
+  - 1.3
+  - 1.5
+  - 1.7
+  fishVisual: {fileID: 21300000, guid: fed56bdee52f4d34089c160f620ceab2, type: 3}
+  moveSpeed: 6
   maxStackAmount: 5
   biteRate: 2
+  stamina: 35

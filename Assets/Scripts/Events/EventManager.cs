@@ -1,22 +1,22 @@
-﻿using System.Numerics;
-using System.Resources;
+﻿using System;
 using Economy.ShopScripts;
 using Enums;
 using Fish;
 using PauseMenu;
+using Quests;
+using UnityEngine;
 using UnityEngine.Events;
-using Upgrades;
 using Upgrades.Scriptable_Objects;
 
 namespace Events
 {
     public static class EventManager
     {
-        public static event UnityAction<float> TimeUpdate;
+        public static event UnityAction<TimeSpan> TimeUpdate;
         public static event UnityAction<int> NewDay;
         public static event UnityAction<int> MoneyUpdate;
         public static event UnityAction Dock;
-        public static event UnityAction DockSucess;
+        public static event UnityAction DockSuccess;
         public static event UnityAction SellShopOpen;
         public static event UnityAction SellShopClose;
         public static event UnityAction UpgradeShopOpen;
@@ -32,13 +32,19 @@ namespace Events
         public static event UnityAction LeftShore;
         public static event UnityAction PlayerDied;
         public static event UnityAction<bool> BoatControlsChange;
-        public static event UnityAction BoatAutoDock; 
-
-        public static void OnTimeUpdate(float value) => TimeUpdate?.Invoke(value);
+        public static event UnityAction BoatAutoDock;
+        public static event UnityAction<QuestProgress> QuestCompleted;
+        public static event UnityAction<QuestProgress> QuestUpdated;
+        public static event UnityAction<QuestProgress> QuestHighlighted;
+        public static event UnityAction<QuestProgress> QuestUnHighlighted;
+        public static event UnityAction<Transform> StormSpawned; 
+        public static event UnityAction<QuestProgress> HUDQuestSelected;
+        
+        public static void OnTimeUpdate(TimeSpan value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);
         public static void OnDock() => Dock?.Invoke();
-        public static void OnDockSuccess() => DockSucess?.Invoke();
+        public static void OnDockSuccess() => DockSuccess?.Invoke();
         public static void OnSellShopOpen() => SellShopOpen?.Invoke();
         public static void OnSellShopClose() => SellShopClose?.Invoke();
         public static void OnUpgradeShopOpen() => UpgradeShopOpen?.Invoke();
@@ -55,5 +61,11 @@ namespace Events
         public static void OnPlayerDied() => PlayerDied?.Invoke();
         public static void OnBoatControlsChanged(bool state) => BoatControlsChange?.Invoke(state);
         public static void OnBoatAutoDock() => BoatAutoDock?.Invoke();
+        public static void OnQuestCompleted(QuestProgress quest) => QuestCompleted?.Invoke(quest);
+        public static void OnQuestUpdated(QuestProgress quest) => QuestUpdated?.Invoke(quest);
+        public static void OnQuestHighlight(QuestProgress quest) => QuestHighlighted?.Invoke(quest);
+        public static void OnQuestUnHighlight(QuestProgress quest) => QuestUnHighlighted?.Invoke(quest);
+        public static void OnStormSpawned(Transform storm) => StormSpawned?.Invoke(storm);
+        public static void OnHUDQuestSelected(QuestProgress quest) => HUDQuestSelected?.Invoke(quest);
     }
 }

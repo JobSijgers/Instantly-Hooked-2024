@@ -9,31 +9,41 @@ namespace Fish
     [Serializable]
     public class FishData : ScriptableObject
     {
-        
         public string fishName;
         public string fishDescription;
         public string habitat;
-        
-        [Header("Economy")]
+
+        [Header("Economy")] 
         public FishRarity fishRarity;
         public int[] fishSellAmount;
 
         [Header("Visual")] 
         public GameObject fishObject;
+        public float[] fishSize;
 
-        [Header("UI")] 
+        [Header("UI")]
         public Sprite fishVisual;
-     
-        [Header("Stats")]
+
+        [Header("Stats")] 
         public float moveSpeed;
 
         [Header("Inventory")] 
         public int maxStackAmount;
 
-        [Header("Bite")]
-        [Tooltip("1 op ??")]
+        [Header("BiteRate")] [Range(1,10)]
         public int biteRate;
+
+        [Header("Stamina")]
+        public float stamina;
+
+
+        public Vector3 GetScale(FishSize size)
+        {
+            if (fishSize.Length == Enum.GetNames(typeof(FishSize)).Length) 
+                return fishSize[(int)size] * Vector3.one;
+            
+            Debug.LogWarning("<color=#f00>Fish siz e array is not the correct size in: " + fishName + " Defaulting to 1</color>");
+            return Vector3.one;
+        }
     }
-    
-    
 }

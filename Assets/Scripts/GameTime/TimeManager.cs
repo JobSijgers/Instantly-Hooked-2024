@@ -15,27 +15,33 @@ namespace GameTime
         private int currentDay;
         private float timeMultiplier;
         private float currentTime;
+        private bool atShore;
+
+        private void Awake()
+        {
+            instance = this;
+        }
 
         private void Start()
         {
-            instance = this;
             // Calculate time multiplier based on minutes per cycle
             timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
-            
+
             // Subscribe to various game events
             EventManager.PauseStateChange += OnPause;
-            EventManager.LeftShore += EnableTime;
-            EventManager.ArrivedAtShore += DisableTime;
+            EventManager.LeftShore += LeftShore;
+            EventManager.ArrivedAtShore += ArrivedAtShore;
             EventManager.PlayerDied += EndDay;
         }
+
 
         private void OnDestroy()
         {
             // Unsubscribe from game events when this object is destroyed
             EventManager.PauseStateChange -= OnPause;
-            EventManager.LeftShore -= EnableTime;
-            EventManager.ArrivedAtShore -= DisableTime;
+            EventManager.LeftShore -= LeftShore;
+            EventManager.ArrivedAtShore -= ArrivedAtShore;
             EventManager.PlayerDied -= EndDay;
         }
 
@@ -46,11 +52,11 @@ namespace GameTime
 
             // Update current time
             currentTime += Time.deltaTime * timeMultiplier;
-            EventManager.OnTimeUpdate(currentTime);
+            TimeSpan span = TimeSpan.FromSeconds(currentTime);
+            EventManager.OnTimeUpdate(span);
 
             // Check if a new day has started
-            TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
-            if (timeSpan.Days >= 1)
+            if (span.Days >= 1)
             {
                 EndDay();
             }
@@ -63,13 +69,14 @@ namespace GameTime
         }
 
         public void EndDay()
-        { 
+        {
             currentDay++;
 
             // Reset time and broadcast new day and time update events
             ResetTime();
+            TimeSpan span = TimeSpan.FromSeconds(currentTime);
             EventManager.OnNewDay(currentDay);
-            EventManager.OnTimeUpdate(currentTime);
+            EventManager.OnTimeUpdate(span);
         }
 
         private void OnPause(PauseState newState)
@@ -96,6 +103,8 @@ namespace GameTime
 
         private void EnableTime()
         {
+            if (atShore)
+                return;
             timePassing = true;
         }
 
@@ -103,9 +112,22 @@ namespace GameTime
         {
             currentday = currentDay;
         }
+
         public void SetDay(int currentday)
         {
             currentDay = currentday;
+        }
+
+        private void LeftShore()
+        {
+            atShore = false;
+            EnableTime();
+        }
+
+        private void ArrivedAtShore()
+        {
+            atShore = true;
+            DisableTime();
         }
     }
 }

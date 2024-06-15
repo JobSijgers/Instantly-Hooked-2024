@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b976eab73a8b4f52943bf972a32a5091, type: 3}
+  m_Name: Boat speed  4
+  m_EditorClassIdentifier: 
+  upgradeName: 'Boat speed '
+  description: Boat speed upgrade
+  cost: 240
+  upgradeVisual: {fileID: 0}
+  maxSpeed: 5
+  acceleration: 4

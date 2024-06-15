@@ -8,16 +8,7 @@ namespace Boat
 {
     public class BoatUpgradeVisual : MonoBehaviour
     {
-        [Serializable]
-        private class UpgradeVisual
-        {
-            public Upgrade upgrade;
-            public MeshFilter meshFilter;
-            public MeshRenderer meshRenderer;
-        }
-        
-        [SerializeField] private UpgradeVisual[] upgradeVisuals;
-
+        [SerializeField] private Transform upgradeVisualParent;
         private void Start()
         {
             EventManager.UpgradeBought += UpdateVisuals;
@@ -30,14 +21,9 @@ namespace Boat
         
         private void UpdateVisuals(Upgrade upgrade)
         {
-            foreach (UpgradeVisual upgradeVisual in upgradeVisuals)
-            {
-                if (upgradeVisual.upgrade != upgrade) continue;
-                
-                upgradeVisual.meshFilter.mesh = upgrade.upgradeVisual.mesh;
-                upgradeVisual.meshRenderer.material = upgrade.upgradeVisual.material;
+            if (upgrade.upgradeVisual == null)
                 return;
-            }
+            GameObject go = Instantiate(upgrade.upgradeVisual, upgradeVisualParent);
         }
     }
 }

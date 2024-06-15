@@ -1,17 +1,13 @@
-﻿using System;
-using Enums;
+﻿using Enums;
 using Fish;
 using Player.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using Color = UnityEngine.Color;
 
 namespace Economy.ShopScripts
 {
     public class SellShopItem : InventoryItem, IPointerClickHandler
-
     {
         public delegate void FSelectedAmountChanged(SellShopItem item, int change);
 
@@ -61,35 +57,36 @@ namespace Economy.ShopScripts
             OnSelectedAmountChanged?.Invoke(this, -1);
         }
 
+        /// <summary>
+        /// Handles the input field changed event.
+        /// </summary>
         public void OnInputFieldChanged()
         {
             int newInt = int.Parse(inputField.text);
             if (newInt == currentSelectedAmount)
                 return;
 
+            int oldSelectedAmount = currentSelectedAmount;
+
             if (newInt >= stackSize)
             {
-                OnSelectedAmountChanged?.Invoke(this, stackSize - currentSelectedAmount);
                 currentSelectedAmount = stackSize;
-                inputField.text = stackSize.ToString();
             }
             else if (newInt >= fishData.maxStackAmount)
             {
-                OnSelectedAmountChanged?.Invoke(this, fishData.maxStackAmount - currentSelectedAmount);
                 currentSelectedAmount = fishData.maxStackAmount;
-                inputField.text = fishData.maxStackAmount.ToString();
             }
             else if (newInt <= 0)
             {
-                OnSelectedAmountChanged?.Invoke(this, 0 - currentSelectedAmount);
                 currentSelectedAmount = 0;
-                inputField.text = 0.ToString();
             }
             else
             {
-                OnSelectedAmountChanged?.Invoke(this, newInt - currentSelectedAmount);
                 currentSelectedAmount = newInt;
             }
+
+            inputField.text = currentSelectedAmount.ToString();
+            OnSelectedAmountChanged?.Invoke(this, currentSelectedAmount - oldSelectedAmount);
         }
 
         public void SetInputField(int newSelected)

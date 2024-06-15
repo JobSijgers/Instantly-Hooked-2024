@@ -16,23 +16,21 @@ namespace Dock
 
         private void Start()
         {
-            EventManager.DockSucess += DockSuccess;
+            EventManager.DockSuccess += DockSuccess;
             EventManager.PauseStateChange += OnPause;
-            EventManager.PlayerDied += DockBoat;
             EventManager.LeftShore += UnDockBoat;
         }
 
         private void OnDestroy()
         {
             EventManager.PauseStateChange -= OnPause;
-            EventManager.PlayerDied -= DockBoat;
             EventManager.LeftShore -= UnDockBoat;
-            EventManager.DockSucess -= DockSuccess;
+            EventManager.DockSuccess -= DockSuccess;
         }
 
         private void Update()
         {
-            if (IsBoatInRange() && !_boatDocked)
+            if (IsBoatInRange() && !_boatDocked && Hook.instance.FishOnHook == null)
             {
                 GetDockInput();
             }
