@@ -3,24 +3,14 @@ using Events;
 using PauseMenu;
 using TMPro;
 using UnityEngine;
+using Views;
 
 namespace GameTime
 {
-    public class TimeUI : MonoBehaviour
+    public class TimeUI : ViewComponent
     {
         [SerializeField] private TMP_Text timeUIText;
         [SerializeField] private TMP_Text dayUIText;
-
-        private void Start()
-        {
-            EventManager.PauseStateChange += OnPauseStateChange;
-
-        }
-
-        private void OnDestroy()
-        {
-            EventManager.PauseStateChange -= OnPauseStateChange;
-        }
         
         private void OnEnable()
         {
@@ -50,16 +40,6 @@ namespace GameTime
         private void UpdateDayUI(int newDay)
         {
             dayUIText.text = $"Day: {newDay}";
-        }
-        
-        private void OnPauseStateChange(PauseState pauseState)
-        {
-            if (pauseState == PauseState.Playing)
-            {
-                gameObject.SetActive(true);
-                return;
-            }
-            gameObject.SetActive(false);
         }
     }
 }

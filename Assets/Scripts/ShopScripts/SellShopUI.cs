@@ -5,13 +5,13 @@ using Fish;
 using Player.Inventory;
 using TMPro;
 using UnityEngine;
+using Views;
 
-namespace Economy.ShopScripts
+namespace ShopScripts
 {
-    public class SellShopUI : MonoBehaviour
+    public class SellShopUI : View
     {
         [SerializeField] private GameObject shopItemPrefab;
-        [SerializeField] private GameObject shopObject;
         [SerializeField] private Transform itemHolder;
         [SerializeField] private GameObject sellSheetTextPrefab;
         [SerializeField] private Transform sellSheetParent;
@@ -25,50 +25,30 @@ namespace Economy.ShopScripts
         private readonly List<TMP_Text> sellTexts = new();
         private int currentTotalSellMoneyAmount;
         private int currentTotalSellAmount;
-
-        private void Start()
+        
+        public override void Show()
         {
-            EventManager.SellShopOpen += OpenSellShopUI;
-            EventManager.SellShopClose += CloseSellShopUI;
-            EventManager.LeftShore += CloseSellShopUI;
-        }
-
-
-        private void OnDestroy()
-        {
-            EventManager.SellShopOpen += OpenSellShopUI;
-            EventManager.SellShopClose += CloseSellShopUI;
-            EventManager.LeftShore += CloseSellShopUI;
-        }
-
-        private void OpenSellShopUI()
-        {
-            shopObject.SetActive(true);
-            foreach (InventoryItem inventoryItem in Inventory.Instance.GetInventory())
+            base.Show();
+            foreach (InventoryItem inventoryItem in Inventory.instance.GetInventory())
             {
                 GameObject go = Instantiate(shopItemPrefab, itemHolder);
                 SellShopItem item = go.GetComponent<SellShopItem>();
                 item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize(),
-                    Inventory.Instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
+                    Inventory.instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
                 item.OnSelectedAmountChanged += UpdateShoppingList;
                 shopItems.Add(item);
             }
         }
 
-        private void CloseSellShopUI()
+        public override void Hide()
         {
-            shopObject.SetActive(false);
+            base.Hide();
             foreach (SellShopItem item in shopItems)
             {
                 Destroy(item.gameObject);
             }
 
             shopItems.Clear();
-        }
-
-        public void CloseUI()
-        {
-            EventManager.OnSellShopClose();
         }
 
         public void SelectAll()
@@ -166,8 +146,8 @@ namespace Economy.ShopScripts
             EventManager.OnSellSelectedButton(sellSheet.ToArray());
             ClearSellSheet();
             UpdateShoppingListUI();
-            CloseSellShopUI();
-            OpenSellShopUI();
+            Show();
+            Hide();
         }
 
         private void ClearSellSheet()

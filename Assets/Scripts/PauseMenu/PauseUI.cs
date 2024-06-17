@@ -1,42 +1,20 @@
-﻿using Events;
+﻿using System;
+using Events;
 using UnityEngine;
+using Views;
 
 namespace PauseMenu
 {
-    public class PauseUI : MonoBehaviour
+    public class PauseUI : View
     {
-        [SerializeField] private GameObject pauseUI;
-
-        private void Start()
+        public void Resume()
         {
-            EventManager.PauseStateChange += OnPause;
+            ViewManager.ShowView<GameView>();
         }
-
-        private void OnDestroy()
+        
+        public void Quit()
         {
-            EventManager.PauseStateChange -= OnPause;
-        }
-
-        private void OnPause(PauseState newState)
-        {
-            switch (newState)
-            {
-                case PauseState.Playing:
-                    pauseUI.SetActive(false);
-                    break;
-                case PauseState.InPauseMenu:
-                    pauseUI.SetActive(true);
-                    break;
-                case PauseState.InInventory:
-                    pauseUI.SetActive(false);
-                    break;
-                case PauseState.InCatalogue:
-                    pauseUI.SetActive(false);
-                    break;
-                case PauseState.InQuests:
-                    pauseUI.SetActive(false);
-                    break;
-            }
+            Application.Quit();
         }
     }
 }

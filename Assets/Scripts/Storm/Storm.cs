@@ -5,6 +5,7 @@ using Events;
 using Interfaces;
 using PauseMenu;
 using UnityEngine;
+using Views;
 
 namespace Storm
 {
@@ -21,17 +22,17 @@ namespace Storm
         private void Start()
         {
             EventManager.NewDay += DestroyStorm;
-            EventManager.ArrivedAtShore += PauseStorm;
+            EventManager.DockSuccess += PauseStorm;
             EventManager.LeftShore += ResumeStorm;
-            EventManager.PauseStateChange += CheckPause;
+            ViewManager.instance.ViewShow += CheckStormPause;
         }
 
         private void OnDestroy()
         {
             EventManager.NewDay -= DestroyStorm;
-            EventManager.ArrivedAtShore -= PauseStorm;
+            EventManager.DockSuccess -= PauseStorm;
             EventManager.LeftShore -= ResumeStorm;
-            EventManager.PauseStateChange -= CheckPause;
+            ViewManager.instance.ViewShow -= CheckStormPause;
         }
 
 
@@ -95,15 +96,15 @@ namespace Storm
         {
             paused = false;
         }
-
-        private void CheckPause(PauseState state)
-        {
-            paused = state != PauseState.Playing;
-        }
-
+        
         private void PauseStorm()
         {
             paused = true;
+        }
+        
+        private void CheckStormPause(View newView)
+        {
+            paused = newView is not GameView;
         }
     }
 }

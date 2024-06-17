@@ -2,72 +2,45 @@
 using System.Collections;
 using Events;
 using UnityEngine;
-using UnityEngine.UI;
+using Views;
 
 namespace Shore
 {
     public class ShoreManager : MonoBehaviour
     {
-        [SerializeField] private float transitionDuration;
-        [SerializeField] private AnimationCurve transitionCurve;
-        [SerializeField] private Image fadeScreen;
-        [SerializeField] private GameObject shore;
-        [SerializeField] private GameObject sea;
+        [SerializeField] private GameObject shoreCamera;
+        [SerializeField] private float transitionTime = 2f;
+
         private void Start()
         {
-            EventManager.Dock += TransitionToShore;
+            EventManager.DockSuccess += TransitionToShore;
+            EventManager.LeftShore += TransitionToSea;
         }
 
         private void TransitionToShore()
         {
-            StartCoroutine(TransitionToShoreRoutine());
+            shoreCamera.SetActive(true);
+            StartCoroutine(TransitionViewToShore());
         }
 
-        public void LeaveShore()
+        private void TransitionToSea()
         {
-            StartCoroutine(TransitionToBoatRoutine());
+            shoreCamera.SetActive(false);
+            StartCoroutine(TransitionViewToSea());
         }
 
-        private IEnumerator TransitionToShoreRoutine()
+        private IEnumerator TransitionViewToShore()
         {
-            yield return FadeOutRoutine();
-            EventManager.OnArrivedAtShore();
-            shore.SetActive(true);
-            sea.SetActive(false);
-            yield return FadeInRoutine();
+            ViewManager.HideActiveView();
+            yield return new WaitForSeconds(transitionTime);
+            ViewManager.ShowView<ShoreUI>();
         }
         
-        private IEnumerator TransitionToBoatRoutine()
+        private IEnumerator TransitionViewToSea()
         {
-            yield return FadeOutRoutine();
-            EventManager.OnLeftShore();
-            shore.SetActive(false);
-            sea.SetActive(true);
-            yield return FadeInRoutine();
-        }
-
-        private IEnumerator FadeOutRoutine()
-        {
-            var t = 0f;
-            while (t < 1)
-            {
-                t += Time.deltaTime / (transitionDuration / 2f);
-                var curveValue = transitionCurve.Evaluate(t);
-                fadeScreen.color = Color.Lerp(Color.clear, Color.black, curveValue);
-                yield return null;
-            }
-        }
-
-        private IEnumerator FadeInRoutine()
-        {
-            var t = 0f;
-            while (t < 1)
-            {
-                t += Time.deltaTime / (transitionDuration / 2f);
-                var curveValue = transitionCurve.Evaluate(t);
-                fadeScreen.color = Color.Lerp(Color.black, Color.clear, curveValue);
-                yield return null;
-            }
+            ViewManager.HideActiveView();
+            yield return new WaitForSeconds(transitionTime);
+            ViewManager.ShowView<GameView>();
         }
     }
 }

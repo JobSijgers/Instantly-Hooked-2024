@@ -14,12 +14,12 @@ GameObject:
   - component: {fileID: 350620038377708309}
   - component: {fileID: 5724927979952931040}
   - component: {fileID: 9030007309800792193}
-  - component: {fileID: 6731738640997864002}
   - component: {fileID: 6877359919399279039}
   - component: {fileID: 5682972943312613664}
   - component: {fileID: 1879113531662654534}
   - component: {fileID: 2207235148304372158}
   - component: {fileID: 7251956408511335369}
+  - component: {fileID: 2020683507130819442}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -275,18 +275,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: fa002fa51d18e604d865edf53a0772ab, type: 2}
     - {fileID: 11400000, guid: 12443ad92a5eead44b1bdfaa5b591e9c, type: 2}
     - {fileID: 11400000, guid: 7b2987c38dd432d4c88569dd52b65640, type: 2}
---- !u!114 &6731738640997864002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721431727958521510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdd41825c40e4c2d9550754fc8f09e4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6877359919399279039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,3 +690,16 @@ MonoBehaviour:
   EnableGameSaving: 0
   AutoLoadGame: 0
   DebugLogs: 0
+--- !u!114 &2020683507130819442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721431727958521510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fc33767142440fa5946632e3744b7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds: []

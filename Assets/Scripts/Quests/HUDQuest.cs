@@ -1,4 +1,5 @@
 ﻿using Events;
+using Views;
 
 namespace Quests
 {
@@ -20,7 +21,7 @@ namespace Quests
 
         public void ButtonPressed()
         {
-            EventManager.OnHUDQuestSelected(progress);
+            ViewManager.ShowView<QuestBookUI>();
         }
     }
 }

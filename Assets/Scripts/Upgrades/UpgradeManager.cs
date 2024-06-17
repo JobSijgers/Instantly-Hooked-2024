@@ -81,7 +81,6 @@ namespace Upgrades
         private void Start()
         {
             EventManager.LeftShore += NotifyUpgrades;
-            EventManager.UpgradeShopOpen += OpenShop;
             SetUpItems();
             StartCoroutine(LateStart());
         }
@@ -89,7 +88,6 @@ namespace Upgrades
         private void OnDestroy()
         {
             EventManager.LeftShore -= NotifyUpgrades;
-            EventManager.UpgradeShopOpen -= OpenShop;
         }
 
         private void Update()
@@ -186,7 +184,6 @@ namespace Upgrades
 
         private void CloseShop()
         {
-            EventManager.OnUpgradeShopClose();
             shopState = ShopState.Closed;
         }
 

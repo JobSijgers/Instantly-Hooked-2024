@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Economy.ShopScripts
+namespace ShopScripts
 {
     public class SellShopItem : InventoryItem, IPointerClickHandler
     {
@@ -30,9 +30,9 @@ namespace Economy.ShopScripts
             }
         }
 
-        public void Initialize(FishData fishData, FishSize fishSize, int amountInStack, Color backgroundColor)
+        public void Initialize(FishData newFishData, FishSize fishSize, int amountInStack, Color backgroundColor)
         {
-            base.Initialize(fishData, fishSize, backgroundColor);
+            base.Initialize(newFishData, fishSize, backgroundColor);
             stackSize = amountInStack;
             UpdateStackUI();
         }

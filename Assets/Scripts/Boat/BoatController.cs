@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Upgrades;
 using Upgrades.Scriptable_Objects;
+using Views;
 
 namespace Boat
 {
@@ -25,22 +26,22 @@ namespace Boat
         private void Start()
         {
             EventManager.UpgradeBought += OnUpgrade;
-            EventManager.PauseStateChange += OnPause;
             EventManager.LeftShore += UndockBoat;
             EventManager.BoatControlsChange += DisableControls;
             EventManager.BoatAutoDock += DockBoat;
             EventManager.PlayerDied += ResetBoatPosition;
+            ViewManager.instance.ViewShow += CheckPauseState;
             rb = GetComponent<Rigidbody>();
         }
 
         private void OnDestroy()
         {
-            EventManager.PauseStateChange -= OnPause;
             EventManager.UpgradeBought -= OnUpgrade;
             EventManager.LeftShore -= UndockBoat;
             EventManager.BoatControlsChange -= DisableControls;
             EventManager.BoatAutoDock -= DockBoat;
             EventManager.PlayerDied -= ResetBoatPosition;
+            ViewManager.instance.ViewShow -= CheckPauseState;
         }
 
         private void Update()
@@ -98,6 +99,7 @@ namespace Boat
                 {
                     break;
                 }
+
                 // Get direction to target
                 Vector3 boatPosition = transform.position;
                 Vector3 direction = (dockLocation - boatPosition).normalized;
@@ -130,32 +132,11 @@ namespace Boat
             }
         }
 
-        private void OnPause(PauseState newState)
-        {
-            switch (newState)
-            {
-                case PauseState.Playing:
-                    SetPaused(false);
-                    break;
-                case PauseState.InPauseMenu:
-                    SetPaused(true);
-                    break;
-                case PauseState.InInventory:
-                    SetPaused(true);
-                    break;
-                case PauseState.InCatalogue:
-                    SetPaused(true);
-                    break;
-                case PauseState.InQuests:
-                    SetPaused(true);
-                    break;
-            }
-        }
-
         private void SetPaused(bool isPaused)
         {
             rb.isKinematic = isPaused;
             enabled = !isPaused;
+
             if (isPaused)
             {
                 velocityAtPause = rb.velocity;
@@ -179,12 +160,17 @@ namespace Boat
                 rb.velocity = velocityAtPause;
             }
         }
-        
+
         private void ResetBoatPosition()
         {
             transform.position = dock.position;
             rb.velocity = Vector3.zero;
             DockBoat();
+        }
+
+        private void CheckPauseState(View newView)
+        {
+            SetPaused(newView is not GameView);
         }
     }
 }
