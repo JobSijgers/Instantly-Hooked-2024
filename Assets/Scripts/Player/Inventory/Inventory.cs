@@ -4,8 +4,6 @@ using Enums;
 using Events;
 using Fish;
 using PauseMenu;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Player.Inventory

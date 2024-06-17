@@ -1,4 +1,5 @@
-﻿using Events;
+﻿using System;
+using Events;
 using PauseMenu;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Quests
 {
     public class QuestBookUI : MonoBehaviour
     {
+        public static QuestBookUI instance;
         [SerializeField] private GameObject questBookUIParent;
         [SerializeField] private GameObject questDisplayPrefab;
         [SerializeField] private Transform questDisplayParent;
@@ -13,14 +15,18 @@ namespace Quests
 
         private ExpandedQuestDetailUI[] questDetails;
 
+        private void Awake() => instance = this;
+
         private void Start()
         {
             EventManager.PauseStateChange += OnPauseStateChange;
+            EventManager.HUDQuestSelected += OnHUDQuestClicked;
         }
 
         private void OnDestroy()
         {
             EventManager.PauseStateChange -= OnPauseStateChange;
+            EventManager.HUDQuestSelected -= OnHUDQuestClicked;
         }
 
         public void OpenQuests(bool suppressEvent)
@@ -92,6 +98,12 @@ namespace Quests
             {
                 CloseQuests(true);
             }
+        }
+
+        private void OnHUDQuestClicked(QuestProgress questProgress)
+        {
+            OpenQuests(false);
+            HighlightQuest(questProgress);
         }
     }
 }

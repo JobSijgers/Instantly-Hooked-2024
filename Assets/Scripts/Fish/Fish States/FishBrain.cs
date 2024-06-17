@@ -12,46 +12,44 @@ using PauseMenu;
 public struct FishStates
 {
     public FishRoaming Roaming;
-    public FishBiting Biting; 
+    public FishBiting Biting;
 }
+
 public class FishBrain : MonoBehaviour
 {
     private FishData P_fishData;
     private FishSpawner OriginSpawner;
 
-    [Header("scripts")]
-    public FishWiggle wiggle;
+    [Header("scripts")] public FishWiggle wiggle;
 
-    [Header("states")]
-    public FishStates states;
+    [Header("states")] public FishStates states;
     private IFishState P_CurrentState;
     private bool activeState = true;
 
-    [Header("Movement")]
-    [SerializeField] private float RotateSpeed;
+    [Header("Movement")] [SerializeField] private float RotateSpeed;
     private Vector3 P_EndPos;
     private float P_struggelSpeed;
     private float P_moveSpeed;
 
-    [Header("visual")]
-    [SerializeField] private GameObject RotationObject;
+    [Header("visual")] [SerializeField] private GameObject RotationObject;
     private GameObject inner;
     private GameObject Visual;
     private FishUI UI;
 
-    [Header("Particles")]
-    [SerializeField] public ParticleSystem FishGought;
+    [Header("Particles")] [SerializeField] public ParticleSystem FishGought;
     [SerializeField] public ParticleSystem FishIntresst;
     [SerializeField] public ParticleSystem FishAproach;
 
-    [Header("Fish Size")]
-    public FishSize fishSize;
+    [Header("Fish Size")] public FishSize fishSize;
 
     //corotines
     private Coroutine RotateC;
 
     //propeties
-    public Vector3 EndPos { get { return P_EndPos; } }
+    public Vector3 EndPos
+    {
+        get { return P_EndPos; }
+    }
 
     // spawners 
     public FishSpawner SetOriginSpawner(FishSpawner spawner) => OriginSpawner = spawner;
@@ -67,8 +65,18 @@ public class FishBrain : MonoBehaviour
 
     //movement
     public Vector3 GetNewPosition() => OriginSpawner.GetRandomPos();
-    public float moveSpeed { get { return P_moveSpeed; } set { P_moveSpeed = value; } }
-    public float StruggelSpeed { get { return P_struggelSpeed; } set { P_struggelSpeed = value; } }
+
+    public float moveSpeed
+    {
+        get { return P_moveSpeed; }
+        set { P_moveSpeed = value; }
+    }
+
+    public float StruggelSpeed
+    {
+        get { return P_struggelSpeed; }
+        set { P_struggelSpeed = value; }
+    }
 
     // state
     public bool ActiveState => activeState;
@@ -84,14 +92,15 @@ public class FishBrain : MonoBehaviour
             {
                 value.OnStateActivate();
             }
+
             P_CurrentState = value;
         }
     }
 
     public void Initialize(FishData data, FishSize size)
     {
-        fishData = data;
         fishSize = size;
+        fishData = data;
     }
 
     public FishData fishData
@@ -112,12 +121,14 @@ public class FishBrain : MonoBehaviour
             wiggle.SetWiggle();
         }
     }
+
     public void SetEndPos(Vector3 endpos)
     {
         P_EndPos = endpos;
         RotationObject.transform.LookAt(EndPos);
         StopOldRotation();
     }
+
     void Start()
     {
         UI = GetComponent<FishUI>();
@@ -125,6 +136,7 @@ public class FishBrain : MonoBehaviour
         CurrentState = states.Roaming;
         EventManager.PauseStateChange += PauseFish;
     }
+
     void Update()
     {
         if (activeState)
@@ -134,19 +146,23 @@ public class FishBrain : MonoBehaviour
             ManageRoation();
         }
     }
+
     private void ManageRoation()
     {
         Quaternion endpos;
-        if (states.Biting.CurrentState == FishBitingState.OnHook) RotationObject.transform.LookAt(Hook.instance.HookOrigin.transform.position);
+        if (states.Biting.CurrentState == FishBitingState.OnHook)
+            RotationObject.transform.LookAt(Hook.instance.HookOrigin.transform.position);
         else RotationObject.transform.LookAt(EndPos);
         endpos = RotationObject.transform.rotation;
         if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
+
     private void StopOldRotation()
     {
         StopAllCoroutines();
         RotateC = null;
     }
+
     private IEnumerator RotateFish(Quaternion endpos)
     {
         float t = 0.0f;
@@ -157,21 +173,24 @@ public class FishBrain : MonoBehaviour
             Visual.transform.rotation = Quaternion.Slerp(startpos, endpos, t);
             yield return null;
         }
+
         yield return null;
         RotateC = null;
     }
+
     private void PauseFish(PauseState state)
     {
         switch (state)
         {
             case PauseState.InPauseMenu:
-                activeState = false; 
+                activeState = false;
                 break;
             case PauseState.Playing:
                 activeState = true;
                 break;
         }
     }
+
     public bool PlayerInput()
     {
         if (Input.GetKeyDown(KeyCode.Escape) ||
@@ -180,12 +199,14 @@ public class FishBrain : MonoBehaviour
             return true;
         else return false;
     }
+
     public void OnDisable()
     {
         OriginSpawner = null;
         P_EndPos = Vector3.zero;
         CurrentState = states.Roaming;
     }
+
     private void OnDestroy()
     {
         EventManager.PauseStateChange -= PauseFish;

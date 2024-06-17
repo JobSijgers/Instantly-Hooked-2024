@@ -130,7 +130,7 @@ public class FishBiting : MonoBehaviour, IFishState
             resetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
         else if (!Input.GetMouseButton(1) && resetStateAfterTimeIntrest != null)
         {
-            StopCoroutine(resetStateAfterTimeIntrest);
+            if (resetStateAfterTimeIntrest != null) StopCoroutine(resetStateAfterTimeIntrest);
             resetStateAfterTimeIntrest = null;
         }
 
@@ -140,7 +140,7 @@ public class FishBiting : MonoBehaviour, IFishState
         // stop struggel coroutine als vis buiten het water is
         if (struggelingC != null && !IsInWater())
         {
-            StopCoroutine(struggelingC);
+            if (struggelingC != null) StopCoroutine(struggelingC);
             struggelingC = null;
         }
     }
@@ -325,7 +325,7 @@ public class FishBiting : MonoBehaviour, IFishState
             if (RandomValue < StruggelHalfStaminaKans)
             {
                 biteState = FishBitingState.Struggling;
-                StopCoroutine(reGain);
+                if (reGain != null) StopCoroutine(reGain);
                 reGain = null;
             }
         }

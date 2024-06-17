@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Events;
 using Interfaces;
+using PauseMenu;
 using UnityEngine;
 
 namespace Storm
@@ -15,15 +16,22 @@ namespace Storm
         private float stormDuration;
         private float playerInStormTime;
         private bool playerInStorm;
+        private bool paused;
 
         private void Start()
         {
             EventManager.NewDay += DestroyStorm;
+            EventManager.ArrivedAtShore += PauseStorm;
+            EventManager.LeftShore += ResumeStorm;
+            EventManager.PauseStateChange += CheckPause;
         }
 
         private void OnDestroy()
         {
             EventManager.NewDay -= DestroyStorm;
+            EventManager.ArrivedAtShore -= PauseStorm;
+            EventManager.LeftShore -= ResumeStorm;
+            EventManager.PauseStateChange -= CheckPause;
         }
 
 
@@ -68,6 +76,9 @@ namespace Storm
             float t = 0;
             while (Vector3.Distance(transform.position, stormEndLocation) > 0.1f)
             {
+                if (paused)
+                    yield return null;
+                
                 t += Time.deltaTime / stormDuration;
                 Vector3 newLocation = Vector3.Lerp(stormStartLocation, stormEndLocation, t);
                 transform.position = newLocation;
@@ -78,6 +89,21 @@ namespace Storm
         private void DestroyStorm(int newDay)
         {
             Destroy(gameObject);
+        }
+
+        private void ResumeStorm()
+        {
+            paused = false;
+        }
+
+        private void CheckPause(PauseState state)
+        {
+            paused = state != PauseState.Playing;
+        }
+
+        private void PauseStorm()
+        {
+            paused = true;
         }
     }
 }

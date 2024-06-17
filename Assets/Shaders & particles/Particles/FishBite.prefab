@@ -287,8 +287,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.7
-      minScalar: 0.4
+      scalar: 1
+      minScalar: 0.7
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -810,7 +810,7 @@ ParticleSystem:
     arc:
       value: 360
       mode: 3
-      spread: 0.28
+      spread: 0
       speed:
         serializedVersion: 2
         minMaxState: 0
@@ -4873,7 +4873,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 14
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
