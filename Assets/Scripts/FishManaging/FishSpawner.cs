@@ -21,24 +21,33 @@ public class FishSpawner : MonoBehaviour
     [SerializeField] private FishToSpawn[] FishTypesToSpawn;
     [SerializeField] private GameObject hook;
 
+    private BoxCollider2D bounds;
+
     private FishPooler fishPooler;
     private List<FishBrain> ActiveFish = new List<FishBrain>();
-    private bool IsThisSpawnerActive = false;
+    private bool isThisSpawnerActive = false;
+    public bool IsThisSpawnerActive
+    {
+        get { return isThisSpawnerActive; }
+        set { isThisSpawnerActive = value;}
+    }
 
     void Start()
     {
         fishPooler = FishPooler.instance;
+        bounds = GetComponent<BoxCollider2D>();
+        bounds.size = SpawnArea;
     }
 
     void Update()
     {
         if (Vector2.Distance(transform.position, hook.transform.position) < ActiveToBoatDistance &&
-            !IsThisSpawnerActive && Hook.instance.hook.gameObject.activeInHierarchy)
+            !isThisSpawnerActive && Hook.instance.hook.gameObject.activeInHierarchy)
         {
             ActivateThisSpwner();
         }
         else if (Vector2.Distance(transform.position, hook.transform.position) > ActiveToBoatDistance &&
-                 IsThisSpawnerActive)
+                 isThisSpawnerActive)
         {
             DeactivateThisSpwaner();
         }
@@ -47,13 +56,13 @@ public class FishSpawner : MonoBehaviour
 
     private void ActivateThisSpwner()
     {
-        IsThisSpawnerActive = true;
+        isThisSpawnerActive = true;
         SpawnFish();
     }
 
     private void DeactivateThisSpwaner()
     {
-        IsThisSpawnerActive = false;
+        isThisSpawnerActive = false;
         RemoveFish();
     }
 
@@ -68,11 +77,13 @@ public class FishSpawner : MonoBehaviour
 
             if (Hook.instance.FishOnHook == null)
             {
-                fishPooler.ReturnFish(fish);
+                if (!fish.FreePass)
+                    fishPooler.ReturnFish(fish);
             }
             else if (fish.gameObject != Hook.instance.FishOnHook.gameObject)
             {
-                fishPooler.ReturnFish(fish);
+                if (!fish.FreePass)
+                    fishPooler.ReturnFish(fish);
             }
         }
 
@@ -94,6 +105,11 @@ public class FishSpawner : MonoBehaviour
                 fish.gameObject.SetActive(true);
             }
         }
+    }
+    public bool IsInSpwanArea(Vector2 fishpos)
+    {
+        if (bounds.bounds.Contains(fishpos)) return true;
+        else return false;
     }
 
     private FishSize GetRandomFishSize()

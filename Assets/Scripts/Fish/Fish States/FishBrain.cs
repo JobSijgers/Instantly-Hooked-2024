@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Enums;
 using UnityEngine;
-using Upgrades.Scriptable_Objects;
 using Events;
 using PauseMenu;
 
@@ -25,6 +24,7 @@ public class FishBrain : MonoBehaviour
     [Header("states")] public FishStates states;
     private IFishState P_CurrentState;
     private bool activeState = true;
+    private bool freePass = false;
 
     [Header("Movement")] [SerializeField] private float RotateSpeed;
     private Vector3 P_EndPos;
@@ -49,6 +49,12 @@ public class FishBrain : MonoBehaviour
     public Vector3 EndPos
     {
         get { return P_EndPos; }
+    }
+
+    public bool FreePass
+    {
+        get { return freePass; }
+        set { freePass = value; }
     }
 
     // spawners 
@@ -154,7 +160,7 @@ public class FishBrain : MonoBehaviour
             RotationObject.transform.LookAt(Hook.instance.HookOrigin.transform.position);
         else RotationObject.transform.LookAt(EndPos);
         endpos = RotationObject.transform.rotation;
-        if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
+        if (Visual.activeInHierarchy && Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
 
     private void StopOldRotation()
