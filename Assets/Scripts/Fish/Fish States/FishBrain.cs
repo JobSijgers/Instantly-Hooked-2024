@@ -20,6 +20,9 @@ public class FishBrain : MonoBehaviour
     private FishData P_fishData;
     private FishSpawner OriginSpawner;
 
+    [Header("Layer")]
+    [SerializeField] private LayerMask obstacleLayer;
+
     [Header("scripts")] public FishWiggle wiggle;
 
     [Header("states")] public FishStates states;
@@ -103,13 +106,11 @@ public class FishBrain : MonoBehaviour
             P_CurrentState = value;
         }
     }
-
     public void Initialize(FishData data, FishSize size)
     {
         fishSize = size;
         fishData = data;
     }
-
     public FishData fishData
     {
         get { return P_fishData; }
@@ -128,7 +129,6 @@ public class FishBrain : MonoBehaviour
             wiggle.SetWiggle();
         }
     }
-
     public void SetEndPos(Vector3 endpos)
     {
         P_EndPos = endpos;
@@ -156,9 +156,14 @@ public class FishBrain : MonoBehaviour
             CurrentState = CurrentState.SwitchState();
             CurrentState.UpdateState();
             ManageRoation();
+            CheckForObsticles();
         }
     }
-
+    private void CheckForObsticles()
+    {
+        if (Physics.Raycast(RotationObject.transform.position, RotationObject.transform.forward, 0.3f, obstacleLayer))
+            SetEndPos(GetNewPosition());
+    }
     private void ManageRoation()
     {
         Quaternion endpos;
@@ -189,16 +194,6 @@ public class FishBrain : MonoBehaviour
         yield return null;
         RotateC = null;
     }
-
-    public bool PlayerInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) ||
-            Input.GetKeyDown(KeyCode.Escape) ||
-            Input.GetMouseButton(1))
-            return true;
-        else return false;
-    }
-
     public void OnDisable()
     {
         OriginSpawner = null;
