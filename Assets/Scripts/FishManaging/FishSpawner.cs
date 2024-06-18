@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(BoxCollider2D))]
 public class FishSpawner : MonoBehaviour
 {
     [Serializable]

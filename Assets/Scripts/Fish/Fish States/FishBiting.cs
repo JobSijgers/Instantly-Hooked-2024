@@ -12,7 +12,6 @@ public enum FishBitingState
     Struggling,
     OnHook
 }
-
 public class FishBiting : MonoBehaviour, IFishState
 {
     //refs
@@ -31,14 +30,11 @@ public class FishBiting : MonoBehaviour, IFishState
     [Header("Range")] [SerializeField] private float BitingRange;
     [SerializeField] private float OffsetFromGround = 0.2f;
 
-    [Header("Intresst")]
-    [SerializeField] private float intresst;
-    [SerializeField] private float IntresstLossafter;
-
-    [Tooltip("hold multiplier")] [SerializeField]
-    private float HoldMultiplier;
+    [Header("Intrest")]
+    [SerializeField] private float IntrestLossafter;
 
     [Header("Tention")]
+    [SerializeField] private float HoldMultiplier;
     [SerializeField] private float RestoreMultyplier;
     private float tension;
 
@@ -137,12 +133,9 @@ public class FishBiting : MonoBehaviour, IFishState
         Struggeling();
 
         // anti fish baiting
-        if (Input.GetMouseButton(1) && biteState == FishBitingState.GoingForHook && resetStateAfterTimeIntrest == null)
-            resetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
-        else if (!Input.GetMouseButton(1) && resetStateAfterTimeIntrest != null)
+        if (biteState == FishBitingState.GoingForHook && resetStateAfterTimeIntrest == null)
         {
-            if (resetStateAfterTimeIntrest != null) StopCoroutine(resetStateAfterTimeIntrest);
-            resetStateAfterTimeIntrest = null;
+            resetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
         }
 
         // anti spam clikcing
@@ -294,7 +287,7 @@ public class FishBiting : MonoBehaviour, IFishState
     private IEnumerator FishStateReset()
     {
         float t = 0.0f;
-        while (t < IntresstLossafter)
+        while (t < IntrestLossafter)
         {
             if (brain.ActiveState)
             {
@@ -304,7 +297,7 @@ public class FishBiting : MonoBehaviour, IFishState
             yield return null;
         }
 
-        if (t >= IntresstLossafter && biteState == FishBitingState.GoingForHook) offHook = true;
+        if (t >= IntrestLossafter && biteState == FishBitingState.GoingForHook) offHook = true;
         resetStateAfterTimeIntrest = null;
     }
 

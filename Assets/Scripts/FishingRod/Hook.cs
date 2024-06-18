@@ -57,7 +57,7 @@ public class Hook : MonoBehaviour
     }
     public bool IsFishAllowtToTarget()
     {
-        if (FishTargetinglist.Count <= fishAmountAllowtToTarget) return true;
+        if (FishTargetinglist.Count < fishAmountAllowtToTarget) return true;
         else return false;
     }
 
