@@ -37,6 +37,7 @@ public class FishSpawner : MonoBehaviour
     {
         fishPooler = FishPooler.instance;
         bounds = GetComponent<BoxCollider2D>();
+        bounds.isTrigger = true;
         bounds.size = SpawnArea;
     }
 
