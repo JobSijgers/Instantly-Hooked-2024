@@ -6,6 +6,7 @@ using Enums;
 using UnityEngine;
 using Events;
 using PauseMenu;
+using Views;
 
 [Serializable]
 public struct FishStates
@@ -140,7 +141,12 @@ public class FishBrain : MonoBehaviour
         UI = GetComponent<FishUI>();
         CurrentState = GetComponent<IFishState>();
         CurrentState = states.Roaming;
-        EventManager.PauseStateChange += PauseFish;
+        ViewManager.instance.ViewShow += CheckPauseState;
+    }
+
+    private void OnDestroy()
+    {
+        ViewManager.instance.ViewShow -= CheckPauseState;
     }
 
     void Update()
@@ -184,19 +190,6 @@ public class FishBrain : MonoBehaviour
         RotateC = null;
     }
 
-    private void PauseFish(PauseState state)
-    {
-        switch (state)
-        {
-            case PauseState.InPauseMenu:
-                activeState = false;
-                break;
-            case PauseState.Playing:
-                activeState = true;
-                break;
-        }
-    }
-
     public bool PlayerInput()
     {
         if (Input.GetKeyDown(KeyCode.Escape) ||
@@ -213,8 +206,8 @@ public class FishBrain : MonoBehaviour
         CurrentState = states.Roaming;
     }
 
-    private void OnDestroy()
+    private void CheckPauseState(View newView)
     {
-        EventManager.PauseStateChange -= PauseFish;
+        activeState = newView is GameView;
     }
 }

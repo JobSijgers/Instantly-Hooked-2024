@@ -1,26 +1,27 @@
 ﻿using Events;
 using PauseMenu;
 using UnityEngine;
+using Views;
 
 namespace Generic
 {
     public class DisableByState : MonoBehaviour
     {
-        [SerializeField] private PauseState activeState;
+        [SerializeField] private View activeState;
         
         private void Start()
         {
-            EventManager.PauseStateChange += ToggleActive;
+            ViewManager.instance.ViewShow += ToggleActive;
         }
         
         private void OnDestroy()
         {
-            EventManager.PauseStateChange -= ToggleActive;
+            ViewManager.instance.ViewShow -= ToggleActive;
         }
 
-        private void ToggleActive(PauseState newState)
+        private void ToggleActive(View view)
         {
-            gameObject.SetActive(newState == activeState);
+            gameObject.SetActive(view == activeState);
         }
     }
 }

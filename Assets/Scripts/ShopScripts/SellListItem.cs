@@ -2,7 +2,7 @@
 using Enums;
 using Fish;
 
-namespace Economy.ShopScripts
+namespace ShopScripts
 {
     [Serializable]
     public struct SellListItem

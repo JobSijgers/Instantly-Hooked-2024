@@ -90,7 +90,7 @@ public class DataCenter : MonoBehaviour
     private void WriteSave()
     {
         // write fish
-        List<InventoryItem> invitems = Inventory.Instance.currentFish;
+        List<InventoryItem> invitems = Inventory.instance.currentFish;
         foreach (InventoryItem fish in invitems)
         {
             InventorySave fishSave = new InventorySave();

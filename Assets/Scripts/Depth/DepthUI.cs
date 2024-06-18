@@ -1,24 +1,14 @@
 ﻿using Events;
-using PauseMenu;
 using TMPro;
 using UnityEngine;
+using Views;
 
 namespace Depth
 {
-    public class DepthUI : MonoBehaviour
+    public class DepthUI : ViewComponent
     {
         [SerializeField] private TMP_Text depthText;
         [SerializeField] private TMP_Text pressureText;
-
-        private void Start()
-        {
-            EventManager.PauseStateChange += OnPause;
-        }
-
-        private void OnDestroy()
-        {
-            EventManager.PauseStateChange -= OnPause;
-        }
 
         private void OnEnable()
         {
@@ -36,28 +26,6 @@ namespace Depth
             if (depth > 0)
                 return;
             pressureText.text = $"Pressure: {Mathf.Clamp(Mathf.Abs(depth) / 10f, 0, Mathf.Infinity):F1} BAR";
-        }
-
-        private void OnPause(PauseState state)
-        {
-            switch (state)
-            {
-                case PauseState.Playing:
-                    gameObject.SetActive(true);
-                    break;
-                case PauseState.InPauseMenu:
-                    gameObject.SetActive(false);
-                    break;
-                case PauseState.InInventory:
-                    gameObject.SetActive(false);
-                    break;
-                case PauseState.InCatalogue:
-                    gameObject.SetActive(false);
-                    break;
-                case PauseState.InQuests:
-                    gameObject.SetActive(false);
-                    break;
-            }   
         }
     }
 }
