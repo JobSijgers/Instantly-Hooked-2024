@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using UnityEditor;
 using UnityEngine;
 using static System.Collections.Specialized.BitVector32;
@@ -42,10 +43,9 @@ public class Hook : MonoBehaviour
         }
         else
         {
-            
             Physics.gravity = FishOnHook.states.Biting.CurrentState == FishBitingState.Struggling
-                ? new Vector3(0, -9.81f, 0) :
-                new Vector3(0, -60f, 0);
+                ? new Vector3(0, -9.81f, 0)
+                : new Vector3(0, -60f, 0);
         }
     }
 
@@ -53,6 +53,7 @@ public class Hook : MonoBehaviour
     {
         FishOnHook = null;
     }
+
     public void ResetRodColor()
     {
         Hook.instance.fishline.startColor = Color.white;
@@ -64,6 +65,15 @@ public class Hook : MonoBehaviour
         if (other.gameObject.CompareTag("Terrain"))
         {
             touchingGround = true;
+        }
+        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Water"))
+        {
+            AudioManager.instance.PlaySound("HookTouchWater");
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Audio;
 using Enums;
 using Events;
 using Fish;
@@ -128,6 +129,7 @@ namespace Quests
 
             foreach (QuestProgress quest in questCompleted)
             {
+                AudioManager.instance.PlaySound("QuestComplete");
                 QuestCompleted(quest);
             }
         }
