@@ -26,7 +26,7 @@ namespace Boat
         private void Start()
         {
             EventManager.UpgradeBought += OnUpgrade;
-            EventManager.LeftShore += UndockBoat;
+            EventManager.LeftShoreSuccess += UndockBoat;
             EventManager.BoatControlsChange += DisableControls;
             EventManager.BoatAutoDock += DockBoat;
             EventManager.PlayerDied += ResetBoatPosition;
@@ -37,7 +37,7 @@ namespace Boat
         private void OnDestroy()
         {
             EventManager.UpgradeBought -= OnUpgrade;
-            EventManager.LeftShore -= UndockBoat;
+            EventManager.LeftShoreSuccess -= UndockBoat;
             EventManager.BoatControlsChange -= DisableControls;
             EventManager.BoatAutoDock -= DockBoat;
             EventManager.PlayerDied -= ResetBoatPosition;

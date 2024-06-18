@@ -1,7 +1,14 @@
 using System;
 using System.Collections.Generic;
+using Catalogue;
+using PauseMenu;
+using Player.Inventory;
+using Quests;
+using ShopScripts;
+using Shore;
 using UnityEngine;
 using UnityEngine.Events;
+using Upgrades;
 
 namespace Views
 {
@@ -32,11 +39,20 @@ namespace Views
             ShowView(startingView);
         }
 
+        private void Update()
+        {
+            Type[] ignoredViews = { typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI) };
+            CheckKey<Inventory>(KeyCode.I, ignoredViews);
+            CheckKey<CatalogueUI>(KeyCode.J, ignoredViews);
+            CheckKey<QuestBookUI>(KeyCode.Q, ignoredViews);
+        }
+
         public static void HideActiveView()
         {
             if (instance.activeView == null)
                 return;
             instance.activeView.Hide();
+            instance.activeView = null;
         }
         
         public static void ShowView<T>(bool saveInHistory = true)
@@ -88,6 +104,26 @@ namespace Views
         public static void ClearHistory()
         {
             instance.viewHistory.Clear();
+        }
+
+        public static Type GetActiveView()
+        {
+            return instance.activeView.GetType();
+        }
+
+        private void CheckKey<T>(KeyCode key, Type[] ignoredViews) where T : View
+        {
+            if (!Input.GetKeyDown(key)) return;
+            if (activeView == null) return;
+            if (Array.Exists(ignoredViews, ignoredView => activeView.GetType() == ignoredView)) return;
+            if (activeView is not T)
+            {
+                ShowView<T>();
+            }
+            else
+            {
+                ShowLastView();
+            }
         }
     }
 }

@@ -17,13 +17,13 @@ namespace Dock
         private void Start()
         {
             EventManager.DockSuccess += DockSuccess;
-            EventManager.LeftShore += UnDockBoat;
+            EventManager.LeftShoreSuccess += UnDockBoat;
         }
 
         private void OnDestroy()
         {
-            EventManager.LeftShore -= UnDockBoat;
             EventManager.DockSuccess -= DockSuccess;
+            EventManager.LeftShoreSuccess -= UnDockBoat;
         }
 
         private void Update()

@@ -146,8 +146,7 @@ namespace ShopScripts
             EventManager.OnSellSelectedButton(sellSheet.ToArray());
             ClearSellSheet();
             UpdateShoppingListUI();
-            Show();
-            Hide();
+            RefreshShop();
         }
 
         private void ClearSellSheet()
@@ -177,6 +176,26 @@ namespace ShopScripts
             SetTotalSellAmounts(
                 currentTotalSellMoneyAmount + change * item.GetFishData().fishSellAmount[(int)item.GetFishSize()],
                 currentTotalSellAmount + change);
+        }
+
+        private void RefreshShop()
+        {
+            foreach (SellShopItem item in shopItems)
+            {
+                Destroy(item.gameObject);
+            }
+
+            shopItems.Clear();
+            
+            foreach (InventoryItem inventoryItem in Inventory.instance.GetInventory())
+            {
+                GameObject go = Instantiate(shopItemPrefab, itemHolder);
+                SellShopItem item = go.GetComponent<SellShopItem>();
+                item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize(),
+                    Inventory.instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
+                item.OnSelectedAmountChanged += UpdateShoppingList;
+                shopItems.Add(item);
+            }
         }
     }
 }

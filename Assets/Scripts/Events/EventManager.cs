@@ -24,6 +24,7 @@ namespace Events
         public static event UnityAction<Upgrade> UpgradeBought;
         public static event UnityAction NotEnoughMoney;
         public static event UnityAction LeftShore;
+        public static event UnityAction LeftShoreSuccess;
         public static event UnityAction PlayerDied;
         public static event UnityAction<bool> BoatControlsChange;
         public static event UnityAction BoatAutoDock;
@@ -45,6 +46,7 @@ namespace Events
         public static void OnUpgradeBought(Upgrade upgrade) => UpgradeBought?.Invoke(upgrade);
         public static void OnNotEnoughMoney() => NotEnoughMoney?.Invoke();
         public static void OnLeftShore() => LeftShore?.Invoke();
+        public static void OnLeftShoreSuccess() => LeftShoreSuccess?.Invoke();
         public static void OnPlayerDied() => PlayerDied?.Invoke();
         public static void OnBoatControlsChanged(bool state) => BoatControlsChange?.Invoke(state);
         public static void OnBoatAutoDock() => BoatAutoDock?.Invoke();

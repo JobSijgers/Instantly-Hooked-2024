@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Events;
 using TMPro;
 using UnityEngine;
@@ -47,10 +48,24 @@ namespace Economy
 
         private void UpdateMoneyUI(int newMoney)
         {
+            targetMoney = newMoney;
+            if (!gameObject.activeInHierarchy)
+                return;
+            targetMoney = newMoney;
             if (currentMoney == newMoney) return;
 
             StopAllCoroutines();
             StartCoroutine(UpdateMoneySmoothly(newMoney, 1.0f));
+        }
+
+        private void OnEnable()
+        {
+            StartCoroutine(UpdateMoneySmoothly(targetMoney, 1.0f));
+        }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
         }
     }
 }
