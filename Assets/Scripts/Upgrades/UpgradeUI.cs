@@ -1,57 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Events;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Upgrades.Scriptable_Objects;
+using Views;
 
 namespace Upgrades
 {
-    public class UpgradeUI : MonoBehaviour
+    public class UpgradeUI : View
     {
         public static UpgradeUI instance;
         [SerializeField] private GameObject evenUpgradeShopItem;
         [SerializeField] private GameObject oddUpgradeShopItem;
         [SerializeField] private Transform upgradeShopItemParent;
-        [SerializeField] private UpgradeShopHighlight fishHighlight;
-        [SerializeField] private GameObject upgradeShopUI;
+        [SerializeField] private UpgradeShopHighlight upgradeHighlight;
         private readonly List<UpgradeShopItem> upgradeShopItems = new();
 
-        private void Awake()
+        public override void Initialize()
         {
+            base.Initialize();
             instance = this;
         }
 
         private void Start()
         {
             EventManager.UpgradeBought += ChangeItemUpgrade;
-            EventManager.UpgradeShopOpen += OpenUpgradeShopUI;
-            EventManager.UpgradeShopClose += CloseUpgradeShopUI;
-            EventManager.LeftShore += CloseUpgradeShopUI;
         }
 
         private void OnDestroy()
         {
             EventManager.UpgradeBought -= ChangeItemUpgrade;
-            EventManager.UpgradeShopOpen -= OpenUpgradeShopUI;
-            EventManager.UpgradeShopClose -= CloseUpgradeShopUI;
-            EventManager.LeftShore -= CloseUpgradeShopUI;
         }
-
-        private void OpenUpgradeShopUI()
-        {
-            upgradeShopUI.SetActive(true);
-        }
-
-        private void CloseUpgradeShopUI()
-        {
-            upgradeShopUI.SetActive(false);
-        }
-
-        public void CloseUI()
-        {
-            EventManager.OnUpgradeShopClose();
-        }
+        
         
         /// <summary>
         /// his method creates a new upgrade item in the shop for each upgrade.
@@ -94,13 +73,13 @@ namespace Upgrades
 
         public void ClearHighlight()
         {
-            fishHighlight.ClearHighlight();
+            upgradeHighlight.ClearHighlight();
         }
 
         public void SelectUpgrade(Upgrade upgrade)
         {
             int level = UpgradeManager.Instance.GetUpgradeLevel(upgrade);
-            fishHighlight.HighlightUpgrade(upgrade, level);
+            upgradeHighlight.HighlightUpgrade(upgrade, level);
         }
     }
 }

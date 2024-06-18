@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Economy.ShopScripts;
 using Enums;
 using Events;
 using Fish;

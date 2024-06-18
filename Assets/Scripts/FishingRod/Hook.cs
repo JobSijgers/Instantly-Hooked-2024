@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static System.Collections.Specialized.BitVector32;
 
 public class Hook : MonoBehaviour
 {
@@ -13,12 +10,14 @@ public class Hook : MonoBehaviour
     [SerializeField] public GameObject HookOrigin;
     [SerializeField] public LineRenderer fishline;
 
+    [SerializeField] private int fishAmountAllowtToTarget;
+
     [Tooltip("fix de Rod MaxLenght value * Offset")]
     public float Offset;
 
     public FishingRod.FishingRod Rod;
     private FishBrain P_FishOnHook;
-
+    public List<FishBrain> FishTargetinglist = new List<FishBrain>();
     public FishBrain FishOnHook
     {
         get { return P_FishOnHook; }
@@ -42,13 +41,11 @@ public class Hook : MonoBehaviour
         }
         else
         {
-            
             Physics.gravity = FishOnHook.states.Biting.CurrentState == FishBitingState.Struggling
                 ? new Vector3(0, -9.81f, 0) :
                 new Vector3(0, -60f, 0);
         }
     }
-
     public void RemoveFish()
     {
         FishOnHook = null;
@@ -57,6 +54,11 @@ public class Hook : MonoBehaviour
     {
         Hook.instance.fishline.startColor = Color.white;
         Hook.instance.fishline.endColor = Color.white;
+    }
+    public bool IsFishAllowtToTarget()
+    {
+        if (FishTargetinglist.Count < fishAmountAllowtToTarget) return true;
+        else return false;
     }
 
     private void OnCollisionEnter(Collision other)

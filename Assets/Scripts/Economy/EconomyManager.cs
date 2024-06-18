@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using Economy.ShopScripts;
 using Events;
 using Quests;
 using Unity.VisualScripting;

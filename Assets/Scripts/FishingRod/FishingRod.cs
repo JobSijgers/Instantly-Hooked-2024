@@ -3,6 +3,7 @@ using PauseMenu;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Upgrades.Scriptable_Objects;
+using Views;
 
 namespace FishingRod
 {
@@ -27,7 +28,7 @@ namespace FishingRod
             EventManager.Dock += OnDock;
             EventManager.UpgradeBought += UpgradeBought;
             EventManager.LeftShore += OnUndock;
-            EventManager.PauseStateChange += OnPause;
+            ViewManager.instance.ViewShow += CheckPause;
 
             springJoint = GetComponent<SpringJoint>();
 
@@ -47,7 +48,7 @@ namespace FishingRod
             EventManager.Dock -= OnDock;
             EventManager.LeftShore -= OnUndock;
             EventManager.UpgradeBought -= UpgradeBought;
-            EventManager.PauseStateChange -= OnPause;
+            ViewManager.instance.ViewShow -= CheckPause;
         }
 
         private void Update()
@@ -142,32 +143,15 @@ namespace FishingRod
             }
         }
 
-        private void OnPause(PauseState newState)
-        {
-            switch (newState)
-            {
-                case PauseState.Playing:
-                    SetPause(false);
-                    break;
-                case PauseState.InPauseMenu:
-                    SetPause(true);
-                    break;  
-                case PauseState.InInventory:
-                    SetPause(true);
-                    break;
-                case PauseState.InCatalogue:
-                    SetPause(true);
-                    break;
-                case PauseState.InQuests:
-                    SetPause(true);
-                    break;
-            }
-        }
-
         private void SetPause(bool isPaused)
         {
             rodEnabled = !isPaused;
             springJoint.connectedBody.isKinematic = isPaused;
+        }
+        
+        private void CheckPause(View newView)
+        {
+            SetPause(newView is not GameView);
         }
     }
 }

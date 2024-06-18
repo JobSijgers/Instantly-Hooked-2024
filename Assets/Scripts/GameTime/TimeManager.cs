@@ -2,6 +2,7 @@
 using Events;
 using PauseMenu;
 using UnityEngine;
+using Views;
 
 namespace GameTime
 {
@@ -15,7 +16,6 @@ namespace GameTime
         private int currentDay;
         private float timeMultiplier;
         private float currentTime;
-        private bool atShore;
 
         private void Awake()
         {
@@ -27,22 +27,16 @@ namespace GameTime
             // Calculate time multiplier based on minutes per cycle
             timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
-
-            // Subscribe to various game events
-            EventManager.PauseStateChange += OnPause;
-            EventManager.LeftShore += LeftShore;
-            EventManager.ArrivedAtShore += ArrivedAtShore;
+            
             EventManager.PlayerDied += EndDay;
+            ViewManager.instance.ViewShow += CheckPause;
         }
 
 
         private void OnDestroy()
         {
-            // Unsubscribe from game events when this object is destroyed
-            EventManager.PauseStateChange -= OnPause;
-            EventManager.LeftShore -= LeftShore;
-            EventManager.ArrivedAtShore -= ArrivedAtShore;
             EventManager.PlayerDied -= EndDay;
+            ViewManager.instance.ViewShow -= CheckPause;
         }
 
         private void Update()
@@ -78,24 +72,7 @@ namespace GameTime
             EventManager.OnNewDay(currentDay);
             EventManager.OnTimeUpdate(span);
         }
-
-        private void OnPause(PauseState newState)
-        {
-            // Handle pause state changes
-            switch (newState)
-            {
-                case PauseState.Playing:
-                    EnableTime();
-                    break;
-                case PauseState.InPauseMenu:
-                case PauseState.InInventory:
-                case PauseState.InCatalogue:
-                case PauseState.InQuests:
-                    DisableTime();
-                    break;
-            }
-        }
-
+        
         private void DisableTime()
         {
             timePassing = false;
@@ -103,9 +80,6 @@ namespace GameTime
 
         private void EnableTime()
         {
-            if (atShore)
-                return;
-            timePassing = true;
         }
 
         public void GetTimeState(out int currentday)
@@ -117,17 +91,10 @@ namespace GameTime
         {
             currentDay = currentday;
         }
-
-        private void LeftShore()
+        
+        private void CheckPause(View newView)
         {
-            atShore = false;
-            EnableTime();
-        }
-
-        private void ArrivedAtShore()
-        {
-            atShore = true;
-            DisableTime();
+            timePassing = newView is GameView;
         }
     }
 }

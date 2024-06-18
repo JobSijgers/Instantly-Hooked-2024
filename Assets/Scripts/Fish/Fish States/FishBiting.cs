@@ -12,7 +12,6 @@ public enum FishBitingState
     Struggling,
     OnHook
 }
-
 public class FishBiting : MonoBehaviour, IFishState
 {
     //refs
@@ -29,16 +28,13 @@ public class FishBiting : MonoBehaviour, IFishState
     private bool endPosIsStrugglePos = false;
 
     [Header("Range")] [SerializeField] private float BitingRange;
-    [SerializeField] private float OffsetFromGround = 2;
+    [SerializeField] private float OffsetFromGround = 0.2f;
 
-    [Header("Intresst")]
-    [SerializeField] private float intresst;
-    [SerializeField] private float IntresstLossafter;
-
-    [Tooltip("hold multiplier")] [SerializeField]
-    private float HoldMultiplier;
+    [Header("Intrest")]
+    [SerializeField] private float IntrestLossafter;
 
     [Header("Tention")]
+    [SerializeField] private float HoldMultiplier;
     [SerializeField] private float RestoreMultyplier;
     private float tension;
 
@@ -85,6 +81,7 @@ public class FishBiting : MonoBehaviour, IFishState
         stamina = MaxStamina;
         brain.FishIntresst.Play();
         biteState = FishBitingState.GoingForHook;
+        Hook.instance.FishTargetinglist.Add(brain);
     }
 
     public IFishState SwitchState()
@@ -92,6 +89,7 @@ public class FishBiting : MonoBehaviour, IFishState
         if (Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.gameObject != gameObject)
         {
             brain.SetEndPos(Vector3.zero);
+            Hook.instance.FishTargetinglist.Remove(brain);
             return brain.states.Roaming;
         }
         if (offHook)
@@ -101,6 +99,7 @@ public class FishBiting : MonoBehaviour, IFishState
             Hook.instance.ResetRodColor();
             EventManager.OnBoatControlsChanged(false);
             brain.FishUI.ActiceState(false);
+            Hook.instance.FishTargetinglist.Remove(brain);
             return brain.states.Roaming;
         }
         else return this;
@@ -119,6 +118,14 @@ public class FishBiting : MonoBehaviour, IFishState
             brain.FishGought.Play();
         }
 
+        if (!brain.GetOriginSpawner().IsInSpwanArea(transform.position))
+        {
+            brain.FreePass = true;
+        }
+
+        if (!brain.GetOriginSpawner().IsInSpwanArea(Hook.instance.hook.transform.position) &&
+             Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.gameObject != gameObject) offHook = true;
+
         // is de vis buiten water terwijl er word gestruggelt dan word er nu niet meer gestruggelt
         if (biteState == FishBitingState.Struggling && !IsInWater()) biteState = FishBitingState.OnHook;
 
@@ -126,12 +133,9 @@ public class FishBiting : MonoBehaviour, IFishState
         Struggeling();
 
         // anti fish baiting
-        if (Input.GetMouseButton(1) && biteState == FishBitingState.GoingForHook && resetStateAfterTimeIntrest == null)
-            resetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
-        else if (!Input.GetMouseButton(1) && resetStateAfterTimeIntrest != null)
+        if (biteState == FishBitingState.GoingForHook && resetStateAfterTimeIntrest == null)
         {
-            if (resetStateAfterTimeIntrest != null) StopCoroutine(resetStateAfterTimeIntrest);
-            resetStateAfterTimeIntrest = null;
+            resetStateAfterTimeIntrest = StartCoroutine(FishStateReset());
         }
 
         // anti spam clikcing
@@ -264,7 +268,9 @@ public class FishBiting : MonoBehaviour, IFishState
                 newpoint = Vector2.zero;
                 return;
             }
-            newpoint = hit.point;
+            Vector3 fixedpoint = hit.point;
+            fixedpoint.y += OffsetFromGround;
+            newpoint = fixedpoint;
         }
         else
         {
@@ -281,7 +287,7 @@ public class FishBiting : MonoBehaviour, IFishState
     private IEnumerator FishStateReset()
     {
         float t = 0.0f;
-        while (t < IntresstLossafter)
+        while (t < IntrestLossafter)
         {
             if (brain.ActiveState)
             {
@@ -291,7 +297,7 @@ public class FishBiting : MonoBehaviour, IFishState
             yield return null;
         }
 
-        if (t >= IntresstLossafter && biteState == FishBitingState.GoingForHook) offHook = true;
+        if (t >= IntrestLossafter && biteState == FishBitingState.GoingForHook) offHook = true;
         resetStateAfterTimeIntrest = null;
     }
 
@@ -391,6 +397,7 @@ public class FishBiting : MonoBehaviour, IFishState
 
     public void OnDisable()
     {
+        Hook.instance.FishTargetinglist.Remove(brain);
         ResetState();
         EventManager.FishCaught -= OnGaught;
     }

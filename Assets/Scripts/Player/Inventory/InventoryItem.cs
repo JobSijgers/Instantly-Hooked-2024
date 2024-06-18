@@ -71,7 +71,7 @@ namespace Player.Inventory
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Inventory.Instance.HighlightItem(fishData);
+            Inventory.instance.HighlightItem(fishData);
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using Events;
 using TMPro;
 using UnityEngine;
+using Views;
 
 namespace Economy
 {
-    public class MoneyUI : MonoBehaviour
+    public class MoneyUI : ViewComponent
     {
         [SerializeField] private TMP_Text moneyText;
         private int targetMoney;

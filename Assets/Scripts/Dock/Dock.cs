@@ -12,25 +12,23 @@ namespace Dock
         [SerializeField] private float dockingRange;
         [SerializeField] private Transform boat;
         [SerializeField] private Transform dockPoint;
-        private bool _boatDocked;
+        private bool boatDocked;
 
         private void Start()
         {
             EventManager.DockSuccess += DockSuccess;
-            EventManager.PauseStateChange += OnPause;
             EventManager.LeftShore += UnDockBoat;
         }
 
         private void OnDestroy()
         {
-            EventManager.PauseStateChange -= OnPause;
             EventManager.LeftShore -= UnDockBoat;
             EventManager.DockSuccess -= DockSuccess;
         }
 
         private void Update()
         {
-            if (IsBoatInRange() && !_boatDocked && Hook.instance.FishOnHook == null)
+            if (IsBoatInRange() && !boatDocked && Hook.instance.FishOnHook == null)
             {
                 GetDockInput();
             }
@@ -56,25 +54,13 @@ namespace Dock
 
         private void DockSuccess()
         {
-            _boatDocked = true;
+            boatDocked = true;
             EventManager.OnDock();
         }
 
         private void UnDockBoat()
         {
-            _boatDocked = false;
-        }
-
-        private void OnPause(PauseState newState)
-        {
-            enabled = newState switch
-            {
-                PauseState.Playing => true,
-                PauseState.InPauseMenu => false,
-                PauseState.InInventory => false,
-                PauseState.InCatalogue => false,
-                PauseState.InQuests => false
-            };
+            boatDocked = false;
         }
     }
 }

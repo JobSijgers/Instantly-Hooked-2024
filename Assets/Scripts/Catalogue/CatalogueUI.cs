@@ -1,14 +1,14 @@
-﻿using Events;
+﻿using System;
+using Events;
 using PauseMenu;
 using TMPro;
 using UnityEngine;
+using Views;
 
 namespace Catalogue
 {
-    [RequireComponent(typeof(CatalogueTracker))]
-    public class CatalogueUI : MonoBehaviour
+    public class CatalogueUI : View
     {
-        [SerializeField] private GameObject catalogueUIParent;
         [SerializeField] private CatalogueUIItem[] itemsInPage;
         [SerializeField] private Sprite[] raritySprites;
 
@@ -16,20 +16,13 @@ namespace Catalogue
         [SerializeField] private GameObject nextPageButton;
         [SerializeField] private GameObject previousPageButton;
 
-        private CatalogueTracker tracker;
         private int itemsPerPage;
         private int currentPage;
 
-        private void Start()
+        public override void Initialize()
         {
-            EventManager.PauseStateChange += OnPauseStateChange;
-            tracker = GetComponent<CatalogueTracker>();
+            base.Initialize();
             itemsPerPage = itemsInPage.Length;
-        }
-
-        private void OnDestroy()
-        {
-            EventManager.PauseStateChange -= OnPauseStateChange;
         }
 
         /// <summary>
@@ -40,7 +33,7 @@ namespace Catalogue
             // Loop through the items in the page based on the given index and the number of items per page
             for (int i = index * itemsPerPage; i < index * itemsPerPage + itemsPerPage; i++)
             {
-                CatalogueItem item = tracker.GetCatalogueItem(i);
+                CatalogueItem item = CatalogueTracker.Instance.GetCatalogueItem(i);
                 if (itemsInPage[i % itemsPerPage] == null)
                     continue;
                 if (item == null || item.GetAmount() <= 0)
@@ -59,26 +52,15 @@ namespace Catalogue
             }
         }
 
-        public void OpenCatalogue(bool suppressEvent)
+        public override void Show()
         {
-            catalogueUIParent.SetActive(true);
+            base.Show();
             currentPage = 0;
             LoadPage(currentPage);
             CheckPreviousPageButton();
             CheckNextPageButton();
-
-            totalFishCollectedText.text = tracker.GetTotalFishCollected().ToString();
-            PauseManager.SetState(PauseState.InCatalogue, suppressEvent);
+            totalFishCollectedText.text = CatalogueTracker.Instance.GetTotalFishCollected().ToString();
         }
-
-        public void CloseCatalogue(bool suppressEvent)
-        {
-            if (!catalogueUIParent.activeSelf)
-                return;
-            catalogueUIParent.SetActive(false);
-            PauseManager.SetState(PauseState.Playing, suppressEvent);
-        }
-
         /// <summary>
         /// Checks if the previous page button should be active.
         /// </summary>
@@ -95,7 +77,7 @@ namespace Catalogue
         /// </summary>
         private void CheckNextPageButton()
         {
-            if ((currentPage + 1) * itemsPerPage >= tracker.GetCatalogueItemsLength())
+            if ((currentPage + 1) * itemsPerPage >= CatalogueTracker.Instance.GetCatalogueItemsLength())
             {
                 nextPageButton.SetActive(false);
             }
@@ -106,7 +88,7 @@ namespace Catalogue
             currentPage++;
             LoadPage(currentPage);
 
-            if ((currentPage + 1) * itemsPerPage >= tracker.GetCatalogueItemsLength())
+            if ((currentPage + 1) * itemsPerPage >= CatalogueTracker.Instance.GetCatalogueItemsLength())
             {
                 nextPageButton.SetActive(false);
             }
@@ -126,16 +108,9 @@ namespace Catalogue
             nextPageButton.SetActive(true);
         }
 
-        private void OnPauseStateChange(PauseState newState)
+        public void ChangeBookPage(View newView)
         {
-            if (newState == PauseState.InCatalogue)
-            {
-                OpenCatalogue(true);
-            }
-            else
-            {
-                CloseCatalogue(true);
-            }
+            ViewManager.ShowView(newView, false);
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Enums;
 using UnityEngine;
-using Upgrades.Scriptable_Objects;
 using Events;
 using PauseMenu;
+using Views;
 
 [Serializable]
 public struct FishStates
@@ -20,11 +20,15 @@ public class FishBrain : MonoBehaviour
     private FishData P_fishData;
     private FishSpawner OriginSpawner;
 
+    [Header("Layer")]
+    [SerializeField] private LayerMask obstacleLayer;
+
     [Header("scripts")] public FishWiggle wiggle;
 
     [Header("states")] public FishStates states;
     private IFishState P_CurrentState;
     private bool activeState = true;
+    private bool freePass = false;
 
     [Header("Movement")] [SerializeField] private float RotateSpeed;
     private Vector3 P_EndPos;
@@ -49,6 +53,12 @@ public class FishBrain : MonoBehaviour
     public Vector3 EndPos
     {
         get { return P_EndPos; }
+    }
+
+    public bool FreePass
+    {
+        get { return freePass; }
+        set { freePass = value; }
     }
 
     // spawners 
@@ -96,13 +106,11 @@ public class FishBrain : MonoBehaviour
             P_CurrentState = value;
         }
     }
-
     public void Initialize(FishData data, FishSize size)
     {
         fishSize = size;
         fishData = data;
     }
-
     public FishData fishData
     {
         get { return P_fishData; }
@@ -121,7 +129,6 @@ public class FishBrain : MonoBehaviour
             wiggle.SetWiggle();
         }
     }
-
     public void SetEndPos(Vector3 endpos)
     {
         P_EndPos = endpos;
@@ -134,7 +141,12 @@ public class FishBrain : MonoBehaviour
         UI = GetComponent<FishUI>();
         CurrentState = GetComponent<IFishState>();
         CurrentState = states.Roaming;
-        EventManager.PauseStateChange += PauseFish;
+        ViewManager.instance.ViewShow += CheckPauseState;
+    }
+
+    private void OnDestroy()
+    {
+        ViewManager.instance.ViewShow -= CheckPauseState;
     }
 
     void Update()
@@ -144,9 +156,14 @@ public class FishBrain : MonoBehaviour
             CurrentState = CurrentState.SwitchState();
             CurrentState.UpdateState();
             ManageRoation();
+            CheckForObsticles();
         }
     }
-
+    private void CheckForObsticles()
+    {
+        if (Physics.Raycast(RotationObject.transform.position, RotationObject.transform.forward, 0.3f, obstacleLayer))
+            SetEndPos(GetNewPosition());
+    }
     private void ManageRoation()
     {
         Quaternion endpos;
@@ -154,7 +171,7 @@ public class FishBrain : MonoBehaviour
             RotationObject.transform.LookAt(Hook.instance.HookOrigin.transform.position);
         else RotationObject.transform.LookAt(EndPos);
         endpos = RotationObject.transform.rotation;
-        if (Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
+        if (Visual.activeInHierarchy && Visual.transform.rotation != endpos && RotateC == null) RotateC = StartCoroutine(RotateFish(endpos));
     }
 
     private void StopOldRotation()
@@ -177,29 +194,6 @@ public class FishBrain : MonoBehaviour
         yield return null;
         RotateC = null;
     }
-
-    private void PauseFish(PauseState state)
-    {
-        switch (state)
-        {
-            case PauseState.InPauseMenu:
-                activeState = false;
-                break;
-            case PauseState.Playing:
-                activeState = true;
-                break;
-        }
-    }
-
-    public bool PlayerInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) ||
-            Input.GetKeyDown(KeyCode.Escape) ||
-            Input.GetMouseButton(1))
-            return true;
-        else return false;
-    }
-
     public void OnDisable()
     {
         OriginSpawner = null;
@@ -207,8 +201,8 @@ public class FishBrain : MonoBehaviour
         CurrentState = states.Roaming;
     }
 
-    private void OnDestroy()
+    private void CheckPauseState(View newView)
     {
-        EventManager.PauseStateChange -= PauseFish;
+        activeState = newView is GameView;
     }
 }

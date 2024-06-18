@@ -1,92 +1,25 @@
-﻿using System;
-using Events;
-using UnityEditor;
-using UnityEngine;
-using PauseState = PauseMenu.PauseState;
+﻿using Events;
+using ShopScripts;
+using Upgrades;
+using Views;
 
 namespace Shore
 {
-    public class ShoreSelectionMenu : MonoBehaviour
+    public class ShoreSelectionMenu : ViewComponent
     {
-        [SerializeField] private GameObject shoreSelectionMenu;
-        private bool inShore = false;
-
-        private void Start()
+        public void OpenUpgradeShop()
         {
-            EventManager.ArrivedAtShore += ArrivedAtShore;
-            EventManager.LeftShore += LeftShore;
-            EventManager.SellShopClose += ShowShoreUI;
-            EventManager.UpgradeShopClose += ShowShoreUI;
-            EventManager.PauseStateChange += CheckUI;
-            HideShoreUI();
-        }
-
-        private void CheckUI(PauseState newState)
-        {
-            if (!inShore)
-                return;
-            switch (newState)
-            {
-                case PauseState.Playing:
-                    ShowShoreUI();
-                    break;
-                case PauseState.InPauseMenu:
-                    break;
-                case PauseState.InInventory:
-                    HideShoreUI();
-                    break;
-                case PauseState.InCatalogue:
-                    HideShoreUI();
-                    break;
-                case PauseState.InQuests:
-                    HideShoreUI();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            EventManager.ArrivedAtShore -= ArrivedAtShore;
-            EventManager.LeftShore -= LeftShore;
-            EventManager.SellShopClose -= ShowShoreUI;
-            EventManager.UpgradeShopClose -= ShowShoreUI;
-            EventManager.PauseStateChange -= CheckUI;
-        }
-
-        private void ArrivedAtShore()
-        {
-            inShore = true;
-            ShowShoreUI();
-        }
-
-        private void LeftShore()
-        {
-            inShore = false;
-            HideShoreUI();
-        }
-
-        private void ShowShoreUI()
-        {
-            shoreSelectionMenu.SetActive(true);
-        }
-
-        private void HideShoreUI()
-        {
-            shoreSelectionMenu.SetActive(false);
+            ViewManager.ShowView<UpgradeUI>();
         }
 
         public void OpenSellShop()
         {
-            EventManager.OnSellShopOpen();
-            HideShoreUI();
+            ViewManager.ShowView<SellShopUI>();
         }
-
-        public void OpenUpgradeShop()
+        
+        public void GoToSea()
         {
-            EventManager.OnUpgradeShopOpen();
-            HideShoreUI();
+            EventManager.OnLeftShore();
         }
     }
 }

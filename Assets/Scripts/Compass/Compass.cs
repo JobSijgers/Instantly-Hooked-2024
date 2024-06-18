@@ -3,10 +3,11 @@ using Events;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Views;
 
 namespace Compass
 {
-    public class CompassUI : MonoBehaviour
+    public class CompassUI : ViewComponent
     {
         [Header("Transforms")] [SerializeField]
         private Transform shore;
@@ -25,16 +26,12 @@ namespace Compass
         {
             EventManager.StormSpawned += OnStormSpawned;
             EventManager.NewDay += OnNewDay;
-            EventManager.ArrivedAtShore += DisableCompass;
-            EventManager.LeftShore += EnableCompass;
         }
 
         private void OnDisable()
         {
             EventManager.StormSpawned -= OnStormSpawned;
             EventManager.NewDay -= OnNewDay;
-            EventManager.ArrivedAtShore -= DisableCompass;
-            EventManager.LeftShore -= EnableCompass;
         }
 
         private void Update()
@@ -43,17 +40,7 @@ namespace Compass
                 return;
             RenderUI();
         }
-
-        private void DisableCompass()
-        {
-            background.gameObject.SetActive(false);
-        }
-
-        private void EnableCompass()
-        {
-            background.gameObject.SetActive(true);
-        }
-
+        
         private void OnNewDay(int dayCount)
         {
             storm = null;
@@ -94,6 +81,16 @@ namespace Compass
             }
             stormIcon.localPosition =
                 new Vector2(GetPositionOnCompass(storm), -background.rect.height / 2);
+        }
+
+        protected override void Show()
+        {
+            background.gameObject.SetActive(true);
+        }
+
+        protected override void Hide()
+        {
+            background.gameObject.SetActive(false);
         }
     }
 }

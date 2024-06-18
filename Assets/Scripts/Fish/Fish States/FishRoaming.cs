@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Events;
+using System;
+using Random = UnityEngine.Random;
+
 public class FishRoaming : MonoBehaviour, IFishState
 {
-    private FishBrain Brain;
+    private FishBrain brain;
 
     [Header("fish intresst")]
     [SerializeField] private float IntresstDistanceToHook;
@@ -21,7 +24,7 @@ public class FishRoaming : MonoBehaviour, IFishState
 
     void Awake()
     {
-        Brain = GetComponent<FishBrain>();
+        brain = GetComponent<FishBrain>();
     }
     public void OnStateActivate()
     {
@@ -32,19 +35,26 @@ public class FishRoaming : MonoBehaviour, IFishState
         if (BiteState)
         {
             ResetState();
-            return Brain.states.Biting;
+            return brain.states.Biting;
         }
         else return this;
     }
     public void UpdateState()
     {
         // zet nieuwe End positie als vis positie gelijk staat aan end positie
-        if (transform.position == Brain.EndPos)
+        if (transform.position == brain.EndPos)
         {
-             SetRandomPosition();
+            if (brain.FreePass && !brain.GetOriginSpawner().IsThisSpawnerActive)
+            {
+                brain.FreePass = false;
+                FishPooler.instance.ReturnFish(brain);
+                return;
+            }
+            else brain.FreePass = false;
+            SetRandomPosition();
         }
         // zet nieuwe position als End position zero is
-        if (Brain.EndPos == Vector3.zero) { SetRandomPosition(); }
+        if (brain.EndPos == Vector3.zero) { SetRandomPosition(); }
         if (Vector2.Distance(transform.position, Hook.instance.hook.transform.position) < IntresstDistanceToHook 
             && 
             FishPooler.instance.WaterBlock.bounds.Intersects(Hook.instance.bounds.bounds))
@@ -53,29 +63,29 @@ public class FishRoaming : MonoBehaviour, IFishState
         }
 
         // decelaration
-        float movespeed = Brain.moveSpeed;
-        float dist = Vector2.Distance(transform.position, Brain.EndPos);
+        float movespeed = brain.moveSpeed;
+        float dist = Vector2.Distance(transform.position, brain.EndPos);
         if (dist < 0.6f)
         {
             movespeed *= dist + 0.3f;
         }
 
         // move fish
-        transform.position = Vector3.MoveTowards(transform.position, Brain.EndPos, movespeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, brain.EndPos, movespeed * Time.deltaTime);
     }   
     public void SetRandomPosition()
     {
-        if (Brain.GetOriginSpawner() == null) Brain.SetEndPos(Vector3.zero);
-        else Brain.SetEndPos(Brain.GetNewPosition());
+        if (brain.GetOriginSpawner() == null) brain.SetEndPos(Vector3.zero);
+        else brain.SetEndPos(brain.GetNewPosition());
     }
     private IEnumerator ChoseToBite()
     {
         float wait = Random.Range(BiteWait[0], BiteWait[1]);
         yield return new WaitForSeconds(wait);
-        float br = Brain.fishData.biteRate + FishUpgradeCheck.instance.BiteMultiply;
+        float br = brain.fishData.biteRate + FishUpgradeCheck.instance.BiteMultiply;
         br /= 10f;
         float randomvalue = Random.value;
-        if (randomvalue < br && Hook.instance.FishOnHook == null)
+        if (randomvalue < br && Hook.instance.FishOnHook == null && Hook.instance.IsFishAllowtToTarget())
         {
             BiteState = true;
         }
@@ -83,7 +93,7 @@ public class FishRoaming : MonoBehaviour, IFishState
     }
     public void OnEnable()
     {
-        if (Brain.EndPos == Vector3.zero) SetRandomPosition();
+        if (brain.EndPos == Vector3.zero) SetRandomPosition();
     }
     public void OnDisable()
     {
