@@ -69,11 +69,11 @@ namespace Audio
             audioSource.pitch = sound.pitch;
             audioSource.loop = sound.loop;
             audioSource.outputAudioMixerGroup = sound.mixerGroup;
-            if (!sound.loop)
-                Destroy(audioSource, audioSource.clip.length);
-            audioSource.Play();
-            
             sound.source = audioSource;
+            if (sound.playOnAwake)
+            {
+                audioSource.Play();
+            }
         }
     }
 }

@@ -1557,8 +1557,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Economy.ShopScripts.SellShopUI, Assembly-CSharp
+      - m_Target: {fileID: 5632393477437879350}
+        m_TargetAssemblyTypeName: ShopScripts.SellShopUI, Assembly-CSharp
         m_MethodName: SelectAll
         m_Mode: 1
         m_Arguments:
@@ -2760,8 +2760,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Economy.ShopScripts.SellShopUI, Assembly-CSharp
+      - m_Target: {fileID: 5632393477437879350}
+        m_TargetAssemblyTypeName: ShopScripts.SellShopUI, Assembly-CSharp
         m_MethodName: SellSelectItems
         m_Mode: 1
         m_Arguments:
@@ -2988,7 +2988,7 @@ RectTransform:
   - {fileID: 8574816906491341738}
   - {fileID: 5783109045116290659}
   - {fileID: 3584357949881745751}
-  - {fileID: 8947890096001010798}
+  - {fileID: 8740840404780563383}
   m_Father: {fileID: 2617085210470012893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -13812,7 +13812,7 @@ MonoBehaviour:
   - {fileID: 2795485570852943060}
   - {fileID: 33190760199493917}
   - {fileID: 4514203617721415561}
-  - {fileID: 8302056570905017008}
+  - {fileID: 8527050072843505001}
   raritySprites:
   - {fileID: 21300000, guid: ab6698d40d6d9854aba697869fd1df34, type: 3}
   - {fileID: 21300000, guid: ff9d92d94558f724f93dc07696e41483, type: 3}
@@ -14889,7 +14889,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fd51930739bfec40bb8dc493abb412f, type: 3}
---- !u!114 &8302056570905017008 stripped
+--- !u!114 &8527050072843505001 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4757168816655055479, guid: 7fd51930739bfec40bb8dc493abb412f,
     type: 3}
@@ -14901,7 +14901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc425a11ed749f393f4da54a42e32fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &8947890096001010798 stripped
+--- !u!224 &8740840404780563383 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5557236335356923049, guid: 7fd51930739bfec40bb8dc493abb412f,
     type: 3}
