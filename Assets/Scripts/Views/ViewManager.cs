@@ -17,7 +17,9 @@ namespace Views
         public static ViewManager instance;
 
         public event UnityAction<View> ViewShow;
-        public void OnViewShow(View view) => ViewShow?.Invoke(view);
+        private void OnViewShow(View view) => ViewShow?.Invoke(view);
+        public event UnityAction<View> ViewHide;
+        private void OnViewHide(View view) => ViewHide?.Invoke(view);
 
         [SerializeField] private View startingView;
         [SerializeField] private View[] allViews;
@@ -51,6 +53,7 @@ namespace Views
         {
             if (instance.activeView == null)
                 return;
+            instance.OnViewHide(instance.activeView);
             instance.activeView.Hide();
             instance.activeView = null;
         }
@@ -98,6 +101,7 @@ namespace Views
         {
             if (instance.viewHistory.Count <= 0)
                 return;
+            instance.OnViewHide(instance.activeView);
             ShowView(instance.viewHistory.Pop());
         }
         
