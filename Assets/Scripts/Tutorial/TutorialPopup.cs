@@ -12,20 +12,22 @@ namespace Tutorial
         [SerializeField] private Image image;
         [SerializeField] private Button nextButton;
         private int currentPage = 0;
-        public TutorialData data;
+        private TutorialData data;
+        private View viewOnClose;
 
         public override void Initialize()
         {
             base.Initialize();
             nextButton.onClick.AddListener(NextPage);
-            Init(data);
         }
 
-        public void Init(TutorialData newData)
+        public void Init(TutorialData newData, View newViewOnClose)
         {
             currentPage = 0;
             text.text = newData.pages[0].description;
             image.sprite = newData.pages[0].image;
+            data = newData;
+            viewOnClose = newViewOnClose;
         }
 
         private void NextPage()
@@ -37,7 +39,7 @@ namespace Tutorial
                 image.sprite = data.pages[currentPage].image;
                 return;
             }
-            ViewManager.ShowLastView();
+            ViewManager.ShowView(viewOnClose, false);
         }
     }
 }

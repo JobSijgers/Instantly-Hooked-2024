@@ -75,8 +75,8 @@ namespace Views
                 }
 
                 view.Show();
-                instance.OnViewShow(view);
                 instance.activeView = view;
+                instance.OnViewShow(view);
             }
         }
 
@@ -93,8 +93,8 @@ namespace Views
             }
 
             view.Show();
-            instance.OnViewShow(view);
             instance.activeView = view;
+            instance.OnViewShow(view);
         }
 
         public static void ShowLastView()
