@@ -24,10 +24,9 @@ namespace Tutorial
         public void Init(TutorialData newData, View newViewOnClose)
         {
             currentPage = 0;
-            text.text = newData.pages[0].description;
-            image.sprite = newData.pages[0].image;
             data = newData;
             viewOnClose = newViewOnClose;
+            LoadPage(currentPage);
         }
 
         private void NextPage()
@@ -35,12 +34,21 @@ namespace Tutorial
             currentPage++;
             if (currentPage < data.pages.Length)
             {
-                text.text = data.pages[currentPage].description;
-                image.sprite = data.pages[currentPage].image;
-                image.gameObject.SetActive(data.pages[currentPage].image != null);
+                LoadPage(currentPage);
                 return;
             }
             ViewManager.ShowView(viewOnClose, false);
+        }
+        
+        private void LoadPage(int page)
+        {
+            text.text = data.pages[page].description;
+            image.sprite = data.pages[page].image;
+            image.gameObject.SetActive(data.pages[page].image != null);
+            if (image.gameObject.activeSelf)
+            {
+                image.SetNativeSize();
+            }
         }
     }
 }
