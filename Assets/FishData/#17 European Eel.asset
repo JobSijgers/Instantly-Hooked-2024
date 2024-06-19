@@ -16,13 +16,15 @@ MonoBehaviour:
   fishDescription: What the hell is he doing here
   habitat: Hawaii
   fishRarity: 4
-  fishSellAmount: 00000000
+  fishSellAmount: 000000000000000000000000
   fishObject: {fileID: 8746891188861721737, guid: d315ba4a7f6e0234da8ed88d4906fb62,
     type: 3}
   fishSize:
-  - 1
+  - 1.5
+  - 1.7
+  - 1.8
   fishVisual: {fileID: 0}
-  moveSpeed: 0
-  maxStackAmount: 0
-  biteRate: 0
+  moveSpeed: 3
+  maxStackAmount: 1
+  biteRate: 10
   stamina: 10
