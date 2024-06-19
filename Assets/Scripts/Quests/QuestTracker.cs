@@ -150,5 +150,25 @@ namespace Quests
         {
             return activeQuests.ToArray();
         }
+
+        public void LoadQuests(QuestProgress[] quests)
+        {
+            if (quests != null)
+            {
+                if (activeQuests != null)
+                {
+                    for (int i = 0; i < activeQuests.Count; i++)
+                    {
+                        EventManager.OnQuestUnHighlight(activeQuests[i]);
+                    }
+                    activeQuests.Clear();
+                }
+                for (int i = 0; i < quests.Length; i++)
+                {
+                    activeQuests.Add(quests[i]);
+                    EventManager.OnQuestHighlight(activeQuests[activeQuests.Count - 1]);
+                }
+            }
+        }
     }
 }
