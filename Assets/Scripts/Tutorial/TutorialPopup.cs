@@ -45,10 +45,7 @@ namespace Tutorial
             text.text = data.pages[page].description;
             image.sprite = data.pages[page].image;
             image.gameObject.SetActive(data.pages[page].image != null);
-            if (image.gameObject.activeSelf)
-            {
-                image.SetNativeSize();
-            }
+            image.rectTransform.sizeDelta = data.pages[page].imageSize;
         }
     }
 }
