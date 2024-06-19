@@ -6,6 +6,7 @@ using Player.Inventory;
 using Quests;
 using ShopScripts;
 using Shore;
+using Tutorial;
 using UnityEngine;
 using UnityEngine.Events;
 using Upgrades;
@@ -43,7 +44,7 @@ namespace Views
 
         private void Update()
         {
-            Type[] ignoredViews = { typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI) };
+            Type[] ignoredViews = { typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI), typeof(TutorialPopup) };
             CheckKey<Inventory>(KeyCode.I, ignoredViews);
             CheckKey<CatalogueUI>(KeyCode.J, ignoredViews);
             CheckKey<QuestBookUI>(KeyCode.Q, ignoredViews);
