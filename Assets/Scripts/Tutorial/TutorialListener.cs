@@ -49,7 +49,7 @@ namespace Tutorial
             {
                 if (tutorialEvent.view != view) continue;
                 
-                ShowTutorial(tutorialEvent.tutorialData, view);
+                ShowTutorial(tutorialEvent.tutorialData, view, false);
                 tutorialEvents.Remove(tutorialEvent);
                 break;
             }
@@ -61,15 +61,15 @@ namespace Tutorial
             {
                 if (tutorialEvent.fishIndex != fishIndex) continue;
                 
-                ShowTutorial(tutorialEvent.tutorialData, tutorialEvent.viewOnClose);
+                ShowTutorial(tutorialEvent.tutorialData, tutorialEvent.viewOnClose, true);
                 fishCaughtTutorialEvents.Remove(tutorialEvent);
                 break;
             }
         }
         
-        private void ShowTutorial(TutorialData tutorialData, View viewOnClose)
+        private void ShowTutorial(TutorialData tutorialData, View viewOnClose, bool saveHistory)
         {
-            ViewManager.ShowView(popup, false);
+            ViewManager.ShowView(popup, saveHistory);
             popup.Init(tutorialData, viewOnClose);
         }
     }
