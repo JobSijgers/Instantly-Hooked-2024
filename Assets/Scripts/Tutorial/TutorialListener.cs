@@ -26,21 +26,33 @@ namespace Tutorial
             public TutorialData tutorialData;
             public View viewOnClose;
         }
+
+        [Serializable]
+        public class TimeTutorialEvent
+        {
+            public int timeInMinutes;
+            public TutorialData tutorialData;
+            public View viewOnClose;
+        }
         
         [SerializeField] private List<ViewEventTutorialEvent> tutorialEvents;
         [SerializeField] private List<FishCaughtTutorialEvent> fishCaughtTutorialEvents;
+        [SerializeField] private List<TimeTutorialEvent> timeTutorialEvents;
         [SerializeField] private TutorialPopup popup;
         
         private void Start()
         {
             ViewManager.instance.ViewShow += OnViewShow;
             CatalogueTracker.Instance.catalogueUpdated += OnFishCaught;
+            EventManager.TimeUpdate += OnTimeUpdate;
         }
+        
 
         private void OnDestroy()
         {
             ViewManager.instance.ViewShow -= OnViewShow;
             CatalogueTracker.Instance.catalogueUpdated -= OnFishCaught;
+            EventManager.TimeUpdate -= OnTimeUpdate;
         }
 
         private void OnViewShow(View view)
@@ -64,6 +76,19 @@ namespace Tutorial
                 ShowTutorial(tutorialEvent.tutorialData, tutorialEvent.viewOnClose, true);
                 fishCaughtTutorialEvents.Remove(tutorialEvent);
                 break;
+            }
+        }
+        
+        private void OnTimeUpdate(TimeSpan time)
+        {
+            foreach (TimeTutorialEvent timeTutorialEvent in timeTutorialEvents)
+            {
+                if (time.TotalMinutes >= timeTutorialEvent.timeInMinutes)
+                {
+                    ShowTutorial(timeTutorialEvent.tutorialData, timeTutorialEvent.viewOnClose, false);
+                    timeTutorialEvents.Remove(timeTutorialEvent);
+                    break;
+                }
             }
         }
         
