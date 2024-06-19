@@ -11,6 +11,8 @@ using Economy;
 using GameTime;
 using Catalogue;
 using Upgrades;
+using Quests;
+using Quests.ScriptableObjects;
 
 public class DataCenter : MonoBehaviour
 {
@@ -86,6 +88,9 @@ public class DataCenter : MonoBehaviour
 
         // load catalogue
         CatalogueTracker.Instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish,storageCenter.Catalogue.amountCaught);
+
+        // load quests
+        QuestTracker.instance.LoadQuests(storageCenter.Quests);
     } 
     private void WriteSave()
     {
@@ -115,6 +120,9 @@ public class DataCenter : MonoBehaviour
         CatalogueTracker.Instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
         storageCenter.Catalogue.totalCollectedFish = totalFish;
         storageCenter.Catalogue.amountCaught = amountcollectedPF;
+
+        // quest 
+        storageCenter.Quests = QuestTracker.instance.GetQuests();
     }
     private void OnApplicationQuit()
     {
@@ -129,6 +137,7 @@ public class StorageCenter
     public int[] upgradeIndex;
     public int currentDay;
     public int Money;
+    public QuestProgress[] Quests;
 }
 
 [Serializable]
@@ -144,6 +153,5 @@ public struct CatalogueSave
     public int totalCollectedFish;
     public int[] amountCaught; 
 }
-
 
 

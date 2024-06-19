@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Quests.ScriptableObjects
 {
+    [Serializable]
     public abstract class Quest : ScriptableObject
     {
         [Header("Quest Info")]

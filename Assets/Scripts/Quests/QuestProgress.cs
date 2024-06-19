@@ -7,9 +7,9 @@ namespace Quests
     [Serializable]
     public class QuestProgress
     {
-        public readonly Quest quest;
-        public readonly int completionAmount;
-        public readonly int completionMoney;
+        public Quest quest;
+        public int completionAmount;
+        public int completionMoney;
         public QuestDifficulty difficulty;
         public int progress;
         public bool highlighted;
