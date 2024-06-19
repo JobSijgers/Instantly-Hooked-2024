@@ -3149,6 +3149,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   director: {fileID: 0}
+  shopTypes:
+  - shopName: UpgradeUI
+    camera: {fileID: 0}
+    truckMaterial: {fileID: 2100000, guid: 55e13a8a7c5036a4cb4fa9ae6635418c, type: 2}
+  - shopName: SellShopUI
+    camera: {fileID: 0}
+    truckMaterial: {fileID: -3045072813945112005, guid: 603e6403cb141b844bbd9a7c7fb90a5a,
+      type: 2}
+  truckRenderer: {fileID: 0}
   arriveTimeline: {fileID: 11400000, guid: c221f618875cff2448c28673fbfde7ec, type: 2}
   leaveTimeline: {fileID: 11400000, guid: d140b1316018ad04fab937aaf1e21a47, type: 2}
 --- !u!223 &754793292593763206
