@@ -86388,6 +86388,18 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &1603218439 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3234513109360635504, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 3875773359668837114}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 878490bcd7ff4c7f8f2bfd4d501d3b19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1617519909
 GameObject:
   m_ObjectHideFlags: 0
@@ -107550,6 +107562,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 401925679}
+    - target: {fileID: 5387393907161639505, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -62
+      objectReference: {fileID: 0}
     - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       propertyPath: tutorialEvents.Array.size
@@ -107559,12 +107576,12 @@ PrefabInstance:
         type: 3}
       propertyPath: tutorialEvents.Array.data[0].view
       value: 
-      objectReference: {fileID: 260702582}
+      objectReference: {fileID: 61607139}
     - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       propertyPath: tutorialEvents.Array.data[1].view
       value: 
-      objectReference: {fileID: 61607139}
+      objectReference: {fileID: 1603218439}
     - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       propertyPath: tutorialEvents.Array.data[3].view
@@ -107572,21 +107589,58 @@ PrefabInstance:
       objectReference: {fileID: 1644301421}
     - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
+      propertyPath: fishCaughtTutorialEvents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
       propertyPath: tutorialEvents.Array.data[0].tutorialData
       value: 
-      objectReference: {fileID: 11400000, guid: 1ed838d377aa7bf4894c619947015329,
+      objectReference: {fileID: 11400000, guid: 3f78f77a9921fc544bcdde51d07f559f,
         type: 2}
     - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       propertyPath: tutorialEvents.Array.data[1].tutorialData
       value: 
-      objectReference: {fileID: 11400000, guid: 3f78f77a9921fc544bcdde51d07f559f,
+      objectReference: {fileID: 11400000, guid: e6fd5ca6ff422d54ea153a83f36d8e88,
         type: 2}
     - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}
       propertyPath: tutorialEvents.Array.data[3].tutorialData
       value: 
       objectReference: {fileID: 11400000, guid: 3f78f77a9921fc544bcdde51d07f559f,
+        type: 2}
+    - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: fishCaughtTutorialEvents.Array.data[0].fishIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: fishCaughtTutorialEvents.Array.data[1].fishIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: fishCaughtTutorialEvents.Array.data[0].viewOnClose
+      value: 
+      objectReference: {fileID: 260702582}
+    - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: fishCaughtTutorialEvents.Array.data[1].viewOnClose
+      value: 
+      objectReference: {fileID: 260702582}
+    - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: fishCaughtTutorialEvents.Array.data[0].tutorialData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ed838d377aa7bf4894c619947015329,
+        type: 2}
+    - target: {fileID: 5615223611202033437, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
+        type: 3}
+      propertyPath: fishCaughtTutorialEvents.Array.data[1].tutorialData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ed838d377aa7bf4894c619947015329,
         type: 2}
     - target: {fileID: 5969544704064372277, guid: fbd1902c361c16b41bf9eb8e55bc78f9,
         type: 3}

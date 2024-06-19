@@ -12,6 +12,7 @@ namespace Tutorial
         {
             public string description;
             public Sprite image;
+            public Vector2 imageSize;
         }
         public Page[] pages;
     }

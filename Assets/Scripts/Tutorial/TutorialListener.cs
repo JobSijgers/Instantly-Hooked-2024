@@ -26,21 +26,33 @@ namespace Tutorial
             public TutorialData tutorialData;
             public View viewOnClose;
         }
+
+        [Serializable]
+        public class TimeTutorialEvent
+        {
+            public int timeInMinutes;
+            public TutorialData tutorialData;
+            public View viewOnClose;
+        }
         
         [SerializeField] private List<ViewEventTutorialEvent> tutorialEvents;
         [SerializeField] private List<FishCaughtTutorialEvent> fishCaughtTutorialEvents;
+        [SerializeField] private List<TimeTutorialEvent> timeTutorialEvents;
         [SerializeField] private TutorialPopup popup;
         
         private void Start()
         {
             ViewManager.instance.ViewShow += OnViewShow;
             CatalogueTracker.Instance.catalogueUpdated += OnFishCaught;
+            EventManager.TimeUpdate += OnTimeUpdate;
         }
+        
 
         private void OnDestroy()
         {
             ViewManager.instance.ViewShow -= OnViewShow;
             CatalogueTracker.Instance.catalogueUpdated -= OnFishCaught;
+            EventManager.TimeUpdate -= OnTimeUpdate;
         }
 
         private void OnViewShow(View view)
@@ -49,7 +61,7 @@ namespace Tutorial
             {
                 if (tutorialEvent.view != view) continue;
                 
-                ShowTutorial(tutorialEvent.tutorialData, view);
+                ShowTutorial(tutorialEvent.tutorialData, view, false);
                 tutorialEvents.Remove(tutorialEvent);
                 break;
             }
@@ -61,15 +73,28 @@ namespace Tutorial
             {
                 if (tutorialEvent.fishIndex != fishIndex) continue;
                 
-                ShowTutorial(tutorialEvent.tutorialData, tutorialEvent.viewOnClose);
+                ShowTutorial(tutorialEvent.tutorialData, tutorialEvent.viewOnClose, true);
                 fishCaughtTutorialEvents.Remove(tutorialEvent);
                 break;
             }
         }
         
-        private void ShowTutorial(TutorialData tutorialData, View viewOnClose)
+        private void OnTimeUpdate(TimeSpan time)
         {
-            ViewManager.ShowView(popup, false);
+            foreach (TimeTutorialEvent timeTutorialEvent in timeTutorialEvents)
+            {
+                if (time.TotalMinutes >= timeTutorialEvent.timeInMinutes)
+                {
+                    ShowTutorial(timeTutorialEvent.tutorialData, timeTutorialEvent.viewOnClose, false);
+                    timeTutorialEvents.Remove(timeTutorialEvent);
+                    break;
+                }
+            }
+        }
+        
+        private void ShowTutorial(TutorialData tutorialData, View viewOnClose, bool saveHistory)
+        {
+            ViewManager.ShowView(popup, saveHistory);
             popup.Init(tutorialData, viewOnClose);
         }
     }

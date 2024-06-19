@@ -5,7 +5,7 @@ using PauseMenu;
 using Player.Inventory;
 using Quests;
 using ShopScripts;
-using Shore;
+using Tutorial;
 using UnityEngine;
 using UnityEngine.Events;
 using Upgrades;
@@ -16,17 +16,23 @@ namespace Views
     {
         public static ViewManager instance;
 
+        [SerializeField] private View startingView;
+        [SerializeField] private View[] allViews;
+
         public event UnityAction<View> ViewShow;
         private void OnViewShow(View view) => ViewShow?.Invoke(view);
         public event UnityAction<View> ViewHide;
         private void OnViewHide(View view) => ViewHide?.Invoke(view);
 
-        [SerializeField] private View startingView;
-        [SerializeField] private View[] allViews;
-
         private readonly Stack<View> viewHistory = new();
         private View activeView;
-        
+
+        private readonly Type[] ignoredViews =
+            { typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI), typeof(TutorialPopup) };
+
+        private readonly Type[] dontSaveIfActive =
+            { typeof(Inventory), typeof(CatalogueUI), typeof(QuestBookUI) };
+
         private void Awake()
         {
             instance = this;
@@ -43,10 +49,9 @@ namespace Views
 
         private void Update()
         {
-            Type[] ignoredViews = { typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI) };
-            CheckKey<Inventory>(KeyCode.I, ignoredViews);
-            CheckKey<CatalogueUI>(KeyCode.J, ignoredViews);
-            CheckKey<QuestBookUI>(KeyCode.Q, ignoredViews);
+            CheckKey<Inventory>(KeyCode.I, ignoredViews, dontSaveIfActive);
+            CheckKey<CatalogueUI>(KeyCode.J, ignoredViews, dontSaveIfActive);
+            CheckKey<QuestBookUI>(KeyCode.Q, ignoredViews, dontSaveIfActive);
         }
 
         public static void HideActiveView()
@@ -57,7 +62,7 @@ namespace Views
             instance.activeView.Hide();
             instance.activeView = null;
         }
-        
+
         public static void ShowView<T>(bool saveInHistory = true)
         {
             foreach (View view in instance.allViews)
@@ -104,7 +109,7 @@ namespace Views
             instance.OnViewHide(instance.activeView);
             ShowView(instance.viewHistory.Pop());
         }
-        
+
         public static void ClearHistory()
         {
             instance.viewHistory.Clear();
@@ -115,13 +120,20 @@ namespace Views
             return instance.activeView.GetType();
         }
 
-        private void CheckKey<T>(KeyCode key, Type[] ignoredViews) where T : View
+        private void CheckKey<T>(KeyCode key, Type[] ignoredViews, Type[] dontSaveIfActive) where T : View
         {
             if (!Input.GetKeyDown(key)) return;
             if (activeView == null) return;
             if (Array.Exists(ignoredViews, ignoredView => activeView.GetType() == ignoredView)) return;
+
             if (activeView is not T)
             {
+                if (Array.Exists(dontSaveIfActive, dontSave => activeView.GetType() == dontSave))
+                {
+                    ShowView<T>(false);
+                    return;
+                }
+
                 ShowView<T>();
             }
             else
