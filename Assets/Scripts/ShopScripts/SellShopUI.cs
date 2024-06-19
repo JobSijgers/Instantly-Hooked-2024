@@ -47,8 +47,12 @@ namespace ShopScripts
             {
                 Destroy(item.gameObject);
             }
-
             shopItems.Clear();
+            ClearSellSheet();
+            currentTotalSellAmount = 0;
+            currentTotalSellMoneyAmount = 0;
+            totalSellMoney.text = $"${currentTotalSellMoneyAmount}";
+            totalSellAmount.text = currentTotalSellAmount.ToString();
         }
 
         public void SelectAll()

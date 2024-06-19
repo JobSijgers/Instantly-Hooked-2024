@@ -37,6 +37,7 @@ namespace Tutorial
             {
                 text.text = data.pages[currentPage].description;
                 image.sprite = data.pages[currentPage].image;
+                image.gameObject.SetActive(data.pages[currentPage].image != null);
                 return;
             }
             ViewManager.ShowView(viewOnClose, false);
