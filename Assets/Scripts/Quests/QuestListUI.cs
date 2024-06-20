@@ -18,6 +18,10 @@ namespace Quests
 
         private void Awake()
         {
+            EventManager.QuestHighlighted += HighlightQuest;
+            EventManager.QuestUnHighlighted += UnhighlightQuest;
+            EventManager.QuestUpdated += UpdateQuestProgress;
+            EventManager.QuestCompleted += UnhighlightQuest;
             hudQuests = new HUDQuest[maxQuestsDisplayed];
             for (int i = 0; i < maxQuestsDisplayed; i++)
             {
@@ -26,14 +30,6 @@ namespace Quests
             }
         }
         
-        private void Start()
-        {
-            EventManager.QuestHighlighted += HighlightQuest;
-            EventManager.QuestUnHighlighted += UnhighlightQuest;
-            EventManager.QuestUpdated += UpdateQuestProgress;
-            EventManager.QuestCompleted += UnhighlightQuest;
-        }
-
         private void OnDestroy()
         {
             EventManager.QuestHighlighted -= HighlightQuest;

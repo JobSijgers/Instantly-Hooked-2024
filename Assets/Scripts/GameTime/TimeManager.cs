@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Events;
 using PauseMenu;
 using UnityEngine;
+using UnityEngine.UI;
 using Views;
 
 namespace GameTime
@@ -11,6 +14,7 @@ namespace GameTime
         public static TimeManager instance;
         [SerializeField] private int dayStartMinutes;
         [SerializeField] private float minutesPerCycle;
+        [SerializeField] private Image fadeImage;
 
         private bool timePassing = true;
         private int currentDay;
@@ -62,7 +66,12 @@ namespace GameTime
             currentTime = dayStartMinutes * 60;
         }
 
-        public void EndDay()
+        public void NewDay()
+        {
+            StartCoroutine(EndDayTransition());
+        }
+        
+        private void EndDay()
         {
             currentDay++;
 
@@ -73,15 +82,14 @@ namespace GameTime
             EventManager.OnTimeUpdate(span);
         }
         
-        private void DisableTime()
+        private IEnumerator EndDayTransition()
         {
-            timePassing = false;
+            yield return Fade(0, 1, 1);
+            yield return new WaitForSeconds(0.5f);
+            EndDay();
+            yield return Fade(1, 0, 1);
         }
-
-        private void EnableTime()
-        {
-        }
-
+        
         public void GetTimeState(out int currentday)
         {
             currentday = currentDay;
@@ -95,6 +103,21 @@ namespace GameTime
         private void CheckPause(View newView)
         {
             timePassing = newView is GameView;
+        }
+        
+        
+        private IEnumerator Fade(float start, float end, float duration)
+        {
+            float time = 0;
+            Color startColor = new Color(0, 0, 0, start);
+            Color endColor = new Color(0, 0, 0, end);
+            while (time < duration)
+            {
+                fadeImage.color = Color.Lerp(startColor, endColor, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            fadeImage.color = endColor;
         }
     }
 }

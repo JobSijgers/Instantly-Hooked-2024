@@ -18,6 +18,13 @@ namespace Shore
         {
             EventManager.DockSuccess += TransitionToShore;
             EventManager.LeftShore += TransitionToSea;
+            EventManager.NewDay += TransitionToSea;
+        }
+        private void OnDestroy()
+        {
+            EventManager.DockSuccess -= TransitionToShore;
+            EventManager.LeftShore -= TransitionToSea;
+            EventManager.NewDay -= TransitionToSea;
         }
 
         private void Update()
@@ -36,6 +43,7 @@ namespace Shore
             StartCoroutine(TransitionViewToShore());
         }
 
+        private void TransitionToSea(int arg0) => TransitionToSea();
         private void TransitionToSea()
         {
             StartCoroutine(TransitionViewToSea());
