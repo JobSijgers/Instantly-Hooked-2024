@@ -88,8 +88,7 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         if (Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.gameObject != gameObject)
         {
-            brain.SetEndPos(Vector3.zero);
-            Hook.instance.FishTargetinglist.Remove(brain);
+            ResetState();
             return brain.states.Roaming;
         }
         if (offHook)
@@ -99,7 +98,6 @@ public class FishBiting : MonoBehaviour, IFishState
             Hook.instance.ResetRodColor();
             EventManager.OnBoatControlsChanged(false);
             brain.FishUI.ActiceState(false);
-            Hook.instance.FishTargetinglist.Remove(brain);
             return brain.states.Roaming;
         }
         else return this;
@@ -305,6 +303,7 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina < MaxStamina)
         {
+            Debug.Log("regain");
             if (brain.ActiveState)
             {
                 stamina += Time.deltaTime * StamRegainMultiply;
@@ -345,6 +344,7 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina > 0.1f)
         {
+            Debug.Log("fish struggel");
             if (brain.ActiveState) stamina -= Time.deltaTime * StamDrainMultiply * FishUpgradeCheck.instance.staminaDrainUpgradePower;
             yield return null;
         }
@@ -410,6 +410,10 @@ public class FishBiting : MonoBehaviour, IFishState
         offHook = false;
         biteState = FishBitingState.GoingForHook;
         struggelingC = null;
+        resetStateAfterTimeIntrest = null;
+        ccd = null;
+        reGain = null;
+        Hook.instance.FishTargetinglist.Remove(brain);
     }
 
     private IEnumerator ClickCoolDown()

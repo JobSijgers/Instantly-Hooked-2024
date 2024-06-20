@@ -22,16 +22,12 @@ namespace Storm
         private void Start()
         {
             EventManager.NewDay += DestroyStorm;
-            EventManager.DockSuccess += PauseStorm;
-            EventManager.LeftShore += ResumeStorm;
             ViewManager.instance.ViewShow += CheckStormPause;
         }
 
         private void OnDestroy()
         {
             EventManager.NewDay -= DestroyStorm;
-            EventManager.DockSuccess -= PauseStorm;
-            EventManager.LeftShore -= ResumeStorm;
             ViewManager.instance.ViewShow -= CheckStormPause;
         }
 
@@ -42,7 +38,7 @@ namespace Storm
                 return;
             playerInStormTime += Time.deltaTime;
             if (!(playerInStormTime >= stormDamageTime)) return;
-            
+
             EventManager.OnPlayerDied();
             playerInStormTime = 0;
         }
@@ -77,31 +73,23 @@ namespace Storm
             float t = 0;
             while (Vector3.Distance(transform.position, stormEndLocation) > 0.1f)
             {
-                if (paused)
+                while (paused)
+                {
                     yield return null;
-                
+                }
+
                 t += Time.deltaTime / stormDuration;
                 Vector3 newLocation = Vector3.Lerp(stormStartLocation, stormEndLocation, t);
                 transform.position = newLocation;
                 yield return null;
             }
         }
-        
+
         private void DestroyStorm(int newDay)
         {
             Destroy(gameObject);
         }
 
-        private void ResumeStorm()
-        {
-            paused = false;
-        }
-        
-        private void PauseStorm()
-        {
-            paused = true;
-        }
-        
         private void CheckStormPause(View newView)
         {
             paused = newView is not GameView;
