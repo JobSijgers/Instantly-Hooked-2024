@@ -21,11 +21,11 @@ public class FishUI : MonoBehaviour
 
     private void Update()
     {
-        ActiceState(brain.states.Biting.IsInWater());
+        ActiveState(brain.states.Biting.IsInWater());
         if (!uiHolder.activeSelf)
             return;
         bool fishOnHook = Hook.instance.FishOnHook == brain;
-        ActiceState(fishOnHook);
+        ActiveState(fishOnHook);
         
         brain.states.Biting.GetStaminaStats(out float stamina, out float maxstamina);
         staminaMeter.fillAmount = stamina / maxstamina;
@@ -40,7 +40,7 @@ public class FishUI : MonoBehaviour
         tensionHandle.transform.localEulerAngles = new Vector3(0, 0, angle);
     }
 
-    public void ActiceState(bool state)
+    public void ActiveState(bool state)
     {
         switch (state)
         {
@@ -57,6 +57,6 @@ public class FishUI : MonoBehaviour
 
     private void OnDisable()
     {
-        ActiceState(false);
+        ActiveState(false);
     }
 }

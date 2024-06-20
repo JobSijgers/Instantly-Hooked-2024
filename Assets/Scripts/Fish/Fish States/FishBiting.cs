@@ -97,7 +97,7 @@ public class FishBiting : MonoBehaviour, IFishState
             ResetState();
             Hook.instance.ResetRodColor();
             EventManager.OnBoatControlsChanged(false);
-            brain.FishUI.ActiceState(false);
+            brain.FishUI.ActiveState(false);
             return brain.states.Roaming;
         }
         else return this;
@@ -110,10 +110,10 @@ public class FishBiting : MonoBehaviour, IFishState
         if (dist < BitingRange && biteState == FishBitingState.GoingForHook)
         {
             Hook.instance.FishOnHook = brain;
-            EventManager.OnBoatControlsChanged(true);
-            brain.FishUI.ActiceState(true);
+            brain.FishUI.ActiveState(true);
             biteState = FishBitingState.OnHook;
             brain.FishGought.Play();
+            if (IsInWater()) EventManager.OnBoatControlsChanged(true);
         }
 
         if (!brain.GetOriginSpawner().IsInSpwanArea(transform.position))
@@ -124,8 +124,12 @@ public class FishBiting : MonoBehaviour, IFishState
         if (!brain.GetOriginSpawner().IsInSpwanArea(Hook.instance.hook.transform.position) &&
              Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.gameObject != gameObject) offHook = true;
 
-        // is de vis buiten water terwijl er word gestruggelt dan word er nu niet meer gestruggelt
-        if (biteState == FishBitingState.Struggling && !IsInWater()) biteState = FishBitingState.OnHook;
+        // is de vis buiten water terwijl er word gestruggelt dan word er nu niet meer gestruggelt. de boot kan weer varen
+        if (biteState == FishBitingState.Struggling && !IsInWater())
+        {
+            biteState = FishBitingState.OnHook;
+            EventManager.OnBoatControlsChanged(false);
+        }
 
         MoveMent();
         Struggeling();
@@ -304,7 +308,6 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina < MaxStamina)
         {
-            Debug.Log("regain");
             if (brain.ActiveState)
             {
                 stamina += Time.deltaTime * StamRegainMultiply;
@@ -345,7 +348,6 @@ public class FishBiting : MonoBehaviour, IFishState
     {
         while (stamina > 0.1f)
         {
-            Debug.Log("fish struggel");
             if (brain.ActiveState) stamina -= Time.deltaTime * StamDrainMultiply * FishUpgradeCheck.instance.staminaDrainUpgradePower;
             yield return null;
         }
