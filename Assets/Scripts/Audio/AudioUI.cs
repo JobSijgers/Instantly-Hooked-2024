@@ -20,9 +20,12 @@ namespace Audio
             musicSlider.onValueChanged.AddListener(SetMusicVolume);
             sfxSlider.onValueChanged.AddListener(SetSfxVolume);
         
-            volumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 1);
-            musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1);
-            sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1);
+            volumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0);
+            musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0);
+            sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0);
+            mixer.SetFloat("Master", ConvertRange(volumeSlider.value));
+            mixer.SetFloat("MusicVolume", ConvertRange(musicSlider.value));
+            mixer.SetFloat("SFXVolume", ConvertRange(sfxSlider.value));
         }
 
         private void OnDestroy()
@@ -52,7 +55,7 @@ namespace Audio
         
         float ConvertRange(float value)
         {
-            return Mathf.Lerp(-80, 20, value);
+            return Mathf.Lerp(-80, 0, value);
         }
     }
 }
