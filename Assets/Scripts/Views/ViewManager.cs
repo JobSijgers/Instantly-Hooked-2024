@@ -56,6 +56,7 @@ namespace Views
 
         public static void HideActiveView()
         {
+            Debug.Log("HideActiveView");
             if (instance.activeView == null)
                 return;
             instance.OnViewHide(instance.activeView);

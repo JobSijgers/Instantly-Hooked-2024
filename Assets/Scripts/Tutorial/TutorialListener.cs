@@ -9,6 +9,7 @@ using Quests;
 using Quests.ScriptableObjects;
 using UnityEditor.Compilation;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Views;
 
 namespace Tutorial
@@ -52,11 +53,20 @@ namespace Tutorial
             public TutorialData tutorialData;
             public View viewOnClose;
         }
+        
+        [Serializable]
+        public class StartTutorialEvent
+        {
+            public TutorialData tutorialData;
+            public View viewOnClose;
+        }
+        
         [SerializeField] private List<ViewEventTutorialEvent> tutorialEvents;
         [SerializeField] private List<FishCaughtTutorialEvent> fishCaughtTutorialEvents;
         [SerializeField] private List<TimeTutorialEvent> timeTutorialEvents;
         [SerializeField] private List<CatchFailedTutorialEvent> catchFailedTutorialEvents;
         [SerializeField] private List<QuestCompletedTutorialEvent> questCompletedTutorialEvents;
+        [FormerlySerializedAs("startTutorialEvents")] [SerializeField] private StartTutorialEvent startTutorialEvent;
         [SerializeField] private TutorialPopup popup;
         
         private void Start()
@@ -66,6 +76,10 @@ namespace Tutorial
             EventManager.TimeUpdate += OnTimeUpdate;
             EventManager.QuestCompleted += OnQuestCompleted;
             EventManager.ReelFailed += OnReelFailed;
+            if (startTutorialEvent.tutorialData != null)
+            {
+                ShowTutorial(startTutorialEvent.tutorialData, startTutorialEvent.viewOnClose, false);
+            }
         }
         
 
