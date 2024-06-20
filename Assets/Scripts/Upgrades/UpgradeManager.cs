@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Audio;
 using Economy;
 using Enums;
 using Events;
@@ -119,6 +120,7 @@ namespace Upgrades
         {
             if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
             {
+                AudioManager.instance.PlaySound("Poor");
                 return;
             }
             
@@ -127,6 +129,7 @@ namespace Upgrades
                 return;
             EconomyManager.instance.RemoveMoney(upgrade.cost);
             upgradeState.IncreaseUpgradeIndex();
+            AudioManager.instance.PlaySound("UpgradeBought");
             EventManager.OnUpgradeBought(upgrade);
         }
 

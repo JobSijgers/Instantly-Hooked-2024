@@ -1,18 +1,20 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using Views;
 
 namespace Audio
 {
-    public class AudioUI : MonoBehaviour
+    public class AudioUI : ViewComponent
     {
         [SerializeField] private Slider volumeSlider;
         [SerializeField] private Slider musicSlider;
         [SerializeField] private Slider sfxSlider;
         [SerializeField] private AudioMixer mixer;
 
-    
-        private void Start()
+
+        public override void Initialize(UnityEvent onShow, UnityEvent onHide)
         {
             volumeSlider.onValueChanged.AddListener(SetVolume);
             musicSlider.onValueChanged.AddListener(SetMusicVolume);

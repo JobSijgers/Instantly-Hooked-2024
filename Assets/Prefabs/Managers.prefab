@@ -82,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayStartMinutes: 390
   minutesPerCycle: 6
+  fadeImage: {fileID: 0}
 --- !u!114 &5724927979952931040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,8 +303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14fae9dc38c94d529159b0c27a9659ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stormDuration: 210
-  stormSpawnTime: 600
+  stormDuration: 10
+  stormSpawnTime: 0
   stormPrefab: {fileID: 452002490821040906, guid: a379e03251324db499843080b3ca8d67,
     type: 3}
   stormSpawnLocation: {fileID: 0}
@@ -630,6 +631,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5e5e6819107fe844b87b540ff38110dc, type: 2}
     - {fileID: 11400000, guid: 04e8e084b22311448b83ac2532ae8a3f, type: 2}
     - {fileID: 11400000, guid: a1fa893db3a820c4db9578c9e5194317, type: 2}
+    startQuests: []
     maxQuestsActive: 1
   - difficulty: 1
     quests:
@@ -640,6 +642,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 79021dbc572d3aa4fa2c6d7d995a076c, type: 2}
     - {fileID: 11400000, guid: e49a2839b33f89041acca81b56672e66, type: 2}
     - {fileID: 11400000, guid: 1a399532970c5274cb193c5983d07c5b, type: 2}
+    startQuests: []
     maxQuestsActive: 1
   - difficulty: 2
     quests:
@@ -649,6 +652,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: eff7c080f3f81954ea196385245fc1dc, type: 2}
     - {fileID: 11400000, guid: 044b3e9e64d3043489e3719a2aecb312, type: 2}
     - {fileID: 11400000, guid: dddc963294c0d994faeacbb83e7443b0, type: 2}
+    startQuests: []
     maxQuestsActive: 1
 --- !u!114 &7251956408511335369
 MonoBehaviour:
@@ -677,7 +681,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fc33767142440fa5946632e3744b7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: QuestComplete
+    clip: {fileID: 8300000, guid: 87a41cc663a3a4d4d8c915d42791dde1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: HookTouchWater
+    clip: {fileID: 8300000, guid: 450d2ebcb386a40439ae6e3a46a76345, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: Seagull_Heavy
+    clip: {fileID: 8300000, guid: 74f9736c1e85f584a9e233cc82289362, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: Seagull_Long
+    clip: {fileID: 8300000, guid: 8f9d8ac80ae95b04e9cae2d802bad829, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: Poor
+    clip: {fileID: 8300000, guid: 552557272d4ffb64dbe6bc81c6bc330a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: BoatHorn
+    clip: {fileID: 8300000, guid: 35361c75f5ae25b4c9a8685e070474d7, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: SellFish
+    clip: {fileID: 8300000, guid: b2951404ecba96048a93b52f9c905d4a, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: UpgradeBought
+    clip: {fileID: 8300000, guid: 375bde39cb3ab86458b3289e339d5a05, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: Music
+    clip: {fileID: 8300000, guid: b0ded7d6ec403b640bb035606950cfd2, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 1
+    playOnAwake: 1
+    mixerGroup: {fileID: 2028598391323628987, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
 --- !u!114 &7486876082571863009
 MonoBehaviour:
   m_ObjectHideFlags: 0
