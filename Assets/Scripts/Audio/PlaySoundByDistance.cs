@@ -13,7 +13,7 @@ namespace Audio
         [SerializeField] private float maxDistance;
         [SerializeField] private float minVolume;
         [SerializeField] private float maxVolume;
-        private Camera mainCamera;
+        private Transform mainCamera;
         private AudioSource audioSource;
 
         private void Start()
@@ -29,7 +29,7 @@ namespace Audio
 
         private float CalculateVolume()
         {
-            float distance = Vector3.Distance(transform.position, mainCamera.transform.position);
+            float distance = Vector3.Distance(transform.position, mainCamera.position);
             float normalizedDistance = (distance - minDistance) / (maxDistance - minDistance);
             float t = 1 - Mathf.Clamp01(normalizedDistance);
             return Mathf.Lerp(minVolume, maxVolume, t);
