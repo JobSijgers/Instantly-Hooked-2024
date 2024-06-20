@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using Events;
 using ShopScripts;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.Timeline;
-using UnityEngine.UI;
 using Upgrades;
 using Views;
 
@@ -21,18 +19,16 @@ namespace Shore
         {
             public string shopName;
             public CinemachineVirtualCamera camera;
-            public Material truckMaterial;
+            public GameObject truckMaterial;
         }
 
-        [SerializeField] private PlayableDirector director;
         [SerializeField] private ShopType[] shopTypes;
-        [SerializeField] private MeshRenderer truckRenderer;
         [SerializeField] private TimelineAsset arriveTimeline;
         [SerializeField] private TimelineAsset leaveTimeline;
-        [SerializeField] private Image fadeImage;
 
-
+        private PlayableDirector director;
         private Type activeViewType;
+        private Coroutine openMenuCoroutine;
 
         private void Start()
         {
@@ -46,21 +42,27 @@ namespace Shore
 
         public void OpenUpgradeShop()
         {
+            if (openMenuCoroutine != null)
+                return;
+
             ShopType shopType = GetShopType(typeof(UpgradeUI));
-            StartCoroutine(OpenMenu<UpgradeUI>(shopType));
+            openMenuCoroutine = StartCoroutine(OpenMenu<UpgradeUI>(shopType));
         }
 
         public void OpenSellShop()
         {
+            if (openMenuCoroutine != null)
+                return;
+            
             ShopType shopType = GetShopType(typeof(SellShopUI));
-            StartCoroutine(OpenMenu<SellShopUI>(shopType));
+            openMenuCoroutine = StartCoroutine(OpenMenu<SellShopUI>(shopType));
         }
 
         public void GoToSea()
         {
             EventManager.OnLeftShore();
         }
-        
+
         private IEnumerator OpenMenu<T>(ShopType type) where T : View
         {
             if (type.camera != null)
@@ -68,12 +70,15 @@ namespace Shore
                 type.camera.Priority = 3;
             }
 
-            truckRenderer.material = type.truckMaterial;
+            GameObject truck = Instantiate(type.truckMaterial, Vector3.zero, quaternion.identity);
+            director = truck.GetComponent<PlayableDirector>();
             director.playableAsset = arriveTimeline;
             director.Play();
             yield return new WaitForSeconds((float)director.duration + 0.4f);
             ViewManager.ShowView<T>();
             activeViewType = typeof(T);
+
+            openMenuCoroutine = null;
         }
 
         private void CheckActiveView(View closedView)
@@ -87,6 +92,7 @@ namespace Shore
 
             director.playableAsset = leaveTimeline;
             director.Play();
+            Destroy(director.gameObject, (float)director.duration);
             activeViewType = null;
         }
 

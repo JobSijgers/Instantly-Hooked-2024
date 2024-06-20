@@ -32,14 +32,12 @@ namespace GameTime
             timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
             
-            EventManager.PlayerDied += EndDay;
             ViewManager.instance.ViewShow += CheckPause;
         }
 
 
         private void OnDestroy()
         {
-            EventManager.PlayerDied -= EndDay;
             ViewManager.instance.ViewShow -= CheckPause;
         }
 
