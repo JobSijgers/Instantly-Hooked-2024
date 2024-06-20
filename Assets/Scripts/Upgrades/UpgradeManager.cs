@@ -119,7 +119,6 @@ namespace Upgrades
         {
             if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
             {
-                EventManager.OnNotEnoughMoney();
                 return;
             }
             

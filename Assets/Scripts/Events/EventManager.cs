@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using Enums;
 using Fish;
 using PauseMenu;
@@ -22,7 +23,6 @@ namespace Events
         public static event UnityAction<FishData, FishSize> FishCaught;
         public static event UnityAction<float> DepthUpdate;
         public static event UnityAction<Upgrade> UpgradeBought;
-        public static event UnityAction NotEnoughMoney;
         public static event UnityAction LeftShore;
         public static event UnityAction LeftShoreSuccess;
         public static event UnityAction PlayerDied;
@@ -32,8 +32,9 @@ namespace Events
         public static event UnityAction<QuestProgress> QuestUpdated;
         public static event UnityAction<QuestProgress> QuestHighlighted;
         public static event UnityAction<QuestProgress> QuestUnHighlighted;
-        public static event UnityAction<Transform> StormSpawned; 
-        
+        public static event UnityAction<Transform> StormSpawned;
+        public static event UnityAction ReelFailed;
+
         public static void OnTimeUpdate(TimeSpan value) => TimeUpdate?.Invoke(value);
         public static void OnNewDay(int value) => NewDay?.Invoke(value);
         public static void OnMoneyUpdate(int newMoney) => MoneyUpdate?.Invoke(newMoney);
@@ -44,7 +45,6 @@ namespace Events
         public static void OnFishCaught(FishData data, FishSize size) => FishCaught?.Invoke(data, size);
         public static void OnDepthUpdate(float newDepth) => DepthUpdate?.Invoke(newDepth);
         public static void OnUpgradeBought(Upgrade upgrade) => UpgradeBought?.Invoke(upgrade);
-        public static void OnNotEnoughMoney() => NotEnoughMoney?.Invoke();
         public static void OnLeftShore() => LeftShore?.Invoke();
         public static void OnLeftShoreSuccess() => LeftShoreSuccess?.Invoke();
         public static void OnPlayerDied() => PlayerDied?.Invoke();
@@ -55,5 +55,6 @@ namespace Events
         public static void OnQuestHighlight(QuestProgress quest) => QuestHighlighted?.Invoke(quest);
         public static void OnQuestUnHighlight(QuestProgress quest) => QuestUnHighlighted?.Invoke(quest);
         public static void OnStormSpawned(Transform storm) => StormSpawned?.Invoke(storm);
+        public static void OnReelFailed() => ReelFailed?.Invoke();
     }
 }

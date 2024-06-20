@@ -5,6 +5,9 @@ using Catalogue;
 using Enums;
 using Events;
 using Fish;
+using Quests;
+using Quests.ScriptableObjects;
+using UnityEditor.Compilation;
 using UnityEngine;
 using Views;
 
@@ -35,9 +38,25 @@ namespace Tutorial
             public View viewOnClose;
         }
         
+        [Serializable]
+        public class CatchFailedTutorialEvent
+        {
+            public TutorialData tutorialData;
+            public View viewOnClose;
+        }
+        
+        [Serializable]
+        public class QuestCompletedTutorialEvent
+        {
+            public Quest quest;
+            public TutorialData tutorialData;
+            public View viewOnClose;
+        }
         [SerializeField] private List<ViewEventTutorialEvent> tutorialEvents;
         [SerializeField] private List<FishCaughtTutorialEvent> fishCaughtTutorialEvents;
         [SerializeField] private List<TimeTutorialEvent> timeTutorialEvents;
+        [SerializeField] private List<CatchFailedTutorialEvent> catchFailedTutorialEvents;
+        [SerializeField] private List<QuestCompletedTutorialEvent> questCompletedTutorialEvents;
         [SerializeField] private TutorialPopup popup;
         
         private void Start()
@@ -45,6 +64,8 @@ namespace Tutorial
             ViewManager.instance.ViewShow += OnViewShow;
             CatalogueTracker.Instance.catalogueUpdated += OnFishCaught;
             EventManager.TimeUpdate += OnTimeUpdate;
+            EventManager.QuestCompleted += OnQuestCompleted;
+            EventManager.ReelFailed += OnReelFailed;
         }
         
 
@@ -53,6 +74,8 @@ namespace Tutorial
             ViewManager.instance.ViewShow -= OnViewShow;
             CatalogueTracker.Instance.catalogueUpdated -= OnFishCaught;
             EventManager.TimeUpdate -= OnTimeUpdate;
+            EventManager.QuestCompleted -= OnQuestCompleted;
+            EventManager.ReelFailed -= OnReelFailed;
         }
 
         private void OnViewShow(View view)
@@ -89,6 +112,28 @@ namespace Tutorial
                     timeTutorialEvents.Remove(timeTutorialEvent);
                     break;
                 }
+            }
+        }
+        
+        private void OnReelFailed()
+        {
+            foreach (CatchFailedTutorialEvent catchFailedTutorialEvent in catchFailedTutorialEvents)
+            {
+                ShowTutorial(catchFailedTutorialEvent.tutorialData, catchFailedTutorialEvent.viewOnClose, false);
+                catchFailedTutorialEvents.Remove(catchFailedTutorialEvent);
+                break;
+            }
+        }
+        
+        private void OnQuestCompleted(QuestProgress questProgress)
+        {
+            foreach (QuestCompletedTutorialEvent questCompletedTutorialEvent in questCompletedTutorialEvents)
+            {
+                if (questCompletedTutorialEvent.quest != questProgress.quest) continue;
+                
+                ShowTutorial(questCompletedTutorialEvent.tutorialData, questCompletedTutorialEvent.viewOnClose, true);
+                questCompletedTutorialEvents.Remove(questCompletedTutorialEvent);
+                break;
             }
         }
         

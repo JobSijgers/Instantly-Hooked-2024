@@ -26,7 +26,7 @@ namespace Quests
             }
         }
         
-        private void OnEnable()
+        private void Start()
         {
             EventManager.QuestHighlighted += HighlightQuest;
             EventManager.QuestUnHighlighted += UnhighlightQuest;
@@ -34,7 +34,7 @@ namespace Quests
             EventManager.QuestCompleted += UnhighlightQuest;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             EventManager.QuestHighlighted -= HighlightQuest;
             EventManager.QuestUnHighlighted -= UnhighlightQuest;

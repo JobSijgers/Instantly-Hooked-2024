@@ -172,6 +172,7 @@ public class FishBiting : MonoBehaviour, IFishState
             if (tension <= 0)
             {
                 offHook = true;
+                EventManager.OnReelFailed();
             }
         }
         else
