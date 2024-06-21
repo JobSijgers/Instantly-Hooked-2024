@@ -25,7 +25,6 @@ namespace Shore
         [SerializeField] private ShopType[] shopTypes;
         [SerializeField] private TimelineAsset arriveTimeline;
         [SerializeField] private TimelineAsset leaveTimeline;
-
         private PlayableDirector director;
         private Type activeViewType;
         private Coroutine openMenuCoroutine;
@@ -89,7 +88,11 @@ namespace Shore
             {
                 type.camera.Priority = -10;
             }
-
+            ParticleSystem[] particles = director.gameObject.GetComponentsInChildren<ParticleSystem>();
+            foreach (ParticleSystem particle in particles)
+            {
+                particle.Play();
+            }
             director.playableAsset = leaveTimeline;
             director.Play();
             Destroy(director.gameObject, (float)director.duration);
