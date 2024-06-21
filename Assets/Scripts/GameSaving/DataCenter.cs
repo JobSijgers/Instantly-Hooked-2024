@@ -41,9 +41,9 @@ public class DataCenter : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Slash))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
-            if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
-            if (Input.GetKeyDown(KeyCode.Alpha3)) DeleteFile();
+            //if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
+            //if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
+            if (Input.GetKeyDown(KeyCode.D)) DeleteFile();
         }
     }
     private void LoadGame()
