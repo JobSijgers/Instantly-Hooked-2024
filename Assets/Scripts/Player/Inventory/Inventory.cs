@@ -47,7 +47,7 @@ namespace Player.Inventory
         /// <summary>
         /// This method adds a fish to the inventory. If the fish is already in the inventory, it increases the stack size.
         /// </summary>
-        private void AddFish(FishData fishToAdd, FishSize size)
+        public void AddFish(FishData fishToAdd, FishSize size)
         {
             if (fishToAdd.maxStackAmount <= 1) return;
             foreach (InventoryItem inventoryItem in GetInventory())
