@@ -33,13 +33,13 @@ namespace Tutorial
         private void NextPage()
         {
             currentPage++;
+            AudioManager.instance.PlaySound(data.pages[currentPage].sound);
             if (currentPage < data.pages.Length)
             {
                 LoadPage(currentPage);
                 return;
             }
             ViewManager.ShowView(viewOnClose, false);
-            AudioManager.instance.PlaySound(data.pages[currentPage].sound);
         }
         
         private void LoadPage(int page)
