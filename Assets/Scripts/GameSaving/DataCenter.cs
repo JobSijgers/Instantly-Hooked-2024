@@ -23,11 +23,16 @@ public class DataCenter : MonoBehaviour
     [Space(20)]
     [Header("Settings")]
     [SerializeField] private bool EnableGameSaving;
-    [SerializeField] private bool AutoLoadGame; 
+    [SerializeField] private bool AutoLoadGame;
+    [SerializeField] private bool AutoSaving;
+    [Tooltip("In secondes")]
+    [SerializeField] private int saveAfterTime;
     [SerializeField] private bool DebugLogs;
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
+
+    private Coroutine SavingC;
     private void Start()
     {
         if (AutoLoadGame)
@@ -36,6 +41,7 @@ public class DataCenter : MonoBehaviour
             WriteLoad(LoadMode.start);
             StartCoroutine(LateStart());
         }
+        if (AutoSaving) SavingC = StartCoroutine(AutoSaver());
     }
     void Update()
     {
@@ -45,6 +51,7 @@ public class DataCenter : MonoBehaviour
             //if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
             if (Input.GetKeyDown(KeyCode.D)) DeleteFile();
         }
+        if (AutoSaving && SavingC == null) SavingC = StartCoroutine(AutoSaver());
     }
     private void LoadGame()
     {
@@ -145,6 +152,12 @@ public class DataCenter : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         WriteLoad(LoadMode.late);
+    }
+    private IEnumerator AutoSaver()
+    {
+        yield return new WaitForSeconds(saveAfterTime);
+        SafeGame();
+        SavingC = null;
     }
 }
 [Serializable]
