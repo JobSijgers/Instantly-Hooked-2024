@@ -669,6 +669,8 @@ GameObject:
   - component: {fileID: 2275038127809975362}
   - component: {fileID: 4694321442815142223}
   - component: {fileID: 7826942369421944485}
+  - component: {fileID: 2947912835200608418}
+  - component: {fileID: 3113826057765139616}
   m_Layer: 11
   m_Name: BoatModel
   m_TagString: Player
@@ -766,7 +768,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1.8902324, z: 12.7105055}
-  m_Center: {x: -8.419931e-16, y: 2.501591, z: -0.5592499}
+  m_Center: {x: -8.419931e-16, y: 1.44, z: -0.5592499}
 --- !u!54 &3278684453311875325
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -864,6 +866,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathBackground: {fileID: 0}
   deathUI: {fileID: 0}
+--- !u!114 &2947912835200608418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885529980788277765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88bb720456f148589758437f73d0face, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathBackground: {fileID: 0}
+  deathUI: {fileID: 0}
+--- !u!114 &3113826057765139616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885529980788277765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1776ed5c4446729597a057c6f3e61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specialFish:
+  - decoration: {fileID: 4535934039832056446, guid: 48b6a2ed9a485c84ca641a3a9b2ee04f,
+      type: 3}
+    data: {fileID: 11400000, guid: dcca3c2e3c3d38446a74b618cf206a1c, type: 2}
 --- !u!1 &7091529629402758222
 GameObject:
   m_ObjectHideFlags: 0
