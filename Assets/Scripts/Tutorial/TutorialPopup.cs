@@ -32,7 +32,6 @@ namespace Tutorial
 
         private void NextPage()
         {
-            AudioManager.instance.PlaySound(data.pages[currentPage].sound);
             currentPage++;
             if (currentPage < data.pages.Length)
             {
@@ -40,6 +39,7 @@ namespace Tutorial
                 return;
             }
             ViewManager.ShowView(viewOnClose, false);
+            AudioManager.instance.PlaySound(data.pages[currentPage].sound);
         }
         
         private void LoadPage(int page)
