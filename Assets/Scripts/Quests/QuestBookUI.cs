@@ -62,6 +62,7 @@ namespace Quests
         {
             base.Show();
             LoadQuests();
+            questUIHighlight.ClearDetail();
         }
         
         public void ChangeBookPage(View newView)

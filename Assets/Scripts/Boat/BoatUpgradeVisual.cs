@@ -1,5 +1,6 @@
 ﻿using System;
 using Events;
+using Fish;
 using UnityEngine;
 using Upgrades;
 using Upgrades.Scriptable_Objects;

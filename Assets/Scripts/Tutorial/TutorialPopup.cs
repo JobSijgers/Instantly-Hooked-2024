@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Audio;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,6 +36,7 @@ namespace Tutorial
             if (currentPage < data.pages.Length)
             {
                 LoadPage(currentPage);
+                AudioManager.instance.PlaySound(data.pages[currentPage].sound);            
                 return;
             }
             ViewManager.ShowView(viewOnClose, false);

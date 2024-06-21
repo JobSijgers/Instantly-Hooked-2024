@@ -3,8 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Enums;
+using Events;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(BoxCollider2D))]
@@ -16,14 +18,20 @@ public class FishSpawner : MonoBehaviour
         public FishData fishData;
         public int amount;
     }
-
+    
+    [Serializable] 
+    private struct SpecialFish
+    {
+        public FishData fishData;
+    }
+    
     [SerializeField] private Vector2 SpawnArea;
     [SerializeField] private float ActiveToBoatDistance;
     [SerializeField] private FishToSpawn[] FishTypesToSpawn;
+    [SerializeField] private SpecialFish specialFish;
     [SerializeField] private GameObject hook;
 
     private BoxCollider2D bounds;
-
     private FishPooler fishPooler;
     private List<FishBrain> ActiveFish = new List<FishBrain>();
     private bool isThisSpawnerActive = false;
@@ -35,10 +43,22 @@ public class FishSpawner : MonoBehaviour
 
     void Start()
     {
+        if (specialFish.fishData != null)
+        {
+            EventManager.FishCaught += OnFishCaught;
+        }
         fishPooler = FishPooler.instance;
         bounds = GetComponent<BoxCollider2D>();
         bounds.isTrigger = true;
         bounds.size = SpawnArea;
+    }
+    
+    private void OnDestroy()
+    {
+        if (specialFish.fishData != null)
+        {
+            EventManager.FishCaught -= OnFishCaught;
+        }
     }
 
     void Update()
@@ -107,6 +127,17 @@ public class FishSpawner : MonoBehaviour
                 fish.gameObject.SetActive(true);
             }
         }
+
+        if (specialFish.fishData != null)
+        {
+            FishBrain fish = fishPooler.GetFish();
+            fish.SetOriginSpawner(this);
+            fish.Initialize(specialFish.fishData, GetRandomFishSize());
+            fish.transform.position = GetRandomPos();
+            fish.transform.SetParent(transform);
+            ActiveFish.Add(fish);
+            fish.gameObject.SetActive(true);
+        }
     }
     public bool IsInSpwanArea(Vector2 fishpos)
     {
@@ -130,6 +161,16 @@ public class FishSpawner : MonoBehaviour
         };
         return pos;
     }
+    
+    private void OnFishCaught(FishData data, FishSize size)
+    {
+        if (data == specialFish.fishData)
+        {
+            specialFish.fishData = null;
+        }
+    }
+    
+
 #if UNITY_EDITOR
     [Header("Editor Gizmos")] [SerializeField]
     private Color color = Color.green;
