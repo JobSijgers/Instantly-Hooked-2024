@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5e42d7d0414745b379a49bc26effee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1194033022651242880}
+  mainCamera: {fileID: 5214755133079981107}
 --- !u!1 &1303961508503948955
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,6 +668,7 @@ GameObject:
   - component: {fileID: 2136122995486566080}
   - component: {fileID: 2275038127809975362}
   - component: {fileID: 4694321442815142223}
+  - component: {fileID: 7826942369421944485}
   m_Layer: 11
   m_Name: BoatModel
   m_TagString: Player
@@ -849,6 +850,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dockTime: 1425
+--- !u!114 &7826942369421944485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885529980788277765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88bb720456f148589758437f73d0face, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathBackground: {fileID: 0}
+  deathUI: {fileID: 0}
 --- !u!1 &7091529629402758222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,7 +1187,7 @@ GameObject:
   - component: {fileID: 7262238118892220434}
   - component: {fileID: 3132919996800913356}
   - component: {fileID: 9104214824571128668}
-  - component: {fileID: 2955488055692442359}
+  - component: {fileID: 5369579620301829774}
   m_Layer: 11
   m_Name: Radio
   m_TagString: Untagged
@@ -1238,7 +1253,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2955488055692442359
+--- !u!114 &5369579620301829774
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1799,9 +1814,8 @@ MonoBehaviour:
   bounds: {fileID: 0}
   HookOrigin: {fileID: 877915585109023604}
   fishline: {fileID: 5390991553932737750}
-  fishAmountAllowtToTarget: 3
-  Offset: 1.2
   Rod: {fileID: 9063168969327594134}
+  fishAmountAllowtToTarget: 3
   FishTargetinglist: []
   touchingGround: 0
 --- !u!1001 &8699961706475244856

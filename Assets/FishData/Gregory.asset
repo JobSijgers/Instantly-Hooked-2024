@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Gregory
   m_EditorClassIdentifier: 
   fishName: Gregory
-  fishDescription: What the hell is he doing here
-  habitat: Hawaii
+  fishDescription: ' The Invincible, Fearless, Sensual, Mysterious, Enchanting, Vigorous,
+    Diligent, Overwhelming, Gorgeous, Passionate, Terrifying, Beautiful, Powerful,
+    Gregory.'
+  habitat: Everywhere the Light touches
   fishRarity: 4
   fishSellAmount: 000000000000000000000000
   fishObject: {fileID: 8746891188861721737, guid: d315ba4a7f6e0234da8ed88d4906fb62,
@@ -23,7 +25,7 @@ MonoBehaviour:
   - 1.5
   - 1.7
   - 1.8
-  fishVisual: {fileID: 0}
+  fishVisual: {fileID: 21300000, guid: c46640b919d68904bb8e505b42b303ef, type: 3}
   moveSpeed: 3
   maxStackAmount: 1
   biteRate: 10
