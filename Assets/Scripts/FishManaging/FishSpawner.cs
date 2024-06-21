@@ -137,7 +137,7 @@ public class FishSpawner : MonoBehaviour
     [SerializeField] private bool ShowBounds = true;
     [SerializeField] private bool ShowFishNames = true;
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = color;
         if (ShowBounds) Gizmos.DrawWireCube(transform.position, SpawnArea);
