@@ -46,11 +46,11 @@ public class FishBiting : MonoBehaviour, IFishState
     [SerializeField] private float strafpunten;
 
     [Header("Stamina")]
-    private float MaxStamina;
     [SerializeField] private float StamRegainMultiply;
     [SerializeField] private float StamDrainMultiply;
     [SerializeField] private float MinStaminaStruggelValue;
     [Range(0.01f, 1f)] [SerializeField] private float StruggelHalfStaminaKans;
+    private float MaxStamina;
     private float stamina;
 
     [Header("LayerMask")] [SerializeField] private LayerMask Ground;
