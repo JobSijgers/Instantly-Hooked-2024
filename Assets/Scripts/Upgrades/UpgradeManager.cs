@@ -130,6 +130,7 @@ namespace Upgrades
             EconomyManager.instance.RemoveMoney(upgrade.cost);
             upgradeState.IncreaseUpgradeIndex();
             AudioManager.instance.PlaySound("UpgradeBought");
+            AudioManager.instance.PlaySound("UpgradeRattle");
             EventManager.OnUpgradeBought(upgrade);
         }
 

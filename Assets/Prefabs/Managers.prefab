@@ -688,6 +688,8 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
@@ -697,6 +699,8 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
@@ -706,6 +710,8 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
@@ -715,6 +721,8 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
@@ -724,6 +732,8 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
@@ -733,6 +743,8 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
@@ -742,15 +754,19 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
   - name: UpgradeBought
     clip: {fileID: 8300000, guid: 375bde39cb3ab86458b3289e339d5a05, type: 3}
-    volume: 0.4
+    volume: 0.3
     pitch: 1
     loop: 0
     playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
@@ -760,7 +776,20 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     playOnAwake: 1
+    disableCutoff: 0
+    cutoffRange: 0
     mixerGroup: {fileID: 2028598391323628987, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: UpgradeRattle
+    clip: {fileID: 8300000, guid: 60930efb8fc02fb4881eed9129486bbb, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 1
+    cutoffRange: 0.6
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
       type: 2}
     source: {fileID: 0}
 --- !u!114 &7486876082571863009

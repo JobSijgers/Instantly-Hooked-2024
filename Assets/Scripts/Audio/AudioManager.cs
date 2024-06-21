@@ -15,6 +15,8 @@ namespace Audio
             [Range(0.5f, 1.5f)] public float pitch = 1f;
             public bool loop;
             public bool playOnAwake;
+            public bool disableCutoff;
+            [Range(0f, 1f)] public float cutoffRange;
             public AudioMixerGroup mixerGroup;
             [HideInInspector] public AudioSource source;
         }
@@ -34,6 +36,7 @@ namespace Audio
                     Debug.LogWarning($"Sound clip: {sound.name} is null");
                     continue;
                 }
+
                 CreateAudioSource(sound);
             }
         }
@@ -45,11 +48,19 @@ namespace Audio
             {
                 if (sound.name != soundName)
                     continue;
+                if (sound.source.isPlaying && sound.disableCutoff)
+                {
+                    if (sound.source.time > sound.clip.length * sound.cutoffRange)
+                    {
+                        sound.source.Play();
+                    }
+                    return;
+                }
                 sound.source.Play();
                 return;
             }
         }
-        
+
         public void StopSound(string soundName)
         {
             foreach (Sound sound in sounds)
