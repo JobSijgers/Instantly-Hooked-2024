@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class BoatSpinComponent : MonoBehaviour
 {
-    [SerializeField] private float maxSpinSpeed = 1;
+    [SerializeField] private float maxSpinSpeed = 3f;
+    [SerializeField] private Vector3 spinAxis = Vector3.forward;
     private Rigidbody rb;
 
     private void Start()
@@ -19,6 +20,11 @@ public class BoatSpinComponent : MonoBehaviour
             return;
 
         float spinSpeed = rb.velocity.magnitude * maxSpinSpeed;
-        transform.Rotate(Vector3.forward, spinSpeed);
+        bool movingLeft = rb.velocity.x < 0;
+        if (movingLeft)
+        {
+            spinSpeed *= -1;
+        }
+        transform.Rotate(spinAxis, spinSpeed * Time.deltaTime);
     }
 }

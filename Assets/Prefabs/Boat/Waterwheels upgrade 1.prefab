@@ -88,6 +88,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Waterwheels upgrade 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6748031211912696154, guid: b1c937fd54f32b14ca7ba26282525753,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.95627093
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748031211912696154, guid: b1c937fd54f32b14ca7ba26282525753,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.29248244
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748031211912696154, guid: b1c937fd54f32b14ca7ba26282525753,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 394.013
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -115,4 +130,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38be215fc4f808549a57b34802c06b4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpinSpeed: 1
+  maxSpinSpeed: 6
+  spinAxis: {x: 1, y: 0, z: 0}

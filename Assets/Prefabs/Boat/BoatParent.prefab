@@ -222,7 +222,7 @@ MonoBehaviour:
     intensity: 0.8
     smoothness: 1
     color: {r: 0, g: 0, b: 0, a: 1}
-  maxDepth: -500
+  maxDepth: -400
 --- !u!65 &9079285693878733957
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -310,7 +310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6361503346682491289
 RectTransform:
   m_ObjectHideFlags: 0
@@ -624,9 +624,9 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0.5
+  m_YDamping: 0.5
+  m_ZDamping: 0.5
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
@@ -635,7 +635,7 @@ MonoBehaviour:
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
-  m_SoftZoneWidth: 0.8
+  m_SoftZoneWidth: 0.916
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
   m_BiasY: 0
@@ -671,6 +671,7 @@ GameObject:
   - component: {fileID: 7826942369421944485}
   - component: {fileID: 2947912835200608418}
   - component: {fileID: 3113826057765139616}
+  - component: {fileID: 5104311980572315801}
   m_Layer: 11
   m_Name: BoatModel
   m_TagString: Player
@@ -896,6 +897,20 @@ MonoBehaviour:
   - decoration: {fileID: 4535934039832056446, guid: 48b6a2ed9a485c84ca641a3a9b2ee04f,
       type: 3}
     data: {fileID: 11400000, guid: dcca3c2e3c3d38446a74b618cf206a1c, type: 2}
+--- !u!114 &5104311980572315801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885529980788277765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88bb720456f148589758437f73d0face, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathBackground: {fileID: 0}
+  deathUI: {fileID: 0}
 --- !u!1 &7091529629402758222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,7 +1234,7 @@ GameObject:
   - component: {fileID: 7262238118892220434}
   - component: {fileID: 3132919996800913356}
   - component: {fileID: 9104214824571128668}
-  - component: {fileID: 5369579620301829774}
+  - component: {fileID: 7338792711340826646}
   m_Layer: 11
   m_Name: Radio
   m_TagString: Untagged
@@ -1285,7 +1300,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5369579620301829774
+--- !u!114 &7338792711340826646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1858,6 +1873,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4900561495109255630}
     m_Modifications:
+    - target: {fileID: 329362370656954689, guid: fc87fd102ded93b4590197559a7b1c5f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c0ec152f778a4334d9149868573bb292, type: 2}
+    - target: {fileID: 1308921133978380574, guid: fc87fd102ded93b4590197559a7b1c5f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c0ec152f778a4334d9149868573bb292, type: 2}
     - target: {fileID: 5782330490701510507, guid: fc87fd102ded93b4590197559a7b1c5f,
         type: 3}
       propertyPath: m_LocalPosition.x

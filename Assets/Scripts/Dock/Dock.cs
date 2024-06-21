@@ -12,6 +12,7 @@ namespace Dock
         [SerializeField] private float dockingRange;
         [SerializeField] private Transform boat;
         [SerializeField] private Transform dockPoint;
+        [SerializeField] private GameObject dockUI;
         private bool boatDocked;
 
         private void Start()
@@ -30,9 +31,14 @@ namespace Dock
         {
             if (IsBoatInRange() && !boatDocked && Hook.instance.FishOnHook == null)
             {
+                dockUI.SetActive(true);
                 GetDockInput();
+                return;
             }
+
+            dockUI.SetActive(false);
         }
+
 
         private bool IsBoatInRange()
         {
@@ -47,7 +53,7 @@ namespace Dock
             DockBoat();
         }
 
-        private void DockBoat()
+        public void DockBoat()
         {
             boat.GetComponent<IBoat>()?.DockBoat();
         }

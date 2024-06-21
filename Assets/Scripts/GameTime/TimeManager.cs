@@ -15,8 +15,8 @@ namespace GameTime
         [SerializeField] private int dayStartMinutes;
         [SerializeField] private float minutesPerCycle;
         [SerializeField] private Image fadeImage;
-
-        private bool timePassing = true;
+        
+        private bool timePassing;
         private int currentDay;
         private float timeMultiplier;
         private float currentTime;

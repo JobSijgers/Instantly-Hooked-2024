@@ -159,7 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38be215fc4f808549a57b34802c06b4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpinSpeed: 1
+  maxSpinSpeed: 10
+  spinAxis: {x: 0, y: 0, z: 1}
 --- !u!1 &2182298383129078249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5943992945660053368, guid: b46459c5e192ba846a1abb2b8e129d8c,
@@ -178,4 +179,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38be215fc4f808549a57b34802c06b4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpinSpeed: 1
+  maxSpinSpeed: 10
+  spinAxis: {x: 0, y: 0, z: 1}
