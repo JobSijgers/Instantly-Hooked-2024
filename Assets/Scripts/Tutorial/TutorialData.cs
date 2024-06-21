@@ -13,6 +13,7 @@ namespace Tutorial
             public string description;
             public Sprite image;
             public Vector2 imageSize;
+            public string sound;
         }
         public Page[] pages;
     }
