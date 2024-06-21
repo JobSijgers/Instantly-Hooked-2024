@@ -9,7 +9,7 @@ namespace PauseMenu
     {
         public void Resume()
         {
-            ViewManager.ShowView<GameView>();
+            ViewManager.ShowLastView();
         }
         
         public void Quit()

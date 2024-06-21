@@ -85,5 +85,19 @@ namespace Catalogue
                 catalogueItems[i].SetAmount(amountcollectedPF[i]);
             }
         }
+
+        public int GetCatalogueProgress()
+        {
+            int progress = 0;
+            foreach (CatalogueItem fish in catalogueItems)
+            {
+                if (fish.GetAmount() > 0)
+                {
+                    progress++;
+                }
+            }
+
+            return progress;
+        }
     }
 }

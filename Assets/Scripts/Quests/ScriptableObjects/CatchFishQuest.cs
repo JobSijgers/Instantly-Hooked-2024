@@ -8,7 +8,6 @@ namespace Quests.ScriptableObjects
     public class CatchFishQuest : Quest
     {
         public FishData fish;
-        public override string QuestType => "CatchSize";
         public override bool IsQuestConditionMet(FishData fishData, FishSize fishSize)
         {
             return fish == fishData;

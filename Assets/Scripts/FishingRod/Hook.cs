@@ -10,15 +10,13 @@ public class Hook : MonoBehaviour
     public BoxCollider bounds;
     [SerializeField] public GameObject HookOrigin;
     [SerializeField] public LineRenderer fishline;
-
-    [SerializeField] private int fishAmountAllowtToTarget;
-
-    [Tooltip("fix de Rod MaxLenght value * Offset")]
-    public float Offset;
-
     public FishingRod.FishingRod Rod;
-    private FishBrain P_FishOnHook;
+
+
+    [Header("Fish")]
+    [SerializeField] private int fishAmountAllowtToTarget;
     public List<FishBrain> FishTargetinglist = new List<FishBrain>();
+    private FishBrain P_FishOnHook;
     public FishBrain FishOnHook
     {
         get { return P_FishOnHook; }

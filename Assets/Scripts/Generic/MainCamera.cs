@@ -5,7 +5,7 @@ namespace Generic
     public class MainCamera : MonoBehaviour
     {
         public static MainCamera instance;
-        public Camera mainCamera;
+        public Transform mainCamera;
         
         private void Awake()
         {

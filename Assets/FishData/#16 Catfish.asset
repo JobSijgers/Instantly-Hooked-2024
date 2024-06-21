@@ -17,13 +17,16 @@ MonoBehaviour:
     resemble a cat's whiskers. Catfish actually don\u2019t have scales. Many of the
     larger species of catfish are farmed or fished for food. "
   habitat: "0 \u2013 100 m depth (bottom feeders)"
-  fishRarity: 2
-  fishSellAmount: 
+  fishRarity: 1
+  fishSellAmount: 8200000096000000b4000000
   fishObject: {fileID: 84624146291056645, guid: d3899a15f8f56ec44920b01f308bdc6a,
     type: 3}
-  fishSize: []
-  fishVisual: {fileID: 0}
-  moveSpeed: 4
+  fishSize:
+  - 1.2
+  - 1.4
+  - 1.5
+  fishVisual: {fileID: 21300000, guid: 87204bf6c38831841be5b3f2fff6d1d3, type: 3}
+  moveSpeed: 5
   maxStackAmount: 10
-  biteRate: 3
-  stamina: 10
+  biteRate: 2
+  stamina: 11

@@ -32,14 +32,12 @@ namespace GameTime
             timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
             
-            EventManager.PlayerDied += EndDay;
             ViewManager.instance.ViewShow += CheckPause;
         }
 
 
         private void OnDestroy()
         {
-            EventManager.PlayerDied -= EndDay;
             ViewManager.instance.ViewShow -= CheckPause;
         }
 
@@ -52,12 +50,6 @@ namespace GameTime
             currentTime += Time.deltaTime * timeMultiplier;
             TimeSpan span = TimeSpan.FromSeconds(currentTime);
             EventManager.OnTimeUpdate(span);
-
-            // Check if a new day has started
-            if (span.Days >= 1)
-            {
-                EndDay();
-            }
         }
 
         private void ResetTime()
@@ -85,7 +77,7 @@ namespace GameTime
         private IEnumerator EndDayTransition()
         {
             yield return Fade(0, 1, 1);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.5f);
             EndDay();
             yield return Fade(1, 0, 1);
         }
