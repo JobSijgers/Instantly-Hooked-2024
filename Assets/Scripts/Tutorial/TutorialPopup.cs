@@ -32,11 +32,11 @@ namespace Tutorial
 
         private void NextPage()
         {
-            AudioManager.instance.PlaySound(data.pages[currentPage].sound);
             currentPage++;
             if (currentPage < data.pages.Length)
             {
                 LoadPage(currentPage);
+                AudioManager.instance.PlaySound(data.pages[currentPage].sound);            
                 return;
             }
             ViewManager.ShowView(viewOnClose, false);
