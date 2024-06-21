@@ -193,7 +193,7 @@ namespace Upgrades
         public int[] GetUpgrades()
         {
             int[] updateindexes = new int[upgradeStates.Length];
-            for (int i = 0; i < upgradeStates.Length -1; i++)
+            for (int i = 0; i < upgradeStates.Length; i++)
             {
                 updateindexes[i] = upgradeStates[i].GetUpgradeIndex();
             }
@@ -204,6 +204,7 @@ namespace Upgrades
             for (int i = 0;i < upgradeStates.Length; i++)
             {
                 upgradeStates[i].Setindex(upgradeindex[i]);
+                NotifyUpgrades();
             }
         }
         private IEnumerator LateStart()

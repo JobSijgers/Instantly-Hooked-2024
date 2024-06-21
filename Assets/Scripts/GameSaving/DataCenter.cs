@@ -23,23 +23,35 @@ public class DataCenter : MonoBehaviour
     [Space(20)]
     [Header("Settings")]
     [SerializeField] private bool EnableGameSaving;
-    [SerializeField] private bool AutoLoadGame; 
+    [SerializeField] private bool AutoLoadGame;
+    [SerializeField] private bool AutoSaving;
+    [Tooltip("In secondes")]
+    [SerializeField] private int saveAfterTime;
     [SerializeField] private bool DebugLogs;
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
+
+    private Coroutine SavingC;
     private void Start()
     {
-        if (AutoLoadGame) Invoke("LoadGame", 0.1f);
+        if (AutoLoadGame)
+        {
+            LoadGame();
+            WriteLoad(LoadMode.start);
+            StartCoroutine(LateStart());
+        }
+        if (AutoSaving) SavingC = StartCoroutine(AutoSaver());
     }
     void Update()
     {
         if (Input.GetKey(KeyCode.Slash))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
-            if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
-            if (Input.GetKeyDown(KeyCode.Alpha3)) DeleteFile();
+            //if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
+            //if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
+            if (Input.GetKeyDown(KeyCode.D)) DeleteFile();
         }
+        if (AutoSaving && SavingC == null) SavingC = StartCoroutine(AutoSaver());
     }
     private void LoadGame()
     {
@@ -50,7 +62,6 @@ public class DataCenter : MonoBehaviour
 
             string file = File.ReadAllText(Application.persistentDataPath + Filename);
             storageCenter = JsonUtility.FromJson<StorageCenter>(file);
-            WriteLoad();
         }
         else if (DebugLogs) Debug.Log("No File Found.");
     }
@@ -70,27 +81,36 @@ public class DataCenter : MonoBehaviour
         }
         else if (DebugLogs) Debug.Log("no file exist to delete");
     }
-    private void WriteLoad()
+    private void WriteLoad(LoadMode load)
     {
-        foreach (InventorySave fishSave in storageCenter.inventory)
+
+        switch (load)
         {
-            EventManager.OnFishCaught(fishSave.FishData, fishSave.FishSize);
+            case LoadMode.start:
+                // load upgrades 
+                UpgradeManager.Instance.SetUpgrades(storageCenter.upgradeIndex);
+
+                // load time
+                TimeManager.instance.SetDay(storageCenter.currentDay -1);
+                break;
+            case LoadMode.late:
+                //load fish
+                foreach (InventorySave fishSave in storageCenter.inventory)
+                {
+                    Inventory.instance.AddFish(fishSave.FishData, fishSave.FishSize);
+                }
+
+                //load money
+                EventManager.OnShopSell(storageCenter.Money);
+
+                // load catalogue
+                CatalogueTracker.Instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish, storageCenter.Catalogue.amountCaught);
+
+                // load quests
+                QuestTracker.instance.LoadQuests(storageCenter.Quests);
+                break;
+
         }
-
-        //load money
-        EventManager.OnShopSell(storageCenter.Money);
-
-        // load time
-        TimeManager.instance.SetDay(storageCenter.currentDay);
-
-        // load upgrades 
-        UpgradeManager.Instance.SetUpgrades(storageCenter.upgradeIndex);
-
-        // load catalogue
-        CatalogueTracker.Instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish,storageCenter.Catalogue.amountCaught);
-
-        // load quests
-        QuestTracker.instance.LoadQuests(storageCenter.Quests);
     } 
     private void WriteSave()
     {
@@ -128,6 +148,17 @@ public class DataCenter : MonoBehaviour
     {
         if (EnableGameSaving) SafeGame();
     }
+    private IEnumerator LateStart()
+    {
+        yield return new WaitForEndOfFrame();
+        WriteLoad(LoadMode.late);
+    }
+    private IEnumerator AutoSaver()
+    {
+        yield return new WaitForSeconds(saveAfterTime);
+        SafeGame();
+        SavingC = null;
+    }
 }
 [Serializable]
 public class StorageCenter
@@ -152,6 +183,12 @@ public struct CatalogueSave
 {
     public int totalCollectedFish;
     public int[] amountCaught; 
+}
+
+public enum LoadMode
+{
+    start,
+    late
 }
 
 
