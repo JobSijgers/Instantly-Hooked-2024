@@ -13,19 +13,24 @@ MonoBehaviour:
   m_Name: Quest
   m_EditorClassIdentifier: 
   pages:
-  - description: I didnt know you had it in you. Well done!
+  - description: I knew you had it in you! Well done!
     image: {fileID: 0}
     imageSize: {x: 0, y: 0}
+    sound: 
   - description: As promised heres your 200 bucks
     image: {fileID: 0}
     imageSize: {x: 0, y: 0}
+    sound: SellFish
   - description: As a little sidenote you can open the quest book
     image: {fileID: 21300000, guid: b39fb4d89aebeec4b88498ba36c6a778, type: 3}
     imageSize: {x: 400, y: 400}
+    sound: 
   - description: Also by clicking here or pressing Q
     image: {fileID: 21300000, guid: a047c16d901adde44a28573d6adffe4d, type: 3}
     imageSize: {x: 700, y: 700}
+    sound: 
   - description: When the quest book is open try clicking on the quests to see what
       they offer
     image: {fileID: 0}
     imageSize: {x: 0, y: 0}
+    sound: 
