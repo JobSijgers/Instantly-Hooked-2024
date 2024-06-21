@@ -77,7 +77,7 @@ namespace GameTime
         private IEnumerator EndDayTransition()
         {
             yield return Fade(0, 1, 1);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.5f);
             EndDay();
             yield return Fade(1, 0, 1);
         }

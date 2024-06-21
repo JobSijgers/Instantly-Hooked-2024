@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Events;
 using PauseMenu;
 using TMPro;
@@ -59,7 +60,11 @@ namespace Catalogue
             LoadPage(currentPage);
             CheckPreviousPageButton();
             CheckNextPageButton();
-            totalFishCollectedText.text = CatalogueTracker.Instance.GetTotalFishCollected().ToString();
+            StringBuilder sb = new();
+            sb.Append(CatalogueTracker.Instance.GetCatalogueProgress());
+            sb.Append(" / ");
+            sb.Append(CatalogueTracker.Instance.GetCatalogueItemsLength());
+            totalFishCollectedText.text = sb.ToString();
         }
         /// <summary>
         /// Checks if the previous page button should be active.
