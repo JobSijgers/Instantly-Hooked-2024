@@ -21,7 +21,8 @@ namespace Fish.Background_Fish
         [SerializeField] private Vector3 maxOffset;
         [SerializeField] private float minSpeed;
         [SerializeField] private float maxSpeed;
-
+        [SerializeField] private float spawnInterval;
+        
         private void Start()
         {
             StartCoroutine(SpawnAllFish());
@@ -38,9 +39,11 @@ namespace Fish.Background_Fish
                     GameObject fish = SpawnFish(backgroundFish.fish, beginPoint);
                     IBackgroundFish pathFollower = fish.AddComponent<PathFollower>();
                     pathFollower?.Initialize(path, GetRandomOffset(), GetRandomSpeed());
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(spawnInterval);
                 }
             }
+
+            Destroy(this);
         }
 
         private GameObject SpawnFish(GameObject fish, Vector3 beginPoint)

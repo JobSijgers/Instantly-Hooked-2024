@@ -2,6 +2,7 @@
 using System.Collections;
 using Cinemachine;
 using Events;
+using Generic;
 using ShopScripts;
 using Unity.Mathematics;
 using UnityEngine;

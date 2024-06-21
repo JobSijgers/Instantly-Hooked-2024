@@ -476,7 +476,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 2028598391323628987, guid: bbd175749685d5e4ba584a2933b63b5c,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: aabd2a08026688b4e84f4cae6d277f96, type: 3}
+  m_audioClip: {fileID: 8300000, guid: cf75355ddff281448915f30a1e4fda1f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -487,7 +487,7 @@ AudioSource:
   Priority: 47
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 3089.6
+  MaxDistance: 80
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -574,8 +574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214942cc47884a0084a90a1aea0b4edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistance: 3089.6
-  maxDistance: 3089.6
+  minDistance: 20
+  maxDistance: 80
   minVolume: 0
   maxVolume: 1
 --- !u!1 &7994530326025016981
