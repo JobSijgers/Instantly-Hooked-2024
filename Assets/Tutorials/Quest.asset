@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Quest
   m_EditorClassIdentifier: 
   pages:
-  - description: It seems like you have completed a quest! Well done!
+  - description: I didnt know you had it in you. Well done!
     image: {fileID: 0}
     imageSize: {x: 0, y: 0}
-  - description: By clicking here you can open the quest book
+  - description: As promised heres your 200 bucks
+    image: {fileID: 0}
+    imageSize: {x: 0, y: 0}
+  - description: As a little sidenote you can open the quest book
     image: {fileID: 21300000, guid: b39fb4d89aebeec4b88498ba36c6a778, type: 3}
     imageSize: {x: 400, y: 400}
   - description: Also by clicking here or pressing Q
