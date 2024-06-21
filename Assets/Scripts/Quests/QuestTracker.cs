@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Audio;
 using Enums;
 using Events;
 using Fish;
@@ -17,6 +18,7 @@ namespace Quests
         {
             public QuestDifficulty difficulty;
             public Quest[] quests;
+            public Quest[] startQuests;
             public int maxQuestsActive;
 
             public Quest GetRandomQuest()
@@ -56,8 +58,23 @@ namespace Quests
 
                 for (int i = 0; i < questState.maxQuestsActive; i++)
                 {
-                    GenerateNewQuest(questState.difficulty);
-                    EventManager.OnQuestHighlight(activeQuests[activeQuests.Count - 1]);
+                    //first check if there are any start quests
+                    if (questState.startQuests.Length > 0 && i < questState.startQuests.Length)
+                    {
+                        //Generate start quest
+                        Quest startQuest = questState.startQuests[i];
+                        QuestProgress progress = new(startQuest, startQuest.GetRandomAmount(),
+                            startQuest.GetRandomCompletionMoney(), questState.difficulty);
+                        
+                        activeQuests.Add(progress);
+                        EventManager.OnQuestHighlight(progress);
+                    }
+                    else
+                    {
+                        //iterate through the max amount of quests active and generate a new quest
+                        GenerateNewQuest(questState.difficulty);
+                        EventManager.OnQuestHighlight(activeQuests[^1]);
+                    }
                 }
             }
         }
@@ -135,7 +152,9 @@ namespace Quests
         private void QuestCompleted(QuestProgress questProgress)
         {
             EventManager.OnQuestCompleted(questProgress);
-
+            
+            AudioManager.instance.PlaySound("QuestComplete");
+            
             // Remove the quest from the active quests
             activeQuests.Remove(questProgress);
 
@@ -147,6 +166,26 @@ namespace Quests
         public QuestProgress[] GetQuests()
         {
             return activeQuests.ToArray();
+        }
+
+        public void LoadQuests(QuestProgress[] quests)
+        {
+            if (quests != null)
+            {
+                if (activeQuests != null)
+                {
+                    for (int i = 0; i < activeQuests.Count; i++)
+                    {
+                        EventManager.OnQuestUnHighlight(activeQuests[i]);
+                    }
+                    activeQuests.Clear();
+                }
+                for (int i = 0; i < quests.Length; i++)
+                {
+                    activeQuests.Add(quests[i]);
+                    EventManager.OnQuestHighlight(activeQuests[activeQuests.Count - 1]);
+                }
+            }
         }
     }
 }

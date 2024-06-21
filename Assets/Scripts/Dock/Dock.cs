@@ -12,29 +12,33 @@ namespace Dock
         [SerializeField] private float dockingRange;
         [SerializeField] private Transform boat;
         [SerializeField] private Transform dockPoint;
-        private bool _boatDocked;
+        [SerializeField] private GameObject dockUI;
+        private bool boatDocked;
 
         private void Start()
         {
             EventManager.DockSuccess += DockSuccess;
-            EventManager.PauseStateChange += OnPause;
-            EventManager.LeftShore += UnDockBoat;
+            EventManager.LeftShoreSuccess += UnDockBoat;
         }
 
         private void OnDestroy()
         {
-            EventManager.PauseStateChange -= OnPause;
-            EventManager.LeftShore -= UnDockBoat;
             EventManager.DockSuccess -= DockSuccess;
+            EventManager.LeftShoreSuccess -= UnDockBoat;
         }
 
         private void Update()
         {
-            if (IsBoatInRange() && !_boatDocked && Hook.instance.FishOnHook == null)
+            if (IsBoatInRange() && !boatDocked && Hook.instance.FishOnHook == null)
             {
+                dockUI.SetActive(true);
                 GetDockInput();
+                return;
             }
+
+            dockUI.SetActive(false);
         }
+
 
         private bool IsBoatInRange()
         {
@@ -49,32 +53,20 @@ namespace Dock
             DockBoat();
         }
 
-        private void DockBoat()
+        public void DockBoat()
         {
             boat.GetComponent<IBoat>()?.DockBoat();
         }
 
         private void DockSuccess()
         {
-            _boatDocked = true;
+            boatDocked = true;
             EventManager.OnDock();
         }
 
         private void UnDockBoat()
         {
-            _boatDocked = false;
-        }
-
-        private void OnPause(PauseState newState)
-        {
-            enabled = newState switch
-            {
-                PauseState.Playing => true,
-                PauseState.InPauseMenu => false,
-                PauseState.InInventory => false,
-                PauseState.InCatalogue => false,
-                PauseState.InQuests => false
-            };
+            boatDocked = false;
         }
     }
 }

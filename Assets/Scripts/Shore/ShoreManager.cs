@@ -1,73 +1,80 @@
 ﻿using System;
 using System.Collections;
+using Cinemachine;
 using Events;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
+using Views;
 
 namespace Shore
 {
     public class ShoreManager : MonoBehaviour
     {
-        [SerializeField] private float transitionDuration;
-        [SerializeField] private AnimationCurve transitionCurve;
-        [SerializeField] private Image fadeScreen;
-        [SerializeField] private GameObject shore;
-        [SerializeField] private GameObject sea;
+        [SerializeField] private CinemachineVirtualCamera shoreCamera;
+        [SerializeField] private float transitionTime = 2f;
+        private bool atShore;
+
         private void Start()
         {
-            EventManager.Dock += TransitionToShore;
+            EventManager.DockSuccess += TransitionToShore;
+            EventManager.LeftShore += TransitionToSea;
+            EventManager.NewDay += TransitionToSea;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.DockSuccess -= TransitionToShore;
+            EventManager.LeftShore -= TransitionToSea;
+            EventManager.NewDay -= TransitionToSea;
+        }
+
+        private void Update()
+        {
+            if (!atShore)
+                return;
+            if (!Input.GetKeyDown(KeyCode.E))
+                return;
+            if (ViewManager.GetActiveView() != typeof(ShoreUI))
+                return;
+            EventManager.OnLeftShore();
         }
 
         private void TransitionToShore()
         {
-            StartCoroutine(TransitionToShoreRoutine());
+            StartCoroutine(TransitionViewToShore());
         }
 
-        public void LeaveShore()
+        private void TransitionToSea(int day)
         {
-            StartCoroutine(TransitionToBoatRoutine());
+            if (day == 1)
+                return;
+            TransitionToSea();
         }
 
-        private IEnumerator TransitionToShoreRoutine()
+        private void TransitionToSea()
         {
-            yield return FadeOutRoutine();
-            EventManager.OnArrivedAtShore();
-            shore.SetActive(true);
-            sea.SetActive(false);
-            yield return FadeInRoutine();
-        }
-        
-        private IEnumerator TransitionToBoatRoutine()
-        {
-            yield return FadeOutRoutine();
-            EventManager.OnLeftShore();
-            shore.SetActive(false);
-            sea.SetActive(true);
-            yield return FadeInRoutine();
+            StartCoroutine(TransitionViewToSea());
         }
 
-        private IEnumerator FadeOutRoutine()
+        private IEnumerator TransitionViewToShore()
         {
-            var t = 0f;
-            while (t < 1)
-            {
-                t += Time.deltaTime / (transitionDuration / 2f);
-                var curveValue = transitionCurve.Evaluate(t);
-                fadeScreen.color = Color.Lerp(Color.clear, Color.black, curveValue);
-                yield return null;
-            }
+            shoreCamera.Priority = 2;
+            ViewManager.ClearHistory();
+            ViewManager.HideActiveView();
+            yield return new WaitForSeconds(transitionTime);
+            ViewManager.ShowView<ShoreUI>();
+            atShore = true;
         }
 
-        private IEnumerator FadeInRoutine()
+        private IEnumerator TransitionViewToSea()
         {
-            var t = 0f;
-            while (t < 1)
-            {
-                t += Time.deltaTime / (transitionDuration / 2f);
-                var curveValue = transitionCurve.Evaluate(t);
-                fadeScreen.color = Color.Lerp(Color.black, Color.clear, curveValue);
-                yield return null;
-            }
+            shoreCamera.Priority = -2;
+            atShore = false;
+            ViewManager.ClearHistory();
+            ViewManager.HideActiveView();
+            yield return new WaitForSeconds(transitionTime);
+            ViewManager.ShowView<GameView>();
+            EventManager.OnLeftShoreSuccess();
         }
     }
 }

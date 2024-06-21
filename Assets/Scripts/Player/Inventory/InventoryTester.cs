@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Economy.ShopScripts;
 using Enums;
 using Events;
 using Fish;
@@ -8,7 +7,7 @@ using UnityEngine;
 
 public class InventoryTester : MonoBehaviour
 {
-    [SerializeField] private FishData test;
+    [SerializeField] private FishData[] test;
     public int amount;
     void Start()
     {
@@ -18,9 +17,12 @@ public class InventoryTester : MonoBehaviour
     private IEnumerator A()
     {
         yield return new WaitForSeconds(2f);
-        for (int i = 0; i < amount; i++)
+        foreach (FishData data in test)
         {
-            EventManager.OnFishCaught(test, FishSize.Small);
+            for (int i = 0; i < amount; i++)
+            {
+                EventManager.OnFishCaught(data, FishSize.Small);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using Events;
 using Fish;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Catalogue
 {
@@ -10,6 +11,11 @@ namespace Catalogue
         public static CatalogueTracker Instance;
         [SerializeField] private CatalogueItem[] catalogueItems;
         private int totalCollectedFish;
+        public UnityAction<int> catalogueUpdated;
+
+        private void OnCatalogueUpdate() => catalogueUpdated?.Invoke(totalCollectedFish);
+        
+        
         private void Awake()
         {
             Instance = this;
@@ -34,6 +40,7 @@ namespace Catalogue
 
                 item.AddFish();
                 totalCollectedFish++;
+                OnCatalogueUpdate();
                 return;
             }
         }
@@ -77,6 +84,20 @@ namespace Catalogue
             {
                 catalogueItems[i].SetAmount(amountcollectedPF[i]);
             }
+        }
+
+        public int GetCatalogueProgress()
+        {
+            int progress = 0;
+            foreach (CatalogueItem fish in catalogueItems)
+            {
+                if (fish.GetAmount() > 0)
+                {
+                    progress++;
+                }
+            }
+
+            return progress;
         }
     }
 }

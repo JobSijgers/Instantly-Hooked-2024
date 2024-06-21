@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Events;
 using TMPro;
 using UnityEngine;
+using Views;
 
 namespace Economy
 {
-    public class MoneyUI : MonoBehaviour
+    public class MoneyUI : ViewComponent
     {
         [SerializeField] private TMP_Text moneyText;
         private int targetMoney;
@@ -48,10 +48,24 @@ namespace Economy
 
         private void UpdateMoneyUI(int newMoney)
         {
+            targetMoney = newMoney;
+            if (!gameObject.activeInHierarchy)
+                return;
+            targetMoney = newMoney;
             if (currentMoney == newMoney) return;
 
             StopAllCoroutines();
             StartCoroutine(UpdateMoneySmoothly(newMoney, 1.0f));
+        }
+
+        private void OnEnable()
+        {
+            StartCoroutine(UpdateMoneySmoothly(targetMoney, 1.0f));
+        }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Fish.Background_Fish
             pathToFollow = path;
             pathOffset = offset;
             followSpeed = speed;
+            distanceTravelled = Random.Range(0, path.path.length);
         }
     }
 }

@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Quests.ScriptableObjects
 {
+    [Serializable]
     public abstract class Quest : ScriptableObject
     {
         [Header("Quest Info")]
@@ -20,7 +21,6 @@ namespace Quests.ScriptableObjects
         public int minCompletionMoney;
         public int maxCompletionMoney;
         
-        public abstract string QuestType { get; }
         public abstract bool IsQuestConditionMet(FishData fishData, FishSize fishSize);
         
         public int GetRandomAmount()

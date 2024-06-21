@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Audio;
 using Economy;
 using Enums;
 using Events;
@@ -81,7 +82,6 @@ namespace Upgrades
         private void Start()
         {
             EventManager.LeftShore += NotifyUpgrades;
-            EventManager.UpgradeShopOpen += OpenShop;
             SetUpItems();
             StartCoroutine(LateStart());
         }
@@ -89,7 +89,6 @@ namespace Upgrades
         private void OnDestroy()
         {
             EventManager.LeftShore -= NotifyUpgrades;
-            EventManager.UpgradeShopOpen -= OpenShop;
         }
 
         private void Update()
@@ -121,7 +120,7 @@ namespace Upgrades
         {
             if (!EconomyManager.instance.HasEnoughMoney(upgrade.cost))
             {
-                EventManager.OnNotEnoughMoney();
+                AudioManager.instance.PlaySound("Poor");
                 return;
             }
             
@@ -130,6 +129,8 @@ namespace Upgrades
                 return;
             EconomyManager.instance.RemoveMoney(upgrade.cost);
             upgradeState.IncreaseUpgradeIndex();
+            AudioManager.instance.PlaySound("UpgradeBought");
+            AudioManager.instance.PlaySound("UpgradeRattle");
             EventManager.OnUpgradeBought(upgrade);
         }
 
@@ -186,14 +187,13 @@ namespace Upgrades
 
         private void CloseShop()
         {
-            EventManager.OnUpgradeShopClose();
             shopState = ShopState.Closed;
         }
 
         public int[] GetUpgrades()
         {
             int[] updateindexes = new int[upgradeStates.Length];
-            for (int i = 0; i < upgradeStates.Length -1; i++)
+            for (int i = 0; i < upgradeStates.Length; i++)
             {
                 updateindexes[i] = upgradeStates[i].GetUpgradeIndex();
             }
@@ -204,6 +204,7 @@ namespace Upgrades
             for (int i = 0;i < upgradeStates.Length; i++)
             {
                 upgradeStates[i].Setindex(upgradeindex[i]);
+                NotifyUpgrades();
             }
         }
         private IEnumerator LateStart()

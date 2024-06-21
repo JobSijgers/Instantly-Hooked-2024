@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ea1083898440f8ba78fd8ea18765ad, type: 3}
+  m_Name: Time
+  m_EditorClassIdentifier: 
+  pages:
+  - description: The storms aproaching
+    image: {fileID: 0}
+    imageSize: {x: 0, y: 0}
+    sound: 
+  - description: The storm gets to shore around 23
+    image: {fileID: 21300000, guid: 88c746a311f212b4f91a7617661a8f80, type: 3}
+    imageSize: {x: 1975, y: 711}
+    sound: 
+  - description: 'Make sure to keep an eye on the radar at the top of your screen '
+    image: {fileID: 21300000, guid: 85c47de65ba1ebc40ac0c1e0caf87280, type: 3}
+    imageSize: {x: 1881, y: 142}
+    sound: 
+  - description: You dont want to get caught by the storm it'll take all your precious
+      fish from you!
+    image: {fileID: 21300000, guid: 85c47de65ba1ebc40ac0c1e0caf87280, type: 3}
+    imageSize: {x: 1881, y: 142}
+    sound: 

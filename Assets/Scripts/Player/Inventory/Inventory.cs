@@ -5,40 +5,40 @@ using Events;
 using Fish;
 using PauseMenu;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Views;
 
 namespace Player.Inventory
 {
     // This class manages the player's inventory, including adding and removing fish, and updating the UI.
-    public class Inventory : MonoBehaviour
+    public class Inventory : View
     {
-        public static Inventory Instance;
+        public static Inventory instance;
 
         // List of current fish items in the player's inventory.
         public List<InventoryItem> currentFish;
 
         [SerializeField] private GameObject defaultInventorySlot;
-        [SerializeField] private Transform inventoryParent;
+        [SerializeField] private Transform itemHolder;
         [SerializeField] private Color[] rarityColors;
         [SerializeField] private Transform inventoryUI;
         [SerializeField] private Sprite[] raritySprites;
         [SerializeField] private CatalogueUIItem highlight;
-
-
-        private void Awake()
+        
+        public override void Initialize()
         {
-            Instance = this;
+            base.Initialize();
+            instance = this;
             EventManager.FishCaught += AddFish;
         }
 
         private void Start()
         {
-            EventManager.PauseStateChange += OnPause;
             EventManager.PlayerDied += ClearInventory;
         }
 
         private void OnDestroy()
         {
-            EventManager.PauseStateChange -= OnPause;
             EventManager.PlayerDied -= ClearInventory;
             EventManager.FishCaught -= AddFish;
         }
@@ -47,7 +47,7 @@ namespace Player.Inventory
         /// <summary>
         /// This method adds a fish to the inventory. If the fish is already in the inventory, it increases the stack size.
         /// </summary>
-        private void AddFish(FishData fishToAdd, FishSize size)
+        public void AddFish(FishData fishToAdd, FishSize size)
         {
             if (fishToAdd.maxStackAmount <= 1) return;
             foreach (InventoryItem inventoryItem in GetInventory())
@@ -61,7 +61,7 @@ namespace Player.Inventory
                 return;
             }
 
-            GameObject go = Instantiate(defaultInventorySlot, inventoryParent);
+            GameObject go = Instantiate(defaultInventorySlot, itemHolder);
             InventoryItem item = go.GetComponent<InventoryItem>();
             item.Initialize(fishToAdd, size, GetRarityColor(fishToAdd.fishRarity));
             currentFish.Add(item);
@@ -212,52 +212,22 @@ namespace Player.Inventory
             return rarityColors[(int)rarity];
         }
 
-        /// <summary>
-        /// This method handles the inventory UI based on the current game pause state.
-        /// </summary>
-        /// <param name="newState"></param>
-        private void OnPause(PauseState newState)
+        public override void Show()
         {
-            switch (newState)
-            {
-                case PauseState.Playing:
-                    CloseInventory(true);
-                    break;
-                case PauseState.InPauseMenu:
-                    CloseInventory(true);
-                    break;
-                case PauseState.InInventory:
-                    OpenInventory(true);
-                    break;
-                case PauseState.InCatalogue:
-                    CloseInventory(true);
-                    break;
-                case PauseState.InQuests:
-                    CloseInventory(true);
-                    break;
-            }
-        }
-
-        public void OpenInventory(bool suppressEvent)
-        {
-            inventoryUI.gameObject.SetActive(true);
-            PauseManager.SetState(PauseState.InInventory, suppressEvent);
+            base.Show();
             if (currentFish.Count == 0 || currentFish == null)
             {
-                ClearHightlight();
+                ClearHighlight();
             }
             else
             {
                 HighlightItem(currentFish[0].GetFishData());
             }
         }
-        
-        public void CloseInventory(bool suppressEvent = false)
+
+        public override void Hide()
         {
-            if (!inventoryUI.gameObject.activeSelf)
-                return;
-            inventoryUI.gameObject.SetActive(false);
-            PauseManager.SetState(PauseState.Playing, suppressEvent);
+            base.Hide();
         }
 
         public void HighlightItem(FishData item)
@@ -266,10 +236,15 @@ namespace Player.Inventory
             highlight.Initialize(item.name, item.fishDescription, GetFishCount(item), item.habitat,
                 raritySprites[(int)item.fishRarity], item.fishVisual);
         }
-        
-        private void ClearHightlight()
+
+        private void ClearHighlight()
         {
             highlight.gameObject.SetActive(false);
+        }
+        
+        public void ChangeBookPage(View newView)
+        {
+            ViewManager.ShowView(newView, false);
         }
     }
 }

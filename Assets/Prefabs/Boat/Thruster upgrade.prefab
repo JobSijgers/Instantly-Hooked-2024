@@ -103,8 +103,81 @@ PrefabInstance:
       propertyPath: m_Name
       value: Thruster upgrade
       objectReference: {fileID: 0}
+    - target: {fileID: 6288386650944977597, guid: b46459c5e192ba846a1abb2b8e129d8c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.785994
+      objectReference: {fileID: 0}
+    - target: {fileID: 6288386650944977597, guid: b46459c5e192ba846a1abb2b8e129d8c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -5.6757428e-14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6288386650944977597, guid: b46459c5e192ba846a1abb2b8e129d8c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1.136971e-13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6288386650944977597, guid: b46459c5e192ba846a1abb2b8e129d8c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.6182341
+      objectReference: {fileID: 0}
+    - target: {fileID: 6288386650944977597, guid: b46459c5e192ba846a1abb2b8e129d8c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 76.375
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4765426894325911593, guid: b46459c5e192ba846a1abb2b8e129d8c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7708403609164175688}
+    - targetCorrespondingSourceObject: {fileID: 5943992945660053368, guid: b46459c5e192ba846a1abb2b8e129d8c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6003394053649393101}
   m_SourcePrefab: {fileID: 100100000, guid: b46459c5e192ba846a1abb2b8e129d8c, type: 3}
+--- !u!1 &1015113412894277304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4765426894325911593, guid: b46459c5e192ba846a1abb2b8e129d8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5491113653617798801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7708403609164175688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015113412894277304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38be215fc4f808549a57b34802c06b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpinSpeed: 10
+  spinAxis: {x: 0, y: 0, z: 1}
+--- !u!1 &2182298383129078249 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5943992945660053368, guid: b46459c5e192ba846a1abb2b8e129d8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5491113653617798801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6003394053649393101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2182298383129078249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38be215fc4f808549a57b34802c06b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpinSpeed: 10
+  spinAxis: {x: 0, y: 0, z: 1}

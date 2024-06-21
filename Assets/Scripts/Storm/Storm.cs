@@ -5,6 +5,7 @@ using Events;
 using Interfaces;
 using PauseMenu;
 using UnityEngine;
+using Views;
 
 namespace Storm
 {
@@ -21,17 +22,13 @@ namespace Storm
         private void Start()
         {
             EventManager.NewDay += DestroyStorm;
-            EventManager.ArrivedAtShore += PauseStorm;
-            EventManager.LeftShore += ResumeStorm;
-            EventManager.PauseStateChange += CheckPause;
+            ViewManager.instance.ViewShow += CheckStormPause;
         }
 
         private void OnDestroy()
         {
             EventManager.NewDay -= DestroyStorm;
-            EventManager.ArrivedAtShore -= PauseStorm;
-            EventManager.LeftShore -= ResumeStorm;
-            EventManager.PauseStateChange -= CheckPause;
+            ViewManager.instance.ViewShow -= CheckStormPause;
         }
 
 
@@ -41,7 +38,7 @@ namespace Storm
                 return;
             playerInStormTime += Time.deltaTime;
             if (!(playerInStormTime >= stormDamageTime)) return;
-            
+
             EventManager.OnPlayerDied();
             playerInStormTime = 0;
         }
@@ -76,34 +73,26 @@ namespace Storm
             float t = 0;
             while (Vector3.Distance(transform.position, stormEndLocation) > 0.1f)
             {
-                if (paused)
+                while (paused)
+                {
                     yield return null;
-                
+                }
+
                 t += Time.deltaTime / stormDuration;
                 Vector3 newLocation = Vector3.Lerp(stormStartLocation, stormEndLocation, t);
                 transform.position = newLocation;
                 yield return null;
             }
         }
-        
+
         private void DestroyStorm(int newDay)
         {
             Destroy(gameObject);
         }
 
-        private void ResumeStorm()
+        private void CheckStormPause(View newView)
         {
-            paused = false;
-        }
-
-        private void CheckPause(PauseState state)
-        {
-            paused = state != PauseState.Playing;
-        }
-
-        private void PauseStorm()
-        {
-            paused = true;
+            paused = newView is not GameView;
         }
     }
 }

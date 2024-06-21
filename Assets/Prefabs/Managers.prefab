@@ -14,12 +14,13 @@ GameObject:
   - component: {fileID: 350620038377708309}
   - component: {fileID: 5724927979952931040}
   - component: {fileID: 9030007309800792193}
-  - component: {fileID: 6731738640997864002}
   - component: {fileID: 6877359919399279039}
   - component: {fileID: 5682972943312613664}
   - component: {fileID: 1879113531662654534}
   - component: {fileID: 2207235148304372158}
   - component: {fileID: 7251956408511335369}
+  - component: {fileID: 2020683507130819442}
+  - component: {fileID: 7486876082571863009}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -81,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayStartMinutes: 390
   minutesPerCycle: 6
+  fadeImage: {fileID: 0}
 --- !u!114 &5724927979952931040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,18 +277,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: fa002fa51d18e604d865edf53a0772ab, type: 2}
     - {fileID: 11400000, guid: 12443ad92a5eead44b1bdfaa5b591e9c, type: 2}
     - {fileID: 11400000, guid: 7b2987c38dd432d4c88569dd52b65640, type: 2}
---- !u!114 &6731738640997864002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721431727958521510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdd41825c40e4c2d9550754fc8f09e4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6877359919399279039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,34 +289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a567144427874e6b93990cf25e8ebbcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionDuration: 2
-  transitionCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  fadeScreen: {fileID: 0}
-  shore: {fileID: 0}
-  sea: {fileID: 0}
+  shoreCamera: {fileID: 0}
+  transitionTime: 2
 --- !u!114 &5682972943312613664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,6 +631,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5e5e6819107fe844b87b540ff38110dc, type: 2}
     - {fileID: 11400000, guid: 04e8e084b22311448b83ac2532ae8a3f, type: 2}
     - {fileID: 11400000, guid: a1fa893db3a820c4db9578c9e5194317, type: 2}
+    startQuests: []
     maxQuestsActive: 1
   - difficulty: 1
     quests:
@@ -677,6 +642,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 79021dbc572d3aa4fa2c6d7d995a076c, type: 2}
     - {fileID: 11400000, guid: e49a2839b33f89041acca81b56672e66, type: 2}
     - {fileID: 11400000, guid: 1a399532970c5274cb193c5983d07c5b, type: 2}
+    startQuests: []
     maxQuestsActive: 1
   - difficulty: 2
     quests:
@@ -686,6 +652,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: eff7c080f3f81954ea196385245fc1dc, type: 2}
     - {fileID: 11400000, guid: 044b3e9e64d3043489e3719a2aecb312, type: 2}
     - {fileID: 11400000, guid: dddc963294c0d994faeacbb83e7443b0, type: 2}
+    startQuests: []
     maxQuestsActive: 1
 --- !u!114 &7251956408511335369
 MonoBehaviour:
@@ -701,4 +668,159 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnableGameSaving: 0
   AutoLoadGame: 0
+  AutoSaving: 0
+  saveAfterTime: 0
   DebugLogs: 0
+--- !u!114 &2020683507130819442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721431727958521510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fc33767142440fa5946632e3744b7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: QuestComplete
+    clip: {fileID: 8300000, guid: 87a41cc663a3a4d4d8c915d42791dde1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: HookTouchWater
+    clip: {fileID: 8300000, guid: 450d2ebcb386a40439ae6e3a46a76345, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: Seagull_Heavy
+    clip: {fileID: 8300000, guid: 74f9736c1e85f584a9e233cc82289362, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: Seagull_Long
+    clip: {fileID: 8300000, guid: 8f9d8ac80ae95b04e9cae2d802bad829, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: Poor
+    clip: {fileID: 8300000, guid: 552557272d4ffb64dbe6bc81c6bc330a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: BoatHorn
+    clip: {fileID: 8300000, guid: 35361c75f5ae25b4c9a8685e070474d7, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: SellFish
+    clip: {fileID: 8300000, guid: b2951404ecba96048a93b52f9c905d4a, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: UpgradeBought
+    clip: {fileID: 8300000, guid: 375bde39cb3ab86458b3289e339d5a05, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: Music
+    clip: {fileID: 8300000, guid: b0ded7d6ec403b640bb035606950cfd2, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 0
+    cutoffRange: 0
+    mixerGroup: {fileID: 2028598391323628987, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+  - name: UpgradeRattle
+    clip: {fileID: 8300000, guid: 60930efb8fc02fb4881eed9129486bbb, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    disableCutoff: 1
+    cutoffRange: 0.55
+    mixerGroup: {fileID: 1908982405736055998, guid: bbd175749685d5e4ba584a2933b63b5c,
+      type: 2}
+    source: {fileID: 0}
+--- !u!114 &7486876082571863009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721431727958521510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9074614dc547e4b03dc37ed0e65bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catalogueItems:
+  - fishToTrack: {fileID: 11400000, guid: a16d3c22be6c68447996ab5fc25f5ddb, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: e55a9157923dec84ca28f4c8f0731e0d, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 310e26fca8635ab4281c351818ddeec7, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 590a8e6bd2e7dca408af0cccbedd3207, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: c2526ed19272d1840b62b104c8753b0c, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 7bb34e30a33389e4f81b45e95c49555c, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 0e6cfb3244136ec45b427ea4509100e9, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 5483513d1e01b4741bfe484392c680d8, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: cdf5a2f99dedef64e88cfb605aa2dbcb, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 64ee70390a9ffb14a88dd9385fb2e426, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: e77abf4edba7d224e9385bccae251bb3, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 89863b6634db8834d9f94872859fc460, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: fa3a521e07520aa4e8c57ffd94f1f30e, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 3fad15ea63214c449b885d87cea152f2, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: 77bf28d70ccac5b48b8ff2534a86eacb, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: a0cdf2ba8f3b03f4c9f2225fcafce53e, type: 2}
+  - fishToTrack: {fileID: 11400000, guid: dcca3c2e3c3d38446a74b618cf206a1c, type: 2}

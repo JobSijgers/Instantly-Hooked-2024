@@ -1,14 +1,12 @@
-﻿using System;
-using Events;
-using PauseMenu;
+﻿using Events;
 using UnityEngine;
+using Views;
 
 namespace Quests
 {
-    public class QuestBookUI : MonoBehaviour
+    public class QuestBookUI : View
     {
         public static QuestBookUI instance;
-        [SerializeField] private GameObject questBookUIParent;
         [SerializeField] private GameObject questDisplayPrefab;
         [SerializeField] private Transform questDisplayParent;
         [SerializeField] private HighlightQuestUI questUIHighlight;
@@ -16,26 +14,7 @@ namespace Quests
         private ExpandedQuestDetailUI[] questDetails;
 
         private void Awake() => instance = this;
-
-        private void Start()
-        {
-            EventManager.PauseStateChange += OnPauseStateChange;
-            EventManager.HUDQuestSelected += OnHUDQuestClicked;
-        }
-
-        private void OnDestroy()
-        {
-            EventManager.PauseStateChange -= OnPauseStateChange;
-            EventManager.HUDQuestSelected -= OnHUDQuestClicked;
-        }
-
-        public void OpenQuests(bool suppressEvent)
-        {
-            questBookUIParent.SetActive(true);
-            LoadQuests();
-            PauseManager.SetState(PauseState.InQuests, suppressEvent);
-        }
-
+        
         private void LoadQuests()
         {
             ClearQuests();
@@ -79,31 +58,16 @@ namespace Quests
             questUIHighlight.SetQuest(quest);
         }
 
-        public void CloseQuests(bool suppressEvent)
+        public override void Show()
         {
-            if (!questBookUIParent.activeSelf)
-                return;
-            questBookUIParent.SetActive(false);
-            PauseManager.SetState(PauseState.Playing, suppressEvent);
+            base.Show();
+            LoadQuests();
+            questUIHighlight.ClearDetail();
         }
-
-
-        private void OnPauseStateChange(PauseState newState)
+        
+        public void ChangeBookPage(View newView)
         {
-            if (newState == PauseState.InQuests)
-            {
-                OpenQuests(true);
-            }
-            else
-            {
-                CloseQuests(true);
-            }
-        }
-
-        private void OnHUDQuestClicked(QuestProgress questProgress)
-        {
-            OpenQuests(false);
-            HighlightQuest(questProgress);
+            ViewManager.ShowView(newView, false);
         }
     }
 }

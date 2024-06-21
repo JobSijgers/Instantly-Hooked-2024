@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Events;
 using PauseMenu;
 using UnityEngine;
+using UnityEngine.UI;
+using Views;
 
 namespace GameTime
 {
@@ -10,12 +14,12 @@ namespace GameTime
         public static TimeManager instance;
         [SerializeField] private int dayStartMinutes;
         [SerializeField] private float minutesPerCycle;
-
-        private bool timePassing = true;
+        [SerializeField] private Image fadeImage;
+        
+        private bool timePassing;
         private int currentDay;
         private float timeMultiplier;
         private float currentTime;
-        private bool atShore;
 
         private void Awake()
         {
@@ -27,22 +31,14 @@ namespace GameTime
             // Calculate time multiplier based on minutes per cycle
             timeMultiplier = 1440f / minutesPerCycle;
             EndDay();
-
-            // Subscribe to various game events
-            EventManager.PauseStateChange += OnPause;
-            EventManager.LeftShore += LeftShore;
-            EventManager.ArrivedAtShore += ArrivedAtShore;
-            EventManager.PlayerDied += EndDay;
+            
+            ViewManager.instance.ViewShow += CheckPause;
         }
 
 
         private void OnDestroy()
         {
-            // Unsubscribe from game events when this object is destroyed
-            EventManager.PauseStateChange -= OnPause;
-            EventManager.LeftShore -= LeftShore;
-            EventManager.ArrivedAtShore -= ArrivedAtShore;
-            EventManager.PlayerDied -= EndDay;
+            ViewManager.instance.ViewShow -= CheckPause;
         }
 
         private void Update()
@@ -54,12 +50,6 @@ namespace GameTime
             currentTime += Time.deltaTime * timeMultiplier;
             TimeSpan span = TimeSpan.FromSeconds(currentTime);
             EventManager.OnTimeUpdate(span);
-
-            // Check if a new day has started
-            if (span.Days >= 1)
-            {
-                EndDay();
-            }
         }
 
         private void ResetTime()
@@ -68,7 +58,12 @@ namespace GameTime
             currentTime = dayStartMinutes * 60;
         }
 
-        public void EndDay()
+        public void NewDay()
+        {
+            StartCoroutine(EndDayTransition());
+        }
+        
+        private void EndDay()
         {
             currentDay++;
 
@@ -78,36 +73,15 @@ namespace GameTime
             EventManager.OnNewDay(currentDay);
             EventManager.OnTimeUpdate(span);
         }
-
-        private void OnPause(PauseState newState)
+        
+        private IEnumerator EndDayTransition()
         {
-            // Handle pause state changes
-            switch (newState)
-            {
-                case PauseState.Playing:
-                    EnableTime();
-                    break;
-                case PauseState.InPauseMenu:
-                case PauseState.InInventory:
-                case PauseState.InCatalogue:
-                case PauseState.InQuests:
-                    DisableTime();
-                    break;
-            }
+            yield return Fade(0, 1, 1);
+            yield return new WaitForSeconds(1.5f);
+            EndDay();
+            yield return Fade(1, 0, 1);
         }
-
-        private void DisableTime()
-        {
-            timePassing = false;
-        }
-
-        private void EnableTime()
-        {
-            if (atShore)
-                return;
-            timePassing = true;
-        }
-
+        
         public void GetTimeState(out int currentday)
         {
             currentday = currentDay;
@@ -117,17 +91,25 @@ namespace GameTime
         {
             currentDay = currentday;
         }
-
-        private void LeftShore()
+        
+        private void CheckPause(View newView)
         {
-            atShore = false;
-            EnableTime();
+            timePassing = newView is GameView;
         }
-
-        private void ArrivedAtShore()
+        
+        
+        private IEnumerator Fade(float start, float end, float duration)
         {
-            atShore = true;
-            DisableTime();
+            float time = 0;
+            Color startColor = new Color(0, 0, 0, start);
+            Color endColor = new Color(0, 0, 0, end);
+            while (time < duration)
+            {
+                fadeImage.color = Color.Lerp(startColor, endColor, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            fadeImage.color = endColor;
         }
     }
 }

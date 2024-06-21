@@ -4,10 +4,11 @@ using PauseMenu;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using Views;
 
 namespace Quests
 {
-    public class QuestListUI : MonoBehaviour
+    public class QuestListUI : ViewComponent
     {
         [SerializeField] private int maxQuestsDisplayed = 3;
         [SerializeField] private GameObject questDetailUIPrefab;
@@ -17,6 +18,10 @@ namespace Quests
 
         private void Awake()
         {
+            EventManager.QuestHighlighted += HighlightQuest;
+            EventManager.QuestUnHighlighted += UnhighlightQuest;
+            EventManager.QuestUpdated += UpdateQuestProgress;
+            EventManager.QuestCompleted += UnhighlightQuest;
             hudQuests = new HUDQuest[maxQuestsDisplayed];
             for (int i = 0; i < maxQuestsDisplayed; i++)
             {
@@ -25,27 +30,12 @@ namespace Quests
             }
         }
         
-        private void OnEnable()
-        {
-            EventManager.QuestHighlighted += HighlightQuest;
-            EventManager.QuestUnHighlighted += UnhighlightQuest;
-            EventManager.QuestUpdated += UpdateQuestProgress;
-            EventManager.QuestCompleted += UnhighlightQuest;
-            EventManager.PauseStateChange += ChangeActiveState;
-        }
-
-        private void ChangeActiveState(PauseState state)
-        {
-            questDetailUIParent.gameObject.SetActive(state == PauseState.Playing);
-        }
-
-        private void OnDisable()
+        private void OnDestroy()
         {
             EventManager.QuestHighlighted -= HighlightQuest;
             EventManager.QuestUnHighlighted -= UnhighlightQuest;
             EventManager.QuestUpdated -= UpdateQuestProgress;
             EventManager.QuestCompleted -= UnhighlightQuest;
-            EventManager.PauseStateChange -= ChangeActiveState;
         }
 
         private void HighlightQuest(QuestProgress highlightedQuest)
