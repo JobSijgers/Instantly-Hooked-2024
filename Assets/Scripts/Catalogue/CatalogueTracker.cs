@@ -61,11 +61,6 @@ namespace Catalogue
             return catalogueItems.Length;
         }
 
-        public int GetTotalFishCollected()
-        {
-            return totalCollectedFish;
-        }
-
         public void GetCurrentCatalogueNotes(out int totalfish, out int[] amountcollectedPF)
         {
             amountcollectedPF = new int[GetCatalogueItemsLength() -1];

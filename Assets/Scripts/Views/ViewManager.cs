@@ -54,13 +54,14 @@ namespace Views
             CheckKey<QuestBookUI>(KeyCode.Q, ignoredViews, dontSaveIfActive);
         }
 
-        public static void HideActiveView()
+        public static void HideActiveView(bool removeFromHistory = true)
         {
             if (instance.activeView == null)
                 return;
             instance.OnViewHide(instance.activeView);
             instance.activeView.Hide();
-            instance.activeView = null;
+            if (removeFromHistory)
+                instance.activeView = null;
         }
 
         public static void ShowView<T>(bool saveInHistory = true)

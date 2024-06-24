@@ -60,21 +60,14 @@ namespace Catalogue
             LoadPage(currentPage);
             CheckPreviousPageButton();
             CheckNextPageButton();
-            StringBuilder sb = new();
-            sb.Append(CatalogueTracker.Instance.GetCatalogueProgress());
-            sb.Append(" / ");
-            sb.Append(CatalogueTracker.Instance.GetCatalogueItemsLength());
-            totalFishCollectedText.text = sb.ToString();
+            SetTotalCollectFishText();
         }
         /// <summary>
         /// Checks if the previous page button should be active.
         /// </summary>
         private void CheckPreviousPageButton()
         {
-            if (currentPage <= 0)
-            {
-                previousPageButton.SetActive(false);
-            }
+            previousPageButton.SetActive(currentPage > 0);
         }
 
         /// <summary>
@@ -82,35 +75,33 @@ namespace Catalogue
         /// </summary>
         private void CheckNextPageButton()
         {
-            if ((currentPage + 1) * itemsPerPage >= CatalogueTracker.Instance.GetCatalogueItemsLength())
-            {
-                nextPageButton.SetActive(false);
-            }
+            bool isActive = (currentPage + 1) * itemsPerPage < CatalogueTracker.Instance.GetCatalogueItemsLength();
+            nextPageButton.SetActive(isActive);
         }
         
         public void LoadNextPage()
         {
             currentPage++;
             LoadPage(currentPage);
-
-            if ((currentPage + 1) * itemsPerPage >= CatalogueTracker.Instance.GetCatalogueItemsLength())
-            {
-                nextPageButton.SetActive(false);
-            }
-
-            previousPageButton.SetActive(true);
+            CheckNextPageButton();
+            CheckPreviousPageButton();
         }
 
         public void LoadPreviousPage()
         {
             currentPage--;
             LoadPage(currentPage);
-            if (currentPage <= 0)
-            {
-                previousPageButton.SetActive(false);
-            }
-
-            nextPageButton.SetActive(true);
+            CheckNextPageButton();
+            CheckPreviousPageButton();
+        }
+        
+        private void SetTotalCollectFishText()
+        {
+            StringBuilder sb = new();
+            sb.Append(CatalogueTracker.Instance.GetCatalogueProgress());
+            sb.Append(" / ");
+            sb.Append(CatalogueTracker.Instance.GetCatalogueItemsLength());
+            totalFishCollectedText.text = sb.ToString();
         }
 
         public void ChangeBookPage(View newView)
