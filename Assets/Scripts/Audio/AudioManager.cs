@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -22,9 +23,10 @@ namespace Audio
         }
 
         public static AudioManager instance;
-        public Sound[] sounds;
+        [SerializeField] private Sound[] sounds;
 
         private void Awake() => instance = this;
+        private readonly Dictionary<string, Sound> soundDictionary = new();
 
         private void Start()
         {
@@ -37,39 +39,43 @@ namespace Audio
                     continue;
                 }
 
+                soundDictionary.Add(sound.name, sound);
                 CreateAudioSource(sound);
             }
+
+            sounds = null;
         }
 
         //find sound and play it
         public void PlaySound(string soundName)
         {
-            foreach (Sound sound in sounds)
+            if (!soundDictionary.TryGetValue(soundName, out Sound sound))
             {
-                if (sound.name != soundName)
-                    continue;
-                if (sound.source.isPlaying && sound.disableCutoff)
-                {
-                    if (sound.source.time > sound.clip.length * sound.cutoffRange)
-                    {
-                        sound.source.Play();
-                    }
-                    return;
-                }
+                Debug.LogWarning($"Sound: {soundName} not found");
+                return;
+            }
+
+            if (!sound.source.isPlaying)
+            {
                 sound.source.Play();
                 return;
+            }
+
+            if (sound.disableCutoff && sound.source.time > sound.clip.length * sound.cutoffRange)
+            {
+                sound.source.Play();
             }
         }
 
         public void StopSound(string soundName)
         {
-            foreach (Sound sound in sounds)
+            if (!soundDictionary.TryGetValue(soundName, out Sound sound))
             {
-                if (sound.name != soundName)
-                    continue;
-                sound.source.Stop();
+                Debug.LogWarning($"Sound: {soundName} not found");
                 return;
             }
+
+            sound.source.Stop();
         }
 
         private void CreateAudioSource(Sound sound)

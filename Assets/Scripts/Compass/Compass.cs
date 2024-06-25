@@ -1,8 +1,5 @@
-﻿using System;
-using Events;
-using Unity.VisualScripting;
+﻿using Events;
 using UnityEngine;
-using UnityEngine.UI;
 using Views;
 
 namespace Compass

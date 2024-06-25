@@ -68,7 +68,7 @@ namespace Tutorial
         private void Start()
         {
             ViewManager.instance.ViewShow += OnViewShow;
-            CatalogueTracker.Instance.catalogueUpdated += OnFishCaught;
+            CatalogueTracker.instance.CatalogueUpdated += OnFishCaught;
             EventManager.TimeUpdate += OnTimeUpdate;
             EventManager.QuestCompleted += OnQuestCompleted;
             EventManager.ReelFailed += OnReelFailed;
@@ -82,7 +82,7 @@ namespace Tutorial
         private void OnDestroy()
         {
             ViewManager.instance.ViewShow -= OnViewShow;
-            CatalogueTracker.Instance.catalogueUpdated -= OnFishCaught;
+            CatalogueTracker.instance.CatalogueUpdated -= OnFishCaught;
             EventManager.TimeUpdate -= OnTimeUpdate;
             EventManager.QuestCompleted -= OnQuestCompleted;
             EventManager.ReelFailed -= OnReelFailed;

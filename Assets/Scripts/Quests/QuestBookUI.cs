@@ -6,14 +6,11 @@ namespace Quests
 {
     public class QuestBookUI : View
     {
-        public static QuestBookUI instance;
         [SerializeField] private GameObject questDisplayPrefab;
         [SerializeField] private Transform questDisplayParent;
         [SerializeField] private HighlightQuestUI questUIHighlight;
 
         private ExpandedQuestDetailUI[] questDetails;
-
-        private void Awake() => instance = this;
         
         private void LoadQuests()
         {

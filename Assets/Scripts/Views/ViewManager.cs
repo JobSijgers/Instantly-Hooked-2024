@@ -27,15 +27,20 @@ namespace Views
         private readonly Stack<View> viewHistory = new();
         private View activeView;
 
+        // If these views are active the input will not go though
         private readonly Type[] ignoredViews =
-            { typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI), typeof(TutorialPopup) };
+        {
+            typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI), typeof(TutorialPopup)
+        };
 
-        private readonly Type[] dontSaveIfActive =
-            { typeof(Inventory), typeof(CatalogueUI), typeof(QuestBookUI) };
+        // If these views are active the view will not be saved in the history
+        private readonly Type[] dontSaveIfActive = { typeof(Inventory), typeof(CatalogueUI), typeof(QuestBookUI) };
 
         private void Awake()
         {
             instance = this;
+
+            // Initialize all views and hide them
             foreach (View view in allViews)
             {
                 view.Initialize();
@@ -49,21 +54,31 @@ namespace Views
 
         private void Update()
         {
+            // Check for key presses to show specific views
             CheckKey<Inventory>(KeyCode.I, ignoredViews, dontSaveIfActive);
             CheckKey<CatalogueUI>(KeyCode.J, ignoredViews, dontSaveIfActive);
             CheckKey<QuestBookUI>(KeyCode.Q, ignoredViews, dontSaveIfActive);
         }
 
-        public static void HideActiveView(bool removeFromHistory = true)
+        /// <summary>
+        /// Hide the currently active view
+        /// </summary>
+        /// <param name="removeActiveView">if you want to remove the view as the active view</param>
+        public static void HideActiveView(bool removeActiveView = true)
         {
             if (instance.activeView == null)
                 return;
             instance.OnViewHide(instance.activeView);
             instance.activeView.Hide();
-            if (removeFromHistory)
+            if (removeActiveView)
                 instance.activeView = null;
         }
 
+        /// <summary>
+        /// Show a view of a specific type
+        /// </summary>
+        /// <param name="saveInHistory">if the view is saved in history</param>
+        /// <typeparam name="T">The type of view to show</typeparam>
         public static void ShowView<T>(bool saveInHistory = true)
         {
             foreach (View view in instance.allViews)
@@ -86,6 +101,11 @@ namespace Views
             }
         }
 
+        /// <summary>
+        /// Show a specific view with a reference
+        /// </summary>
+        /// <param name="view">view to show</param>
+        /// <param name="saveInHistory">if the view is saved in history</param>
         public static void ShowView(View view, bool saveInHistory = true)
         {
             if (instance.activeView != null)
@@ -103,6 +123,7 @@ namespace Views
             instance.OnViewShow(view);
         }
 
+        // Show the last view in the history
         public static void ShowLastView()
         {
             if (instance.viewHistory.Count <= 0)
@@ -121,6 +142,7 @@ namespace Views
             return instance.activeView.GetType();
         }
 
+        // Check for a key press to show a specific view
         private void CheckKey<T>(KeyCode key, Type[] ignoredViews, Type[] dontSaveIfActive) where T : View
         {
             if (!Input.GetKeyDown(key)) return;

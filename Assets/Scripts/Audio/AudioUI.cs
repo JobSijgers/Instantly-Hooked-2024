@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
@@ -19,14 +22,10 @@ namespace Audio
             volumeSlider.onValueChanged.AddListener(SetVolume);
             musicSlider.onValueChanged.AddListener(SetMusicVolume);
             sfxSlider.onValueChanged.AddListener(SetSfxVolume);
-        
-            volumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 1);
-            musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1);
-            sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1);
-            
-            mixer.SetFloat("Master", ConvertRange(volumeSlider.value));
-            mixer.SetFloat("MusicVolume", ConvertRange(musicSlider.value));
-            mixer.SetFloat("SFXVolume", ConvertRange(sfxSlider.value));
+
+            volumeSlider.value = 1;
+            musicSlider.value = 1;
+            sfxSlider.value = 1;
         }
 
         private void OnDestroy()
@@ -38,25 +37,27 @@ namespace Audio
 
         private void SetVolume(float volume)
         {
-            PlayerPrefs.SetFloat("MasterVolume", volume);
             mixer.SetFloat("Master", ConvertRange(volume));
         }
 
         private void SetMusicVolume(float volume)
         {
-            PlayerPrefs.SetFloat("MusicVolume", volume);
             mixer.SetFloat("MusicVolume", ConvertRange(volume));
         }
 
         private void SetSfxVolume(float volume)
         {
-            PlayerPrefs.SetFloat("SFXVolume", volume);
             mixer.SetFloat("SFXVolume", ConvertRange(volume));
         }
-        
-        float ConvertRange(float value)
+
+        private float ConvertRange(float value)
         {
-            return Mathf.Lerp(-80, 10, value);
+            if (value == 0)
+            {
+                return -80;
+            }
+
+            return Mathf.Log10(value) * 20;
         }
     }
 }

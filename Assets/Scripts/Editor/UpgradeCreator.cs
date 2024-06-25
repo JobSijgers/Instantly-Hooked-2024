@@ -36,7 +36,7 @@ namespace Editor
             public void SetValue(Upgrade upgrade, int index)
             {
                 // Calculate the value based on the index
-                float value = start + increment * index * Mathf.Pow(exponent, index);
+                float value = start + Mathf.Pow(index, exponent) * increment;
                 // Set the value based on the field type
                 if (field.FieldType == typeof(int))
                 {
@@ -102,7 +102,7 @@ namespace Editor
                     DrawCreateFields();
                     break;
                 case CreationType.Update:
-                    DrawUUpdateExistingFields();
+                    DrawUpdateExistingFields();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -174,7 +174,7 @@ namespace Editor
         }
         
         // Draw the fields for updating existing upgrades
-        private void DrawUUpdateExistingFields()
+        private void DrawUpdateExistingFields()
         {
             serializedObject.Update();
             EditorGUILayout.PropertyField(existingUpgradesProperty);

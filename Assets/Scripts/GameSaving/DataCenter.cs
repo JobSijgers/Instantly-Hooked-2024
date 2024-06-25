@@ -104,7 +104,7 @@ public class DataCenter : MonoBehaviour
                 EventManager.OnShopSell(storageCenter.Money);
 
                 // load catalogue
-                CatalogueTracker.Instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish, storageCenter.Catalogue.amountCaught);
+                CatalogueTracker.instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish, storageCenter.Catalogue.amountCaught);
 
                 // load quests
                 QuestTracker.instance.LoadQuests(storageCenter.Quests);
@@ -137,7 +137,7 @@ public class DataCenter : MonoBehaviour
         storageCenter.upgradeIndex = UpgradeManager.Instance.GetUpgrades();
 
         // catalog
-        CatalogueTracker.Instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
+        CatalogueTracker.instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
         storageCenter.Catalogue.totalCollectedFish = totalFish;
         storageCenter.Catalogue.amountCaught = amountcollectedPF;
 

@@ -5,7 +5,6 @@ using Enums;
 using Events;
 using Fish;
 using Quests.ScriptableObjects;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -102,8 +101,7 @@ namespace Quests
                     if (DoesQuestExist(quest)) continue;
                     newQuest = quest;
                 }
-
-
+                
                 // Generate a random amount and money for the quest
                 if (newQuest == null) return;
 
@@ -170,21 +168,22 @@ namespace Quests
 
         public void LoadQuests(QuestProgress[] quests)
         {
-            if (quests != null)
+            if (quests == null) 
+                return;
+            
+            if (activeQuests != null)
             {
-                if (activeQuests != null)
+                foreach (QuestProgress t in activeQuests)
                 {
-                    for (int i = 0; i < activeQuests.Count; i++)
-                    {
-                        EventManager.OnQuestUnHighlight(activeQuests[i]);
-                    }
-                    activeQuests.Clear();
+                    EventManager.OnQuestUnHighlight(t);
                 }
-                for (int i = 0; i < quests.Length; i++)
-                {
-                    activeQuests.Add(quests[i]);
-                    EventManager.OnQuestHighlight(activeQuests[activeQuests.Count - 1]);
-                }
+
+                activeQuests.Clear();
+            }
+            foreach (QuestProgress t in quests)
+            {
+                activeQuests.Add(t);
+                EventManager.OnQuestHighlight(activeQuests[activeQuests.Count - 1]);
             }
         }
     }
