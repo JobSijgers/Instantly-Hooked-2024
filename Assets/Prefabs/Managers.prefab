@@ -667,10 +667,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29ee93b3e87edf4a877c6f2ebd6aa4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnableGameSaving: 0
-  AutoLoadGame: 0
-  AutoSaving: 0
-  saveAfterTime: 0
+  EnableGameSaving: 1
+  AutoLoadGame: 1
+  AutoSaving: 1
+  saveAfterTime: 300
   DebugLogs: 0
 --- !u!114 &2020683507130819442
 MonoBehaviour:
