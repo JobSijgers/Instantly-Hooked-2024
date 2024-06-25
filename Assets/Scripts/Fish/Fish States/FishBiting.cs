@@ -5,6 +5,7 @@ using Fish;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Audio;
 
 public enum FishBitingState
 {
@@ -176,6 +177,7 @@ public class FishBiting : MonoBehaviour, IFishState
             if (tension <= 0)
             {
                 offHook = true;
+                AudioManager.instance.PlaySound("LoseFish");
                 EventManager.OnReelFailed();
             }
         }
