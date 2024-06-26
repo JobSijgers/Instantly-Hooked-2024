@@ -22,7 +22,6 @@ public class DataCenter : MonoBehaviour
     [SerializeField] private bool AutoSaving;
     [Tooltip("In secondes")]
     [SerializeField] private int saveAfterTime;
-    [SerializeField] private bool DebugLogs;
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
