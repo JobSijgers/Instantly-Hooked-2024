@@ -16,11 +16,6 @@ using Quests.ScriptableObjects;
 
 public class DataCenter : MonoBehaviour
 {
-    [Header("Commands")]
-    [Header("/+1 save file")]
-    [Header("/+2  load file")]
-    [Header("/+3  delete file")]
-    [Space(20)]
     [Header("Settings")]
     [SerializeField] private bool EnableGameSaving;
     [SerializeField] private bool AutoLoadGame;
@@ -45,41 +40,28 @@ public class DataCenter : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.Slash))
-        {
-            //if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
-            //if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
-            if (Input.GetKeyDown(KeyCode.D)) DeleteFile();
-        }
         if (AutoSaving && SavingC == null) SavingC = StartCoroutine(AutoSaver());
     }
     private void LoadGame()
     {
-        if (DebugLogs) Debug.Log("Load Game");
         if (File.Exists(Application.persistentDataPath + Filename))
         {
-            if (DebugLogs) Debug.Log($"Found at {Application.persistentDataPath + Filename}");
-
             string file = File.ReadAllText(Application.persistentDataPath + Filename);
             storageCenter = JsonUtility.FromJson<StorageCenter>(file);
         }
-        else if (DebugLogs) Debug.Log("No File Found.");
     }
     private void SafeGame()
     {
         WriteSave();
         string json = JsonUtility.ToJson(storageCenter,true);
         File.WriteAllText(Application.persistentDataPath + Filename, json);
-        if (DebugLogs) Debug.Log($"Json stored at {Application.persistentDataPath + Filename}");
     }
     private void DeleteFile()
     {
         if (File.Exists(Application.persistentDataPath + Filename))
         {
-            if (DebugLogs) Debug.Log("file has been deleted");
             File.Delete(Application.persistentDataPath + Filename);
         }
-        else if (DebugLogs) Debug.Log("no file exist to delete");
     }
     private void WriteLoad(LoadMode load)
     {
