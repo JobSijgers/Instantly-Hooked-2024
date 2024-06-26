@@ -95,6 +95,7 @@ namespace FishingRod
             if (newClampedLineLength <= minLineLength && Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.states.Biting.CurrentState == FishBitingState.OnHook)
             {
                 FishBrain fish = Hook.instance.FishOnHook;
+                AudioManager.instance.PlaySound("FishCaught");
                 EventManager.OnFishCaught(fish.fishData, fish.fishSize);
             }
 

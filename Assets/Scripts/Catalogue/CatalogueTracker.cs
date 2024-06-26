@@ -13,7 +13,7 @@ namespace Catalogue
         public static CatalogueTracker instance;
         [SerializeField] private CatalogueItem[] catalogueItems;
         private readonly Dictionary<FishData, CatalogueItem> catalogue = new();
-        
+
         private int totalCollectedFish;
         public UnityAction<int> CatalogueUpdated;
         private void OnCatalogueUpdate() => CatalogueUpdated?.Invoke(totalCollectedFish);
@@ -30,6 +30,7 @@ namespace Catalogue
             {
                 catalogue.Add(catalogueItem.GetFish(), catalogueItem);
             }
+
             EventManager.FishCaught += AddFishToCatalogue;
         }
 
@@ -40,7 +41,7 @@ namespace Catalogue
 
         private void AddFishToCatalogue(FishData fish, FishSize size)
         {
-            if (!catalogue.TryGetValue(fish, out CatalogueItem item)) 
+            if (!catalogue.TryGetValue(fish, out CatalogueItem item))
                 return;
             item.AddFish();
             totalCollectedFish++;
@@ -52,6 +53,8 @@ namespace Catalogue
         /// </summary>
         public CatalogueItem GetCatalogueItem(int index)
         {
+            if (catalogueItems.Length <= index || catalogueItems.Length == 0)
+                return null;
             return catalogueItems[index];
         }
 
