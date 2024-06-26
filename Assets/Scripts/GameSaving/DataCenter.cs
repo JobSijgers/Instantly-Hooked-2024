@@ -30,7 +30,7 @@ public class DataCenter : MonoBehaviour
     private Coroutine SavingC;
     private void Start()
     {
-        if (AutoLoadGame)
+        if (AutoLoadGame && File.Exists(Application.persistentDataPath + Filename))
         {
             LoadGame();
             WriteLoad(LoadMode.start);
