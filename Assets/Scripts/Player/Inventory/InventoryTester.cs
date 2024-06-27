@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using Enums;
 using Events;
 using Fish;
@@ -7,8 +7,14 @@ using UnityEngine;
 
 public class InventoryTester : MonoBehaviour
 {
-    [SerializeField] private FishData[] test;
-    public int amount;
+    [Serializable]
+    public struct test
+    {
+        public FishData test1;
+        public int amount;
+    }
+
+    [SerializeField] private test[] a;
     void Start()
     {
         StartCoroutine(A());
@@ -17,11 +23,11 @@ public class InventoryTester : MonoBehaviour
     private IEnumerator A()
     {
         yield return new WaitForSeconds(2f);
-        foreach (FishData data in test)
+        foreach (var COLLECTION in a)
         {
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < COLLECTION.amount; i++)
             {
-                EventManager.OnFishCaught(data, FishSize.Small);
+                EventManager.OnFishCaught(COLLECTION.test1, FishSize.Small);
             }
         }
     }
