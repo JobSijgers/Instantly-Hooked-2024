@@ -35,6 +35,9 @@ namespace GameTime
         private static readonly int Blend = Shader.PropertyToID("_Blend");
         private static readonly int HorizonColor = Shader.PropertyToID("_Horizon_Color");
         private static readonly int DeepColor = Shader.PropertyToID("_Deep_Color");
+        
+        private Texture2D currentStartTexture;
+        private Texture2D currentEndTexture;
 
         private void Start()
         {
@@ -87,11 +90,12 @@ namespace GameTime
         private void LerpSkybox(Texture a, Texture b, Gradient gradient, float t)
         {
             // Set textures if they are not already set
-            if (RenderSettings.skybox.GetTexture(Texture1) != a)
+            if (currentStartTexture != a || currentEndTexture != b)
+            {
                 RenderSettings.skybox.SetTexture(Texture1, a);
-            if (RenderSettings.skybox.GetTexture(Texture2) != b)
                 RenderSettings.skybox.SetTexture(Texture2, b);
-
+            }
+            
             RenderSettings.skybox.SetFloat(Blend, t);
 
             sun.color = gradient.Evaluate(t);
