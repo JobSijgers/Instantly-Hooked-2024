@@ -63,11 +63,9 @@ namespace FishingRod
             else if (Input.GetMouseButton(1))
             {
                 ReelHook();
-                AudioManager.instance.PlaySound("Reeling");
             }
             else if (Hook.instance.touchingGround)
             {
-                AudioManager.instance.StopSound("Reeling");
                 float newLineLength = Vector3.Distance(hook.position, origin.position) - 0.5f;
                 float newClampedLineLength = Mathf.Clamp(newLineLength, minLineLength, maxLineLength);
 
@@ -98,6 +96,8 @@ namespace FishingRod
                 AudioManager.instance.PlaySound("FishCaught");
                 EventManager.OnFishCaught(fish.fishData, fish.fishSize);
             }
+            if (newClampedLineLength > minLineLength) AudioManager.instance.PlaySound("Reeling");
+            else if (newClampedLineLength <= minLineLength) AudioManager.instance.StopSound("Reeling");
 
             springJoint.maxDistance = newClampedLineLength;
             springJoint.connectedBody.WakeUp();
