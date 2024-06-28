@@ -30,10 +30,6 @@ namespace Player.Inventory
             base.Initialize();
             instance = this;
             EventManager.FishCaught += AddFish;
-        }
-
-        private void Start()
-        {
             EventManager.PlayerDied += ClearInventory;
         }
 
