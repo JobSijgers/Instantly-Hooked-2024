@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using PathCreation;
 using Unity.VisualScripting;
@@ -10,10 +11,14 @@ namespace FishingRod
     {
         [SerializeField] private Transform origin;
         [SerializeField] private Transform hook;
-        [SerializeField] private float pointInterval;
+        [SerializeField] private int checksInDistance = 20;
+        [SerializeField] private float onlyRenderLastDistance = 10;
+        private Vector3 originPosition;
+        private Vector3 hookPosition;
         private PathCreator path;
         private LineRenderer lineRenderer;
-        private const float MaxLineRenderDistance = 10000;
+        private float pointInterval;
+
         private void Start()
         {
             path = gameObject.AddComponent<PathCreator>();
@@ -21,55 +26,40 @@ namespace FishingRod
             lineRenderer.useWorldSpace = true;
             BezierPath newPath = new()
             {
-                ControlPointMode = BezierPath.ControlMode.Free,
-                Space = PathSpace.xy,
-                IsClosed = false
+                ControlPointMode = BezierPath.ControlMode.Free, Space = PathSpace.xy, IsClosed = false
             };
-            
+
             path.bezierPath = newPath;
+            pointInterval = onlyRenderLastDistance / checksInDistance;
+            lineRenderer.positionCount = checksInDistance + 1;
         }
-        
+
         private void Update()
         {
             CreateBezier();
-            RenderLine(GetLinePoints());
+            RenderLine();
         }
 
         private void CreateBezier()
         {
-            Vector3 originPosition = origin.position;
-            Vector3 hookPosition = hook.position;
+            originPosition = origin.position;
+            hookPosition = hook.position;
 
-            path.bezierPath.SetPoint(0, Vector3.zero);
-            path.bezierPath.SetPoint(1, Vector3.zero + new Vector3(0, -1));
-            path.bezierPath.SetPoint(2, hookPosition - originPosition + Vector3.up * (Vector2.Distance(originPosition, hookPosition) * 0.3f));
-            path.bezierPath.SetPoint(3, hookPosition - originPosition);
+            path.bezierPath.SetPoint(0, hookPosition - originPosition);
+            path.bezierPath.SetPoint(1, hookPosition - originPosition + Vector3.up * (Vector2.Distance(originPosition, hookPosition) * 0.3f));
+            path.bezierPath.SetPoint(2, new Vector3(0, -1));
+            path.bezierPath.SetPoint(3, Vector3.zero);
         }
 
-        private List<Vector3> GetLinePoints()
-        {
-            List<Vector3> linePositions = new();
-            Vector2 lastLocation = Vector3.positiveInfinity;
-            float checks = MaxLineRenderDistance / pointInterval;
-            
-            for (int i = 0; i < checks; i++)
-            {   
-                Vector2 newLocation = path.path.GetPointAtDistance(i * pointInterval, EndOfPathInstruction.Stop);
-                if (newLocation == lastLocation)
-                {
-                    return linePositions;
-                }
 
-                linePositions.Add(newLocation);
-                lastLocation = newLocation;
-            }     
-            return linePositions;
-        }
-
-        private void RenderLine(List<Vector3> points)
+        private void RenderLine()
         {
-            lineRenderer.positionCount = points.Count;
-            lineRenderer.SetPositions(points.ToArray());
+            for (int i = 0; i < checksInDistance; i++)
+            {
+                lineRenderer.SetPosition(i, path.path.GetPointAtDistance(i * pointInterval, EndOfPathInstruction.Stop));
+            }
+            lineRenderer.SetPosition(checksInDistance, (Vector2)originPosition);
+
         }
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &9164098892612549511
 Transform:
@@ -135,6 +135,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 3.0220032
       objectReference: {fileID: 0}
+    - target: {fileID: -7029948723529949830, guid: 7219dbe7cff5de240832617da8510986,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 882129737928793925, guid: 7219dbe7cff5de240832617da8510986,
         type: 3}
       propertyPath: m_CastShadows
@@ -149,6 +154,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Black Sea Bass
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7219dbe7cff5de240832617da8510986,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148817236446094103, guid: 7219dbe7cff5de240832617da8510986,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
