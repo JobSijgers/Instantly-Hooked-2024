@@ -1,6 +1,7 @@
 ﻿using System;
 using Events;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Views;
 
@@ -13,8 +14,9 @@ namespace Shore
 
         private bool isDead;
 
-        private void Start()
+        public override void Initialize(UnityEvent onShow, UnityEvent onHide)
         {
+            base.Initialize(onShow, onHide);
             EventManager.TimeUpdate += CheckTime;
             EventManager.NewDay += EnableSeaButton;
             EventManager.PlayerDied += PlayerDied;
