@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class FishUI : MonoBehaviour
@@ -13,20 +15,31 @@ public class FishUI : MonoBehaviour
     [SerializeField] private int minAngle;
     [SerializeField] private int maxAngle;
     private float time;
-
-    private void Awake()
+    
+    private void Start()
     {
         brain = GetComponent<FishBrain>();
+        brain.states.Biting.FishStruggleStart += EnableUI;
+        brain.states.Biting.FishStruggleEnd += DisableUI;
+        uiHolder.SetActive(false);
+    }
+
+    private void EnableUI()
+    {
+        uiHolder.SetActive(true);
+    }
+
+    private void DisableUI()
+    {
+        uiHolder.SetActive(false);
     }
 
     private void Update()
     {
-        ActiveState(brain.states.Biting.IsInWater());
-        if (!uiHolder.activeSelf)
+        if (uiHolder.activeSelf == false)
             return;
-        bool fishOnHook = Hook.instance.FishOnHook == brain;
-        ActiveState(fishOnHook);
-        
+        uiHolder.SetActive(brain.states.Biting.IsInWater());
+
         brain.states.Biting.GetStaminaStats(out float stamina, out float maxstamina);
         staminaMeter.fillAmount = stamina / maxstamina;
 
@@ -40,23 +53,8 @@ public class FishUI : MonoBehaviour
         tensionHandle.transform.localEulerAngles = new Vector3(0, 0, angle);
     }
 
-    public void ActiveState(bool state)
-    {
-        switch (state)
-        {
-            case true:
-                uiHolder.SetActive(true);
-                break;
-
-            case false:
-                uiHolder.SetActive(false);
-                time = 0;
-                break;
-        }
-    }
-
     private void OnDisable()
     {
-        ActiveState(false);
+        uiHolder.SetActive(false);
     }
 }

@@ -1,3 +1,4 @@
+using Audio;
 using Events;
 using PauseMenu;
 using UnityEngine;
@@ -60,7 +61,7 @@ namespace FishingRod
                 CastHook();
             }
             else if (Input.GetMouseButton(1))
-            { 
+            {
                 ReelHook();
             }
             else if (Hook.instance.touchingGround)
@@ -72,6 +73,7 @@ namespace FishingRod
                 springJoint.connectedBody.WakeUp();
                 currentLineLength = newClampedLineLength;
             }
+            else AudioManager.instance.StopSound("Reeling");
         }
 
         private void CastHook()
@@ -91,8 +93,11 @@ namespace FishingRod
             if (newClampedLineLength <= minLineLength && Hook.instance.FishOnHook != null && Hook.instance.FishOnHook.states.Biting.CurrentState == FishBitingState.OnHook)
             {
                 FishBrain fish = Hook.instance.FishOnHook;
+                AudioManager.instance.PlaySound("FishCaught");
                 EventManager.OnFishCaught(fish.fishData, fish.fishSize);
             }
+            if (newClampedLineLength > minLineLength) AudioManager.instance.PlaySound("Reeling");
+            else if (newClampedLineLength <= minLineLength) AudioManager.instance.StopSound("Reeling");
 
             springJoint.maxDistance = newClampedLineLength;
             springJoint.connectedBody.WakeUp();

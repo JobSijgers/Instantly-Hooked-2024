@@ -12,22 +12,15 @@ using GameTime;
 using Catalogue;
 using Upgrades;
 using Quests;
-using Quests.ScriptableObjects;
 
 public class DataCenter : MonoBehaviour
 {
-    [Header("Commands")]
-    [Header("/+1 save file")]
-    [Header("/+2  load file")]
-    [Header("/+3  delete file")]
-    [Space(20)]
     [Header("Settings")]
     [SerializeField] private bool EnableGameSaving;
     [SerializeField] private bool AutoLoadGame;
     [SerializeField] private bool AutoSaving;
     [Tooltip("In secondes")]
     [SerializeField] private int saveAfterTime;
-    [SerializeField] private bool DebugLogs;
     private string Filename = "/GameSafe.json";
     private StorageCenter storageCenter = new StorageCenter();
     private List<InventorySave> GameSave = new List<InventorySave>();
@@ -35,7 +28,7 @@ public class DataCenter : MonoBehaviour
     private Coroutine SavingC;
     private void Start()
     {
-        if (AutoLoadGame)
+        if (AutoLoadGame && File.Exists(Application.persistentDataPath + Filename))
         {
             LoadGame();
             WriteLoad(LoadMode.start);
@@ -45,41 +38,28 @@ public class DataCenter : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.Slash))
-        {
-            //if (Input.GetKeyDown(KeyCode.Alpha1)) SafeGame();
-            //if (Input.GetKeyDown(KeyCode.Alpha2)) LoadGame();
-            if (Input.GetKeyDown(KeyCode.D)) DeleteFile();
-        }
         if (AutoSaving && SavingC == null) SavingC = StartCoroutine(AutoSaver());
     }
     private void LoadGame()
     {
-        if (DebugLogs) Debug.Log("Load Game");
         if (File.Exists(Application.persistentDataPath + Filename))
         {
-            if (DebugLogs) Debug.Log($"Found at {Application.persistentDataPath + Filename}");
-
             string file = File.ReadAllText(Application.persistentDataPath + Filename);
             storageCenter = JsonUtility.FromJson<StorageCenter>(file);
         }
-        else if (DebugLogs) Debug.Log("No File Found.");
     }
     private void SafeGame()
     {
         WriteSave();
         string json = JsonUtility.ToJson(storageCenter,true);
         File.WriteAllText(Application.persistentDataPath + Filename, json);
-        Debug.Log($"Json stored at {Application.persistentDataPath + Filename}");
     }
     private void DeleteFile()
     {
         if (File.Exists(Application.persistentDataPath + Filename))
         {
-            if (DebugLogs) Debug.Log("file has been deleted");
             File.Delete(Application.persistentDataPath + Filename);
         }
-        else if (DebugLogs) Debug.Log("no file exist to delete");
     }
     private void WriteLoad(LoadMode load)
     {
@@ -104,7 +84,7 @@ public class DataCenter : MonoBehaviour
                 EventManager.OnShopSell(storageCenter.Money);
 
                 // load catalogue
-                CatalogueTracker.Instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish, storageCenter.Catalogue.amountCaught);
+                CatalogueTracker.instance.SetCatalogueNotes(storageCenter.Catalogue.totalCollectedFish, storageCenter.Catalogue.amountCaught);
 
                 // load quests
                 QuestTracker.instance.LoadQuests(storageCenter.Quests);
@@ -137,7 +117,7 @@ public class DataCenter : MonoBehaviour
         storageCenter.upgradeIndex = UpgradeManager.Instance.GetUpgrades();
 
         // catalog
-        CatalogueTracker.Instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
+        CatalogueTracker.instance.GetCurrentCatalogueNotes(out int totalFish, out int[] amountcollectedPF);
         storageCenter.Catalogue.totalCollectedFish = totalFish;
         storageCenter.Catalogue.amountCaught = amountcollectedPF;
 

@@ -3,6 +3,7 @@ using Events;
 using PauseMenu;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using Views;
 
 namespace GameTime
@@ -11,14 +12,15 @@ namespace GameTime
     {
         [SerializeField] private TMP_Text timeUIText;
         [SerializeField] private TMP_Text dayUIText;
-        
-        private void OnEnable()
+
+        public override void Initialize(UnityEvent onShow, UnityEvent onHide)
         {
+            base.Initialize(onShow, onHide);
             EventManager.TimeUpdate += UpdateTimeUI;
             EventManager.NewDay += UpdateDayUI;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             EventManager.TimeUpdate -= UpdateTimeUI;
             EventManager.NewDay -= UpdateDayUI;

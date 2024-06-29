@@ -1,4 +1,6 @@
-﻿using Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Enums;
 using Events;
 using Fish;
 using UnityEngine;
@@ -8,20 +10,27 @@ namespace Catalogue
 {
     public class CatalogueTracker : MonoBehaviour
     {
-        public static CatalogueTracker Instance;
+        public static CatalogueTracker instance;
         [SerializeField] private CatalogueItem[] catalogueItems;
-        private int totalCollectedFish;
-        public UnityAction<int> catalogueUpdated;
+        private readonly Dictionary<FishData, CatalogueItem> catalogue = new();
 
-        private void OnCatalogueUpdate() => catalogueUpdated?.Invoke(totalCollectedFish);
-        
-        
+        private int totalCollectedFish;
+        public UnityAction<int> CatalogueUpdated;
+        private void OnCatalogueUpdate() => CatalogueUpdated?.Invoke(totalCollectedFish);
+
+
         private void Awake()
         {
-            Instance = this;
+            instance = this;
         }
+
         private void Start()
         {
+            foreach (CatalogueItem catalogueItem in catalogueItems)
+            {
+                catalogue.Add(catalogueItem.GetFish(), catalogueItem);
+            }
+
             EventManager.FishCaught += AddFishToCatalogue;
         }
 
@@ -32,17 +41,11 @@ namespace Catalogue
 
         private void AddFishToCatalogue(FishData fish, FishSize size)
         {
-            if (catalogueItems == null || catalogueItems.Length == 0) return;
-
-            foreach (CatalogueItem item in catalogueItems)
-            {
-                if (item.GetFish() != fish) continue;
-
-                item.AddFish();
-                totalCollectedFish++;
-                OnCatalogueUpdate();
+            if (!catalogue.TryGetValue(fish, out CatalogueItem item))
                 return;
-            }
+            item.AddFish();
+            totalCollectedFish++;
+            OnCatalogueUpdate();
         }
 
         /// <summary>
@@ -50,25 +53,19 @@ namespace Catalogue
         /// </summary>
         public CatalogueItem GetCatalogueItem(int index)
         {
-            if (index < 0 || index >= catalogueItems.Length)
+            if (catalogueItems.Length <= index || catalogueItems.Length == 0)
                 return null;
-
             return catalogueItems[index];
         }
 
         public int GetCatalogueItemsLength()
         {
-            return catalogueItems.Length;
-        }
-
-        public int GetTotalFishCollected()
-        {
-            return totalCollectedFish;
+            return catalogue.Count;
         }
 
         public void GetCurrentCatalogueNotes(out int totalfish, out int[] amountcollectedPF)
         {
-            amountcollectedPF = new int[GetCatalogueItemsLength() -1];
+            amountcollectedPF = new int[GetCatalogueItemsLength() - 1];
             totalfish = totalCollectedFish;
             for (int i = 0; i < GetCatalogueItemsLength() - 1; i++)
             {

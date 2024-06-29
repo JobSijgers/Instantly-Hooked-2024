@@ -18,9 +18,9 @@ GameObject:
   - component: {fileID: 5682972943312613664}
   - component: {fileID: 1879113531662654534}
   - component: {fileID: 2207235148304372158}
-  - component: {fileID: 7251956408511335369}
   - component: {fileID: 2020683507130819442}
   - component: {fileID: 7486876082571863009}
+  - component: {fileID: 7365694356016114501}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -631,7 +631,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5e5e6819107fe844b87b540ff38110dc, type: 2}
     - {fileID: 11400000, guid: 04e8e084b22311448b83ac2532ae8a3f, type: 2}
     - {fileID: 11400000, guid: a1fa893db3a820c4db9578c9e5194317, type: 2}
-    startQuests: []
+    startQuests:
+    - {fileID: 11400000, guid: 4bf6747d6e7248c4eb50c09d1f37417b, type: 2}
     maxQuestsActive: 1
   - difficulty: 1
     quests:
@@ -654,23 +655,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: dddc963294c0d994faeacbb83e7443b0, type: 2}
     startQuests: []
     maxQuestsActive: 1
---- !u!114 &7251956408511335369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721431727958521510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c29ee93b3e87edf4a877c6f2ebd6aa4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnableGameSaving: 0
-  AutoLoadGame: 0
-  AutoSaving: 0
-  saveAfterTime: 0
-  DebugLogs: 0
 --- !u!114 &2020683507130819442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,3 +808,19 @@ MonoBehaviour:
   - fishToTrack: {fileID: 11400000, guid: 77bf28d70ccac5b48b8ff2534a86eacb, type: 2}
   - fishToTrack: {fileID: 11400000, guid: a0cdf2ba8f3b03f4c9f2225fcafce53e, type: 2}
   - fishToTrack: {fileID: 11400000, guid: dcca3c2e3c3d38446a74b618cf206a1c, type: 2}
+--- !u!114 &7365694356016114501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721431727958521510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29ee93b3e87edf4a877c6f2ebd6aa4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnableGameSaving: 1
+  AutoLoadGame: 1
+  AutoSaving: 1
+  saveAfterTime: 300

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Events;
+using Fish;
 using PauseMenu;
 using TMPro;
 using UnityEngine;
@@ -34,7 +35,8 @@ namespace Catalogue
             // Loop through the items in the page based on the given index and the number of items per page
             for (int i = index * itemsPerPage; i < index * itemsPerPage + itemsPerPage; i++)
             {
-                CatalogueItem item = CatalogueTracker.Instance.GetCatalogueItem(i);
+                CatalogueItem item = CatalogueTracker.instance.GetCatalogueItem(i);
+                FishData fish = item?.GetFish();
                 if (itemsInPage[i % itemsPerPage] == null)
                     continue;
                 if (item == null || item.GetAmount() <= 0)
@@ -43,13 +45,12 @@ namespace Catalogue
                     continue;
                 }
 
-                string fishName = $"#{i + 1}  {item.GetFish().fishName}";
-            
+                string fishName = $"#{i + 1}  {fish.fishName}";
+
                 itemsInPage[i % itemsPerPage].EnableHolder();
                 // Initialize the corresponding UI element with the item's details
-                itemsInPage[i % itemsPerPage].Initialize(fishName, item.GetFish().fishDescription,
-                    item.GetAmount(), item.GetFish().habitat, raritySprites[(int)item.GetFish().fishRarity],
-                    item.GetFish().fishVisual);
+                itemsInPage[i % itemsPerPage].Initialize(fishName, fish.fishDescription, item.GetAmount(), fish.habitat,
+                    raritySprites[(int)fish.fishRarity], fish.fishVisual);
             }
         }
 
@@ -60,21 +61,15 @@ namespace Catalogue
             LoadPage(currentPage);
             CheckPreviousPageButton();
             CheckNextPageButton();
-            StringBuilder sb = new();
-            sb.Append(CatalogueTracker.Instance.GetCatalogueProgress());
-            sb.Append(" / ");
-            sb.Append(CatalogueTracker.Instance.GetCatalogueItemsLength());
-            totalFishCollectedText.text = sb.ToString();
+            SetTotalCollectFishText();
         }
+
         /// <summary>
         /// Checks if the previous page button should be active.
         /// </summary>
         private void CheckPreviousPageButton()
         {
-            if (currentPage <= 0)
-            {
-                previousPageButton.SetActive(false);
-            }
+            previousPageButton.SetActive(currentPage > 0);
         }
 
         /// <summary>
@@ -82,35 +77,33 @@ namespace Catalogue
         /// </summary>
         private void CheckNextPageButton()
         {
-            if ((currentPage + 1) * itemsPerPage >= CatalogueTracker.Instance.GetCatalogueItemsLength())
-            {
-                nextPageButton.SetActive(false);
-            }
+            bool isActive = (currentPage + 1) * itemsPerPage < CatalogueTracker.instance.GetCatalogueItemsLength();
+            nextPageButton.SetActive(isActive);
         }
-        
+
         public void LoadNextPage()
         {
             currentPage++;
             LoadPage(currentPage);
-
-            if ((currentPage + 1) * itemsPerPage >= CatalogueTracker.Instance.GetCatalogueItemsLength())
-            {
-                nextPageButton.SetActive(false);
-            }
-
-            previousPageButton.SetActive(true);
+            CheckNextPageButton();
+            CheckPreviousPageButton();
         }
 
         public void LoadPreviousPage()
         {
             currentPage--;
             LoadPage(currentPage);
-            if (currentPage <= 0)
-            {
-                previousPageButton.SetActive(false);
-            }
+            CheckNextPageButton();
+            CheckPreviousPageButton();
+        }
 
-            nextPageButton.SetActive(true);
+        private void SetTotalCollectFishText()
+        {
+            StringBuilder sb = new();
+            sb.Append(CatalogueTracker.instance.GetCatalogueProgress());
+            sb.Append(" / ");
+            sb.Append(CatalogueTracker.instance.GetCatalogueItemsLength());
+            totalFishCollectedText.text = sb.ToString();
         }
 
         public void ChangeBookPage(View newView)

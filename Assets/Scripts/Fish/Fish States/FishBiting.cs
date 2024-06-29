@@ -4,7 +4,10 @@ using Events;
 using Fish;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Audio;
 
 public enum FishBitingState
 {
@@ -60,6 +63,12 @@ public class FishBiting : MonoBehaviour, IFishState
     private Coroutine resetStateAfterTimeIntrest;
     private Coroutine ccd;
     private Coroutine reGain;
+    
+    public UnityAction FishStruggleStart;
+    private void OnFishStruggleStart() => FishStruggleStart.Invoke();
+    public UnityAction FishStruggleEnd;
+    private void OnFishStruggleEnd() => FishStruggleEnd.Invoke();
+    
 
     // propeties
     public float Stamina { set { MaxStamina = value; } } 
@@ -97,7 +106,7 @@ public class FishBiting : MonoBehaviour, IFishState
             ResetState();
             Hook.instance.ResetRodColor();
             EventManager.OnBoatControlsChanged(false);
-            brain.FishUI.ActiveState(false);
+            FishStruggleEnd?.Invoke();
             return brain.states.Roaming;
         }
         else return this;
@@ -110,7 +119,7 @@ public class FishBiting : MonoBehaviour, IFishState
         if (dist < BitingRange && biteState == FishBitingState.GoingForHook)
         {
             Hook.instance.FishOnHook = brain;
-            brain.FishUI.ActiveState(true);
+            FishStruggleStart?.Invoke();
             biteState = FishBitingState.OnHook;
             brain.FishGought.Play();
             if (IsInWater()) EventManager.OnBoatControlsChanged(true);
@@ -176,6 +185,7 @@ public class FishBiting : MonoBehaviour, IFishState
             if (tension <= 0)
             {
                 offHook = true;
+                AudioManager.instance.PlaySound("LoseFish");
                 EventManager.OnReelFailed();
             }
         }
@@ -346,6 +356,7 @@ public class FishBiting : MonoBehaviour, IFishState
 
     public IEnumerator FishStruggel()
     {
+        
         while (stamina > 0.1f)
         {
             if (brain.ActiveState) stamina -= Time.deltaTime * StamDrainMultiply * FishUpgradeCheck.instance.staminaDrainUpgradePower;

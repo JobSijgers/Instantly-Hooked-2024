@@ -80,9 +80,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4265338650084452101, guid: 29a9437fd2f3d444a9cefadde7e17728,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4265338650084452101, guid: 29a9437fd2f3d444a9cefadde7e17728,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e21c89e9f47873b4bace669acb9dd155, type: 2}
+    - target: {fileID: -3901992563441801604, guid: 29a9437fd2f3d444a9cefadde7e17728,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -3901992563441801604, guid: 29a9437fd2f3d444a9cefadde7e17728,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -100,14 +110,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2586607309129781981, guid: 29a9437fd2f3d444a9cefadde7e17728,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2586607309129781981, guid: 29a9437fd2f3d444a9cefadde7e17728,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e21c89e9f47873b4bace669acb9dd155, type: 2}
     - target: {fileID: 4495414801083549842, guid: 29a9437fd2f3d444a9cefadde7e17728,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495414801083549842, guid: 29a9437fd2f3d444a9cefadde7e17728,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e15a0d319b4d5224690aafa5c8467a45, type: 2}
+    - target: {fileID: 5416756085880569992, guid: 29a9437fd2f3d444a9cefadde7e17728,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5416756085880569992, guid: 29a9437fd2f3d444a9cefadde7e17728,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

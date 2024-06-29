@@ -1,7 +1,6 @@
 ﻿using Fish;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace FishPopup
@@ -24,7 +23,7 @@ namespace FishPopup
 
             Destroy(gameObject, DeleteAfterSeconds);
             foreach (ParticleSystem particle in particleSystems)
-            {
+            {   
                 ParticleSystem.MainModule particleSystemMain = particle.main;
                 particleSystemMain.startColor = color;
             }
