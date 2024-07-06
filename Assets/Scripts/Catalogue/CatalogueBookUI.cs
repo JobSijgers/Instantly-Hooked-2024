@@ -1,18 +1,16 @@
-﻿using System;
-using System.Text;
-using Events;
+﻿using System.Text;
+using Book;
 using Fish;
-using PauseMenu;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
-using Views;
 
 namespace Catalogue
 {
-    public class CatalogueUI : View
+    public class CatalogueBookUI : BookPage
     {
-        [SerializeField] private CatalogueUIItem[] itemsInPage;
-        [SerializeField] private Sprite[] raritySprites;
+        [SerializeField] private FishUIHighlight[] itemsInPage;
+        [SerializeField] private FishRaritySprites raritySprites;
 
         [SerializeField] private TMP_Text totalFishCollectedText;
         [SerializeField] private GameObject nextPageButton;
@@ -49,8 +47,7 @@ namespace Catalogue
 
                 itemsInPage[i % itemsPerPage].EnableHolder();
                 // Initialize the corresponding UI element with the item's details
-                itemsInPage[i % itemsPerPage].Initialize(fishName, fish.fishDescription, item.GetAmount(), fish.habitat,
-                    raritySprites[(int)fish.fishRarity], fish.fishVisual);
+                itemsInPage[i % itemsPerPage].Initialize(fish, item.GetAmount(), raritySprites.GetRaritySprite(fish.fishRarity));
             }
         }
 
@@ -104,11 +101,6 @@ namespace Catalogue
             sb.Append(" / ");
             sb.Append(CatalogueTracker.instance.GetCatalogueItemsLength());
             totalFishCollectedText.text = sb.ToString();
-        }
-
-        public void ChangeBookPage(View newView)
-        {
-            ViewManager.ShowView(newView, false);
         }
     }
 }

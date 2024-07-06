@@ -1,21 +1,39 @@
-﻿using Enums;
+﻿using System;
+using Enums;
 using Fish;
-using Player.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace ShopScripts
 {
-    public class SellShopItem : InventoryItem, IPointerClickHandler
+    public class SellShopItem : MonoBehaviour, IPointerClickHandler
     {
-        public delegate void FSelectedAmountChanged(SellShopItem item, int change);
+        private Action<SellShopItem, int> onSelectedAmountChanged;
+        public FishData FishData { get; private set; }
+        public FishSize Size { get; private set; }
 
-        public event FSelectedAmountChanged OnSelectedAmountChanged;
-
-        private int currentSelectedAmount = 0;
-
+        [SerializeField] private TMP_Text stackSizeText;
+        [SerializeField] private TMP_Text fishSizeText;
         [SerializeField] private TMP_InputField inputField;
+        [SerializeField] private Image fishImage;
+        [SerializeField] private Image background;
+        private int currentSelectedAmount = 0;
+        private int stackSize;
+
+        public void Initialize(FishData newFishData, FishSize newFishSize, Color backgroundColor, int newStacksize,
+            Action<SellShopItem, int> amountChanged)
+        {
+            FishData = newFishData;
+            Size = newFishSize;
+            fishSizeText.text = newFishSize.ToString();
+            fishImage.sprite = newFishData.fishVisual;
+            background.color = backgroundColor;
+            stackSize = newStacksize;
+            stackSizeText.text = newStacksize.ToString();
+            onSelectedAmountChanged = amountChanged;
+        }
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -30,22 +48,15 @@ namespace ShopScripts
             }
         }
 
-        public void Initialize(FishData newFishData, FishSize fishSize, int amountInStack, Color backgroundColor)
-        {
-            base.Initialize(newFishData, fishSize, backgroundColor);
-            stackSize = amountInStack;
-            UpdateStackUI();
-        }
-
         public void PlusButtonPressed()
         {
             if (currentSelectedAmount + 1 > stackSize)
                 return;
-            if (currentSelectedAmount + 1 > fishData.maxStackAmount)
+            if (currentSelectedAmount + 1 > FishData.maxStackAmount)
                 return;
             currentSelectedAmount += 1;
             inputField.text = currentSelectedAmount.ToString();
-            OnSelectedAmountChanged?.Invoke(this, 1);
+            onSelectedAmountChanged?.Invoke(this, 1);
         }
 
         public void MinusButtonPressed()
@@ -54,7 +65,7 @@ namespace ShopScripts
                 return;
             currentSelectedAmount -= 1;
             inputField.text = currentSelectedAmount.ToString();
-            OnSelectedAmountChanged?.Invoke(this, -1);
+            onSelectedAmountChanged?.Invoke(this, -1);
         }
 
         /// <summary>
@@ -72,9 +83,9 @@ namespace ShopScripts
             {
                 currentSelectedAmount = stackSize;
             }
-            else if (newInt >= fishData.maxStackAmount)
+            else if (newInt >= FishData.maxStackAmount)
             {
-                currentSelectedAmount = fishData.maxStackAmount;
+                currentSelectedAmount = FishData.maxStackAmount;
             }
             else if (newInt <= 0)
             {
@@ -86,13 +97,18 @@ namespace ShopScripts
             }
 
             inputField.text = currentSelectedAmount.ToString();
-            OnSelectedAmountChanged?.Invoke(this, currentSelectedAmount - oldSelectedAmount);
+            onSelectedAmountChanged?.Invoke(this, currentSelectedAmount - oldSelectedAmount);
         }
 
         public void SetInputField(int newSelected)
         {
             currentSelectedAmount = newSelected;
             inputField.text = currentSelectedAmount.ToString();
+        }
+        
+        public int GetStackSize()
+        {
+            return stackSize;
         }
     }
 }

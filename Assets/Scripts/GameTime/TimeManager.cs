@@ -34,8 +34,7 @@ namespace GameTime
             
             ViewManager.instance.ViewShow += CheckPause;
         }
-
-
+        
         private void OnDestroy()
         {
             ViewManager.instance.ViewShow -= CheckPause;

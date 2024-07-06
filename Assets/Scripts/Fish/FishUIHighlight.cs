@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Catalogue
+namespace Fish
 {
-    public class CatalogueUIItem : MonoBehaviour
+    public class FishUIHighlight : MonoBehaviour
     {
         [SerializeField] private GameObject holder;
         [SerializeField] private TMP_Text fishNameText;
@@ -14,21 +14,21 @@ namespace Catalogue
         [SerializeField] private Image fishRarityImage;
         [SerializeField] private Image fishImage;
 
-        public void Initialize(string fishName, string fishDescription, int fishAmount, string fishHabitat,
-            Sprite fishRaritySprite, Sprite fishSprite)
+        public void Initialize(FishData data, int amount, Sprite fishRaritySprite)
         {
-            fishNameText.text = fishName;
-            fishDescriptionText.text = fishDescription;
-            fishAmountText.text = $"{fishAmount} Caught";
-            fishHabitatText.text = fishHabitat;
+            fishNameText.text = data.fishName;
+            fishDescriptionText.text = data.fishDescription;
+            fishAmountText.text = $"{amount} Caught";
+            fishHabitatText.text = data.habitat;
+            fishImage.sprite = data.fishVisual;
             fishRarityImage.sprite = fishRaritySprite;
-            fishImage.sprite = fishSprite;
         }
-
+        
         public void DisableHolder()
         {
             holder.gameObject.SetActive(false);
         }
+
         public void EnableHolder()
         {
             holder.gameObject.SetActive(true);

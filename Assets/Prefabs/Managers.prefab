@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2903427400292954000}
   - component: {fileID: 8153957688211024010}
-  - component: {fileID: 627966974563588867}
   - component: {fileID: 350620038377708309}
   - component: {fileID: 5724927979952931040}
   - component: {fileID: 9030007309800792193}
@@ -20,7 +19,6 @@ GameObject:
   - component: {fileID: 2207235148304372158}
   - component: {fileID: 2020683507130819442}
   - component: {fileID: 7486876082571863009}
-  - component: {fileID: 7365694356016114501}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -56,18 +54,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMoney: 0
---- !u!114 &627966974563588867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721431727958521510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f75c22f208b45279a5986c9c884d66d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &350620038377708309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,19 +794,3 @@ MonoBehaviour:
   - fishToTrack: {fileID: 11400000, guid: 77bf28d70ccac5b48b8ff2534a86eacb, type: 2}
   - fishToTrack: {fileID: 11400000, guid: a0cdf2ba8f3b03f4c9f2225fcafce53e, type: 2}
   - fishToTrack: {fileID: 11400000, guid: dcca3c2e3c3d38446a74b618cf206a1c, type: 2}
---- !u!114 &7365694356016114501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721431727958521510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c29ee93b3e87edf4a877c6f2ebd6aa4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnableGameSaving: 1
-  AutoLoadGame: 1
-  AutoSaving: 1
-  saveAfterTime: 300

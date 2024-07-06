@@ -19,7 +19,6 @@ namespace Events
         public static event UnityAction Dock;
         public static event UnityAction DockSuccess;
         public static event UnityAction<int> ShopSell;
-        public static event UnityAction<SellListItem[]> SellSelectedButton;
         public static event UnityAction<FishData, FishSize> FishCaught;
         public static event UnityAction<float> DepthUpdate;
         public static event UnityAction<Upgrade> UpgradeBought;
@@ -41,7 +40,6 @@ namespace Events
         public static void OnDock() => Dock?.Invoke();
         public static void OnDockSuccess() => DockSuccess?.Invoke();
         public static void OnShopSell(int sellAmount) => ShopSell?.Invoke(sellAmount);
-        public static void OnSellSelectedButton(SellListItem[] items) => SellSelectedButton?.Invoke(items);
         public static void OnFishCaught(FishData data, FishSize size) => FishCaught?.Invoke(data, size);
         public static void OnDepthUpdate(float newDepth) => DepthUpdate?.Invoke(newDepth);
         public static void OnUpgradeBought(Upgrade upgrade) => UpgradeBought?.Invoke(upgrade);

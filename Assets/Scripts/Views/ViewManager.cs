@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Catalogue;
+using Inventory;
 using PauseMenu;
-using Player.Inventory;
 using Quests;
 using ShopScripts;
 using Tutorial;
@@ -28,13 +28,10 @@ namespace Views
         private View activeView;
 
         // If these views are active the input will not go though
-        private readonly Type[] ignoredViews =
-        {
-            typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI), typeof(TutorialPopup)
-        };
+        private readonly Type[] ignoredViews = { typeof(PauseUI), typeof(SellShopUI), typeof(UpgradeUI), typeof(TutorialPopup) };
 
         // If these views are active the view will not be saved in the history
-        private readonly Type[] dontSaveIfActive = { typeof(Inventory), typeof(CatalogueUI), typeof(QuestBookUI) };
+        private readonly Type[] dontSaveIfActive = { typeof(InventoryManager), typeof(CatalogueBookUI), typeof(QuestBookUI) };
 
         private void Awake()
         {
@@ -55,8 +52,8 @@ namespace Views
         private void Update()
         {
             // Check for key presses to show specific views
-            CheckKey<Inventory>(KeyCode.I, ignoredViews, dontSaveIfActive);
-            CheckKey<CatalogueUI>(KeyCode.J, ignoredViews, dontSaveIfActive);
+            CheckKey<InventoryBookUI>(KeyCode.I, ignoredViews, dontSaveIfActive);
+            CheckKey<CatalogueBookUI>(KeyCode.J, ignoredViews, dontSaveIfActive);
             CheckKey<QuestBookUI>(KeyCode.Q, ignoredViews, dontSaveIfActive);
         }
 

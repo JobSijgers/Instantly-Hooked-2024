@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Enums;
 using Events;
 using Fish;
-using Player.Inventory;
+using Inventory;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using Views;
@@ -11,195 +13,205 @@ namespace ShopScripts
 {
     public class SellShopUI : View
     {
-        [SerializeField] private GameObject shopItemPrefab;
+        private class ReceiptItem
+        {
+            public TMP_Text Text;
+            public int Amount;
+        }
+
+
+        [Header("Shop Items")]
+        [SerializeField] private SellShopItem shopItemPrefab;
         [SerializeField] private Transform itemHolder;
-        [SerializeField] private GameObject sellSheetTextPrefab;
-        [SerializeField] private Transform sellSheetParent;
-        [SerializeField] private TMP_Text totalSellMoney;
-        [SerializeField] private TMP_Text totalSellAmount;
-
-
-        private SellShopItem selectedItem;
-        private readonly List<SellShopItem> shopItems = new();
-        private readonly List<SellListItem> sellSheet = new();
-        private readonly List<TMP_Text> sellTexts = new();
-        private int currentTotalSellMoneyAmount;
-        private int currentTotalSellAmount;
+        [SerializeField] private FishRarityColor fishRarityColor;
+        [Header("Sell Receipt")]
+        [SerializeField] private TMP_Text receiptTextPrefab;
+        [SerializeField] private Transform receiptParent;
+        [SerializeField] private TMP_Text totalSellMoneyText;
+        [SerializeField] private TMP_Text totalSellAmountText;
         
+        private readonly List<SellShopItem> activeSellShopItems = new();
+        private readonly Dictionary<(FishData, FishSize), ReceiptItem> receipt = new();
+
+        private int totalSellMoney;
+        private int totalSellAmount;
+
         public override void Show()
         {
             base.Show();
-            foreach (InventoryItem inventoryItem in Inventory.instance.GetInventory())
-            {
-                GameObject go = Instantiate(shopItemPrefab, itemHolder);
-                SellShopItem item = go.GetComponent<SellShopItem>();
-                item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize(),
-                    Inventory.instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
-                item.OnSelectedAmountChanged += UpdateShoppingList;
-                shopItems.Add(item);
-            }
+            LoadSellShop();
         }
 
         public override void Hide()
         {
             base.Hide();
-            foreach (SellShopItem item in shopItems)
+            foreach (SellShopItem shopItem in activeSellShopItems)
             {
-                Destroy(item.gameObject);
+                Destroy(shopItem.gameObject);
             }
-            shopItems.Clear();
-            ClearSellSheet();
-            currentTotalSellAmount = 0;
-            currentTotalSellMoneyAmount = 0;
-            totalSellMoney.text = $"${currentTotalSellMoneyAmount}";
-            totalSellAmount.text = currentTotalSellAmount.ToString();
+
+            activeSellShopItems.Clear();
+            ResetReceiptTotal();
         }
 
         public void SelectAll()
         {
-            ClearSellSheet();
-            ResetTotalSellAmounts();
-            foreach (SellShopItem item in shopItems)
+            ResetReceiptTotal();
+            ClearReceipt();
+            foreach (SellShopItem item in activeSellShopItems)
             {
                 item.SetInputField(item.GetStackSize());
-                UpdateShoppingList(item, item.GetStackSize());
+                UpdateReceipt(item, item.GetStackSize());
+            }
+            UpdateReceiptTotalUI();
+        }
+
+        private void LoadSellShop()
+        {
+            ClearReceipt();
+            Dictionary<(FishData, FishSize), int> inventory = InventoryManager.instance.GetInventory();
+            foreach (((FishData data, FishSize size), int amount) in inventory)
+            {
+                CreateAndInitializeSellShopItems(data, size, amount);
             }
         }
 
+        private void CreateAndInitializeSellShopItems(FishData data, FishSize size, int amount)
+        {
+            int remainingAmount = amount % data.maxStackAmount;
+            
+            SellShopItem remaining = Instantiate(shopItemPrefab, itemHolder);
+            activeSellShopItems.Add(remaining);
+            remaining.Initialize(data, size, fishRarityColor.GetRarityColor(data.fishRarity), remainingAmount,
+                UpdateReceipt);
+
+            if (amount <= data.maxStackAmount) return;
+            
+            int stacks = amount / data.maxStackAmount;
+
+            for (int i = 0; i < stacks; i++)
+            {
+                SellShopItem fullStacks = Instantiate(shopItemPrefab, itemHolder);
+                activeSellShopItems.Add(fullStacks);
+                fullStacks.Initialize(data, size, fishRarityColor.GetRarityColor(data.fishRarity), data.maxStackAmount,
+                    UpdateReceipt);
+            }
+        }
+        
         /// <summary>
         /// Updates the shopping list when the selected amount of an item changes.
         /// </summary>
-        private void UpdateShoppingList(SellShopItem item, int change)
+        private void UpdateReceipt(SellShopItem item, int change)
         {
-            FishData data = item.GetFishData();
-            for (int i = 0; i < sellSheet.Count; i++)
+            FishData data = item.FishData;
+            FishSize size = item.Size;
+            (FishData FishData, FishSize Size) key = (data, size);
+            if (receipt.TryGetValue(key, out ReceiptItem receiptItem))
             {
-                SellListItem shoppingItem = sellSheet[i];
-
-                if (shoppingItem.name != data.fishName)
-                    continue;
-                if (shoppingItem.size != item.GetFishSize())
-                    continue;
-                if (shoppingItem.amount + change <= 0)
+                if (receiptItem.Amount + change <= 0)
                 {
-                    sellSheet.Remove(shoppingItem);
-                    Destroy(sellTexts[^1].gameObject);
-                    sellTexts.RemoveAt(sellTexts.Count - 1);
-                    ChangeTotalSellAmounts(change, item);
-                    UpdateShoppingListUI();
+                    RemoveFromReceipt(item, receiptItem);
                     return;
                 }
 
-                shoppingItem.amount += change;
-                sellSheet[i] = shoppingItem;
-
-                ChangeTotalSellAmounts(change, item);
-                UpdateShoppingListUI();
+                UpdateReceiptItem(data, item.Size, receiptItem, change);
                 return;
             }
+            AddNewItemToReceipt(data, item.Size, change);
+        }
 
-            sellSheet.Add(new SellListItem(item, change));
-            ChangeTotalSellAmounts(change, item);
+        private void RemoveFromReceipt(SellShopItem item, ReceiptItem receiptItem)
+        {
+            Destroy(receiptItem.Text.gameObject);
+            activeSellShopItems.Remove(item);
+            ChangeReceiptTotal(-receiptItem.Amount, item.FishData, item.Size);
             UpdateShoppingListUI();
         }
 
+        private void UpdateReceiptItem(FishData data, FishSize size,ReceiptItem receiptItem, int change)
+        {
+            receiptItem.Amount += change;
+            receiptItem.Text.text = GetSellListText(data, size, receiptItem.Amount);
+            receipt[(data, size)] = receiptItem;
+            ChangeReceiptTotal(change, data, size);
+            UpdateShoppingListUI();
+        }
+
+        private void AddNewItemToReceipt(FishData data, FishSize size, int amount)
+        {
+            TMP_Text text = Instantiate(receiptTextPrefab, receiptParent);
+            receipt.Add((data, size), new ReceiptItem { Text = text, Amount = amount });
+            ChangeReceiptTotal(amount, data, size);
+            UpdateShoppingListUI();
+        }
         /// <summary>
         /// Updates the shopping list UI to reflect the current state of the shopping list.
         /// </summary>
         private void UpdateShoppingListUI()
         {
-            for (int i = 0; i < sellSheet.Count; i++)
+            foreach (((FishData fishData, FishSize fishSize), ReceiptItem value) in receipt)
             {
-                if (i >= sellTexts.Count)
-                {
-                    GameObject go = Instantiate(sellSheetTextPrefab, sellSheetParent);
-                    TMP_Text tmp = go.GetComponent<TMP_Text>();
-                    tmp.text = GetSellListText(sellSheet[i]);
-                    sellTexts.Add(tmp);
-                }
-                else
-                {
-                    sellTexts[i].text = GetSellListText(sellSheet[i]);
-                }
+                value.Text.text = GetSellListText(fishData, fishSize, value.Amount);
+            }
+        }
+        
+        private void ClearReceipt()
+        {
+            ResetReceiptTotal();
+            foreach (ReceiptItem item in receipt.Values)
+            {
+                Destroy(item.Text.gameObject);
             }
 
-            totalSellMoney.text = $"${currentTotalSellMoneyAmount}";
-            totalSellAmount.text = currentTotalSellAmount.ToString();
+            receipt.Clear();
         }
 
         /// <summary>
         /// Returns a string representing a sell list item.
         /// </summary>
-        private static string GetSellListText(SellListItem itemToSell)
+        private string GetSellListText(FishData data, FishSize size, int amount)
         {
             StringBuilder sb = new();
-            sb.Append(itemToSell.amount);
+            sb.Append(amount);
             sb.Append(" x ");
-            sb.Append(itemToSell.name);
+            sb.Append(data.fishName);
             sb.Append(", ");
-            sb.Append(itemToSell.size);
+            sb.Append(size);
             sb.Append(" : $");
-            sb.Append(itemToSell.amount * itemToSell.singleCost);
+            sb.Append(amount * data.fishSellAmount[(int)size]);
             return sb.ToString();
         }
 
-        public void SellSelectItems()
+        private void ChangeReceiptTotal(int change, FishData data, FishSize size)
         {
-            SetTotalSellAmounts(0, 0);
-
-            EventManager.OnSellSelectedButton(sellSheet.ToArray());
-            ClearSellSheet();
-            UpdateShoppingListUI();
-            RefreshShop();
+            totalSellMoney += change * data.fishSellAmount[(int)size];
+            totalSellAmount += change;
+            UpdateReceiptTotalUI();
         }
 
-        private void ClearSellSheet()
+        private void ResetReceiptTotal()
         {
-            foreach (TMP_Text text in sellTexts)
+            totalSellAmount = 0;
+            totalSellMoney = 0;
+            UpdateReceiptTotalUI();
+        }
+
+        private void UpdateReceiptTotalUI()
+        {
+            totalSellMoneyText.text = $"${totalSellMoney}";
+            totalSellAmountText.text = totalSellAmount.ToString();
+        }
+
+        public void SellSelectedItems()
+        {
+            EventManager.OnShopSell(totalSellAmount);
+            foreach (((FishData data, FishSize size), ReceiptItem item) in receipt)
             {
-                Destroy(text.gameObject);
+                InventoryManager.instance.RemoveFish(data, size, item.Amount);
             }
 
-            sellSheet.Clear();
-            sellTexts.Clear();
-        }
-
-        private void ResetTotalSellAmounts()
-        {
-            SetTotalSellAmounts(0, 0);
-        }
-
-        private void SetTotalSellAmounts(int totalMoney, int totalAmount)
-        {
-            currentTotalSellMoneyAmount = totalMoney;
-            currentTotalSellAmount = totalAmount;
-        }
-
-        private void ChangeTotalSellAmounts(int change, SellShopItem item)
-        {
-            SetTotalSellAmounts(
-                currentTotalSellMoneyAmount + change * item.GetFishData().fishSellAmount[(int)item.GetFishSize()],
-                currentTotalSellAmount + change);
-        }
-
-        private void RefreshShop()
-        {
-            foreach (SellShopItem item in shopItems)
-            {
-                Destroy(item.gameObject);
-            }
-
-            shopItems.Clear();
-            
-            foreach (InventoryItem inventoryItem in Inventory.instance.GetInventory())
-            {
-                GameObject go = Instantiate(shopItemPrefab, itemHolder);
-                SellShopItem item = go.GetComponent<SellShopItem>();
-                item.Initialize(inventoryItem.GetFishData(), inventoryItem.GetFishSize(), inventoryItem.GetStackSize(),
-                    Inventory.instance.GetRarityColor(inventoryItem.GetFishData().fishRarity));
-                item.OnSelectedAmountChanged += UpdateShoppingList;
-                shopItems.Add(item);
-            }
+            Hide();
+            Show();
         }
     }
 }
