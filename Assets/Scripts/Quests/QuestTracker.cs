@@ -29,6 +29,7 @@ namespace Quests
         public static QuestTracker instance;
         [SerializeField] private QuestState[] questStates;
         private readonly List<QuestProgress> activeQuests = new();
+        private const int MaxIterations = 30;
 
         private void OnEnable()
         {
@@ -87,12 +88,12 @@ namespace Quests
 
                 // Generate a random quest from the available quests in difficulty
                 Quest newQuest = null;
-                const int maxIterations = 30;
+                
 
-                for (int i = 0; i < maxIterations; i++)
+                for (int i = 0; i < MaxIterations; i++)
                 {
                     Quest quest = questState.GetRandomQuest();
-                    if (i == maxIterations - 1)
+                    if (i == MaxIterations - 1)
                     {
                         newQuest = quest;
                         break;
@@ -158,33 +159,12 @@ namespace Quests
 
             // Generate a new quest of the same difficulty
             GenerateNewQuest(questProgress.difficulty);
-            EventManager.OnQuestHighlight(activeQuests[activeQuests.Count - 1]);
+            EventManager.OnQuestHighlight(activeQuests[^1]);
         }
         
         public QuestProgress[] GetQuests()
         {
             return activeQuests.ToArray();
-        }
-
-        public void LoadQuests(QuestProgress[] quests)
-        {
-            if (quests == null) 
-                return;
-            
-            if (activeQuests != null)
-            {
-                foreach (QuestProgress t in activeQuests)
-                {
-                    EventManager.OnQuestUnHighlight(t);
-                }
-
-                activeQuests.Clear();
-            }
-            foreach (QuestProgress t in quests)
-            {
-                activeQuests.Add(t);
-                EventManager.OnQuestHighlight(activeQuests[activeQuests.Count - 1]);
-            }
         }
     }
 }

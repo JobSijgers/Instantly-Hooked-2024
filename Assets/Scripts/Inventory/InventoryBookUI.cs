@@ -48,12 +48,6 @@ namespace Inventory
 
             activeItems.Clear();
         }
-
-        private Color GetRarityColor(FishRarity rarity)
-        {
-            return rarityColors.GetRarityColor(rarity);
-        }
-
         private void HighlightItem(FishData fishData)
         {
             highlight.EnableHolder();
@@ -75,16 +69,12 @@ namespace Inventory
 
                     for (int i = 0; i < stacks; i++)
                     {
-                        InventoryItem fullStacks = inventoryItemPool.Get();
-                        activeItems.Add(fullStacks);
-                        fullStacks.Initialize(data, size, GetRarityColor(data.fishRarity), data.maxStackAmount,
-                            HighlightItem);
+                        GetAndInitializeInventoryItem(data, size, rarityColors.GetRarityColor(data.fishRarity),
+                            data.maxStackAmount);
                     }
                 }
-
-                InventoryItem remaining = inventoryItemPool.Get();
-                activeItems.Add(remaining);
-                remaining.Initialize(data, size, GetRarityColor(data.fishRarity), remainingAmount, HighlightItem);
+                
+                GetAndInitializeInventoryItem(data, size, rarityColors.GetRarityColor(data.fishRarity), remainingAmount);
                 lastFishData = data;
             }
 
@@ -98,6 +88,13 @@ namespace Inventory
                 highlight.Initialize(lastFishData, InventoryManager.instance.GetFishCount(lastFishData),
                     raritySprites.GetRaritySprite(lastFishData.fishRarity));
             }
+        }
+        
+        private void GetAndInitializeInventoryItem(FishData data, FishSize size, Color color, int amount)
+        {
+            InventoryItem inventoryItem = inventoryItemPool.Get();
+            activeItems.Add(inventoryItem);
+            inventoryItem.Initialize(data, size, color, amount, HighlightItem);
         }
 
         private InventoryItem CreateInventoryItem() => Instantiate(defaultInventorySlot, itemHolder);
